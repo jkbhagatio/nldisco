@@ -2,7 +2,7 @@
 name = "nldisco"
 authors = [{name = "jai", email = "jkbhagatio@gmail.com"}]
 description = "Mech Interp for Neural Interp"
-requires-python = "==3.9"
+requires-python = ">=3.9, <3.11"
 version = "0.1.0"
 dependencies = []
 
