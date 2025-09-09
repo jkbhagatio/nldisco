@@ -25,9 +25,6 @@
 \usepackage{algpseudocode}
 \usepackage{array}
 \usepackage{svg}
-\usepackage{enumitem}\usepackage{xr}
-
-\externaldocument{appendix/appendix}
 
 \setcitestyle{super,comma,sort&compress}
 
@@ -48,7 +45,7 @@
   University College London \\
   \texttt{pouget.anaya@gmail.com} \\
   \And
-  Sara Molas Medina \\
+  Sara Molas-Medina \\
   University College London \\
   \texttt{saramolas18@gmail.com} \\
 }
@@ -58,7 +55,7 @@
 \maketitle
 
 \begin{abstract}
-Mechanistic understanding of the brain requires interpretability of large-scale neuronal computations. Many latent variable model approaches excel at decoding, but produce complex, opaque latent spaces. We address this with NLDisco, a pipeline for interpretable neural latent discovery. Motivated by successful applications of sparse dictionary learning in AI mechanistic interpretability, NLDisco encourages hidden layer neurons in sparse encoder-decoder models to learn interpretable representations. A flexible, user-friendly software package supports interpretable latent discovery across recording modalities and experimental paradigms. We validate the pipeline on both synthetic and real-world data, demonstrating that it recovers ground-truth features in simulations and reveals meaningful representations in actual, high-yield neuronal recordings. We conclude by discussing future development and applications, emphasizing the pipeline's potential to facilitate neuroscientific discovery and clearer insights into neural computations.
+Mechanistic understanding of the brain requires interpretability of large-scale neuronal computations. Many latent variable model approaches excel at decoding, but produce complex, opaque latent spaces. We address this with NLDisco, a pipeline for interpretable neural latent discovery. Motivated by successful applications of sparse dictionary learning in AI mechanistic interpretability, NLDisco encourages hidden layer neurons in sparse encoder-decoder models to learn interpretable representations. A flexible, user-friendly software package supports interpretable latent discovery across recording modalities and experimental paradigms. We validate the pipeline on a synthetic dataset, demonstrating that it recovers ground-truth features and reveals meaningful representations. We conclude by discussing future development and applications, emphasizing the pipeline's potential to facilitate neuroscientific discovery and clearer insights into neural computations.
 \end{abstract}
 
 \section{Introduction}
@@ -75,13 +72,20 @@ We address each of these limitations in NLDisco, which provides a simple, user-f
     \includegraphics[width=\linewidth]{../figures/nldisco_pipeline.pdf}
     \caption{
         \textbf{The NLDisco pipeline.} \\
-        \small The NLDisco pipeline has 4 stages: 1) Spatiotemporal binning and processing of neural data; 2) Training a model; 3) Evaluating the model; 4) Evaluating the model's latents for feature interpretability. Steps 1-3 can be either semi- or fully-automated.
+        \small The NLDisco pipeline has 4 stages: 1) Spatiotemporal binning and processing of neural data; 2) Training a model; 3) Evaluating the model; 4) Evaluating the model's latents for feature interpretability.
         \vspace{-0.4em}
     }
     \label{figure:nldisco_pipeline}
 \end{figure}
 
-The NLDisco pipeline transforms high-dimensional neural data into a set of interpretable latents in four primary stages (\autoref{figure:nldisco_pipeline}). The first stage prepares neural data for model training, including utilities for binning, and normalizing spike times. The second stage involves training a sparse dictionary neural network (SDNN) to reconstruct the neural data from a set of sparsely active dictionary elements. The model can be configured as an autoencoder, transcoder, or crosscoder. We use a Matryoshka architecture to learn a multi-scale feature representation, and batch top-k sparsity to enforce sparsity without a tunable regularization coefficient. An optional self-attention layer can be used to integrate information across time. The third and fourth stages involve model and latent evaluation, respectively.
+The NLDisco pipeline transforms high-dimensional neural data into a set of interpretable latents in four primary stages, the first three of which can be fully automated (\autoref{figure:nldisco_pipeline}). 
+
+The first stage preproceses neural data for model training, including utilities for binning and normalizing the data, and can work directly with output from popular spikesorters such as Kilosort~\cite{pachitariu_2016_kilosort}. 
+
+The second stage trains an SED to reconstruct target neural data (\autoref{algorithm:sded_model_training}). Sparsity in the model's latent space encourages a monosemantic dictionary, where each hidden layer neuron corresponds to a single neural representation that can be judged for interpretability. The SED can be configured as a sparse autoencoder (SAE) or transcoder, depending on whether the target neural data is the same as or different but related to the input neural data (\autoref{figure:sded_arch}a,b). A novel variant of the Matryoshka architecture~\cite{bussmann_2025_msae} can learn multi-scale feature representations, and batch top-$k$ latent selection~\cite{bussmann_2024_batchtopk} directly controls latent sparsity while flexibly permitting the number of active latents to vary per sample in the batch, aligning with the variable activity of neural states (\autoref{figure:sded_arch}c).
+Finally, an optional self-attention layer can be used with sequence input data to integrate information across latent space history, enabling the model to learn evolving temporal dynamics (\autoref{figure:sded_arch}d). 
+
+The third and fourth stages involve model and latent evaluation, respectively. Model quality is evaluated using quantitative metrics inspired by the established SAEBench~\cite{karvonen_2025_saebench}, and centers on the trade-off between reconstruction fidelity and latent dictionary sparsity (\autoref{figure:model_eval}). While these metrics do not directly confirm latent interpretability, they help assess whether the model has learned a sparse, accurate, robust representation of the neural data. Latent evaluation can include visualizing activation patterns over time and experimental conditions, as well as assessing individual latent decoding performance for specific variables of interest. We detail some typical approaches in \nameref{section:results}.
 
 \begin{figure}[th]
     \includegraphics[width=\linewidth]{../figures/sded_arch.pdf}
@@ -97,8 +101,49 @@ The NLDisco pipeline transforms high-dimensional neural data into a set of inter
 \section{Results}
 \label{section:results}
 
+We evaluated NLDisco on simulated rat spike data in a navigation task, demonstrating its ability to recover ground-truth features and reveal meaningful representations.
+
+\subsection{Simulated rat spike data in a navigation task}
+
+We simulated the activity of hippocampal neurons during a navigation task in a virtual linear environment. The virtual rat moved along a 1-m linear track (Figure \ref{figure:sim_movement}), with its velocity sampled from an Ornstein-Uhlenbeck (OU) process:
+$$
+dv_t = \theta \, (\mu - v_t) \, dt + \sigma \, dW_t
+$$
+with the following parameters: $\theta$ = 1.0 (mean reversion), $\mu$ = 0.0 (long-run mean velocity, m/s), $\sigma$ = 0.4 (volatility), $v_0$=0.0 (initial velocity). The full simulation lasted 10 minutes (600 s) at a temporal resolution of 100 Hz.
+
+We modeled four place cells along the track. Two cells had relatively broad place fields (Gaussian width $\sigma$ = 20 cm), while the other two had narrower place fields ($\sigma$ = 10 cm). This heterogeneity was intended to approximate recordings from different hippocampal subregions along the dorsoventral axis. Place fields were modeled as Gaussian functions of position with equal firing probability regardless of running direction.
+
+The two broad fields were centered at 200 cm and 800 cm, while the two narrower fields were embedded within them at 300 cm and 900 cm, respectively. Baseline firing rates were fixed at 0.1 Hz, and peak firing rates were set to 20 Hz, 16 Hz, 18 Hz, and 15 Hz from left to right along the track (0-1000 cm) (Figure \ref{figure:ratemap_placeCells} ). 
+
+To mimic a larger neural population, we also simulated 96 “noise” neurons whose activity was independent of position, with stable mean firing rates sampled uniformly between 1 and 5 Hz (Figure \ref{figure:ratemap_noise}). This simulated activity was formatted as a spike count matrix (\textit{time samples $\times$ neurons}), and used to train a Matryoshka SAE with the following hyperparameters: \texttt{dsae\_topk\_map}=\{64:1, 128:2, 256:4\}, and \texttt{dsae\_loss\_x\_map}=\{64:1.0, 128:1.25, 256:1.5\} (\nameref{subsubsection:hyperparameter_sweeps}).
+
+The trained model successfully disentangled meaningful spatial signals from the background noise. As expected, a portion of the learned latent features captured the random fluctuations of the noise neurons, exhibiting no spatial structure. Critically, however, a distinct subset of features selectively encoded the animal's position along the track.
+
+Two main types of spatial representations emerged:
+\begin{enumerate}
+    \item \textbf{Global position features}: latents whose activation varied gradually along the track, suggesting a coarse encoding of absolute position.
+    \item \textbf{Local position features}: latents that exhibited sharp peaks at specific locations, resembling place-cell-like activity and corresponding to localized representations of position.
+\end{enumerate}
+
+These results demonstrate NLDisco's ability to isolate and represent both global and local salient neural correlates.
+
+\begin{figure}[bh]
+    \centering
+    \includegraphics[width=0.9\linewidth]{../figures/global_position_latent_2.png}
+    \caption{
+        \textbf{Example position-dependent latent} \\
+        This latent variable (blue) exhibits a strong dependence on the rat's position along the track while being decoupled from the average place cells' firing rates, relative to the "noise" cells (orange). The latent preferably fires in spatial bin 1, highlighting its role in encoding spatial information.
+    }
+    \label{fig:placeholder}
+\end{figure}
+
 \section{Discussion}
 \label{section:discussion}
+
+In this work we introduced NLDisco, an end-to-end pipeline for discovering interpretable neural latents, and demonstrated its effectiveness on synthetic data. NLDisco offers several key advantages over other neural LVM approaches, including the interpretability of its sparse, multi-scale features, its scalability to large datasets, and its flexibility across different recording modalities. The pipeline is particularly well-suited for exploratory analyses of high-dimensional neural data where the goal is to identify discrete, monosemantic features. We acknowledge, however, several limitations: model performance is sensitive to hyperparameter selection, discovered relationships are correlational rather than causal, and final assessment of a latent's interpretability is inherently subjective. Future work will focus on extending the pipeline's application to compare neural representations across space (brain regions) and time, as well as to other recording modalities such as calcium imaging. Additionally, we plan to explore leveraging temporal integration via latent space history self-attention can enhance both reconstruction accuracy and the interpretability of dynamic, evolving features.
+
+By releasing NLDisco as an open-source package with interactive tutorials, we aim to facilitate its adoption and empower neuroscientists to extract more meaningful insights from their data.
+
 \clearpage
 
 % Bibliography
