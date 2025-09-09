@@ -83,7 +83,7 @@ We address each of these limitations in NLDisco, which provides a simple, user-f
 
 The NLDisco pipeline transforms high-dimensional neural data into a set of interpretable latents in four primary stages (\autoref{figure:nldisco_pipeline}). The first stage prepares neural data for model training, including utilities for binning, and normalizing spike times. The second stage involves training a sparse dictionary neural network (SDNN) to reconstruct the neural data from a set of sparsely active dictionary elements. The model can be configured as an autoencoder, transcoder, or crosscoder. We use a Matryoshka architecture to learn a multi-scale feature representation, and batch top-k sparsity to enforce sparsity without a tunable regularization coefficient. An optional self-attention layer can be used to integrate information across time. The third and fourth stages involve model and latent evaluation, respectively.
 
-\begin{figure}[tbh]
+\begin{figure}[th]
     \includegraphics[width=\linewidth]{../figures/sded_arch.pdf}
     \caption{
         \textbf{Model architecture considerations} \\
@@ -108,6 +108,6 @@ The NLDisco pipeline transforms high-dimensional neural data into a set of inter
 
 \input{acknowledgements}
 
-\input{appendix/appendix}
+\include{appendix}
 
 \end{document}
