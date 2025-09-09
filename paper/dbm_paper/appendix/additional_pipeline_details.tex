@@ -4,7 +4,7 @@
 \subsubsection{Model training}
 \label{subsubsection:model_training_details}
 
-\begin{algorithm}[h]
+\begin{algorithm}[bh]
 \caption{Model training procedure}
 \label{algorithm:sded_model_training}
 \begin{algorithmic}[1]
@@ -61,16 +61,49 @@ A common failure mode in training SDEDs is "latent death," where dictionary elem
 \subsubsection{Model architecture}
 \label{subsubsection:model_architecture_details}
 
-Briefly mention other archs tried, and when Matryoshka and transformer block are particularly useful.
+...
 
-See ./notes.md
+\paragraph{Matryoshka architecture}.
+
+...
+
+\paragraph{Transformer block for temporal integration of latent space}.
+
+...
+
+\begin{itemize}
+    
+    \item Variant of MSAE as variant of SAE.
+    \begin{itemize}
+        \item Briefly mention other archs tried: batchTopK winner for sparsity enforcement.
+    \end{itemize}
+    
+    \item In addition to MSAE levels width, briefly mention hyperparameters, expound in Appendix.
+    \begin{itemize}
+        \item topk per level, loss X per level, seq len for neural data, seq len for latent space used with transformer layer in decoder
+    \end{itemize}
+
+\end{itemize}
+
+\begin{itemize}
+    \item Training configuration and hyperparameters
+    \begin{itemize}
+        \item Sparsity / reconstruction trade-off
+    \end{itemize}
+    \item Results of sweeps
+    \item Hardware specs and details from training runs
+\end{itemize}
+
+We systematically analyzed the effect of X on reconstruction quality and feature interpretability across all three datasets.
+
+- See ./notes.md
 
 \subsubsection{Model evaluation}
 \label{subsubsection:model_evaluation_details}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{figures/model_eval.pdf}
+    \includegraphics[width=\linewidth]{../figures/model_eval.pdf}
     \caption{
         \textbf{Model evaluation metrics.} \\
         \small By default, trained models are evaluated via the following metrics: latent L0 (left), and R\textsuperscript{2} (middle) and cosine similarity (right) of reconstruction-to-actual neural activity for each temporal ("Examples") and spatial ("Units") bin. ... Additional features, such as the R\textsuperscript{2}of overall neural data reconstruction for each individual latent, can be specifed and included.
@@ -78,13 +111,11 @@ See ./notes.md
     \label{figure:model_eval}
 \end{figure}
 
-\subsubsection{Latents evaluation}
-
-We recommend building simple, bespoke dashboards for new datasets...
-
 \subsubsection{Hyperparameter sweeps}
 \label{subsubsection:hyperparameter_sweeps}
 
-We typically sweep over key architectural parameters, including the number and size of Matryoshka levels, the batch top-$k$ sparsity coefficient, and the latent space sequence length for the self-attention layer. Additionally, we sweep over optimizer-specific hyperparameters. We use the Adam optimizer by default due to its robust performance across a wide range of deep learning tasks, and typically include its learning rate in the sweep.
+ We typically sweep over key architectural parameters, including the number and size of Matryoshka levels, the batch top-$k$ sparsity coefficient, and the latent space sequence length for the self-attention layer. Additionally, we sweep over optimizer-specific hyperparameters. We use the Adam optimizer by default due to its robust performance across a wide range of deep learning tasks, and typically include its learning rate in the sweep.
 
-While hyperparameter sweeps are an empirical science, we typically choose these heuristics for setting sweep ranges...
+ While hyperparameter sweeps are an empirical science, we typically choose these heuristics for setting sweep ranges:
+
+ ...

@@ -1,0 +1,116 @@
+\section{Appendix}
+
+% Set supplementary figure numbering
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{figure}{0}
+
+\subsection{Software and data availability}
+\label{subsection:software_data_availability}
+
+To maintain blinding, software and data availability in this submission are omitted, and will be included in the final version.
+
+% \begin{itemize}
+
+%     \item The codebase is implemented in Python using PyTorch and is available at \url{https://github.com/jkbhagatio/mini} under an MIT License for academic use.
+    
+%     \item Example usage of the pipeline along with replication of the paper's results can be found at \url{https://github.com/jkbhagatio/mini/notebooks}.
+
+% \end{itemize}
+
+\subsection{On interpretable latents}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{../figures/interpretable_latents_vs_latent_space.pdf}
+    \caption{
+        \textbf{Interpretable latents in a complex latent space.} \\
+        \small This toy example highlights the utility of MINI. The two rows show two different variables (top: discrete; bottom: continuous), each uniquely encoded by the same underlying neural activity made up of three neurons' firing rates. The viridis colorbar shows the variables' values as a function of this neural activity. (\textbf{a}) Each point in the scatterplots represents a moment in time. (\textbf{b}) A projection of this activity into a 2D latent space creates tangled trajectories where variable states (e.g. 'on' and 'off' in the discrete case, and 'high' and 'low' in the continuous case) are not easily distnguished. The start and end points of the trajectories are marked by white and black dots, respectively, while arrows indicate trajectory direction. (\textbf{c}) In contrast to the tangled latent space, MINI finds individual latents corresponding to each variable, demonstrating the potential for improved interpretability of neural representations.
+    }
+    \label{figure:interpretable_latents_vs_latent_space}
+\end{figure}
+
+\input{appendix/additional_pipeline_details}
+
+% \input{appendix/additional_dataset_info}
+
+\subsection{Methods Comparison}
+
+Here we highlight 15 features of neural LVM methods and create a table displaying how MINI and other relevant methods compare against these features.
+
+These features are:
+\begin{itemize}
+    \item \textit{Requires multimodal data}: Whether the method requires multimodal data (e.g. video data, or various forms of behavioral data, in addition to neural data).
+    \item \textit{Requires trial-structured data}: Whether the method requires trial-structured data.
+    \item \textit{Supports multimodal data}: Whether the method can incorporate multimodal data, even if not required.
+    \item \textit{Supports trial-structured data}: Whether the method can use trial-structured data, even if not required.
+    \item \textit{Learns sparse, easily identifiable latents}: Whether the method by default learns sparse, easily identifiable latents.
+    \item \textit{Learns hierarchical latents}: Whether the method by default learns latents that are hierarchically organized (e.g. whether the method can learn one latent that corresponds to a particular behavior, and another, sparser latent that corresponds to a sub-behavior of the first)
+    \item \textit{Learns temporally precise latents}: Whether the method by default learns latents that are time-locked to neural events at the resolution of the desired event, potentially down to single-spike precision.
+    \item \textit{Learns a continuously-valued latent space}: Whether the method by default learns latents that change smoothly as a function of changes in the input neural data.
+    \item \textit{Can use temporal dynamics to update the latent space}: Whether the method can use temporal dynamics (e.g. neural data or latent space history) to update the latent space.
+    \item \textit{Imposes a prior on the latent space}: Whether the method imposes a predfined structure on the latent space (e.g. geometric constraints like orthogonality of latents, or distributional assumptions like a Gaussian latents).
+    \item \textit{Uses nonlinear dynamics}: Whether the method learns latents from  nonlinear neural dynamics.
+    \item \textit{Can be used as a generative model}: Whether the method can be used to generate new neural data samples from the learned latent space.
+    \item \textit{Enforces neural data reconstruction}: Whether the method needs to perform neural data reconstruction when learning latents.
+    \item \textit{Has approximate linear time scaling}: Whether the method has linear time scaling with respect to the number of data points in an example and in the dataset.
+    \item \textit{Requires significant hyperparameter tuning}: Whether the method requires significant hyperparameter tuning to learn interpretable latents.
+\end{itemize}
+
+Light-green text indicates that the method has an ideal implementation of the feature, while dark-red text indicates a shortcoming.
+
+\newcommand{\goodQual}[1]{\textcolor{green}{#1}}
+\newcommand{\badQual}[1]{\textcolor{cb_red}{#1}}
+\newcommand*\rot[1]{\rotatebox{90}{\parbox{3cm}{\centering\small #1}}}
+
+\begin{table}[h]
+\label{table:method_comparisons}
+\centering
+\begin{threeparttable}
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{>{\raggedright}m{5cm}|c|c|c|c|c|c|c|c|c|c|}
+\toprule
+\textbf{Feature} & \rot{\textbf{MINI}*} & \rot{LangevinFlow* \cite{song_2025_langevinflow}} & \rot{CEBRA* \cite{schneider_2023_cebra}} & \rot{ST-NDT \cite{le_2022_stndt}} & \rot{AutoLFADS \cite{keshtkaran_2022_autolfads}} & \rot{UMAP** \cite{mcinnes_2018_umap}} & \rot{t-SNE** \cite{vandermaaten_2008_tsne}} & \rot{sparseNMF** \cite{hoyer_2004_sparsenmf}} & \rot{ICA \cite{comon_1994_ica}} & \rot{PCA \cite{hotelling_1933_pca}} \\
+\midrule
+Requires multimodal data & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} \\
+\hline
+Requires trial-structured data & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No\textsuperscript{\textasciicircum}} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} \\
+\hline
+Supports multimodal data & \badQual{No\textsuperscript{\dag}} & \badQual{No} & \goodQual{Yes} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} \\
+\hline
+Supports trial-structured data & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} \\
+\hline
+Learns sparse, easily identifiable latents & \goodQual{Yes} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \goodQual{Yes} & \badQual{No} & \badQual{No} \\
+\hline
+Learns hierarchical latents & \goodQual{Yes} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} \\
+\hline
+Learns temporally precise latents & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \badQual{No} & \badQual{No} & \goodQual{Yes} & \badQual{No} & \badQual{No} \\
+\hline
+Learns a continuously-valued latent space & \badQual{No\textsuperscript{\ddag}} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \badQual{No\textsuperscript{\ddag}} & \goodQual{Yes} & \goodQual{Yes} \\
+\hline
+Can use temporal dynamics to update the latent space & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} \\
+\hline
+Imposes a prior on the latent space & \goodQual{No} & \badQual{Yes} & \goodQual{No} & \goodQual{No} & \badQual{Yes} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \badQual{Yes} & \badQual{Yes} \\
+\hline
+Uses nonlinear dynamics & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} \\
+\hline
+Can be used as a generative model & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \goodQual{Yes} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} & \badQual{No} \\
+\hline
+Enforces neural data reconstruction & \badQual{Yes} & \badQual{Yes} & \goodQual{No} & \badQual{Yes} & \badQual{Yes} & \goodQual{No} & \goodQual{No} & \badQual{Yes} & \goodQual{No} & \goodQual{No} \\
+\hline
+Has approximate linear time scaling & \goodQual{Yes\textsuperscript{\#}} & \badQual{No} & \goodQual{Yes} & \badQual{No} & \badQual{No} & \goodQual{Yes} & \badQual{No} & \badQual{No} & \goodQual{Yes} & \goodQual{Yes} \\
+\hline
+Requires significant hyperparameter tuning & \badQual{Yes} & \badQual{Yes} & \badQual{Yes} & \badQual{Yes} & \badQual{Yes} & \badQual{Yes} & \badQual{Yes} & \badQual{Yes} & \goodQual{No} & \goodQual{No} \\
+\bottomrule
+\end{tabular}
+\caption{\centering Comparison of MINI with other neural LVM methods.}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item *: Latent comparison visualized in \nameref{section:results}
+\item **: Latent comparison visualized in \nameref{subsubsection:latent_comparisons_traditional}
+\item \textsuperscript{\dag}: Not a fundamental limitation -- could be added as a feature
+\item \textsuperscript{\ddag}: Enforced sparsity can cause step-like jumps in the data-to-latents mapping
+\item \textsuperscript{\#}: In the standard implementation, without a transformer layer in the decoder
+\item \textsuperscript{\textasciicircum}: Can bin data to create ``pseudo''-trials
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

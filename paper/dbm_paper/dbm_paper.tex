@@ -25,7 +25,9 @@
 \usepackage{algpseudocode}
 \usepackage{array}
 \usepackage{svg}
-\usepackage{enumitem}
+\usepackage{enumitem}\usepackage{xr}
+
+\externaldocument{appendix/appendix}
 
 \setcitestyle{super,comma,sort&compress}
 
@@ -56,29 +58,32 @@
 \maketitle
 
 \begin{abstract}
-Mechanistic understanding of the brain requires interpretability of large-scale neuronal computations. Many latent variable model approaches excel at decoding, but produce complex, opaque latent spaces. We address this with NLDisco, a pipeline for interpretable neural latent discovery. Motivated by successful applications of sparse dictionary learning in mechanistic interpretability, NLDisco encourages hidden layer neurons in sparse encoder-decoder models to learn interpretable representations. A flexible, user-friendly software package supports interpretable latent discovery across recording modalities and experimental paradigms. We validate the pipeline on both synthetic and real-world data, demonstrating that it recovers ground-truth features in simulations and reveals meaningful representations in actual, high-yield neuronal recordings. We conclude by discussing future development and applications, emphasizing the pipeline's potential to facilitate neuroscientific discovery and clearer insights into neural computations.
+Mechanistic understanding of the brain requires interpretability of large-scale neuronal computations. Many latent variable model approaches excel at decoding, but produce complex, opaque latent spaces. We address this with NLDisco, a pipeline for interpretable neural latent discovery. Motivated by successful applications of sparse dictionary learning in AI mechanistic interpretability, NLDisco encourages hidden layer neurons in sparse encoder-decoder models to learn interpretable representations. A flexible, user-friendly software package supports interpretable latent discovery across recording modalities and experimental paradigms. We validate the pipeline on both synthetic and real-world data, demonstrating that it recovers ground-truth features in simulations and reveals meaningful representations in actual, high-yield neuronal recordings. We conclude by discussing future development and applications, emphasizing the pipeline's potential to facilitate neuroscientific discovery and clearer insights into neural computations.
 \end{abstract}
 
 \section{Introduction}
 
-A central goal of modern neuroscience is to understand how the brain processes information to generate behavior. A promising approach is to use latent variable models (LVMs) to identify low-dimensional, interpretable representations from high-dimensional neural data. However, existing methods often require extensive hyperparameter tuning, are not easily adaptable to different data types, and lack standardized evaluation metrics. To address these challenges, we developed NLDisco, a pipeline for interpretable neural latent discovery. NLDisco is a modular, user-friendly toolkit that streamlines the process of data preprocessing, model training, and latent evaluation.
+Understanding the principles of neural computation requires extracting interpretable features from high-dimensional neural data\cite{steinmetz_2021_neuropixels2, raducanu_2017_neuroseeker, cai_2016_miniscope, villette_2019_voltage_2p, ouzounov_2017_three_photon, ahrens_2013_lightsheet}. Traditional dimensionality reduction techniques, while useful for visualization and basic analyses, often make invalid assumptions about or altogether fail to disentangle distributed representations~\cite{cunningham_2014_neural_dr, humphries_2021_dr_principles}. Recent work has produced promising latent variable model (LVM) approaches capable of identifying low-dimensional subspaces that can accurately decode aspects of behavior and environment~\cite{song_2025_langevinflow, schneider_2023_cebra, le_2022_stndt, keshtkaran_2022_autolfads, yu_2009_gpfa, macke_2011_plds, gao_2016_pflds, low_2018_mind, jensen_2020_mgplvm, hernandez_2020_vind, kim_2021_plnde, hurwitz_2021_tndm, schimel_2022_ilqrvae, kudryashova_2023_ctrltndm, ye_2023_ndt2, gondur_2024_mmgpvae, pellegrino_2024_slicetca, sani_2024_dpad, pals_2024_smclr_rnn, zhang_2024_mtm, george_2025_simpl, perkins_2025_mint, schmutz_2025_nce}. However, these methods typically value decoding accuracy over latent interpretability, and consequently all have at least one of the following limitations: poorly interpretable latents, lossy mapping to and/or poor reconstruction of neural data from latent space, priors on the latent and/or neural data space, requirements of additional behavioral, environmental, and/or trial-structured neural data, supralinear scaling with respect to dataset size, or high implementational complexity (\autoref{table:method_comparisons}).
+
+We address each of these limitations in NLDisco, which provides a simple, user-friendly library for interpretable latent discovery from high-dimensional neural data. We consider a latent's interpretability in two key aspects: 1) its correspondence to a specific external variable -- a "natural" behavioral or environmental feature\footnote{A "feature" is a sufficiently interpretable latent. We illustrate this in \nameref{section:results}.}; 2) its explicit composition from contributing neural activity. Unlike other approaches that require a search for meaningful directions or dynamics in latent space (\autoref{figure:interpretable_latents_vs_latent_space}), NLDisco outputs individual latents in the form of hidden layer neurons from shallow, overcomplete, sparse encoder-decoder (SED) models\cite{olshausen_1997_sparse_overcomplete, vincent_2008_denoising_autoencoders} that can be directly assessed for interpretability, an approach that has had many successess in the field of AI mechanistic interpretability~\cite{lindsey_2024_crosscoders, cunningham_2023_saes, bricken_2023_towards_monosemanticity, templeton_2024_scaling_monosemanticity, dunefsky_2024_transcoders, ameisen_2025_circuit_tracing, lindsey_2025_biology_llm}. Additionally, while we showcase NLDisco on spike data, it can be readily used with virtually any other neural recording modality as the only data requirement is any predefined spatiotemporal binning.
 
 \section{Methods: The NLDisco pipeline}
+\label{section:methods}
 
-\begin{figure}[h]
+\begin{figure}[th]
     \centering
     \includegraphics[width=\linewidth]{../figures/nldisco_pipeline.pdf}
     \caption{
         \textbf{The NLDisco pipeline.} \\
         \small The NLDisco pipeline has 4 stages: 1) Spatiotemporal binning and processing of neural data; 2) Training a model; 3) Evaluating the model; 4) Evaluating the model's latents for feature interpretability. Steps 1-3 can be either semi- or fully-automated.
-        \vspace{-1em}
+        \vspace{-0.4em}
     }
     \label{figure:nldisco_pipeline}
 \end{figure}
 
 The NLDisco pipeline transforms high-dimensional neural data into a set of interpretable latents in four primary stages (\autoref{figure:nldisco_pipeline}). The first stage prepares neural data for model training, including utilities for binning, and normalizing spike times. The second stage involves training a sparse dictionary neural network (SDNN) to reconstruct the neural data from a set of sparsely active dictionary elements. The model can be configured as an autoencoder, transcoder, or crosscoder. We use a Matryoshka architecture to learn a multi-scale feature representation, and batch top-k sparsity to enforce sparsity without a tunable regularization coefficient. An optional self-attention layer can be used to integrate information across time. The third and fourth stages involve model and latent evaluation, respectively.
 
-\begin{figure}[tbph]
+\begin{figure}[tbh]
     \includegraphics[width=\linewidth]{../figures/sded_arch.pdf}
     \caption{
         \textbf{Model architecture considerations} \\
@@ -89,7 +94,20 @@ The NLDisco pipeline transforms high-dimensional neural data into a set of inter
     \label{figure:sded_arch}
 \end{figure}
 
+\section{Results}
+\label{section:results}
+
+\section{Discussion}
+\label{section:discussion}
+\clearpage
+
+% Bibliography
+\nocite{lenail_2019_nnsvg}
 \bibliographystyle{unsrt}
 \bibliography{references}
+
+\input{acknowledgements}
+
+\input{appendix/appendix}
 
 \end{document}
