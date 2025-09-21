@@ -18,6 +18,9 @@ To maintain blinding, software and data availability information can be found in
 % \end{itemize}
 
 \subsection{On interpretable latents}
+
+Many neural LVM approaches focus on learning structure in a low-dimensional latent space. However, this structure can be inherently complex and difficult to interpret. NLDisco bypasses this challenge by learning individual latents directly.
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth]{figures/interpretable_latents_vs_latent_space.pdf}
@@ -30,15 +33,12 @@ To maintain blinding, software and data availability information can be found in
 
 \input{appendix/additional_pipeline_details}
 
-\input{appendix/additional_dataset_info}
-
 \input{appendix/additional_results/additional_results}
 
 \subsection{Methods Comparison}
 
-Here we highlight 15 features of neural LVM methods and create a table displaying how NLDisco and other relevant methods compare against these features.
+Here we highlight 15 features of neural LVM methods and create a table displaying how NLDisco and other relevant methods compare against the following features:
 
-These features are:
 \begin{itemize}
     \item \textit{Requires multimodal data}: Whether the method requires multimodal data (e.g. video data, or various forms of behavioral data, in addition to neural data).
     \item \textit{Requires trial-structured data}: Whether the method requires trial-structured data.
@@ -71,7 +71,7 @@ Light-green text indicates that the method has an ideal implementation of the fe
 \renewcommand{\arraystretch}{1.6}
 \begin{tabular}{>{\raggedright}m{5cm}|c|c|c|c|c|c|c|c|c|c|}
 \toprule
-\textbf{Feature} & \rot{\textbf{NLDisco}*} & \rot{LangevinFlow* \citep{song_2025_langevinflow}} & \rot{CEBRA* \citep{schneider_2023_cebra}} & \rot{ST-NDT \citep{le_2022_stndt}} & \rot{AutoLFADS \citep{keshtkaran_2022_autolfads}} & \rot{UMAP** \citep{mcinnes_2018_umap}} & \rot{t-SNE** \citep{vandermaaten_2008_tsne}} & \rot{sparseNMF** \citep{hoyer_2004_sparsenmf}} & \rot{ICA \citep{comon_1994_ica}} & \rot{PCA \citep{hotelling_1933_pca}} \\
+\textbf{Feature} & \rot{\textbf{NLDisco}*} & \rot{LangevinFlow* \citep{song_2025_langevinflow}} & \rot{CEBRA* \citep{schneider_2023_cebra}} & \rot{ST-NDT \citep{le_2022_stndt}} & \rot{AutoLFADS \citep{keshtkaran_2022_autolfads}} & \rot{UMAP \citep{mcinnes_2018_umap}} & \rot{t-SNE \citep{vandermaaten_2008_tsne}} & \rot{sparseNMF** \citep{hoyer_2004_sparsenmf}} & \rot{ICA \citep{comon_1994_ica}} & \rot{PCA \citep{hotelling_1933_pca}} \\
 \midrule
 Requires multimodal data & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} \\
 \hline
@@ -108,7 +108,7 @@ Requires significant hyperparameter tuning & \badQual{Yes} & \badQual{Yes} & \ba
 \begin{tablenotes}[flushleft]
 \footnotesize
 \item *: Latent comparison visualized in \nameref{section:results}
-\item **: Latent comparison visualized in \nameref{subsubsection:latent_comparisons_traditional}
+\item **: Latent comparison visualized in \nameref{subsection:additional_results}
 \item \textsuperscript{\dag}: Not a fundamental limitation -- could be added as a feature
 \item \textsuperscript{\ddag}: Enforced sparsity can cause step-like jumps in the data-to-latents mapping
 \item \textsuperscript{\#}: In the standard implementation, without a transformer layer in the decoder
@@ -120,7 +120,7 @@ Requires significant hyperparameter tuning & \badQual{Yes} & \badQual{Yes} & \ba
 \newpage
 
 % TODO: review and add NLDisco!
-Below we provide a brief justification of the table entries.
+Below we provide a brief justification for each table entry.
 
 \begin{itemize}
 \item \textbf{Requires multimodal data}

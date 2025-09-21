@@ -61,7 +61,7 @@ A common failure mode in training SEDs is "latent death," where dictionary eleme
 \subsubsection{Model architecture}
 \label{subsubsection:model_architecture_details}
 
-The core of NLDisco is the implementation of overcomplete sparse encoder-decoder models with single hidden layers and ReLU activations. While we experimented with more complex model architectures, such as multi-layer decoders, we found they often made interpreting the resulting latents more difficult without significant reconstruction gains. The Matryoshka architecture is particularly useful for datasets where features are expected to exist at multiple scales, as it helps mitigate "feature absorption" where general features are partially subsumed by more specific ones (TODO see Allen results with and without Matryoshka architecture). And the transformer block is most beneficial when analyzing data with meaningful temporal dynamics, as it allows the model to learn features that evolve over a sequence rather than just instantaneous neural patterns (TODO see Aeon results with and without transformer block).
+The core of NLDisco is the implementation of overcomplete sparse encoder-decoder models with single hidden layers and ReLU activations. While we experimented with more complex model architectures, such as multi-layer decoders, we found that they often made interpreting the resulting latents more difficult without significant reconstruction gains. The Matryoshka architecture is particularly useful for datasets where features are expected to exist at multiple scales, as it helps mitigate "feature absorption" where general features are partially subsumed by more specific ones (TODO see Allen results with and without Matryoshka architecture). And the transformer block is most beneficial when analyzing data with meaningful temporal dynamics, as it allows the model to learn features that evolve over a sequence rather than just instantaneous neural patterns (TODO see Aeon results with and without transformer block).
 
 \subsubsection{Model evaluation}
 \label{subsubsection:model_evaluation_details}
@@ -70,7 +70,7 @@ Model evaluation centers on the trade-off between reconstruction fidelity and la
 
 For a deeper diagnosis, several additional optional metrics are available. To check whether explanatory power is well-distributed, a variance attribution analysis quantifies the overall reconstruction variance explained by each individual latent (TODO). And to check if temporal information present in the target neural data is preserved by the latent reconstruction, a spectral frequency analysis compares the reconstruction's frequency content to that of the target neural data, given a specified duration (TODO).
 
-\begin{figure}[h]
+\begin{figure}[th]
     \centering
     \includegraphics[width=\linewidth]{figures/model_eval.pdf}
     \caption{
@@ -89,6 +89,6 @@ We recommend building simple, bespoke dashboards for viewing the activity of mod
 \subsubsection{Hyperparameter sweeps}
 \label{subsubsection:hyperparameter_sweeps}
 
-We typically sweep over key architectural parameters, including the number and size of Matryoshka levels, the batch top-$k$ sparsity coefficient, and the latent space sequence length for the self-attention layer. Additionally, we sweep over optimizer-specific hyperparameters. We use the Adam optimizer by default due to its robust performance across a wide range of deep learning tasks, and typically include its learning rate in the sweep.
+We typically sweep over key architectural parameters, including the number and size of Matryoshka levels, the batch top-$k$ sparsity coefficient, and the latent space sequence length for the self-attention layer. For the optimizer, we use Adam by default due to its robust performance across a wide range of tasks. We found popular variants to offer negligible benefits for our use case: direct sparsity enforcement obviates the need for weight decay (AdamW), our shallow models do not require layer-wise adaptive optimizers (LAdam), and additional tuning overhead for Nesterov momentum (NAdam) did not yield a corresponding performance gain.
 
 While hyperparameter sweeps are an empirical science, we typically choose these heuristics for setting sweep ranges...
