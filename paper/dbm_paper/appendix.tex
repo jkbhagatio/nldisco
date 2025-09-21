@@ -94,28 +94,30 @@ A common failure mode in training SDEDs is "latent death," where dictionary elem
 \subsubsection{Model architecture}
 \label{subsubsection:model_architecture_details}
 
-The core of our pipeline is an overcomplete sparse encoder-decoder model with a single hidden layer and ReLU activations. While we experimented with more complex architectures, such as multi-layer decoders, we found they often made interpreting the resulting latents more difficult without a significant performance gain. The Matryoshka architecture is particularly useful for datasets where features are expected to exist at multiple scales, as it helps mitigate "feature absorption" where general features are partially subsumed by more specific ones. The transformer block is most beneficial when analyzing data with meaningful temporal dynamics, as it allows the model to learn features that evolve over a sequence rather than just instantaneous neural patterns. We found that combining these components with a batch top-$k$ operator provided a robust and flexible framework that consistently outperformed L1-based sparsity penalties and yielded more interpretable features.
+The core of NLDisco is the implementation of overcomplete sparse encoder-decoder models with single hidden layers and ReLU activations. While we experimented with more complex model architectures, such as multi-layer decoders, we found they often made interpreting the resulting latents more difficult without significant reconstruction gains. The Matryoshka architecture is particularly useful for datasets where features are expected to exist at multiple scales, as it helps mitigate "feature absorption" where general features are partially subsumed by more specific ones (TODO see Allen results with and without Matryoshka architecture). And the transformer block is most beneficial when analyzing data with meaningful temporal dynamics, as it allows the model to learn features that evolve over a sequence rather than just instantaneous neural patterns (TODO see Aeon results with and without transformer block).
 
 \subsubsection{Model evaluation}
 \label{subsubsection:model_evaluation_details}
 
 Model evaluation centers on the trade-off between reconstruction fidelity and latent dictionary sparsity. High reconstruction fidelity is trivial to achieve with a large and dense code but undermines the goal of finding disentangled, interpretable latents. NLDisco therefore first reviews dictionary quality via latent sparsity metrics (\autoref{figure:model_eval} top). The mean L0 norm measures the average number of active latents per sample, set indirectly by the batch top-$k$ parameter, while the latent activity density visualizes the firing distribution across all latents. Together these metrics reveal whether the model has learned an efficient code that uses many latents intermittently while avoiding common pitfalls such as "representational collapse" into too many constantly active latents and/or widespread "feature death", in which a large portion of the dictionary never activates. These sparsity metrics are complemented by a couple of reconstruction fidelity metrics: variance explained (R\textsuperscript{2}) and cosine similarity of reconstruction-to-target neural activity across both spatial and temporal dimensions (\autoref{figure:model_eval} bottom). High scores in these metrics confirm that the sparse code is a sufficient representation that has captured salient information present in the target neural data.
 
-For a deeper diagnosis, several additional optional metrics are available. To check whether explanatory power is well-distributed, a variance attribution analysis quantifies the overall reconstruction variance explained by each individual latent. And to check if temporal information present in the target neural data is preserved by the latent reconstruction, a spectral frequency analysis compares the reconstruction's frequency content to that of the target neural data, given a specified duration.
+For a deeper diagnosis, several additional optional metrics are available. To check whether explanatory power is well-distributed, a variance attribution analysis quantifies the overall reconstruction variance explained by each individual latent (TODO). And to check if temporal information present in the target neural data is preserved by the latent reconstruction, a spectral frequency analysis compares the reconstruction's frequency content to that of the target neural data, given a specified duration (TODO).
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=\linewidth]{../figures/model_eval.pdf}
     \caption{
         \textbf{Model evaluation metrics.} \\
-        \small In this example SAE model evaluation, a three-level Matryoshka architecture with a total of 320 latents was ised, with top-$k$ selections of 12 $\cdot B$, 24 $\cdot B$, and 36 $\cdot B$ active latents per batch size $B$(1024). The recording had a total of 200 units, and the model was trained on binned 182,868 50 ms binned spike counts. The model exhibits an approximately normal distribution for the mean latent L0 norm, few dead or tonically active latents, and high neural reconstruction fidelity as measured by the R² and cosine similarity metrics across both units and examples, all indicators of healthy training.
+        \small This example SAE model evaluation examines a three-level Matryoshka architecture with a total of 320 latents and top-$k$ selections of 12 $\cdot B$, 24 $\cdot B$, and 36 $\cdot B$ active latents per batch size $B$ (1024). The recording had a total of 200 units, and the model was trained on 182,868 samples of 50 ms binned spike counts. The model exhibits an approximately normal distribution for the mean latent L0 norm (TODO metric), few dead or tonically active latents, and high neural reconstruction fidelity as measured by the R\textsuperscript{2} and cosine similarity metrics across both units and examples, all indicators of healthy training.
     }
     \label{figure:model_eval}
 \end{figure}
 
 \subsubsection{Latents evaluation}
 
-In this paper we use prepared dashboards for viewing the activity of latents in the context of the simulated spatial navigation task and the in vivo motor control reaching task. In general when working with new datasets, we recommend spending time designing similar simple, bespoke dashboards.
+We recommend building simple, bespoke dashboards for viewing the activity of model latents in the context of relevant environmental and/or behavioral variables. 
+
+(TODO: show dashboards for Churchland, Allen, and Aeon datasets).
 
 \subsubsection{Hyperparameter sweeps}
 \label{subsubsection:hyperparameter_sweeps}

@@ -1,0 +1,94 @@
+\subsection{Additional pipeline details}
+\label{subsection:additional_pipeline_details}
+
+\subsubsection{Model training}
+\label{subsubsection:model_training_details}
+
+\begin{algorithm}[h]
+\caption{Model training procedure}
+\label{algorithm:sed_model_training}
+\begin{algorithmic}[1]
+\State \textbf{Data definitions:}
+\State \quad Input neural data: $\mathbf{Y} \in \mathbb{R}^{B \times S \times N_{\text{in}}}$ \textsuperscript{(Batch, Sequence length, Input neural units)}
+\State \quad Target neural data: $\mathbf{Z} \in \mathbb{R}^{B \times \times N_{\text{out}}}$ \textsuperscript{(Batch, Output neural units)}
+\State \textbf{Model definitions:}
+\State \quad Encoder: $\mathbf{W}_{\text{enc}} \in \mathbb{R}^{D_{\text{max}} \times S \times N_{\text{in}}}$, $\mathbf{b}_{\text{enc}} \in \mathbb{R}^{D_{\text{max}}}$ \textsuperscript{(Hidden layer neurons)}
+\State \quad Decoder: $\mathbf{W}_{\text{dec}} \in \mathbb{R}^{N_{\text{out}} \times D_{\text{max}}}$, $\mathbf{b}_{\text{dec}} \in \mathbb{R}^{N_{\text{out}}}$
+\State \quad Transformer block (optional) $\mathbf{\theta_{t}}$: $\{\mathbf{W}_{Q,K,V} \in \mathbb{R}^{D_{\max} \times D_{\max}}, \dots\}$
+\State \quad Matryoshka levels: $\mathbf{\{D_l\}_{l=1}^L}$
+\State \quad Weights each level's reconstruction loss (optional): $\mathbf{\{\lambda_l\}_{l=1}^L}$
+\State \quad Auxiliary loss weight: $\mathbf{\gamma}$
+\\
+\Procedure{train\_step}{$\mathbf{Y}, \mathbf{Z}$}    
+    \Statex \Comment{\textit{--- Forward Pass ---}}
+    \State $\mathbf{A} \gets \text{ReLU}(\mathbf{Y}\mathbf{W}_{\text{enc}}^T + \mathbf{b}_{\text{enc}})$ \Comment{Get encoder activations}
+    \\
+    \If{$S > 1$}
+        \State $\mathbf{A} \gets \text{SelfAttention}(\mathbf{A}; \theta_{\text{attn}})$ \Comment{Temporally integrate over latent space}
+    \EndIf
+    \\
+    \State $\mathcal{L}_{\text{recon}} \gets 0$
+    \For{$l=1$ to $L$} \Comment{For each level...}
+        \State $\hat{\mathbf{A}}_l \gets S_{\text{topk}}(\mathbf{A}_{:, :D_l})$ \Comment{Sparsify latents with batch top-$k$}
+        \State $\hat{\mathbf{Z}}_l \gets \text{ReLU}(\hat{\mathbf{A}}_l \mathbf{W}_{\text{dec}, :, :D_l}^T + \mathbf{b}_{\text{dec}})$ \Comment{Reconstruct target (decoder activations)}
+        \State $\mathcal{L}_{\text{recon}} \gets \mathcal{L}_{\text{recon}} + \lambda_l \cdot \text{MSLE}(\mathbf{Z}, \hat{\mathbf{Z}}_l)$ \Comment{Get reconstruction loss}
+    \EndFor
+    
+    \Statex \Comment{\textit{--- Auxiliary Loss for Dead Latent Resurrection ---}}
+    \State $\mathcal{D} \gets \text{GetDeadLatents}(\mathbf{A})$
+    \If{\text{any}($\mathcal{D}$)} \Comment{Only compute if dead latents exist}
+        \State $\mathbf{R} \gets \mathbf{Z} - \hat{\mathbf{Z}}_L$ \Comment{Get reconstruction residual}
+        \State $\hat{\mathbf{R}} \gets \text{ReLU}((\mathbf{A} \odot \mathcal{D}) \mathbf{W}_{\text{dec}}^T + \mathbf{b}_{\text{dec}})$ \Comment{Reconstruct residual from dead latents}
+        \State $\mathcal{L}_{\text{aux}} \gets \text{MSE}(\mathbf{R}, \hat{\mathbf{R}})$ \Comment{Get auxiliary loss}
+    \Else
+        \State $\mathcal{L}_{\text{aux}} \gets 0$
+    \EndIf
+    \\
+    \State $\mathcal{L}_{\text{total}} \gets \mathcal{L}_{\text{recon}} + \gamma \mathcal{L}_{\text{aux}}$ \Comment{Total loss: reconstruction + auxiliary}
+
+    \Statex \Comment{\textit{--- Backward Pass \& Parameter Update ---}}
+    \State $\mathbf{g} \gets \nabla_{\theta} \mathcal{L}_{\text{total}}$ \Comment{Compute gradients, masking $\nabla\mathcal{L}_{\text{aux}}$ to dead latents}
+    \State $\theta \gets \text{Update}(\theta, \mathbf{g})$ \Comment{Update model parameters}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+Some notes on \nameref{algorithm:sed_model_training}:
+
+\paragraph{Dead Latent Resurrection.}
+A common failure mode in training SEDs is "latent death," where dictionary elements cease to activate for any input. We address this with an auxiliary loss designed to revive dead latents. We monitor feature activation frequencies and identify a set of dead latents $\mathcal{D}$. These latents are then trained via an auxiliary MSE loss to reconstruct the residual error of the primary model ($\mathbf{x}_{\text{target}} - \hat{\mathbf{x}}_L$). The gradients from this auxiliary loss are exclusively applied to the parameters of the dead latents, thereby encouraging them to learn useful representations without disrupting the training of active latents.
+
+\subsubsection{Model architecture}
+\label{subsubsection:model_architecture_details}
+
+The core of NLDisco is the implementation of overcomplete sparse encoder-decoder models with single hidden layers and ReLU activations. While we experimented with more complex model architectures, such as multi-layer decoders, we found they often made interpreting the resulting latents more difficult without significant reconstruction gains. The Matryoshka architecture is particularly useful for datasets where features are expected to exist at multiple scales, as it helps mitigate "feature absorption" where general features are partially subsumed by more specific ones (TODO see Allen results with and without Matryoshka architecture). And the transformer block is most beneficial when analyzing data with meaningful temporal dynamics, as it allows the model to learn features that evolve over a sequence rather than just instantaneous neural patterns (TODO see Aeon results with and without transformer block).
+
+\subsubsection{Model evaluation}
+\label{subsubsection:model_evaluation_details}
+
+Model evaluation centers on the trade-off between reconstruction fidelity and latent dictionary sparsity. High reconstruction fidelity is trivial to achieve with a large and dense code but undermines the goal of finding disentangled, interpretable latents. NLDisco therefore first reviews dictionary quality via latent sparsity metrics (\autoref{figure:model_eval} top). The mean L0 norm measures the average number of active latents per sample, set indirectly by the batch top-$k$ parameter, while the latent activity density visualizes the firing distribution across all latents. Together these metrics reveal whether the model has learned an efficient code that uses many latents intermittently while avoiding common pitfalls such as "representational collapse" into too many constantly active latents and/or widespread "feature death", in which a large portion of the dictionary never activates. These sparsity metrics are complemented by a couple of reconstruction fidelity metrics: variance explained (R\textsuperscript{2}) and cosine similarity of reconstruction-to-target neural activity across both spatial and temporal dimensions (\autoref{figure:model_eval} bottom). High scores in these metrics confirm that the sparse code is a sufficient representation that has captured salient information present in the target neural data.
+
+For a deeper diagnosis, several additional optional metrics are available. To check whether explanatory power is well-distributed, a variance attribution analysis quantifies the overall reconstruction variance explained by each individual latent (TODO). And to check if temporal information present in the target neural data is preserved by the latent reconstruction, a spectral frequency analysis compares the reconstruction's frequency content to that of the target neural data, given a specified duration (TODO).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{figures/model_eval.pdf}
+    \caption{
+        \textbf{Model evaluation metrics.} \\
+        \small This example SAE model evaluation examines a three-level Matryoshka architecture with a total of 320 latents and top-$k$ selections of 12 $\cdot B$, 24 $\cdot B$, and 36 $\cdot B$ active latents per batch size $B$ (1024). The recording had a total of 200 units, and the model was trained on 182,868 samples of 50 ms binned spike counts. The model exhibits an approximately normal distribution for the mean latent L0 norm (TODO metric), few dead or tonically active latents, and high neural reconstruction fidelity as measured by the R\textsuperscript{2} and cosine similarity metrics across both units and examples, all indicators of healthy training.
+    }
+    \label{figure:model_eval}
+\end{figure}
+
+\subsubsection{Latents evaluation}
+
+We recommend building simple, bespoke dashboards for viewing the activity of model latents in the context of relevant environmental and/or behavioral variables. 
+
+(TODO: show dashboards for Churchland, Allen, and Aeon datasets).
+
+\subsubsection{Hyperparameter sweeps}
+\label{subsubsection:hyperparameter_sweeps}
+
+We typically sweep over key architectural parameters, including the number and size of Matryoshka levels, the batch top-$k$ sparsity coefficient, and the latent space sequence length for the self-attention layer. Additionally, we sweep over optimizer-specific hyperparameters. We use the Adam optimizer by default due to its robust performance across a wide range of deep learning tasks, and typically include its learning rate in the sweep.
+
+While hyperparameter sweeps are an empirical science, we typically choose these heuristics for setting sweep ranges...

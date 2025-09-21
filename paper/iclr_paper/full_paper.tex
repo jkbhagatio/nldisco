@@ -1,0 +1,87 @@
+\documentclass{article}
+
+\usepackage{iclr2026_conference,times}
+% Uncomment for ICLR camera-ready version, but NOT for submission.
+%\iclrfinalcopy
+
+% Standard packages
+\usepackage{adjustbox}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{amsmath}        % mathematical formulas
+\usepackage{amssymb}        % mathematical symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage{graphicx}       % include graphics
+\usepackage[font=small,labelfont=bf]{caption}  % figure captions
+\usepackage{subcaption}     % subfigures
+\usepackage{threeparttable} % tables with notes
+\usepackage{algorithm}      % algorithms
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{array}          % for advanced table column formatting
+\usepackage{svg}            % for including SVG graphics
+\usepackage{enumitem}
+
+\definecolor{cb_red}{HTML}{990000}
+\definecolor{cb_green}{HTML}{AAFF80}
+
+% Title and authors
+\title{A pipeline for interpretable \\ neural latent discovery}
+
+\author{
+  Jai Bhagat \\
+  Sainsbury Wellcome Centre \\
+  University College London \\
+  \texttt{jkbhagatio@gmail.com} \\
+  \And
+  Anaya Pouget \\
+  Sainsbury Wellcome Centre \\
+  University College London \\
+  \texttt{pouget.anaya@gmail.com} \\
+  \And
+  Sara Molas Medina \\
+  University College London \\
+  \texttt{saramolas18@gmail.com} \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Mechanistic understanding of the brain requires interpretability of large-scale neuronal computations. Many latent variable model approaches applied to such datasets excel at decoding but yield opaque latent spaces. We address this with NLDisco, a pipeline for interpretable neural latent discovery. Motivated by successful applications of sparse dictionary learning in AI mechanistic interpretability, NLDisco encourages hidden layer neurons in sparse encoder-decoder models to learn interpretable structure in dense neural activity. A flexible, open-source, user-friendly software package supports interpretable latent discovery across recording modalities and experimental paradigms. We validate the pipeline on both synthetic and real extracellular recordings across species and brain regions, showing that it recovers ground-truth features in synthetic data and reveals meaningful representations in real data. These results highlight the pipeline’s potential to advance neuroscientific discovery and provide a foundation for future methodological extensions and applications in interpretable modeling of neural activity.
+\end{abstract}
+
+% Include individual sections
+\input{introduction/introduction}
+\input{methods/methods}
+\input{results/results}
+\input{discussion/discussion}
+
+% End of main content
+% \vspace{2em} \hrule
+\newpage
+
+% Ethics statement
+
+% Reproducibility statement
+
+% Bibliography
+\nocite{lenail_2019_nnsvg}
+\bibliographystyle{iclr2026_conference}
+\bibliography{references}
+
+\input{acknowledgements}
+
+% Start of appendix
+\newpage
+
+\input{appendix/appendix}
+
+\end{document}
