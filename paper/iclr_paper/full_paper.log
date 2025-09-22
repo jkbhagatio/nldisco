@@ -648,17 +648,20 @@ File: figures/sed_arch.pdf Graphic file (type pdf)
 <use figures/sed_arch.pdf>
  [2] [3]
 
+LaTeX Warning: Reference `subsubsection:allen_dataset_results' on page 4 undefi
+ned on input line 37.
+
+
 LaTeX Warning: Reference `figure:model_eval_extra' on page 4 undefined on input
  line 47.
 
-) (results/results
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [4]
-(results/synthetic_results
+ [4])
+(results/results (results/synthetic_results [5]
 File: figures/simulated_movement.png Graphic file (type bmp)
 <figures/simulated_movement.png>
- [5]
 File: figures/place_cells_ratemap.png Graphic file (type bmp)
 <figures/place_cells_ratemap.png>
 
@@ -666,22 +669,22 @@ Missing character: There is no “ ("201C) in font ptmr8t!
 Missing character: There is no ” ("201D) in font ptmr8t!
 File: figures/noise_ratemap.png Graphic file (type bmp)
 <figures/noise_ratemap.png>
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [6]
+[6]
 File: figures/global_position_latent_1.png Graphic file (type bmp)
 <figures/global_position_latent_1.png>
 File: figures/global_position_latent_2.png Graphic file (type bmp)
 <figures/global_position_latent_2.png>
-)
-(results/churchland_results [7]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
-9.
- (ts1ptm.fd
+) (results/churchland_results
+Underfull \vbox (badness 6001) has occurred while \output is active []
+
+ [7]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 2
+0.
+
+(ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)) (results/aeon_results))
-(discussion/discussion [8]) [9] (full_paper.bbl
+)) (results/aeon_results) [8]) (discussion/discussion [9]) [10]
+(full_paper.bbl
 LaTeX Font Info:    Trying to load font information for T1+pcr on input line 16
 .
  (t1pcr.fd
@@ -710,13 +713,13 @@ Underfull \hbox (badness 4132) in paragraph at lines 37--48
  []
 
 Missing character: There is no š ("161) in font ptmr8t!
-[10] [11] [12]
-Underfull \hbox (badness 1590) in paragraph at lines 433--441
+[11] [12] [13]
+Underfull \hbox (badness 1590) in paragraph at lines 452--459
 \T1/ptm/m/n/10 dimensional neu-ronal ac-tiv-ity from low-dimensional la-tent dy
 -nam-ics: a solv-able model.
  []
 
-[13]) (acknowledgements) [14] (appendix/appendix
+[14] [15]) (acknowledgements) [16] (appendix/appendix
 File: figures/interpretable_latents_vs_latent_space.pdf Graphic file (type pdf)
 
 <use figures/interpretable_latents_vs_latent_space.pdf>
@@ -728,122 +731,17 @@ put line 8.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+[17]
+Underfull \vbox (badness 3118) has occurred while \output is active []
 
-Underfull \vbox (badness 1558) has occurred while \output is active []
-
- [15]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [16]
+ [18]
 File: figures/model_eval.pdf Graphic file (type pdf)
 <use figures/model_eval.pdf>
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-) (appendix/additional_dataset_info [17])
+)
 (appendix/additional_results/additional_results
-(appendix/additional_results/additional_results_main)
-(appendix/additional_results/additional_results_traditional)
-(appendix/additional_results/additional_results_allen [18]
-Missing character: There is no → ("2192) in font ptmr8t!
-Missing character: There is no → ("2192) in font ptmr8t!
-[19])) [20]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[21]
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-[22]
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no – ("2013) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-[23]
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-
-Underfull \hbox (badness 3417) in paragraph at lines 213--214
-[]\T1/ptm/m/it/10 AutoLFADS  \T1/ptm/m/n/10 Yes. As a VAE, it places pri-ors ov
-er la-tent ini-tial con-di-
- []
-
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-[24]
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-Missing character: There is no — ("2014) in font ptmr8t!
-) [25] (full_paper.aux)
+(appendix/additional_results/additional_results_main [19] [20])
+(appendix/additional_results/additional_results_allen)) [21]) [22] [23]
+(full_paper.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -851,6 +749,6 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `full_paper.out' has not changed.
-(rerunfilecheck)             Checksum: 9675A173127BB424B1BA99FE976D4936;4882.
+(rerunfilecheck)             Checksum: A260F1944157598A7C5EAC83BAFBBFE4;5337.
  )
-Output written on full_paper.xdv (25 pages, 186124 bytes).
+Output written on full_paper.xdv (23 pages, 172696 bytes).

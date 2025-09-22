@@ -59,7 +59,7 @@
         2. Don't require multimodal nor trial-structured data
         3. Publicly share the application of their method to the Churchland MC_Maze dataset. 
     
-    Among these, we visualize results from LangevinFlow and CEBRA, as they represent current neural latents benchmark [ref] state-of-the-art methods for an autoencoder approach and non autoencoder approach, respectively. We also include NMF and PCA as baselines, as they are widely used methods for dimensionality reduction and latent extraction in neural data.
+    Among these, we visualize results from LangevinFlow and CEBRA, as they represent current neural latents benchmark [ref] state-of-the-art methods for an autoencoder approach and non autoencoder approach, respectively. We also include (sparse)NMF and PCA as baselines, as they are widely used methods for dimensionality reduction and latent extraction in neural data.
 
     - Main text viz comparisons
 

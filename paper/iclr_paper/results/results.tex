@@ -1,15 +1,23 @@
 \section{Results}
 \label{section:results}
 
-- We evaluate NLDisco on one synthetic single-unit dataset with ground-truth latents, and three real extracellular electrophysiology, open-source, high-yield, single-unit datasets, across multiple, distinct brain regions in multiple species. (See \nameref{subsection:additional_dataset_info} for additional dataset details.)
-
-- Overall, we show that NLDisco can:
+We evaluate NLDisco on four open-source datasets that span multiple species, brain regions, and experimental paradigms:
 \begin{enumerate}
-    \item Discover discrete and continuous, environmental and behavioral features
-    \item Robustly find same features across time and subjects.
-    \item Find features across different timescales (i.e. that persevere for different durations)
-    \item Find hierarchical features.
-\end{enumerate}    
+    \item Simulated single-unit spike data of rat hippocampus during a navigation task (\nameref{subsection:synthetic_results}).
+    \item Single-unit spike data from macaque motor cortex during an active reaching task (\nameref{subsection:churchland_results}).
+    \item Single-unit spike data from mouse retrosplenial cortex and superior colliculus during an ethological foraging assay (\nameref{subsection:aeon_results}).
+    \item Single-unit spike data from mouse visual cortex during a passive visual task (\nameref{subsubsection:allen_results}).
+\end{enumerate}
+
+To benchmark NLDisco, we compare it against several other prominent neural LVM approaches. For fair comparisons focused on the main goal of unsupervised interpretable latent discovery, we detail paper-published methods (\nameref{table:method_comparisons}) that:
+\begin{enumerate}
+    \item Prioritize an interpretable latent space (as opposed to, for instance, solely strong decoding performance).
+    \item Don't require multimodal nor trial-structured data.
+    \item Have published results on the ~\cite{churchland_2012_churchland_datasets} dataset.
+\end{enumerate}
+Among these, we visualize results from LangevinFlow~\citep{song_2025_langevinflow} and CEBRA~\citep{schneider_2023_cebra}, as they represent the current top-performing autoencoder and non-autoencoder methods, respectively, on Neural Latents Benchmark~\citep{pei_2022_nlb}. We also include (sparse)NMF and PCA as widely-used dimensionality reduction baselines.
+
+---
 
 - On the synthetic dataset, we show that NLDisco can recover all ground-truth latents, and use them to decode natural features of interest.
 
@@ -25,5 +33,6 @@
 
 \input{results/aeon_results}
 
+Overall, these results demonstrate that popular neural LVM approaches often fail to find interpretable latents, while NLDisco can robustly discover discrete and continuous, environmental and behavioral feature representations across varying timescales and levels of abstraction. Importantly, same feature representations can be found across subjects and are stable within a subject across time. This highlights the interpretable latent as a fundamental unit of representation, enabling a direct mapping from representation to source neuronal activity.
 
-See \nameref{subsection:software_data_availability} for notebooks reproducing these results.
+All results are reproduced in publicly available notebooks -- see \nameref{subsection:software_data_availability}.
