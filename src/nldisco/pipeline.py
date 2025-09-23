@@ -747,9 +747,72 @@ def plot_selectivity_score_from_saved(
         fig.update_layout(barmode="group")
 
     fig.update_layout(
-        title=title, height=450, width=900, template="plotly_white", showlegend=True,
+        title=title, height=450, width=600, template="plotly_white", showlegend=True,
         margin=dict(t=60, r=30, b=60, l=60)
     )
     fig.update_xaxes(title_text="Bin")
     fig.update_yaxes(title_text="Selectivity Score", range=[0, y_max])
     return fig
+
+def load_zbar_df(zbar_data: Union[Path, pd.DataFrame, Dict]) -> pd.DataFrame:
+    """Return DataFrame with ['unit','mean_zscore','sem_zscore'] and attach a __source_name for labeling."""
+    if isinstance(zbar_data, Path):
+        df = pd.read_csv(zbar_data)
+        df.attrs["__source_name"] = os.path.basename(zbar_data)
+    elif isinstance(zbar_data, pd.DataFrame):
+        df = zbar_data.copy()
+    elif isinstance(zbar_data, dict):
+        df = pd.DataFrame({
+            "unit": zbar_data.get("zbar_unit", []),
+            "mean_zscore": zbar_data.get("zbar_mean", []),
+            "sem_zscore": zbar_data.get("zbar_sem", []),
+        })
+        var   = zbar_data.get("variable", "var")
+        inst  = zbar_data.get("instance_idx", "inst")
+        latent = zbar_data.get("latent_idx", "latent")
+        df.attrs["__source_name"] = f"inst{inst}_latent{latent}_{var}_zbars"
+    else:
+        raise TypeError("Input must be a *_zbars.csv Path, DataFrame, or payload dict.")
+
+    return df
+
+
+def plot_neuron_zscores_from_saved(
+    *zbar_datas: Union[Path, pd.DataFrame, Dict],
+    labels: Optional[List[str]] = None,
+    title: str = "Mean Z-scores when Latent Active",
+    show_sem: bool = True,   # 🔑 new flag
+):
+    """Overlay neuron mean z-scores (±SEM) from multiple saved datasets, like the dashboard plot."""
+    if len(zbar_datas) == 1 and isinstance(zbar_datas[0], (list, tuple)):
+        zbar_datas = tuple(zbar_datas[0])
+    if not zbar_datas:
+        raise ValueError("Provide at least one zbar dataset.")
+
+    dfs = [load_zbar_df(zb) for zb in zbar_datas]
+
+    # Labels
+    if labels is None:
+        labels = [df.attrs.get("__source_name", f"series{i}") for i, df in enumerate(dfs)]
+    if len(labels) != len(dfs):
+        raise ValueError("labels length must match number of datasets.")
+
+    fig = go.Figure()
+    for idx, (df, lab) in enumerate(zip(dfs, labels)):
+        fig.add_trace(go.Bar(
+            x=df["unit"], 
+            y=df["mean_zscore"],
+            error_y=(dict(type="data", array=df["sem_zscore"]) if show_sem else None),
+            name=lab, opacity=0.8, offsetgroup=str(idx)
+        ))
+
+    fig.update_layout(
+        title=title, height=450, width=900, template="plotly_white",
+        barmode="group", showlegend=True,
+        margin=dict(t=60, r=30, b=60, l=60)
+    )
+    fig.update_xaxes(title_text="Unit", tickangle=45)
+    fig.update_yaxes(title_text="Mean Z-score", zeroline=True, zerolinewidth=1)
+
+    return fig
+
