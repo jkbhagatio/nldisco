@@ -372,6 +372,8 @@ def eval_model(
     r2_per_example = t.empty((n_recon_examples, n_inst), dtype=sae.cfg.dtype, device=device)
     cos_sim_per_example = t.empty((n_recon_examples, n_inst), dtype=sae.cfg.dtype, device=device)
     topk_acts_4d = []  # stores (inst_idx, ex_idx, feat_idx, act_val) for each topk act
+    latent_storage_created = False
+    Z_all = None  # will become [n_recon_examples, n_inst, latent_dim]
 
     progress_bar = tqdm(range(n_steps), desc="SAE batch evaluation step")
     with t.no_grad():
@@ -383,6 +385,51 @@ def eval_model(
             spike_count_seqs = spk_cts[seq_idxs]  # [batch, inst, seq, unit]
             # Forward pass through SAE.
             recon_levels, topk_acts_levels, _acts_raw = sae(spike_count_seqs)
+
+            # ---------- EXTRACT LATENTS ----------
+            # Heuristic: prefer _acts_raw if present, else fall back to topk_acts_levels[-1].
+            acts = _acts_raw if (_acts_raw is not None) else topk_acts_levels[-1]
+
+            # Inspect and unify shape possibilities:
+            # common shapes you may see:
+            #  - (batch, inst, seq, feat)
+            #  - (levels, batch, inst, seq, feat)  <- pick last level
+            #  - (batch, inst, feat)  <- already collapsed across seq
+            # We'll handle these programmatically:
+            if isinstance(acts, (list, tuple)):
+                acts = acts[-1]   # pick last level if list/tuple
+
+            # ensure tensor on CPU/GPU is okay (we keep on device for storing)
+            # acts: a torch tensor
+            if acts.ndim == 5:
+                # shape: (levels, batch, inst, seq, feat) -> take final level
+                acts = acts[-1]            # now (batch, inst, seq, feat)
+            if acts.ndim == 4:
+                # shape: (batch, inst, seq, feat) -> select central timepoint
+                seq_len = acts.shape[2]
+                center = seq_len // 2
+                acts_center = acts[:, :, center, :]  # (batch, inst, feat)
+            elif acts.ndim == 3:
+                # shape: (batch, inst, feat) -> already central/pooled
+                acts_center = acts
+            else:
+                raise RuntimeError(f"Unexpected activation tensor shape: {acts.shape}")
+
+            # On first step create storage
+            if not latent_storage_created:
+                _, _, feat_dim = acts_center.shape
+                latent_dim = feat_dim
+                Z_all = t.empty((n_recon_examples, n_inst, latent_dim), device=device, dtype=acts_center.dtype)
+                latent_storage_created = True
+
+            # place into global array at correct global example indices
+            # start_idxs are global example indices for this batch
+            global_idxs = start_idxs.cpu().numpy()  # numpy ints
+            # acts_center shape: (batch, inst, feat)
+            # store per global index: Z_all[global_idx] = acts_center[batch_idx]
+            for b_idx, gidx in enumerate(global_idxs):
+                Z_all[gidx] = acts_center[b_idx]  # broadcast to [inst, feat]
+            
             nonzero_mask = (topk_acts_levels[-1] > 0)
             cur_l0 = reduce(nonzero_mask.float(), "batch inst sae_feat -> batch inst", "sum")
             # Store results.
@@ -404,6 +451,19 @@ def eval_model(
             )
             topk_acts_4d.append(cur_topk_acts_4d)
     
+    # move to CPU & numpy
+    Z_np = Z_all.detach().to(t.float32).cpu().numpy()   # shape: (n_recon_examples, n_inst, latent_dim)
+
+    # if you want per-time latent for a single instance (inst_idx)
+    #inst_idx = 0
+    #Z_time_inst0 = Z_np[:, inst_idx, :]   # shape (T, latent_dim)
+
+    # if model has only one instance (n_inst==1), squeeze:
+    #Z_time = Z_np.squeeze(1)   # (T, latent_dim)
+
+    # Save to disk for later decoding/plotting
+    np.save("sae_latents_Z.npy", Z_np)
+
     topk_acts_4d = t.cat(topk_acts_4d, dim=0)
 
     r2_per_example[~t.isfinite(r2_per_example)] = 0.0  # div by 0 cases
