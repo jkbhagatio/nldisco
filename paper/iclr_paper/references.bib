@@ -91,6 +91,22 @@
   publisher={Nature Publishing Group}
 }
 
+@misc{brainsets_docs,
+  title        = {churchland\_shenoy\_neural\_2012 dataset documentation},
+  author       = {{Brainsets Project}},
+  howpublished = {\url{https://brainsets.readthedocs.io/en/latest/glossary/brainsets.html#churchland-shenoy-neural-2012}},
+  note         = {Accessed: 2025-09-23},
+  year         = {2022}
+}
+
+@misc{nlb_mcmaze,
+  title        = {MC\_Maze dataset, Neural Latents Benchmark},
+  author       = {{Neural Latents Benchmark Team}},
+  howpublished = {\url{https://neurallatents.github.io/datasets#mcmaze}},
+  note         = {Accessed: 2025-09-23},
+  year         = {2022}
+}
+
 @article{siegle_2021_allen_datasets,
   title={A survey of spiking activity reveals a functional hierarchy of mouse corticothalamic visual areas},
   author={Siegle, Joshua H. and Jia, Xiaoxuan and Durand, Séverine and Gale, Sam and Bennett, Corbett and Graddis, Nile and Heller, Greggory and Ramirez, Tamina K. and Choi, Hannah and Luviano, Jennifer A. and Groblewski, Peter A. and Ahmed, Ruweida and Arkhipov, Anton and Bernard, Amy and Billeh, Yazan N. and Brown, Dillan and Buice, Michael A. and Cain, Nicolas and Caldejon, Shiella and Casal, Linzy and Cho, Andrew and Chvilicek, Maggie and Cox, Timothy C. and Dai, Kael and Denman, Daniel J. and de Vries, Saskia E. J. and Dietzman, Roald and Esposito, Luke and Farrell, Colin and Feng, David and Galbraith, John and Garrett, Marina and Gelfand, Emily C. and Hancock, Nicole and Harris, Julie A. and Howard, Robert and Hu, Brian and Hytnen, Ross and Iyer, Ramakrishnan and Jessett, Erika and Johnson, Katelyn and Kato, India and Kiggins, Justin and Lambert, Sophie and Lecoq, Jerome and Ledochowitsch, Peter and Lee, Jung Hoon and Leon, Arielle and Li, Yang and Liang, Elizabeth and Long, Fuhui and Mace, Kyla and Melchior, Jose and Millman, Daniel and Mollenkopf, Tyler and Nayan, Chelsea and Ng, Lydia and Ngo, Kiet and Nguyen, Thuyahn and Nicovich, Philip R. and North, Kat and Ocker, Gabriel Koch and Ollerenshaw, Doug and Oliver, Michael and Pachitariu, Marius and Perkins, Jed and Reding, Melissa and Reid, David and Robertson, Miranda and Ronellenfitch, Kara and Seid, Sam and Slaughterbeck, Cliff and Stoecklin, Michelle and Sullivan, David and Sutton, Ben and Swapp, Jackie and Thompson, Carol and Turner, Kristen and Wakeman, Wayne and Whitesell, Jennifer D. and Williams, Derric and Williford, Ali and Young, Rob and Zeng, Hongkui and Naylor, Sarah and Phillips, John W. and Reid, R. Clay and Mihalas, Stefan and Olsen, Shawn R. and Koch, Christof},
@@ -719,86 +735,3 @@
   doi          = {10.21105/joss.00747},
   url          = {https://doi.org/10.21105/joss.00747}
 }
-
-graph LR
-    %% Input sequence
-    subgraph Input["Input sequence"]
-        direction LR
-        y_tm2("y<sub>t-2</sub>") -.-> y_tm1("y<sub>t-1</sub>") -.-> y_t("y<sub>t</sub>")
-    end
-
-    %% Encoders
-    subgraph Encoders["Encoding"]
-        direction LR
-        E1[Encoder<br/>t-2] 
-        E2[Encoder<br/>t-1]
-        E3[Encoder<br/>t]
-    end
-
-    %% Initial latent representations
-    subgraph InitLatent["Initial latent space sequence"]
-        direction LR
-        h_tm2("h<sub>t-2</sub>") -.-> h_tm1("h<sub>t-1</sub>") -.-> h_t("h<sub>t</sub>")
-    end
-
-    %% Temporal transformer
-    subgraph Temporal["Transformer block"]
-        direction TB
-        Attention["Causal<br/>Self-Attention<br/>(Transformer Block)"]
-    end
-
-    %% Updated latent
-    subgraph UpdatedLatent["Final latents"]
-        hp_t("h'<sub>t</sub>")
-    end
-
-    %% Decoder
-    subgraph Decoding["Decoding"]
-        TopK["TopK Selection"]
-        Decoder["Decoder"]
-    end
-
-    %% Output
-    subgraph Output["Reconstruction"]
-        z_t("z<sub>t</sub>")
-    end
-
-    %% Connections
-    y_tm2 ==> E1
-    y_tm1 ==> E2
-    y_t ==> E3
-
-    E1 ==> h_tm2
-    E2 ==> h_tm1
-    E3 ==> h_t
-
-    h_tm2 ==> Attention
-    h_tm1 ==> Attention
-    h_t ==> Attention
-
-    Attention ==> hp_t
-    
-    hp_t ==> TopK
-    TopK ==> Decoder
-
-    Decoder ==> z_t
-
-    %% Enhanced styling with monochromatic theme
-    classDef inputStyle fill:#3d5a80,stroke:#1e3a5f,stroke-width:3px,color:#fff,font-weight:bold
-    classDef defaultStyle fill:#6c757d,stroke:#495057,stroke-width:2px,color:#fff,font-weight:bold
-    classDef transformerStyle fill:#e76f51,stroke:#d64933,stroke-width:3px,color:#fff,font-weight:bold
-    classDef outputStyle fill:#2a9d8f,stroke:#264653,stroke-width:3px,color:#fff,font-weight:bold
-
-    class y_tm2,y_tm1,y_t inputStyle
-    class E1,E2,E3,h_tm2,h_tm1,h_t,hp_t,TopK,Decoder defaultStyle
-    class Attention transformerStyle
-    class z_t outputStyle
-
-    %% Subgraph styling
-    style Input fill:#e8f1ff,stroke:#3d5a80,stroke-width:2px
-    style Encoders fill:#f8f9fa,stroke:#6c757d,stroke-width:2px
-    style InitLatent fill:#f8f9fa,stroke:#6c757d,stroke-width:2px
-    style Temporal fill:#fdf2f0,stroke:#e76f51,stroke-width:3px
-    style UpdatedLatent fill:#f8f9fa,stroke:#6c757d,stroke-width:2px
-    style Decoding fill:#f8f9fa,stroke:#6c757d,stroke-width:2px
-    style Output fill:#e8f5f3,stroke:#2a9d8f,stroke-width:2px
