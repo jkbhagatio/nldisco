@@ -2,7 +2,13 @@
 
 **Ne**ural **L**atent **Disco**very pipeline
 
+<br>
+
+<img width="755" height="153" alt="Screenshot 2025-09-28 at 16 35 19" src="https://github.com/user-attachments/assets/2414056b-2611-4fb9-a904-3abf7d221606" />
+
 ---
+
+NLDisco trains shallow, overcomplete, sparse encoder-decoder (SED) neural network models, in which individual dictionary elements -- hidden layer neurons -- represent learned interpretable latents.
 
 ## Environment set-up
 
