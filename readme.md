@@ -16,11 +16,9 @@ NLDisco trains shallow, overcomplete, sparse encoder-decoder (SED) neural networ
 
 Prerequisites:
 
-- An installed version of [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
-
 - An installed version of [pixi](https://pixi.sh/latest/)
 
-In the root directory, just run `pixi install --manifest-path ./pyproject.toml` - this will create a conda env named 'nldisco'.
+After cloning this project, in its root directory, just run `pixi install --manifest-path ./pyproject.toml` --- this will create a Python environment located in the '.pixi' subdirectory within 'nldisco'.
 
 ### Other
 
