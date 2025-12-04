@@ -1,7 +1,10 @@
 \documentclass{article}
 
 \PassOptionsToPackage{super,sort&compress}{natbib}
-\usepackage[dblblindworkshop]{neurips_2025}
+% submission version
+% \usepackage[dblblindworkshop]{neurips_2025}
+% camera-ready version
+\usepackage[dblblindworkshop, final]{neurips_2025}
 
 % Standard packages
 \usepackage{adjustbox}
@@ -31,6 +34,8 @@
 \definecolor{cb_red}{HTML}{990000}
 \definecolor{cb_green}{HTML}{AAFF80}
 
+\def\algorithmautorefname{Algorithm}
+
 \title{A pipeline for interpretable neural latent discovery}
 \workshoptitle{Data on the Brain \& Mind}
 
@@ -55,21 +60,21 @@
 \maketitle
 
 \begin{abstract}
-Mechanistic understanding of the brain requires interpretability of large-scale neuronal computations. Many latent variable model approaches excel at decoding, but produce complex, opaque latent spaces. We address this with NLDisco, a pipeline for interpretable neural latent discovery. Motivated by successful applications of sparse dictionary learning in AI mechanistic interpretability, NLDisco encourages hidden layer neurons in sparse encoder-decoder models to learn interpretable representations. A flexible, user-friendly software package supports interpretable latent discovery across recording modalities and experimental paradigms. We validate the pipeline on a synthetic dataset, demonstrating that it recovers ground-truth features and reveals meaningful representations. We conclude by discussing future development and applications, emphasizing the pipeline's potential to facilitate neuroscientific discovery and clearer insights into neural computations.
+Mechanistic understanding of the brain requires interpreting large-scale neuronal computations. Many latent variable models excel at decoding but yield opaque latent spaces. We address this with NLDisco, a pipeline for interpretable neural latent discovery. Motivated by sparse dictionary learning, NLDisco allows hidden layer neurons in sparse encoder-decoder models to learn interpretable representations across varying recording modalities and experimental paradigms. We validate the pipeline on synthetic and real datasets, demonstrating it recovers ground-truth features and reveals meaningful representations. We provide NLDisco as a highly configurable, user friendly software package to facilitate neuroscientific discovery, and discuss future development and applications.
 \end{abstract}
 
 \section{Introduction}
 
 Understanding the principles of neural computation requires extracting interpretable features from high-dimensional neural data\cite{steinmetz_2021_neuropixels2, raducanu_2017_neuroseeker, cai_2016_miniscope, villette_2019_voltage_2p, ouzounov_2017_three_photon, ahrens_2013_lightsheet}. Traditional dimensionality reduction techniques, while useful for visualization and basic analyses, often make invalid assumptions about or altogether fail to disentangle distributed representations~\cite{cunningham_2014_neural_dr, humphries_2021_dr_principles}. Recent work has produced promising latent variable model (LVM) approaches capable of identifying low-dimensional subspaces that can accurately decode aspects of behavior and environment~\cite{song_2025_langevinflow, schneider_2023_cebra, le_2022_stndt, keshtkaran_2022_autolfads, yu_2009_gpfa, macke_2011_plds, gao_2016_pflds, low_2018_mind, jensen_2020_mgplvm, hernandez_2020_vind, kim_2021_plnde, hurwitz_2021_tndm, schimel_2022_ilqrvae, kudryashova_2023_ctrltndm, ye_2023_ndt2, gondur_2024_mmgpvae, pellegrino_2024_slicetca, sani_2024_dpad, pals_2024_smclr_rnn, zhang_2024_mtm, george_2025_simpl, perkins_2025_mint, schmutz_2025_nce}. However, these methods typically value decoding accuracy over latent interpretability, and consequently all have at least one of the following limitations: poorly interpretable latents, lossy mapping to and/or poor reconstruction of neural data from latent space, priors on the latent and/or neural data space, requirements of additional behavioral, environmental, and/or trial-structured neural data, supralinear scaling with respect to dataset size, or high implementational complexity (\autoref{table:method_comparisons}).
 
-We address each of these limitations in NLDisco, which provides a simple, user-friendly library for interpretable latent discovery from high-dimensional neural data. We consider a latent's interpretability in two key aspects: 1) its correspondence to a specific external variable -- a "natural" behavioral or environmental feature\footnote{A "feature" is a sufficiently interpretable latent. We illustrate this in \nameref{section:results}.}; 2) its explicit composition from contributing neural activity. Unlike other approaches that require a search for meaningful directions or dynamics in latent space (\autoref{figure:interpretable_latents_vs_latent_space}), NLDisco outputs individual latents in the form of hidden layer neurons from shallow, overcomplete, sparse encoder-decoder (SED) models\cite{olshausen_1997_sparse_overcomplete, vincent_2008_denoising_autoencoders} that can be directly assessed for interpretability, an approach that has had many successess in the field of AI mechanistic interpretability~\cite{lindsey_2024_crosscoders, cunningham_2023_saes, bricken_2023_towards_monosemanticity, templeton_2024_scaling_monosemanticity, dunefsky_2024_transcoders, ameisen_2025_circuit_tracing, lindsey_2025_biology_llm}. Additionally, while we showcase NLDisco on spike data, it can be readily used with virtually any other neural recording modality as the only data requirement is any predefined spatiotemporal binning.
+We address each of these limitations in NLDisco, which provides a highly configurable, user friendly pipeline for interpretable latent discovery from high-dimensional neural data. We consider a latent's interpretability in two key aspects: 1) its correspondence to a specific external variable -- a "natural" behavioral or environmental feature\footnote{A "feature" is a sufficiently interpretable latent. We illustrate this in \nameref{section:results}.}; 2) its explicit composition from contributing neural activity. Unlike other approaches that require a search for meaningful directions or dynamics in latent space (\autoref{figure:interpretable_latents_vs_latent_space}), NLDisco outputs individual latents in the form of hidden layer neurons from shallow, overcomplete, sparse encoder-decoder (SED) models\cite{olshausen_1997_sparse_overcomplete, vincent_2008_denoising_autoencoders} that can be directly assessed for interpretability, an approach that has had many successess in the field of AI mechanistic interpretability~\cite{lindsey_2024_crosscoders, cunningham_2023_saes, bricken_2023_towards_monosemanticity, templeton_2024_scaling_monosemanticity, dunefsky_2024_transcoders, ameisen_2025_circuit_tracing, lindsey_2025_biology_llm}. Additionally, while we showcase NLDisco on spike data, it can be readily used with virtually any other neural recording modality as the only data requirement is any predefined spatiotemporal binning.
 
 \section{Methods: The NLDisco pipeline}
 \label{section:methods}
 
 \begin{figure}[th]
     \centering
-    \includegraphics[width=\linewidth]{../figures/nldisco_pipeline.pdf}
+    \includegraphics[width=\linewidth]{./figures/nldisco_pipeline.pdf}
     \caption{
         \textbf{The NLDisco pipeline.} \\
         \small The NLDisco pipeline has 4 stages: 1) Spatiotemporal binning and processing of neural data; 2) Training a model; 3) Evaluating the model; 4) Evaluating the model's latents for feature interpretability.
@@ -82,60 +87,76 @@ The NLDisco pipeline transforms high-dimensional neural data into a set of inter
 
 The first stage preproceses neural data for model training, including utilities for binning and normalizing the data, and can work directly with output from popular spikesorters such as Kilosort~\cite{pachitariu_2016_kilosort}. 
 
-The second stage trains an SED to reconstruct target neural data (\autoref{algorithm:sded_model_training}). Sparsity in the model's latent space encourages a monosemantic dictionary, where each hidden layer neuron corresponds to a single neural representation that can be judged for interpretability. The SED can be configured as a sparse autoencoder (SAE) or transcoder, depending on whether the target neural data is the same as or different but related to the input neural data (\autoref{figure:sded_arch}a,b). A novel variant of the Matryoshka architecture~\cite{bussmann_2025_msae} can learn multi-scale feature representations, and batch top-$k$ latent selection~\cite{bussmann_2024_batchtopk} directly controls latent sparsity while flexibly permitting the number of active latents to vary per sample in the batch, aligning with the variable activity of neural states (\autoref{figure:sded_arch}c).
-Finally, an optional self-attention layer can be used with sequence input data to integrate information across latent space history, enabling the model to learn evolving temporal dynamics (\autoref{figure:sded_arch}d). 
+The second stage trains an SED to reconstruct target neural data (\autoref{algorithm:sed_model_training}). Sparsity in the model's latent space encourages a monosemantic dictionary, where each hidden layer neuron corresponds to a single neural representation that can be judged for interpretability. The SED can be configured as a sparse autoencoder (SAE) or transcoder, depending on whether the target neural data is the same as, or different but related to, the input neural data (\autoref{figure:sed_arch}a,b). A novel variant of the Matryoshka architecture~\cite{bussmann_2025_msae} can learn multi-scale feature representations, and batch top-$k$ latent selection~\cite{bussmann_2024_batchtopk} directly controls latent sparsity while flexibly permitting the number of active latents to vary per sample in the batch, aligning with the variable activity of neural states (\autoref{figure:sed_arch}c).
+Finally, an optional self-attention layer can be used with sequence input data to integrate information across latent space history, enabling the model to learn evolving temporal dynamics (\autoref{figure:sed_arch}d). 
 
 The third and fourth stages involve model and latent evaluation, respectively. Model quality is evaluated using quantitative metrics inspired by the established SAEBench~\cite{karvonen_2025_saebench}, and centers on the trade-off between reconstruction fidelity and latent dictionary sparsity (\autoref{figure:model_eval}). While these metrics do not directly confirm latent interpretability, they help assess whether the model has learned a sparse, accurate, robust representation of the neural data. Latent evaluation can include visualizing activation patterns over time and experimental conditions, as well as assessing individual latent decoding performance for specific variables of interest. We detail some typical approaches in \nameref{section:results}.
 
 \begin{figure}[th]
-    \includegraphics[width=\linewidth]{../figures/sded_arch.pdf}
+    \includegraphics[width=\linewidth]{./figures/sed_arch.pdf}
     \caption{
         \textbf{Model architecture considerations} \\
         \small
-        (\textbf{a}) Natural, "real-world" features $x$ are encoded by neural activity $y$. In this example, three active features are simultaneously represented by the joint activity of three neurons. (\textbf{b}) A SDED reconstructs neural activity $z$ based on $y$ via sparse dictionary elements $d$. When training is successful, $d$ corresponds to $x$: sparse dictionary elements (i.e. model neurons) represent natural features. If $z$ tries to recreate $y$ exactly ($\hat{y}$), the model is an autoencoder; in other scenarios (e.g. $z$ is separate but dependent on or related to $y$) it is a transcoder. (\textbf{c}) A Matryoshka SDED segments the latent space into multiple nested levels, each of which attempts to do a full reconstruction of the target neural activity. The black boxes indicate the latents involved in a single level, while the light-red boxes indicate the additional latents used at lower-levels. In this example, $k$=1 for top-$k$ selection of latents to recruit for reconstruction at each level (the yellow neuron within each light-red box). Latents in the highest-level ($L_1$) will often correspond to high-level features (e.g. a round object), while latents exclusive to the lowest-level ($L_3$) will often correspond to low-level features (e.g. a basketball). (\textbf{d}) Incorporation of a transformer block with sequence input allows imbuing the latents with temporal information corresponding to the evolution of the sequence, which can lead to improved reconstruction and interpretability. Each sample in the input sequence is transformed by the same encoding dictionary matrix in parallel to yield a latent space sequence. Causal self-attention is then performed on this sequence of latents via a single, small multi-head transformer block, yielding a final latent space. The latents are sparsified via top-k and transformed by the decoding dictionary matrix to yield the neural data reconstruction, as in the single, non-sequential input case.
+        (\textbf{a}) Natural, "real-world" features $x$ are encoded by neural activity $y$. In this example, three active features are simultaneously represented by the joint activity of three neurons. (\textbf{b}) A SED reconstructs neural activity $z$ based on $y$ via sparse dictionary elements $d$. When training is successful, $d$ corresponds to $x$: sparse dictionary elements (i.e. model neurons) represent natural features. If $z$ tries to recreate $y$ exactly ($\hat{y}$), the model is an autoencoder; in other scenarios (e.g. $z$ is separate but dependent on or related to $y$) it is a transcoder. (\textbf{c}) A Matryoshka SED segments the latent space into multiple nested levels, each of which attempts to do a full reconstruction of the target neural activity. The black boxes indicate the latents involved in a single level, while the light-red boxes indicate the additional latents used at lower-levels. In this example, $k$=1 for top-$k$ selection of latents to recruit for reconstruction at each level (the yellow neuron within each light-red box). Latents in the highest-level ($L_1$) will often correspond to high-level features (e.g. a round object), while latents exclusive to the lowest-level ($L_3$) will often correspond to low-level features (e.g. a basketball). (\textbf{d}) Incorporation of a transformer block with sequence input allows imbuing the latents with temporal information corresponding to the evolution of the sequence, which can lead to improved reconstruction and interpretability. Each sample in the input sequence is transformed by the same encoding dictionary matrix in parallel to yield a latent space sequence. Causal self-attention is then performed on this sequence of latents via a single, small multi-head transformer block, yielding a final latent space. The latents are sparsified via top-k and transformed by the decoding dictionary matrix to yield the neural data reconstruction, as in the single, non-sequential input case.
         \vspace{-1em}
     }
-    \label{figure:sded_arch}
+    \label{figure:sed_arch}
 \end{figure}
 
 \section{Results}
 \label{section:results}
 
-We evaluated NLDisco on simulated rat spike data in a navigation task, demonstrating its ability to recover ground-truth features and reveal meaningful representations.
+We evaluated NLDisco on simulated rat hippocampal spike data in a navigation task, and real macaque motor cortex spike data in an active reaching task, demonstrating the pipeline's ability to recover ground-truth features and reveal meaningful representations.
 
-\subsection{Simulated rat spike data in a navigation task}
+\subsection{Simulated rat hippocampal spike data in a navigation task}
+\label{subsection:synthetic_results}
 
-We simulated the activity of hippocampal neurons during a navigation task in a virtual linear environment. The virtual rat moved along a 1-m linear track (Figure \ref{figure:sim_movement}), with its velocity sampled from an Ornstein-Uhlenbeck (OU) process:
-$$
-dv_t = \theta \, (\mu - v_t) \, dt + \sigma \, dW_t
-$$
-with the following parameters: $\theta$ = 1.0 (mean reversion), $\mu$ = 0.0 (long-run mean velocity, m/s), $\sigma$ = 0.4 (volatility), $v_0$=0.0 (initial velocity). The full simulation lasted 10 minutes (600 s) at a temporal resolution of 100 Hz.
+Following \citet{theodoni_2018_theta_ou}, we simulated the activity of hippocampal neurons during a navigation task in a virtual linear environment (see \nameref{subsubsection:sim_rat_details} for full simulation details). The virtual rat moved along a 1-m linear track (\autoref{figure:synthetic_results}), with its velocity sampled from a stochastic Ornstein-Uhlenbeck (OU) process.
 
-We modeled four place cells along the track. Two cells had relatively broad place fields (Gaussian width $\sigma$ = 20 cm), while the other two had narrower place fields ($\sigma$ = 10 cm). This heterogeneity was intended to approximate recordings from different hippocampal subregions along the dorsoventral axis. Place fields were modeled as Gaussian functions of position with equal firing probability regardless of running direction.
+We modeled four place cells along the track with heterogeneous place fields (varying widths and peak firing rates) to approximate recordings from different hippocampal subregions (\autoref{figure:synthetic_results}). To determine if NLDisco could discover task-relevant features within larger neural population activity, we also simulated 96 “noise” neurons whose activity was independent of position. This overall activity (spikes from 4 place cells + 96 noise neurons over 10 minutes) was used to train an SED.
 
-The two broad fields were centered at 200 cm and 800 cm, while the two narrower fields were embedded within them at 300 cm and 900 cm, respectively. Baseline firing rates were fixed at 0.1 Hz, and peak firing rates were set to 20 Hz, 16 Hz, 18 Hz, and 15 Hz from left to right along the track (0-1000 cm) (Figure \ref{figure:ratemap_placeCells} ). 
+As expected, a portion of the learned latents captured the random fluctuations of the noise neurons, exhibiting no spatial structure. Critically, however, other latents in the trained model successfully disentangled meaningful spatial signals from the background noise: a distinct subset of features selectively encoded the animal's position along the track.
 
-To mimic a larger neural population, we also simulated 96 “noise” neurons whose activity was independent of position, with stable mean firing rates sampled uniformly between 1 and 5 Hz (Figure \ref{figure:ratemap_noise}). This simulated activity was formatted as a spike count matrix (\textit{time samples $\times$ neurons}), and used to train a Matryoshka SAE with the following hyperparameters: \texttt{dsae\_topk\_map}=\{64:1, 128:2, 256:4\}, and \texttt{dsae\_loss\_x\_map}=\{64:1.0, 128:1.25, 256:1.5\} (\nameref{subsubsection:hyperparameter_sweeps}).
+Two classes of spatial representations emerged: single-place-cell-like features encoding individual track positions, and multi-place-cell-like features encoding multiple spatially distinct locations (e.g., firing at both the beginning and end of the track). These results demonstrate NLDisco's ability to isolate and represent both single-cell and multi-cell representations.
 
-The trained model successfully disentangled meaningful spatial signals from the background noise. As expected, a portion of the learned latent features captured the random fluctuations of the noise neurons, exhibiting no spatial structure. Critically, however, a distinct subset of features selectively encoded the animal's position along the track.
-
-Two main types of spatial representations emerged:
-\begin{enumerate}
-    \item \textbf{Global position features}: latents whose activation varied gradually along the track, suggesting a coarse encoding of absolute position.
-    \item \textbf{Local position features}: latents that exhibited sharp peaks at specific locations, resembling place-cell-like activity and corresponding to localized representations of position.
-\end{enumerate}
-
-These results demonstrate NLDisco's ability to isolate and represent both global and local salient neural correlates.
-
-\begin{figure}[bh]
+\begin{figure}[hb]
     \centering
-    \includegraphics[width=0.9\linewidth]{../figures/global_position_latent_2.png}
+    \includegraphics[width=0.9\linewidth]{./figures/synthetic_results.png}
     \caption{
-        \textbf{Example position-dependent latent} \\
-        This latent variable (blue) exhibits a strong dependence on the rat's position along the track while being decoupled from the average place cells' firing rates, relative to the "noise" cells (orange). The latent preferably fires in spatial bin 1, highlighting its role in encoding spatial information.
+        \textbf{Features identified from simulated place cell activity} \\
+        \small
+        Simulated place cell activity and learned latent representations on a 1D linear track. Top-left: the simulated positional trajectory. Top-right: the firing rate tuning curves for four place cells. Bottom-left: single-place-cell-like feature firing for an early position in the track. Bottom-right: multi-place-cell-like feature firing for the beginning and end of the track.
+        \vspace{-1em}
     }
-    \label{fig:placeholder}
+    \label{figure:synthetic_results}
 \end{figure}
+
+\subsection{Macaque motor cortex spike data in an active reaching task}
+\label{subsection:churchland_results}
+
+To test NLDisco on real neural data, we used the churchland\_shenoy\_neural\_2012 dataset (also referred to as MC\_Maze \citep{nlb_mcmaze}) \citep{churchland_2012_churchland_datasets} prepared by Brainsets \citep{brainsets_docs}. In this dataset, monkeys perform a center-out reaching task under a variety of different maze configurations. Recordings covered roughly 200 neurons per monkey, spanning the dorsal premotor (PMd) and primary motor (M1) cortices, together with behavioural measures including hand position, velocity, acceleration, and gaze position.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{./figures/churchland_results.png}
+    \caption{
+        \textbf{Features identified in the Churchland dataset} \\
+        \small
+        \textbf{(a)} Example of SED features tuned to a continuous behavioural variable: hand velocity. Selectivity is quantified by the selectivity score (Appendix~\ref{subsection:selectivity_score}). The dashed line marks 0.5, corresponding to equal activation probability inside and outside a bin (no selectivity), while values above 0.5 indicate condition-specific tuning. Shown are features selective for low, high, and “extreme” velocities (active at both ends of the range).  
+        \textbf{(b)} Example of an SAE feature tuned to a discrete environmental variable: the hit target being on the right side of the workspace (positive x-coordinate). Selectivity scores are computed as in (a), with the dashed line again marking the non-selective baseline at 0.5. 
+        \textbf{(c)} Mean z-scores of biological neurons when the right-side target feature (latent 169) is active, showing which units in the recorded population are systematically co-active with the latent.
+        \vspace{-1em}
+    }
+    \label{fig:churchland_results}
+\end{figure}
+
+To find features, SED latents were automatically mapped to metadata variables of interest through the calculation of a selectivity score (Appendix~\ref{subsection:selectivity_score}). This approach revealed a wide range of features - for instance, latents tuned to different ranges of hand velocity(\autoref{fig:churchland_results}a).
+
+We found that velocity offered a rich set of continuous, behavioural features. The SED features mapped onto low, high, and “extreme” velocities (active at both ends of the range) (\autoref{fig:churchland_results}a). Strikingly, these same feature types emerged independently in separate SEDs trained on different monkeys, highlighting that the method works across subjects. The features also generalised to entirely new, unseen sessions, showing that the SEDs capture robust structure in the data.
+
+Importantly, the method is not limited to behavioural variables like velocity: we also identified features aligned with environmental variables, such as the hit target position being on the right-hand side of the screen (\autoref{fig:churchland_results}b).
+
+Beyond mapping latents to behavioural or task variables, NLDisco also lets us trace these features back to the underlying neural population. For instance, examining unit activity as z-scores reveals which recorded units show systematically increased or decreased activity when a given latent is active (\autoref{fig:churchland_results}c). This makes it possible to connect interpretable SEDs features back to their underlying contributing source single units.
 
 \section{Discussion}
 \label{section:discussion}
@@ -147,8 +168,8 @@ By releasing NLDisco as an open-source package with interactive tutorials, we ai
 \clearpage
 
 % Bibliography
-\nocite{lenail_2019_nnsvg}
-\bibliographystyle{unsrt}
+\nocite{lenail_2019_nnsvg, campagner_2025_aeon_platform}
+\bibliographystyle{unsrtnat}
 \bibliography{references}
 
 \input{acknowledgements}

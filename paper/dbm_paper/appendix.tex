@@ -23,10 +23,10 @@ Many neural LVM approaches focus on learning structure in a low-dimensional late
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{../figures/interpretable_latents_vs_latent_space.pdf}
+    \includegraphics[width=\linewidth]{./figures/interpretable_latents_vs_latent_space.pdf}
     \caption{
         \textbf{Interpretable latents in a complex latent space.} \\
-        \small This toy example highlights the utility of MINI. The two rows show two different variables (top: discrete; bottom: continuous), each uniquely encoded by the same underlying neural activity made up of three neurons' firing rates. The viridis colorbar shows the variables' values as a function of this neural activity. (\textbf{a}) Each point in the scatterplots represents a moment in time. (\textbf{b}) A projection of this activity into a 2D latent space creates tangled trajectories where variable states (e.g. 'on' and 'off' in the discrete case, and 'high' and 'low' in the continuous case) are not easily distnguished. The start and end points of the trajectories are marked by white and black dots, respectively, while arrows indicate trajectory direction. (\textbf{c}) In contrast to the tangled latent space, MINI finds individual latents corresponding to each variable, demonstrating the potential for improved interpretability of neural representations.
+        \small This toy example highlights the utility of NLDisco. The two rows show two different variables (top: discrete; bottom: continuous), each uniquely encoded by the same underlying neural activity made up of three neurons' firing rates. The viridis colorbar shows the variables' values as a function of this neural activity. (\textbf{a}) Each point in the scatterplots represents a moment in time. (\textbf{b}) A projection of this activity into a 2D latent space creates tangled trajectories where variable states (e.g. 'on' and 'off' in the discrete case, and 'high' and 'low' in the continuous case) are not easily distnguished. The start and end points of the trajectories are marked by white and black dots, respectively, while arrows indicate trajectory direction. (\textbf{c}) In contrast to the tangled latent space, NLDisco finds individual latents corresponding to each variable, demonstrating the potential for improved interpretability of neural representations.
     }
     \label{figure:interpretable_latents_vs_latent_space}
 \end{figure}
@@ -39,11 +39,11 @@ Many neural LVM approaches focus on learning structure in a low-dimensional late
 
 \begin{algorithm}[h]
 \caption{Model training procedure}
-\label{algorithm:sded_model_training}
+\label{algorithm:sed_model_training}
 \begin{algorithmic}[1]
 \State \textbf{Data definitions:}
 \State \quad Input neural data: $\mathbf{Y} \in \mathbb{R}^{B \times S \times N_{\text{in}}}$ \textsuperscript{(Batch, Sequence length, Input neural units)}
-\State \quad Target neural data: $\mathbf{Z} \in \mathbb{R}^{B \times \times N_{\text{out}}}$ \textsuperscript{(Batch, Output neural units)}
+\State \quad Target neural data: $\mathbf{Z} \in \mathbb{R}^{B \times N_{\text{out}}}$ \textsuperscript{(Batch, Output neural units)}
 \State \textbf{Model definitions:}
 \State \quad Encoder: $\mathbf{W}_{\text{enc}} \in \mathbb{R}^{D_{\text{max}} \times S \times N_{\text{in}}}$, $\mathbf{b}_{\text{enc}} \in \mathbb{R}^{D_{\text{max}}}$ \textsuperscript{(Hidden layer neurons)}
 \State \quad Decoder: $\mathbf{W}_{\text{dec}} \in \mathbb{R}^{N_{\text{out}} \times D_{\text{max}}}$, $\mathbf{b}_{\text{dec}} \in \mathbb{R}^{N_{\text{out}}}$
@@ -86,38 +86,36 @@ Many neural LVM approaches focus on learning structure in a low-dimensional late
 \end{algorithmic}
 \end{algorithm}
 
-Some notes on \nameref{algorithm:sded_model_training}:
+Some notes on \nameref{algorithm:sed_model_training}:
 
 \paragraph{Dead Latent Resurrection.}
-A common failure mode in training SDEDs is "latent death," where dictionary elements cease to activate for any input. We address this with an auxiliary loss designed to revive dead latents. We monitor feature activation frequencies and identify a set of dead latents $\mathcal{D}$. These latents are then trained via an auxiliary MSE loss to reconstruct the residual error of the primary model ($\mathbf{x}_{\text{target}} - \hat{\mathbf{x}}_L$). The gradients from this auxiliary loss are exclusively applied to the parameters of the dead latents, thereby encouraging them to learn useful representations without disrupting the training of active latents.
+A common failure mode in training SEDs is "latent death," where dictionary elements cease to activate for any input. We address this with an auxiliary loss designed to revive dead latents. We monitor feature activation frequencies and identify a set of dead latents $\mathcal{D}$. These latents are then trained via an auxiliary MSE loss to reconstruct the residual error of the primary model ($\mathbf{x}_{\text{target}} - \hat{\mathbf{x}}_L$). The gradients from this auxiliary loss are exclusively applied to the parameters of the dead latents, thereby encouraging them to learn useful representations without disrupting the training of active latents.
 
 \subsubsection{Model architecture}
 \label{subsubsection:model_architecture_details}
 
-The core of NLDisco is the implementation of overcomplete sparse encoder-decoder models with single hidden layers and ReLU activations. While we experimented with more complex model architectures, such as multi-layer decoders, we found they often made interpreting the resulting latents more difficult without significant reconstruction gains. The Matryoshka architecture is particularly useful for datasets where features are expected to exist at multiple scales, as it helps mitigate "feature absorption" where general features are partially subsumed by more specific ones (TODO see Allen results with and without Matryoshka architecture). And the transformer block is most beneficial when analyzing data with meaningful temporal dynamics, as it allows the model to learn features that evolve over a sequence rather than just instantaneous neural patterns (TODO see Aeon results with and without transformer block).
+The core of our pipeline is an overcomplete sparse encoder-decoder model with a single hidden layer with ReLU activations. While we experimented with more complex architectures, such as multi-layer decoders, we found they often made interpreting the resulting latents more difficult without significant reconstruction gains. The Matryoshka architecture is particularly useful for datasets where features are expected to exist at multiple scales, as it helps mitigate "feature absorption" where general features are partially subsumed by more specific ones. The transformer block is most beneficial when analyzing data with meaningful temporal dynamics, as it allows the model to learn features that evolve over a sequence rather than just instantaneous neural patterns. We found that combining these components with a batch top-$k$ operator provided a robust and flexible framework that consistently outperformed L1-based sparsity penalties and yielded more interpretable features.
 
 \subsubsection{Model evaluation}
 \label{subsubsection:model_evaluation_details}
 
 Model evaluation centers on the trade-off between reconstruction fidelity and latent dictionary sparsity. High reconstruction fidelity is trivial to achieve with a large and dense code but undermines the goal of finding disentangled, interpretable latents. NLDisco therefore first reviews dictionary quality via latent sparsity metrics (\autoref{figure:model_eval} top). The mean L0 norm measures the average number of active latents per sample, set indirectly by the batch top-$k$ parameter, while the latent activity density visualizes the firing distribution across all latents. Together these metrics reveal whether the model has learned an efficient code that uses many latents intermittently while avoiding common pitfalls such as "representational collapse" into too many constantly active latents and/or widespread "feature death", in which a large portion of the dictionary never activates. These sparsity metrics are complemented by a couple of reconstruction fidelity metrics: variance explained (R\textsuperscript{2}) and cosine similarity of reconstruction-to-target neural activity across both spatial and temporal dimensions (\autoref{figure:model_eval} bottom). High scores in these metrics confirm that the sparse code is a sufficient representation that has captured salient information present in the target neural data.
 
-For a deeper diagnosis, several additional optional metrics are available. To check whether explanatory power is well-distributed, a variance attribution analysis quantifies the overall reconstruction variance explained by each individual latent (TODO). And to check if temporal information present in the target neural data is preserved by the latent reconstruction, a spectral frequency analysis compares the reconstruction's frequency content to that of the target neural data, given a specified duration (TODO).
+For a deeper diagnosis, several additional optional metrics are available. To check whether explanatory power is well-distributed, a variance attribution analysis quantifies the overall reconstruction variance explained by each individual latent. And to check if temporal information present in the target neural data is preserved by the latent reconstruction, a spectral frequency analysis compares the reconstruction's frequency content to that of the target neural data, given a specified duration.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{../figures/model_eval.pdf}
+    \includegraphics[width=\linewidth]{./figures/model_eval.pdf}
     \caption{
         \textbf{Model evaluation metrics.} \\
-        \small This example SAE model evaluation examines a three-level Matryoshka architecture with a total of 320 latents and top-$k$ selections of 12 $\cdot B$, 24 $\cdot B$, and 36 $\cdot B$ active latents per batch size $B$ (1024). The recording had a total of 200 units, and the model was trained on 182,868 samples of 50 ms binned spike counts. The model exhibits an approximately normal distribution for the mean latent L0 norm (TODO metric), few dead or tonically active latents, and high neural reconstruction fidelity as measured by the R\textsuperscript{2} and cosine similarity metrics across both units and examples, all indicators of healthy training.
+        \small In this example SAE model evaluation, a three-level Matryoshka architecture with a total of 320 latents was used, with top-k selections of 12 $\cdot B$, 24 $\cdot B$, and 36 $\cdot B$ active latents per batch size $B$ (1024). The recording had a total of 200 units, and the model was trained on binned 182,868 50 ms binned spike counts. The model exhibits an approximately normal distribution for the mean latent L0 norm, few dead or tonically active latents, and high neural reconstruction fidelity as measured by the R² and cosine similarity metrics across both units and examples, all indicators of healthy training.
     }
     \label{figure:model_eval}
 \end{figure}
 
 \subsubsection{Latents evaluation}
 
-We recommend building simple, bespoke dashboards for viewing the activity of model latents in the context of relevant environmental and/or behavioral variables. 
-
-(TODO: show dashboards for Churchland, Allen, and Aeon datasets).
+In this paper, we used prepared dashboards to visualize the activity of latents in the context of the simulated spatial navigation task and the in vivo motor control reaching task. In general when working with new datasets, we recommend spending time designing similar simple, bespoke dashboards. 
 
 \subsubsection{Hyperparameter sweeps}
 \label{subsubsection:hyperparameter_sweeps}
@@ -129,33 +127,45 @@ While optimal settings are data-dependent, we offer some general heuristics. The
 \subsection{Additional results}
 
 \subsubsection{Simulated rat spike data in a navigation task}
+\label{subsubsection:synthetic_results_details}
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.9\linewidth]{../figures/simulated_movement.png}
-    \caption{Simulated movement along the track with the Ornstein-Uhlenbeck formula. The simulated rat sampled all the positions along the track multiple times over 600 seconds. }
-    \label{figure:sim_movement}
-\end{figure}
+The virtual rat moved along a 1-m linear track, with its velocity sampled from an Ornstein-Uhlenbeck (OU) process:
+$$
+dv_t = \theta \, (\mu - v_t) \, dt + \sigma \, dW_t
+$$
+with parameters $\theta = 1.0$ (mean reversion), $\mu = 0.0$ m/s (long-run mean), $\sigma = 0.4$ (volatility), and $v_0=0.0$ (initial velocity). The simulation lasted 10 minutes (600 s) at a temporal resolution of 100 Hz.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.75\linewidth]{../figures/place_cells_ratemap.png}
-    \caption{Ratemap of 4 simulated place cells in a 1-meter linear track. Their place field cover the whole length of the track. }
-    \label{figure:ratemap_placeCells}
-\end{figure}
+Place fields were modeled as Gaussian functions of position. Two cells had broad fields ($\sigma = 20$ cm) centered at 200 cm and 800 cm, while two had narrow fields ($\sigma = 10$ cm) at 300 cm and 900 cm. Peak firing rates were set to 20, 16, 18, and 15 Hz respectively, with a 0.1 Hz baseline.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.75\linewidth]{../figures/noise_ratemap.png}
-    \caption{Simulated noise along the track: the neurons had firing rates between 1 and 5 Hz, and their firing was independent of position.}
-    \label{figure:ratemap_noise}
-\end{figure}
+The 96 noise neurons had stable mean firing rates sampled uniformly between 1 and 5 Hz. The resulting spike count matrix was used to train a single-layer SAE with 128 latents and a sparsity constraint of 4 active latents per timebin.
+
+\subsubsection{Macaque motor cortex spike data in a reaching task}
+\label{subsubsection:churchland_results_details}
+
+\subsection{Selectivity score}
+\label{subsection:selectivity_score}
+
+Units are mapped to metadata variables through the calculation of a selectivity score. For a latent $l$ and condition $c$ (a variable/value combination, e.g. velocity between 0 and 1):
+
+\begin{align}
+\text{activation\_frac\_during} &=
+\frac{\#\{\text{activations of } l \text{ in examples with } c\}}
+     {\#\{\text{examples with } c\}} \\[6pt]
+\text{activation\_frac\_outside} &=
+\frac{\#\{\text{activations of } u \text{ in examples without } c\}}
+     {\#\{\text{examples without } c\}} \\[6pt]
+\text{selectivity\_score} &=
+\frac{\text{activation\_frac\_during}}
+     {\text{activation\_frac\_during} + \text{activation\_frac\_outside}}
+\end{align}
+
+A selectivity score of 0.5 corresponds to no preference, meaning the unit is equally active inside and outside the condition. Scores above 0.5 indicate condition-specific tuning, with larger values reflecting stronger selectivity. Scores below 0.5 indicate the unit is more active outside the condition.
 
 \clearpage
 
 \subsection{Methods Comparison}
 
-Here we highlight 15 features of neural LVM methods and create a table displaying how MINI and other relevant methods compare against these features.
+Here we highlight 15 features of neural LVM methods and create a table displaying how NLDisco and other relevant methods compare against these features.
 
 These features are:
 \begin{itemize}
@@ -189,7 +199,7 @@ Light-green text indicates that the method has an ideal implementation of the fe
 \renewcommand{\arraystretch}{1.6}
 \begin{tabular}{>{\raggedright}m{5cm}|c|c|c|c|c|c|c|c|c|c|}
 \toprule
-\textbf{Feature} & \rot{\textbf{MINI}*} & \rot{LangevinFlow* \cite{song_2025_langevinflow}} & \rot{CEBRA* \cite{schneider_2023_cebra}} & \rot{ST-NDT \cite{le_2022_stndt}} & \rot{AutoLFADS \cite{keshtkaran_2022_autolfads}} & \rot{UMAP** \cite{mcinnes_2018_umap}} & \rot{t-SNE** \cite{vandermaaten_2008_tsne}} & \rot{sparseNMF** \cite{hoyer_2004_sparsenmf}} & \rot{ICA \cite{comon_1994_ica}} & \rot{PCA \cite{hotelling_1933_pca}} \\
+\textbf{Feature} & \rot{\textbf{NLDisco}} & \rot{LangevinFlow \cite{song_2025_langevinflow}} & \rot{CEBRA \cite{schneider_2023_cebra}} & \rot{ST-NDT \cite{le_2022_stndt}} & \rot{AutoLFADS \cite{keshtkaran_2022_autolfads}} & \rot{UMAP \cite{mcinnes_2018_umap}} & \rot{t-SNE \cite{vandermaaten_2008_tsne}} & \rot{sparseNMF \cite{hoyer_2004_sparsenmf}} & \rot{ICA \cite{comon_1994_ica}} & \rot{PCA \cite{hotelling_1933_pca}} \\
 \midrule
 Requires multimodal data & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} \\
 \hline
@@ -222,12 +232,10 @@ Has approximate linear time scaling & \goodQual{Yes\textsuperscript{\#}} & \badQ
 Requires significant hyperparameter tuning & \badQual{Yes} & \badQual{Yes} & \badQual{Yes} & \badQual{Yes} & \badQual{Yes} & \badQual{Yes} & \badQual{Yes} & \badQual{Yes} & \goodQual{No} & \goodQual{No} \\
 \bottomrule
 \end{tabular}
-\caption{\centering Comparison of MINI with other neural LVM methods.}
+\caption{\centering Comparison of NLDisco with other neural LVM methods.}
 \label{table:method_comparisons}
 \begin{tablenotes}[flushleft]
 \footnotesize
-\item *: Latent comparison visualized in \nameref{section:results}
-\item **: Latent comparison visualized in \nameref{subsubsection:latent_comparisons_traditional}
 \item \textsuperscript{\dag}: Not a fundamental limitation -- could be added as a feature
 \item \textsuperscript{\ddag}: Enforced sparsity can cause step-like jumps in the data-to-latents mapping
 \item \textsuperscript{\#}: In the standard implementation, without a transformer layer in the decoder

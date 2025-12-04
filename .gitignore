@@ -15,3 +15,7 @@ paper/dbm_paper/dbm_paper.log
 paper/dbm_paper/dbm_paper.pdf
 *.synctex.gz
 *.blg
+*.npy
+*.csv
+*.png
+*.bbl
