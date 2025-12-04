@@ -7,15 +7,9 @@
 \subsection{Software and data availability}
 \label{subsection:software_data_availability}
 
-To maintain blinding, software and data availability in this submission are omitted, and will be included in the final version.
+The code repository containing the NLDisco implementation alongside tutorial notebooks and data access instructions to replicate the results in this paper is available at \url{https://github.com/jkbhagatio/nldisco}.
 
-% \begin{itemize}
-
-%     \item The codebase is implemented in Python using PyTorch and is available at \url{https://github.com/jkbhagatio/mini} under an MIT License for academic use.
-    
-%     \item Example usage of the pipeline along with replication of the paper's results can be found at \url{https://github.com/jkbhagatio/mini/notebooks}.
-
-% \end{itemize}
+The software is available under the permissive MIT license for general use.
 
 \subsection{On interpretable latents}
 
@@ -94,7 +88,7 @@ A common failure mode in training SEDs is "latent death," where dictionary eleme
 \subsubsection{Model architecture}
 \label{subsubsection:model_architecture_details}
 
-The core of our pipeline is an overcomplete sparse encoder-decoder model with a single hidden layer with ReLU activations. While we experimented with more complex architectures, such as multi-layer decoders, we found they often made interpreting the resulting latents more difficult without significant reconstruction gains. The Matryoshka architecture is particularly useful for datasets where features are expected to exist at multiple scales, as it helps mitigate "feature absorption" where general features are partially subsumed by more specific ones. The transformer block is most beneficial when analyzing data with meaningful temporal dynamics, as it allows the model to learn features that evolve over a sequence rather than just instantaneous neural patterns. We found that combining these components with a batch top-$k$ operator provided a robust and flexible framework that consistently outperformed L1-based sparsity penalties and yielded more interpretable features.
+The core of our pipeline is an overcomplete sparse encoder-decoder model with a single hidden layer with ReLU activations. While we experimented with more complex architectures, such as multi-layer decoders, we found they often made interpreting the resulting latents more difficult without significant reconstruction gains. The Matryoshka architecture is particularly useful for datasets where features are expected to exist at multiple scales, as it helps mitigate "feature absorption" where general features are partially subsumed by more specific ones\citep{bussmann_2025_msae}. The transformer block is most beneficial when analyzing data with meaningful temporal dynamics, as it allows the model to learn features that evolve over a sequence rather than just instantaneous neural patterns. We found that combining these components with a batch top-$k$ operator provided a robust and flexible framework that consistently outperformed L1-based sparsity penalties and yielded more interpretable features.
 
 \subsubsection{Model evaluation}
 \label{subsubsection:model_evaluation_details}
@@ -122,7 +116,7 @@ In this paper, we used prepared dashboards to visualize the activity of latents 
 
 Effective hyperparameter tuning is crucial for balancing reconstruction fidelity with latent interpretability. We typically sweep over key architectural and optimizer parameters. Architectural choices center on the Matryoshka configuration: \texttt{dsed\_topk\_map} controls the sparsity at each hierarchical level, while \texttt{dsed\_loss\_x\_map} sets the relative weight of each level's reconstruction in the total loss. Tuning these helps discover a multi-scale dictionary that matches the complexity of the neural data. We also tune \texttt{dead\_latent\_window}, which determines when an inactive latent is revived via an auxiliary residual reconstruction loss. This prevents "feature death" by giving silent latents a chance to learn useful representations. We also sweep standard optimizer parameters like learning and decay rates.
 
-While optimal settings are data-dependent, we offer some general heuristics. The total number of latents can be initially set relative to the number of training examples (e.g.$\text{n\_examples} / 10$) and adjusted downwards based on reconstruction performance. The top-$k$ value for a given level should reflect a reasonable estimate of how many features might be co-active in a given time window. Based on our experiments, we find that a cosine learning rate schedule and the MSLE loss function often outperform static learning rates and MSE loss, respectively, and can be used as robust defaults. These targeted sweeps and informed defaults streamline the search for a model that yields a sparse, accurate, and interpretable set of latents.
+While optimal settings are data-dependent, we offer some general heuristics. The total number of latents can be initially set relative to the number of training examples (e.g.$n\_examples / 10$) and adjusted downwards based on reconstruction performance. The top-$k$ value for a given level should reflect a reasonable estimate of how many features might be co-active in a given time window. Based on our experiments, we find that a cosine learning rate schedule and the MSLE loss function often outperform static learning rates and MSE loss, respectively, and can be used as robust defaults. These targeted sweeps and informed defaults streamline the search for a model that yields a sparse, accurate, and interpretable set of latents.
 
 \subsection{Additional results}
 
@@ -137,7 +131,7 @@ with parameters $\theta = 1.0$ (mean reversion), $\mu = 0.0$ m/s (long-run mean)
 
 Place fields were modeled as Gaussian functions of position. Two cells had broad fields ($\sigma = 20$ cm) centered at 200 cm and 800 cm, while two had narrow fields ($\sigma = 10$ cm) at 300 cm and 900 cm. Peak firing rates were set to 20, 16, 18, and 15 Hz respectively, with a 0.1 Hz baseline.
 
-The 96 noise neurons had stable mean firing rates sampled uniformly between 1 and 5 Hz. The resulting spike count matrix was used to train a single-layer SAE with 128 latents and a sparsity constraint of 4 active latents per timebin.
+The 96 noise neurons had stable mean firing rates sampled uniformly between 1 and 5 Hz. The resulting spike count matrix was used to train an SED with 128 latents and a sparsity constraint of 4 active latents per timebin.
 
 \subsubsection{Macaque motor cortex spike data in a reaching task}
 \label{subsubsection:churchland_results_details}
@@ -199,7 +193,7 @@ Light-green text indicates that the method has an ideal implementation of the fe
 \renewcommand{\arraystretch}{1.6}
 \begin{tabular}{>{\raggedright}m{5cm}|c|c|c|c|c|c|c|c|c|c|}
 \toprule
-\textbf{Feature} & \rot{\textbf{NLDisco}} & \rot{LangevinFlow \cite{song_2025_langevinflow}} & \rot{CEBRA \cite{schneider_2023_cebra}} & \rot{ST-NDT \cite{le_2022_stndt}} & \rot{AutoLFADS \cite{keshtkaran_2022_autolfads}} & \rot{UMAP \cite{mcinnes_2018_umap}} & \rot{t-SNE \cite{vandermaaten_2008_tsne}} & \rot{sparseNMF \cite{hoyer_2004_sparsenmf}} & \rot{ICA \cite{comon_1994_ica}} & \rot{PCA \cite{hotelling_1933_pca}} \\
+\textbf{Feature} & \rot{\textbf{NLDisco}} & \rot{LangevinFlow \citep{song_2025_langevinflow}} & \rot{CEBRA \citep{schneider_2023_cebra}} & \rot{ST-NDT \citep{le_2022_stndt}} & \rot{AutoLFADS \citep{keshtkaran_2022_autolfads}} & \rot{UMAP \citep{mcinnes_2018_umap}} & \rot{t-SNE \citep{vandermaaten_2008_tsne}} & \rot{sparseNMF \citep{hoyer_2004_sparsenmf}} & \rot{ICA \citep{comon_1994_ica}} & \rot{PCA \citep{hotelling_1933_pca}} \\
 \midrule
 Requires multimodal data & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} \\
 \hline
