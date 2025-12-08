@@ -2,7 +2,7 @@
 name = "nldisco"
 authors = [{name = "jai", email = "jkbhagatio@gmail.com"}]
 description = "Mech Interp for Neural Interp"
-requires-python = ">=3.9, <3.11"
+requires-python = "==3.9"
 version = "0.1.0"
 dependencies = []
 
@@ -23,9 +23,13 @@ extra-index-urls = [
 [tool.pixi.pypi-dependencies]
 nldisco = { path = "." , editable = true }
 allensdk = { version = ">=2.16" }
+cebra = "==0.4.0"
+dandi = "*"  
+email-validator = "*" # required for dandi → dandischema → pydantic[email]
 jax = { version = ">=0.4.21" }
 pip = "*"
 sortedcontainers = "*"
+temporaldata = "*"
 torch = { version = "==2.5.1+cu121" }
 torcheval = "*"
 torchinfo = "*"
@@ -48,7 +52,7 @@ pandas = { version = "==1.5.3" }
 plotly = { version = ">=5.23.0,<6" }
 pyright = "*"
 pytest = "*"
-scikit-learn = "*"
+scikit-learn = "==1.5.2"
 scipy = { version = "<1.11" }
 seaborn = "*"
 submitit = "*"
@@ -56,8 +60,13 @@ tqdm = "*"
 typeguard = "*"
 rich = "*"
 ruff = "*"
+h5py = "*"
 
 [tool.pixi.tasks]
+postinstall = """
+    pip install brainsets &&
+    python -m ipykernel install --user
+"""
 
 [tool.ruff]
 line-length = 99
