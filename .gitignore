@@ -8,11 +8,5 @@ __pycache__/
 wandb/
 data/
 slurm_logs/
-trained_saes/
-paper/full_paper.log
-paper/full_paper.pdf
-paper/dbm_paper/dbm_paper.log
-paper/dbm_paper/dbm_paper.pdf
-*.synctex.gz
-*.blg
-neurips_2025*
+data/
+saved_sae_unit_activations_paper/
