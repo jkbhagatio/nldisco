@@ -15,21 +15,31 @@ Among these, we visualize results from LangevinFlow and CEBRA, as they represent
 We also include sparseNMF[ref], t-SNE[ref], and UMAP[ref] as baselines, as they are widely used general methods for dimensionality reduction and latent extraction.
 (We don't show ICA, as (ICA < CEBRA) nor PCA, as (PCA < sparseNMF) ).
 
-Brief dataset info...
-\begin{itemize}
-    \item Task info \& metadata
-    \item Brain regions \& units
-\end{itemize}
+---
 
-Features found and decoding accuracy comparisons with LangevinFlow and CEBRA...
-\begin{enumerate}
-    \item Direction
-    \item Velocity
-    \item Movement onset
-    \item Trial type
-    \item Features across different timescales (i.e. that persevere for different durations)
-    \item Communication across brain regions??
-\end{enumerate}
+To test NLDisco on real neural data, we used the churchland\_shenoy\_neural\_2012 dataset prepared \citep{churchland_2012_churchland_datasets} by Brainsets \citep{brainsets_docs} (also referred to as MC\_Maze \citep{nlb_mcmaze}). In this dataset, monkeys perform a center-out reaching task under a variety of different maze configurations. Recordings covered roughly 200 neurons per monkey, spanning the dorsal premotor (PMd) and primary motor (M1) cortices, together with behavioural measures including hand position, velocity, acceleration, and gaze position.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/churchland_results.png}
+    \caption{
+        \textbf{SAE features identified in the Churchland dataset} \\
+        \small
+        \textbf{(a)} Example of SAE features tuned to a continuous behavioural variable: hand velocity. Selectivity is quantified by the selectivity score (Appendix~\ref{subsection:selectivity_score}). The dashed line marks 0.5, corresponding to equal activation probability inside and outside a bin (no selectivity), while values above 0.5 indicate condition-specific tuning. Shown are features selective for low, high, and “extreme” velocities (active at both ends of the range).  
+        \textbf{(b)} Example of an SAE feature tuned to a discrete environmental variable: the hit target being on the right side of the workspace (positive x-coordinate). Selectivity scores are computed as in (a), with the dashed line again marking the non-selective baseline at 0.5. 
+        \textbf{(c)} Mean z-scores of biological neurons when the right-side target feature (latent 169) is active, showing which units in the recorded population are systematically co-active with the latent.
+        \vspace{-1em}
+    }
+    \label{fig:churchland_results}
+\end{figure}
+
+To find features, SAE latents are automatically mapped to metadata variables of interest through the calculation of a selectivity score (Appendix~\ref{subsection:selectivity_score}). This approach revealed a wide range of features - for instance, latents tuned to different ranges of hand velocity(\autoref{fig:churchland_results}a).
+
+We found that velocity offered a rich set of continuous, behavioural features. The SAE features mapped onto low, high, and “extreme” velocities (active at both ends of the range) (\autoref{fig:churchland_results}a). Strikingly, these same feature types emerged independently in separate SAEs trained on different monkeys, highlighting that the method works across subjects. The features also generalised to entirely new, unseen sessions, showing that the SAEs capture robust structure in the data.
+
+Importantly, the method is not limited to behavioural variables like velocity: we also identified features aligned with environmental variables, such as the hit target position being on the right-hand side of the screen (\autoref{fig:churchland_results}b).
+
+Beyond mapping latents to behavioural or task variables, NLDisco also lets us trace these features back to the underlying neural population. For instance, examining unit activity as z-scores reveals which recorded neurons show systematically increased or decreased activity when a given latent is active (\autoref{fig:churchland_results}c). This makes it possible to connect interpretable SAE features back to single units in the recorded population.
 
 % TODO: Add figure references for motor cortex results
 % \begin{figure}[h]
