@@ -1,49 +1,37 @@
 # NLDisco
 
+**Ne**ural **L**atent **Disco**very pipeline
+<br>
+<img width="755" height="153" alt="Screenshot 2025-09-28 at 16 35 19" src="https://github.com/user-attachments/assets/2414056b-2611-4fb9-a904-3abf7d221606" />
+
+<br>
+
+[NeurIPS 2025 Data on the Brain & Mind Workshop paper](https://openreview.net/pdf?id=cPpMl7Y2y3)
+
 ---
 
-**Ne**ural **L**atent **Disco**very pipeline
+NLDisco trains shallow, overcomplete, sparse encoder-decoder (SED) neural network models, in which individual dictionary elements -- hidden layer neurons -- represent learned interpretable latents.
 
-## Environment set-up
+_**Note**_: The codebase is functional, but still a work in progress.
 
-### With [pixi](https://pixi.sh/latest/tutorials/python) (recommended)
+## Getting started
 
-Prerequisites:
+We recommend following our NeurIPS 2025 Data on the Brain & Mind Workshop tutorial, [here](notebooks/NLDisco_tutorial.ipynb). It walks through Python environment setup, downloading sample data, and step-by-step instructions and explanations for each stage of the pipeline.
 
-- An installed version of [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html)
+## Development environment
 
-- An installed version of [pixi](https://pixi.sh/latest/)
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then create the
+locked project environment:
 
-In the root directory, just run `pixi install --manifest-path ./pyproject.toml` - this will create a conda env named 'nldisco'.
+    uv sync
 
-### Other
+Run commands inside the environment with uv run, for example:
 
-All package dependencies are specified in the 'pyproject.toml'. You can format them as required for your favorite python environment / package management tool, and install them using this tool (e.g. via pip, poetry, conda (directly instead of with pixi), etc.)
+    uv run pytest
+    uv run jupyter lab
 
-## Example usage pipeline
+For VS Code or another Jupyter client, register the project kernel once:
 
-Given:
+    uv run ipython kernel install --user --env VIRTUAL_ENV "$(pwd)/.venv" --name=nldisco
 
-- Neural data (in the form of binned spike counts as $[examples \times neurons]$)
-
-- Behavioral and/or environmental (meta)data
-
-**NLDisco** performs the following steps to find interpretable neural signatures that underlie behavioral and/or environmental features (referred to collectively as *natural* features)
-
-1. Trains an MSAE to reconstruct the neural data
-
-2. Validates the quality of the MSAE, by looking at
-
-    1. Sparsity of SAE features
-
-    2. Reconstruction quality of neural data
-
-3. Ranks the SAE features by interpretability likelihood
-
-4. (Manual) Finds a corresponding natural feature for each of the top $k$ SAE features.
-
-5. (Manual) Validates the SAE-natural feature pairing by:
-
-    1. Looking at confusion matrix metrics for co-occurrences of the natural feature with the SAE feature.
-
-    2. (TODO) Showing that the neural signature defined by the SAE feature can decode the natural feature well.
+Select the **nldisco** kernel when running the notebooks.
