@@ -10,3 +10,6 @@ data/
 slurm_logs/
 data/
 saved_sae_unit_activations_paper/
+**ratemap_feature_*
+*.gz
+*.blg
