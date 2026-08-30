@@ -1,1 +1,1 @@
-"""Top-level package for mini."""
+"""Top-level package for NLDisco."""

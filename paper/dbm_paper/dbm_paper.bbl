@@ -1,0 +1,328 @@
+\begin{thebibliography}{54}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Steinmetz et~al.(2021)Steinmetz, Aydin, Lebedeva, Okun, Pachitariu, Bauza, Beau, Bhagat, Böhm, Broux, Chen, Colonell, Gardner, Karsh, Kloosterman, Kostadinov, Mora-Lopez, O'Callaghan, Park, Putzeys, Sauerbrei, van Daal, Vollan, Wang, Welkenhuysen, Ye, Dudman, Dutta, Hantman, Harris, Lee, Moser, O'Keefe, Renart, Svoboda, Häusser, Haesler, Carandini, and Harris]{steinmetz_2021_neuropixels2}
+Nicholas~A. Steinmetz, Cagatay Aydin, Anna Lebedeva, Michael Okun, Marius Pachitariu, Marius Bauza, Maxime Beau, Jai Bhagat, Claudia Böhm, Martijn Broux, Susu Chen, Jennifer Colonell, Richard~J. Gardner, Bill Karsh, Fabian Kloosterman, Dimitar Kostadinov, Carolina Mora-Lopez, John O'Callaghan, Junchol Park, Jan Putzeys, Britton Sauerbrei, Rik J.~J. van Daal, Abraham~Z. Vollan, Shiwei Wang, Marleen Welkenhuysen, Zhiwen Ye, Joshua~T. Dudman, Barundeb Dutta, Adam~W. Hantman, Kenneth~D. Harris, Albert~K. Lee, Edvard~I. Moser, John O'Keefe, Alfonso Renart, Karel Svoboda, Michael Häusser, Sebastian Haesler, Matteo Carandini, and Timothy~D. Harris.
+\newblock Neuropixels 2.0: A miniaturized high-density probe for stable, long-term brain recordings.
+\newblock \emph{Science}, 372\penalty0 (6539):\penalty0 eabf4588, 2021.
+\newblock \doi{10.1126/science.abf4588}.
+\newblock URL \url{https://doi.org/10.1126/science.abf4588}.
+
+\bibitem[Raducanu et~al.(2017)Raducanu, Yazicioglu, López, Ballini, Putzeys, Wang, Alexandru, Rochus, Welkenhuysen, Helleputte, Musa, Puers, Kloosterman, Hoof, Fiáth, Ulbert, and Mitra]{raducanu_2017_neuroseeker}
+Bogdan~C. Raducanu, Refet~Firat Yazicioglu, Carolina~Mora López, Marco Ballini, Jan Putzeys, Shiwei Wang, Andrei Alexandru, Véronique Rochus, Marleen Welkenhuysen, Nick~Van Helleputte, Silke Musa, Robert Puers, Fabian Kloosterman, Chris~Van Hoof, Richárd Fiáth, István Ulbert, and Srinjoy Mitra.
+\newblock Time multiplexed active neural probe with 1356 parallel recording sites.
+\newblock \emph{Sensors}, 17\penalty0 (10):\penalty0 2388, 2017.
+\newblock \doi{10.3390/s17102388}.
+\newblock URL \url{https://doi.org/10.3390/s17102388}.
+
+\bibitem[Cai et~al.(2016)Cai, Aharoni, Shuman, Shobe, Biane, Song, Wei, Veshkini, La-Vu, Lou, Flores, Kim, Sano, Zhou, Baumgaertel, Lavi, Kamata, Tuszynski, Mayford, Golshani, and Silva]{cai_2016_miniscope}
+Denise~J Cai, Daniel Aharoni, Tristan Shuman, Justin Shobe, Jeremy Biane, Weilin Song, Brandon Wei, Michael Veshkini, Mimi La-Vu, Jerry Lou, Sergio~E Flores, Isaac Kim, Yoshitake Sano, Miou Zhou, Karsten Baumgaertel, Ayal Lavi, Masakazu Kamata, Mark Tuszynski, Mark Mayford, Peyman Golshani, and Alcino~J Silva.
+\newblock A shared neural ensemble links distinct contextual memories encoded close in time.
+\newblock \emph{Nature}, 534\penalty0 (7605):\penalty0 115--118, 2016.
+\newblock \doi{10.1038/nature17955}.
+\newblock URL \url{https://pubmed.ncbi.nlm.nih.gov/27251287/}.
+
+\bibitem[Villette et~al.(2019)Villette, Chavarha, Dimov, Bradley, Pradhan, Mathieu, Evans, Chamberland, Shi, Yang, Kim, Ayon, Jalil, St-Pierre, Schnitzer, Bi, Tóth, Ding, Dieudonné, and Lin]{villette_2019_voltage_2p}
+Vincent Villette, Mariya Chavarha, Ivan Dimov, Jonathan Bradley, Lagnajeet Pradhan, Benjamin Mathieu, Stephen~W. Evans, Simon Chamberland, Dongqing Shi, Renzhi Yang, Benjamin~B. Kim, Annick Ayon, Abdelali Jalil, François St-Pierre, Mark~J. Schnitzer, Guo-Qiang Bi, Katalin Tóth, Jun~B. Ding, Stéphane Dieudonné, and Michael~Z. Lin.
+\newblock Ultrafast two-photon imaging of a high-gain voltage indicator in awake behaving mice.
+\newblock \emph{Cell}, 179\penalty0 (7):\penalty0 1590--1608.e23, 2019.
+\newblock \doi{10.1016/j.cell.2019.11.004}.
+\newblock URL \url{https://doi.org/10.1016/j.cell.2019.11.004}.
+
+\bibitem[Ouzounov et~al.(2017)Ouzounov, Wang, Wang, Feng, Horton, Cruz-Hern{\'a}ndez, Cheng, Reimer, Tolias, Nishimura, and Xu]{ouzounov_2017_three_photon}
+Dimitre~G Ouzounov, Tianyu Wang, Mengran Wang, Danielle~D Feng, Nicholas~G Horton, Jean~C Cruz-Hern{\'a}ndez, Yu-Ting Cheng, Jacob Reimer, Andreas~S Tolias, Nozomi Nishimura, and Chris Xu.
+\newblock In vivo three-photon imaging of activity of gcamp6-labeled neurons deep in intact mouse brain.
+\newblock \emph{Nature Methods}, 14\penalty0 (4):\penalty0 388--390, 2017.
+\newblock \doi{10.1038/nmeth.4183}.
+\newblock URL \url{https://doi.org/10.1038/nmeth.4183}.
+
+\bibitem[Ahrens et~al.(2013)Ahrens, Orger, Robson, Li, and Keller]{ahrens_2013_lightsheet}
+Misha~B Ahrens, Michael~B Orger, Drew~N Robson, Jennifer~M Li, and Philipp~J Keller.
+\newblock Whole-brain functional imaging at cellular resolution using light-sheet microscopy.
+\newblock \emph{Nature Methods}, 10\penalty0 (5):\penalty0 413--420, 2013.
+\newblock \doi{10.1038/nmeth.2434}.
+\newblock URL \url{https://doi.org/10.1038/nmeth.2434}.
+
+\bibitem[Cunningham and Yu(2014)]{cunningham_2014_neural_dr}
+John~P Cunningham and Byron~M Yu.
+\newblock Dimensionality reduction for large-scale neural recordings.
+\newblock \emph{Nature neuroscience}, 17\penalty0 (11):\penalty0 1500--1509, 2014.
+
+\bibitem[Humphries(2021)]{humphries_2021_dr_principles}
+Mark~D Humphries.
+\newblock Strong and weak principles of neural dimension reduction.
+\newblock \emph{Neurons, Behavior, Data analysis, and Theory}, 5\penalty0 (2), 2021.
+\newblock ISSN 2690-2664.
+\newblock \doi{10.51628/001c.24619}.
+\newblock URL \url{http://dx.doi.org/10.51628/001c.24619}.
+
+\bibitem[Song et~al.(2025)Song, Keller, Yue, Perona, and Welling]{song_2025_langevinflow}
+Yue Song, T.~Anderson Keller, Yisong Yue, Pietro Perona, and Max Welling.
+\newblock Langevin flows for modeling neural latent dynamics.
+\newblock \emph{arXiv preprint arXiv:2507.11531}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2507.11531}.
+
+\bibitem[Schneider et~al.(2023)Schneider, Lee, and Mathis]{schneider_2023_cebra}
+Steffen Schneider, Jin~H Lee, and Mackenzie~W Mathis.
+\newblock Learnable latent embeddings for joint behavioural and neural analysis.
+\newblock \emph{Nature}, 617\penalty0 (7960):\penalty0 360--368, 2023.
+
+\bibitem[Le and Shlizerman(2022)]{le_2022_stndt}
+Trung Le and Eli Shlizerman.
+\newblock Stndt: Modeling neural population activity with spatiotemporal transformers.
+\newblock In S.~Koyejo, S.~Mohamed, A.~Agarwal, D.~Belgrave, K.~Cho, and A.~Oh, editors, \emph{Advances in Neural Information Processing Systems}, volume~35, pages 17926--17939. Curran Associates, Inc., 2022.
+\newblock URL \url{https://proceedings.neurips.cc/paper_files/paper/2022/file/72163d1c3c1726f1c29157d06e9e93c1-Paper-Conference.pdf}.
+
+\bibitem[Keshtkaran and Pandarinath(2022)]{keshtkaran_2022_autolfads}
+Mohammad~R Keshtkaran and Chethan Pandarinath.
+\newblock A large-scale neural network training framework for generalized estimation of single-trial population dynamics.
+\newblock \emph{Nature Methods}, 19\penalty0 (12):\penalty0 1598--1608, 2022.
+
+\bibitem[Yu et~al.(2009)Yu, Cunningham, Santhanam, Ryu, Shenoy, and Sahani]{yu_2009_gpfa}
+Byron~M Yu, John~P Cunningham, Gokhan Santhanam, Stephen~I Ryu, Krishna~V Shenoy, and Maneesh Sahani.
+\newblock Gaussian-process factor analysis for low-dimensional single-trial analysis of population spike trains.
+\newblock \emph{Journal of Neurophysiology}, 102\penalty0 (1):\penalty0 614--635, 2009.
+
+\bibitem[Macke et~al.(2011)Macke, Buesing, Cunningham, Yu, Shenoy, and Sahani]{macke_2011_plds}
+Jakob~H Macke, Lars Buesing, John~P Cunningham, Byron~M Yu, Krishna~V Shenoy, and Maneesh Sahani.
+\newblock Empirical models of spiking in neural populations.
+\newblock In \emph{Advances in Neural Information Processing Systems (NeurIPS)}, volume~24, 2011.
+
+\bibitem[Gao et~al.(2016)Gao, Archer, Paninski, and Cunningham]{gao_2016_pflds}
+Yuanjun Gao, Evan Archer, Liam Paninski, and John~P Cunningham.
+\newblock Linear dynamical neural population models through nonlinear embeddings.
+\newblock In \emph{Advances in Neural Information Processing Systems (NeurIPS)}, 2016.
+
+\bibitem[Low et~al.(2018)Low, Lewallen, Aronov, Nevers, and Tank]{low_2018_mind}
+Ryan~J Low, Sam Lewallen, Dmitriy Aronov, Rachel Nevers, and David~W Tank.
+\newblock Probing variability in a cognitive map using manifold inference from neural dynamics.
+\newblock \emph{bioRxiv}, page 418939, 2018.
+
+\bibitem[Jensen et~al.(2020)Jensen, Kao, Tripodi, and Hennequin]{jensen_2020_mgplvm}
+Kristopher~T Jensen, Ta-Chu Kao, Marco Tripodi, and Guillaume Hennequin.
+\newblock Manifold gplvms for discovering non-euclidean latent structure in neural data.
+\newblock In \emph{Advances in Neural Information Processing Systems (NeurIPS)}, 2020.
+
+\bibitem[Hernandez et~al.(2020)Hernandez, Moretti, Wei, Saxena, Cunningham, and Paninski]{hernandez_2020_vind}
+Daniel Hernandez, Antonio~Khalil Moretti, Ziqiang Wei, Shreya Saxena, John~P Cunningham, and Liam Paninski.
+\newblock Nonlinear evolution via spatially-dependent linear dynamics for electrophysiology and calcium data (vind).
+\newblock \emph{arXiv preprint arXiv:1811.02459}, 2020.
+\newblock v3, 2020.
+
+\bibitem[Kim et~al.(2021)Kim, Luo, Pillow, and Brody]{kim_2021_plnde}
+Timothy~Doyeon Kim, Thomas~Zhihao Luo, Jonathan~W Pillow, and Carlos~D Brody.
+\newblock Inferring latent dynamics underlying neural population activity via neural differential equations.
+\newblock In \emph{Proceedings of the 38th International Conference on Machine Learning (ICML)}, volume 139 of \emph{Proceedings of Machine Learning Research}, pages 5568--5578. PMLR, 2021.
+
+\bibitem[Hurwitz et~al.(2021)Hurwitz, Srivastava, Xu, Jude, Perich, Miller, and Hennig]{hurwitz_2021_tndm}
+Cole Hurwitz, Akash Srivastava, Kai Xu, Justin Jude, Matthew~G Perich, Lee~E Miller, and Matthias~H Hennig.
+\newblock Targeted neural dynamical modeling.
+\newblock In \emph{Advances in Neural Information Processing Systems (NeurIPS)}, 2021.
+
+\bibitem[Schimel et~al.(2022)Schimel, Kao, Jensen, and Hennequin]{schimel_2022_ilqrvae}
+Mathieu Schimel, Ta-Chu Kao, Kristopher~T Jensen, and Guillaume Hennequin.
+\newblock ilqr-vae: Control-based learning of input-driven dynamics with applications to neural data.
+\newblock In \emph{The Tenth International Conference on Learning Representations (ICLR)}, 2022.
+
+\bibitem[Kudryashova et~al.(2023)Kudryashova, Perich, Miller, and Hennig]{kudryashova_2023_ctrltndm}
+Nina Kudryashova, Matthew~G Perich, Lee~E Miller, and Matthias~H Hennig.
+\newblock Ctrl-tndm: Decoding feedback-driven movement corrections from motor cortex neurons.
+\newblock In \emph{Computational and Systems Neuroscience (Cosyne) Abstracts}, 2023.
+
+\bibitem[Ye et~al.(2023)Ye, Collinger, Wehbe, and Gaunt]{ye_2023_ndt2}
+Joel Ye, Jennifer~L Collinger, Leila Wehbe, and Robert Gaunt.
+\newblock Neural data transformer 2: Multi-context pretraining for neural spiking activity.
+\newblock In \emph{Advances in Neural Information Processing Systems (NeurIPS)}, 2023.
+
+\bibitem[Gondur et~al.(2024)Gondur, Bin~Sikandar, Schaffer, Aoi, and Keeley]{gondur_2024_mmgpvae}
+Rabia Gondur, Usama Bin~Sikandar, Evan Schaffer, Mikio~Christian Aoi, and Stephen~L Keeley.
+\newblock Multi-modal gaussian process variational autoencoders for neural and behavioral data.
+\newblock In \emph{The Twelfth International Conference on Learning Representations (ICLR)}, 2024.
+
+\bibitem[Pellegrino et~al.(2024)Pellegrino, Stein, and Cayco-Gajic]{pellegrino_2024_slicetca}
+Arthur Pellegrino, Heike Stein, and N.~Alex Cayco-Gajic.
+\newblock Dimensionality reduction beyond neural subspaces with slice tensor component analysis.
+\newblock \emph{Nature Neuroscience}, 27\penalty0 (6):\penalty0 1199--1210, 2024.
+
+\bibitem[Sani et~al.(2024)Sani, Pesaran, and Shanechi]{sani_2024_dpad}
+Omid~G Sani, Bijan Pesaran, and Maryam~M Shanechi.
+\newblock Dissociative and prioritized modeling of behaviorally relevant neural dynamics using recurrent neural networks.
+\newblock \emph{Nature Neuroscience}, 27\penalty0 (10):\penalty0 2033--2045, 2024.
+
+\bibitem[Pals et~al.(2024)Pals, Ramaswamy, Grinsztajn, Le~Helley, and Roesch]{pals_2024_smclr_rnn}
+Marten Pals, Vineeth Ramaswamy, L{\'e}o Grinsztajn, Maxime Le~Helley, and Etienne Roesch.
+\newblock Inferring stochastic low-rank recurrent neural networks with variational sequential monte carlo.
+\newblock In \emph{Proceedings of the 41st International Conference on Machine Learning (ICML)}, 2024.
+
+\bibitem[Zhang and colleagues(2024)]{zhang_2024_mtm}
+Yizhe Zhang and colleagues.
+\newblock Towards a ``universal translator'' for neural dynamics at scale.
+\newblock \emph{arXiv preprint arXiv:2407.14668}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2407.14668}.
+
+\bibitem[George et~al.(2025)George, Glaser, Stachenfeld, Barry, and Clopath]{george_2025_simpl}
+Tom~M George, Pierre Glaser, Kim Stachenfeld, Caswell Barry, and Claudia Clopath.
+\newblock Simpl: Scalable and hassle-free optimisation of neural representations from behaviour.
+\newblock In \emph{The Thirteenth International Conference on Learning Representations (ICLR)}, 2025.
+
+\bibitem[Perkins et~al.(2025)Perkins, Amematsro, Cunningham, Wang, and Churchland]{perkins_2025_mint}
+Sean~M Perkins, Elom~A Amematsro, John~P Cunningham, Qi~Wang, and Mark~M Churchland.
+\newblock An emerging view of neural geometry in motor cortex supports high-performance decoding.
+\newblock \emph{eLife (Reviewed Preprint, Version of Record)}, 2025.
+\newblock \doi{10.7554/eLife.89421}.
+\newblock URL \url{https://elifesciences.org/reviewed-preprints/89421}.
+
+\bibitem[Schmutz et~al.(2025)Schmutz, Haydaro{\u{g}}lu, Wang, Feng, and Harris]{schmutz_2025_nce}
+Valentin Schmutz, Ali Haydaro{\u{g}}lu, Shuqi Wang, Yixiao Feng, and Kenneth~D Harris.
+\newblock High-dimensional neuronal activity from low-dimensional latent dynamics: a solvable model.
+\newblock \emph{bioRxiv}, 2025.
+\newblock URL \url{https://www.biorxiv.org/content/10.1101/2025.06.03.657632v1}.
+\newblock Introduces the Neural Cross-Encoder (NCE).
+
+\bibitem[Olshausen and Field(1997)]{olshausen_1997_sparse_overcomplete}
+Bruno~A. Olshausen and David~J. Field.
+\newblock Sparse coding with an overcomplete basis set: A strategy employed by {V1}?
+\newblock \emph{Vision Research}, 37\penalty0 (23):\penalty0 3311--3325, 1997.
+\newblock \doi{10.1016/S0042-6989(97)00169-7}.
+\newblock URL \url{https://doi.org/10.1016/S0042-6989(97)00169-7}.
+
+\bibitem[Vincent et~al.(2008)Vincent, Larochelle, Bengio, and Manzagol]{vincent_2008_denoising_autoencoders}
+Pascal Vincent, Hugo Larochelle, Yoshua Bengio, and Pierre-Antoine Manzagol.
+\newblock Extracting and composing robust features with denoising autoencoders.
+\newblock In \emph{Proceedings of the 25th International Conference on Machine Learning (ICML)}, pages 1096--1103, Helsinki, Finland, 2008. ACM.
+\newblock \doi{10.1145/1390156.1390294}.
+\newblock URL \url{https://doi.org/10.1145/1390156.1390294}.
+
+\bibitem[Lindsey et~al.(2024)Lindsey, Templeton, Marcus, Conerly, Batson, and Olah]{lindsey_2024_crosscoders}
+Jack Lindsey, Adly Templeton, Jonathan Marcus, Thomas Conerly, Joshua Batson, and Christopher Olah.
+\newblock Sparse crosscoders for cross-layer features and model diffing.
+\newblock \emph{Transformer Circuits Thread}, 2024.
+\newblock URL \url{https://transformer-circuits.pub/2024/crosscoders/index.html}.
+
+\bibitem[Cunningham et~al.(2023)Cunningham, Ewart, Riggs, Huben, and Sharkey]{cunningham_2023_saes}
+Hoagy Cunningham, Aidan Ewart, Logan Riggs, Robert Huben, and Lee Sharkey.
+\newblock Sparse autoencoders find highly interpretable features in language models.
+\newblock \emph{arXiv}, 2023.
+\newblock \doi{10.48550/arXiv.2309.08600}.
+\newblock URL \url{https://arxiv.org/abs/2309.08600}.
+
+\bibitem[Bricken et~al.(2023)Bricken, Templeton, Batson, Chen, Jermyn, Conerly, Turner, Anil, Denison, Askell, Lasenby, Wu, Kravec, Schiefer, Maxwell, Joseph, Hatfield-Dodds, Tamkin, Nguyen, McLean, Burke, Hume, Carter, Henighan, and Olah]{bricken_2023_towards_monosemanticity}
+Trenton Bricken, Adly Templeton, Joshua Batson, Brian Chen, Adam Jermyn, Tom Conerly, Nicholas~L. Turner, Cem Anil, Carson Denison, Amanda Askell, Robert Lasenby, Yifan Wu, Shauna Kravec, Nicholas Schiefer, Tim Maxwell, Nicholas Joseph, Zac Hatfield-Dodds, Alex Tamkin, Karina Nguyen, Brayden McLean, Josiah~E. Burke, Tristan Hume, Shan Carter, Tom Henighan, and Christopher Olah.
+\newblock Towards monosemanticity: Decomposing language models with dictionary learning.
+\newblock \emph{Transformer Circuits Thread}, 2023.
+\newblock URL \url{https://transformer-circuits.pub/2023/monosemantic-features/index.html#appendix-feature-ablations}.
+
+\bibitem[Templeton et~al.(2024)Templeton, Conerly, Marcus, Lindsey, Bricken, Chen, Pearce, Citro, Ameisen, Jones, Cunningham, Turner, McDougall, MacDiarmid, Tamkin, Durmus, Hume, Mosconi, Freeman, Sumers, Rees, Batson, Jermyn, Carter, Olah, and Henighan]{templeton_2024_scaling_monosemanticity}
+Adly Templeton, Tom Conerly, Jonathan Marcus, Jack Lindsey, Trenton Bricken, Brian Chen, Adam Pearce, Craig Citro, Emmanuel Ameisen, Andy Jones, Hoagy Cunningham, Nicholas~L. Turner, Callum McDougall, Monte MacDiarmid, Alex Tamkin, Esin Durmus, Tristan Hume, Francesco Mosconi, C.~Daniel Freeman, Theodore~R. Sumers, Edward Rees, Joshua Batson, Adam Jermyn, Shan Carter, Chris Olah, and Tom Henighan.
+\newblock Scaling monosemanticity: Extracting interpretable features from {Claude} 3 sonnet.
+\newblock \emph{Transformer Circuits Thread}, 2024.
+\newblock URL \url{https://transformer-circuits.pub/2024/scaling-monosemanticity/}.
+
+\bibitem[Dunefsky et~al.(2024)Dunefsky, Chlenski, and Nanda]{dunefsky_2024_transcoders}
+Jacob Dunefsky, Philippe Chlenski, and Neel Nanda.
+\newblock Transcoders find interpretable llm feature circuits.
+\newblock \emph{arXiv}, 2024.
+\newblock \doi{10.48550/arXiv.2406.11944}.
+\newblock URL \url{https://arxiv.org/abs/2406.11944}.
+
+\bibitem[Ameisen et~al.(2025)Ameisen, Lindsey, Pearce, Gurnee, Turner, Chen, Citro, Abrahams, Carter, Hosmer, Marcus, Sklar, Templeton, Bricken, McDougall, Cunningham, Henighan, Jermyn, Jones, Persic, Qi, Thompson, Zimmerman, Rivoire, Conerly, Olah, and Batson]{ameisen_2025_circuit_tracing}
+Emmanuel Ameisen, Jack Lindsey, Adam Pearce, Wes Gurnee, Nicholas~L. Turner, Brian Chen, Craig Citro, David Abrahams, Shan Carter, Basil Hosmer, Jonathan Marcus, Michael Sklar, Adly Templeton, Trenton Bricken, Callum McDougall, Hoagy Cunningham, Thomas Henighan, Adam Jermyn, Andy Jones, Andrew Persic, Zhenyi Qi, T.~Ben Thompson, Sam Zimmerman, Kelley Rivoire, Thomas Conerly, Chris Olah, and Joshua Batson.
+\newblock Circuit tracing: Revealing computational graphs in language models.
+\newblock \emph{Transformer Circuits Thread}, 2025.
+\newblock URL \url{https://transformer-circuits.pub/2025/attribution-graphs/methods.html}.
+
+\bibitem[Lindsey et~al.(2025)Lindsey, Gurnee, Ameisen, Chen, Pearce, Turner, Citro, Abrahams, Carter, Hosmer, Marcus, Sklar, Templeton, Bricken, McDougall, Cunningham, Henighan, Jermyn, Jones, Persic, Qi, Thompson, Zimmerman, Rivoire, Conerly, Olah, and Batson]{lindsey_2025_biology_llm}
+Jack Lindsey, Wes Gurnee, Emmanuel Ameisen, Brian Chen, Adam Pearce, Nicholas~L. Turner, Craig Citro, David Abrahams, Shan Carter, Basil Hosmer, Jonathan Marcus, Michael Sklar, Adly Templeton, Trenton Bricken, Callum McDougall, Hoagy Cunningham, Thomas Henighan, Adam Jermyn, Andy Jones, Andrew Persic, Zhenyi Qi, T.~Ben Thompson, Sam Zimmerman, Kelley Rivoire, Thomas Conerly, Chris Olah, and Joshua Batson.
+\newblock On the biology of a large language model.
+\newblock \emph{Transformer Circuits Thread}, 2025.
+\newblock URL \url{https://transformer-circuits.pub/2025/attribution-graphs/biology.html}.
+
+\bibitem[Pachitariu et~al.(2016)Pachitariu, Steinmetz, Kadir, Carandini, and Kenneth~D.]{pachitariu_2016_kilosort}
+Marius Pachitariu, Nicholas Steinmetz, Shabnam Kadir, Matteo Carandini, and Harris Kenneth~D.
+\newblock Kilosort: realtime spike-sorting for extracellular electrophysiology with hundreds of channels.
+\newblock \emph{bioRxiv}, 2016.
+\newblock \doi{10.1101/061481}.
+\newblock URL \url{https://www.biorxiv.org/content/early/2016/06/30/061481}.
+
+\bibitem[Bussmann et~al.(2025)Bussmann, Nabeshima, Karvonen, and Nanda]{bussmann_2025_msae}
+Bart Bussmann, Noa Nabeshima, Adam Karvonen, and Neel Nanda.
+\newblock Learning multi-level features with matryoshka sparse autoencoders.
+\newblock \emph{arXiv}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2503.17547}.
+
+\bibitem[Bussmann et~al.(2024)Bussmann, Leask, and Nanda]{bussmann_2024_batchtopk}
+Bart Bussmann, Patrick Leask, and Neel Nanda.
+\newblock Batchtopk sparse autoencoders.
+\newblock \emph{arXiv}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2412.06410}.
+
+\bibitem[Karvonen et~al.(2025)Karvonen, Rager, Lin, Tigges, Bloom, Chanin, Lau, Farrell, McDougall, Ayonrinde, Till, Wearden, Conmy, Marks, and Nanda]{karvonen_2025_saebench}
+Adam Karvonen, Can Rager, Johnny Lin, Curt Tigges, Joseph Bloom, David Chanin, Yeu-Tong Lau, Eoin Farrell, Callum McDougall, Kola Ayonrinde, Demian Till, Matthew Wearden, Arthur Conmy, Samuel Marks, and Neel Nanda.
+\newblock Saebench: A comprehensive benchmark for sparse autoencoders in language model interpretability.
+\newblock \emph{arXiv}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2503.09532}.
+
+\bibitem[Theodoni et~al.(2018)Theodoni, Rovira, Wang, and Roxin]{theodoni_2018_theta_ou}
+Panagiota Theodoni, Bernat Rovira, Yingxue Wang, and Alex Roxin.
+\newblock Theta-modulation drives the emergence of connectivity patterns underlying replay in a network model of place cells.
+\newblock \emph{eLife}, 7:\penalty0 e37388, 2018.
+\newblock \doi{10.7554/eLife.37388}.
+\newblock URL \url{https://doi.org/10.7554/eLife.37388}.
+
+\bibitem[Churchland et~al.(2012)Churchland, Cunningham, Kaufman, Foster, Nuyujukian, Ryu, and Shenoy]{churchland_2012_churchland_datasets}
+Mark~M Churchland, John~P Cunningham, Matthew~T Kaufman, Justin~D Foster, Paul Nuyujukian, Stephen~I Ryu, and Krishna~V Shenoy.
+\newblock Neural population dynamics during reaching.
+\newblock \emph{Nature}, 487\penalty0 (7405):\penalty0 51--56, 2012.
+
+\bibitem[{Brainsets Project}(2022)]{brainsets_docs}
+{Brainsets Project}.
+\newblock churchland\_shenoy\_neural\_2012 dataset documentation.
+\newblock \url{https://brainsets.readthedocs.io/en/latest/glossary/brainsets.html#churchland-shenoy-neural-2012}, 2022.
+\newblock Accessed: 2025-09-23.
+
+\bibitem[LeNail(2019)]{lenail_2019_nnsvg}
+Alexander LeNail.
+\newblock Nn-svg: Publication-ready neural network architecture schematics.
+\newblock \emph{Journal of Open Source Software}, 4\penalty0 (33):\penalty0 747, 2019.
+\newblock \doi{10.21105/joss.00747}.
+\newblock URL \url{https://doi.org/10.21105/joss.00747}.
+
+\bibitem[Campagner et~al.(2025)Campagner, Bhagat, Lopes, Calcaterra, Pouget, Almeida, Nguyen, Lo, Ryan, Cruz, Carvalho, Li, Erskine, Rapela, Folsz, Marin, Ahn, Nierwetberg, Lenzi, Reggiani, and group {\textendash}~SWC GCNU Experimental Neuroethology~Group]{campagner_2025_aeon_platform}
+D.~Campagner, J.~Bhagat, G.~Lopes, L.~Calcaterra, A.~G. Pouget, A.~Almeida, T.~T. Nguyen, C.~H. Lo, T.~Ryan, B.~Cruz, F.~J. Carvalho, Z.~Li, A.~Erskine, J.~Rapela, O.~Folsz, M.~Marin, J.~Ahn, S.~Nierwetberg, S.~C. Lenzi, J.~D.~S. Reggiani, and SGEN group {\textendash}~SWC GCNU Experimental Neuroethology~Group.
+\newblock Aeon: an open-source platform to study the neural basis of ethological behaviours over naturalistic timescales.
+\newblock \emph{bioRxiv}, 2025.
+\newblock \doi{10.1101/2025.07.31.664513}.
+\newblock URL \url{https://www.biorxiv.org/content/early/2025/08/01/2025.07.31.664513}.
+
+\bibitem[McInnes et~al.(2018)McInnes, Healy, and Melville]{mcinnes_2018_umap}
+Leland McInnes, John Healy, and James Melville.
+\newblock Umap: Uniform manifold approximation and projection for dimension reduction.
+\newblock \emph{arXiv preprint arXiv:1802.03426}, 2018.
+
+\bibitem[van~der Maaten and Hinton(2008)]{vandermaaten_2008_tsne}
+Laurens van~der Maaten and Geoffrey Hinton.
+\newblock Visualizing data using t-sne.
+\newblock \emph{Journal of Machine Learning Research}, 9:\penalty0 2579--2605, 2008.
+
+\bibitem[Hoyer(2004)]{hoyer_2004_sparsenmf}
+Patrik~O Hoyer.
+\newblock Non-negative matrix factorization with sparseness constraints.
+\newblock \emph{Journal of machine learning research}, 5\penalty0 (May):\penalty0 1457--1469, 2004.
+
+\bibitem[Comon(1994)]{comon_1994_ica}
+Pierre Comon.
+\newblock Independent component analysis, a new concept?
+\newblock \emph{Signal Processing}, 36\penalty0 (3):\penalty0 287--314, 1994.
+\newblock \doi{10.1016/0165-1684(94)90029-9}.
+\newblock URL \url{https://doi.org/10.1016/0165-1684(94)90029-9}.
+
+\bibitem[Hotelling(1933)]{hotelling_1933_pca}
+Harold Hotelling.
+\newblock Analysis of a complex of statistical variables into principal components.
+\newblock \emph{Journal of educational psychology}, 24\penalty0 (6):\penalty0 417, 1933.
+
+\end{thebibliography}

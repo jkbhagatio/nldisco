@@ -1,34 +1,34 @@
-"""Msed model set up and training."""
+"""SED model setup and training."""
 
 import math
 from dataclasses import dataclass
-from typing import Optional, List, Tuple, Dict
+from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import torch as t
 import wandb
 from einops import asnumpy, einsum, rearrange, reduce, repeat
-from jaxtyping import Float, Int, Bool
+from jaxtyping import Bool, Float, Int
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
-import seaborn as sns
 from sklearn.metrics import r2_score
-from torch import bfloat16, nn, Tensor
+from torch import Tensor, bfloat16, nn
 from torch.nn import functional as F
 from tqdm import tqdm
 
-from nldisco import plot as nplot
+from nldisco import plot as mp
 from nldisco.util import vec_r2
 
-# <s> sed class config
+# <s> SED class config
 
 @dataclass
 class SedConfig:
-    """Config class to set some params for the batch-topk Msed."""
-    n_input: int  # number of inputs to the Msed
-    dsed_topk_map: Dict[int, int]  # {d_sed: topk} pairing for the Msed levels
-    dsed_loss_x_map: Dict[int, int]  # {d_sed: loss_x} pairing for the Msed levels
+    """Config class to set some params for the batch-topk MSAE."""
+    n_input: int  # number of inputs to the MSAE
+    dsed_topk_map: Dict[int, int]  # {d_sed: topk} pairing for the MSAE levels
+    dsed_loss_x_map: Dict[int, int]  # {d_sed: loss_x} pairing for the MSAE levels
     seq_len: int = 1  # number of time bins in an input sequence
     n_instances: int = 2  # number of model instances to optimize in parallel
     dtype: t.dtype = bfloat16  # data type for the model and spike data
@@ -58,7 +58,7 @@ class Sed(nn.Module):
             self.W_enc[..., :cfg.n_input], "inst d_sed in_sed -> inst in_sed d_sed"
         ).clone()
         self.W_enc, self.W_dec = nn.Parameter(self.W_enc), nn.Parameter(self.W_dec)
-        
+
         self.b_enc = nn.Parameter(t.zeros((cfg.n_instances, d_sed), dtype=dtype))
         self.b_dec = nn.Parameter(t.zeros((cfg.n_instances, cfg.n_input), dtype=dtype))
 
@@ -76,7 +76,7 @@ class Sed(nn.Module):
         acts_enc = einsum(x, self.W_enc, "batch inst in_dim, inst d_sed in_dim -> batch inst d_sed")
         acts_enc += self.b_enc
         acts_enc = F.relu(acts_enc)
-        
+
         d_levels = sorted(self.cfg.dsed_topk_map.keys())
         recon_levels = []
         topk_acts_levels = []
@@ -202,7 +202,7 @@ def optimize(
     loss_fn: callable,
     optimizer: t.optim.Optimizer,
     use_lr_sched: bool,
-    dead_latent_window: int,  # min consec steps a feature didn't fire for it to be considered dead
+    dead_neuron_window: int,  # min consec steps a feature didn't fire for it to be considered dead
     n_steps: int,
     log_freq: int,
     batch_sz: int = 1024,
@@ -211,14 +211,18 @@ def optimize(
     **loss_fn_kwargs: Optional[Dict],
 ):
     """Optimizes the autoencoder."""
-    device = spk_cts.device
+    device=spk_cts.device
     l0_history = []  # history of l0 mean and std for each step
-    data_log = {"frac_active": {}, "loss": {}, "l0": {}}
+    data_log = {
+        "frac_active": {},
+        "loss": {},
+        "l0": {}
+    }
     n_examples, _n_units = spk_cts.shape
     n_inst = sed.cfg.n_instances
     seq_len = sed.cfg.seq_len
     valid_starts = n_examples - seq_len + 1  # valid start indices for sequences
-    d_sed = max(sed.cfg.dsed_topk_map.keys())  # max number of features in the sed
+    d_sed = max(sed.cfg.dsed_topk_map.keys())  # max number of features in the SED
     n_steps_features_inactive = t.zeros((n_inst, d_sed), dtype=int, device=device)
     dead_features = t.zeros((n_inst, d_sed), dtype=bool, device=device)
 
@@ -226,12 +230,15 @@ def optimize(
     if use_lr_sched:
         min_lr = lr * 1e-2
 
-    pbar = tqdm(range(n_steps), desc="sed batch training step")
+    pbar = tqdm(range(n_steps), desc="SED batch training step")
     for step in pbar:
-        if use_lr_sched:
-            optimizer.param_groups[0]["lr"] = simple_cosine_lr_sched(step, n_steps, lr, min_lr)
 
-        # Get batch of spike counts to feed into sed.
+        if use_lr_sched:
+            optimizer.param_groups[0]["lr"] = (
+                simple_cosine_lr_sched(step, n_steps, lr, min_lr)
+            )
+
+        # Get batch of spike counts to feed into SED.
         start_idxs = t.randint(0, valid_starts, (batch_sz, sed.cfg.n_instances))
         seq_idxs = start_idxs.unsqueeze(-1) + t.arange(seq_len)  # broadcast seq idxs to new dim
         spike_count_seqs = spk_cts[seq_idxs]  # [batch_sz, n_instances, seq_len, n_units]
@@ -242,10 +249,10 @@ def optimize(
         recon_levels, topk_acts_levels, acts_enc = sed(spike_count_seqs)  # forward
         recon_loss = t.zeros((batch_sz, sed.cfg.n_instances), device=device)
         loss_xs = list(dict(sorted(sed.cfg.dsed_loss_x_map.items())).values())  # sorted by d_sed
-        for l in range(len(recon_levels)):
+        for level_idx, recon_level in enumerate(recon_levels):
             recon_loss += (
-                loss_fn(spike_count_seqs[..., -1, :], recon_levels[l], **loss_fn_kwargs)
-                * loss_xs[l]
+                loss_fn(spike_count_seqs[..., -1, :], recon_level, **loss_fn_kwargs)
+                * loss_xs[level_idx]
             )
         recon_loss = reduce(recon_loss, "batch inst -> ", "mean")
 
@@ -265,7 +272,7 @@ def optimize(
                 acts_enc=acts_enc,
                 dead_features=dead_features,
                 loss_fn=loss_fn,
-                **loss_fn_kwargs,
+                **loss_fn_kwargs
             )
             aux_loss = reduce(aux_loss, "batch inst -> ", "mean")
 
@@ -282,18 +289,15 @@ def optimize(
 
                     p.grad += grad_buffer.get(name, 0)  # add in gradients from recon_loss backward
 
-            else:  # restore recon_loss gradients
-                for name, p in sed.named_parameters():
-                    if p.grad is not None and name in grad_buffer:
-                        p.grad = grad_buffer[name]
-
         sed.norm_decoder()  # normalize decoder weights
         optimizer.step()
 
-        feat_active = reduce(topk_acts_levels[-1], "batch inst d_sed -> inst d_sed", "sum") > 0
+        feat_active = reduce(
+            topk_acts_levels[-1], "batch inst d_sed -> inst d_sed", "sum"
+        ) > 0
         n_steps_features_inactive[feat_active] = 0
         n_steps_features_inactive[~feat_active] += 1
-        dead_features = n_steps_features_inactive > dead_latent_window
+        dead_features = n_steps_features_inactive > dead_neuron_window
 
         # Display progress bar, and append new values for plotting.
         if step % log_freq == 0 or (step + 1 == n_steps):
@@ -330,8 +334,8 @@ def eval_model(
     batch_sz: int = 1024,
     log_wandb: bool = False,
 ) -> Tuple[
-    # 4d topk acts info (instance, example, feature, act_val)
     Figure,
+    # 4d topk acts info (instance, example, feature, act_val)
     Float[Tensor, "(n_recon_examples n_inst max_topk) 4"],
     Float[Tensor, "n_recon_examples n_inst n_units"],  # reconstructions
     Float[np.ndarray, "n_units n_inst"],  # R² per unit
@@ -340,13 +344,14 @@ def eval_model(
     Float[Tensor, "n_recon_examples n_inst"],  # Cosine similarity per example
 ]:
     """Evaluates the model after training, and generates plots/metrics.
-    
+
     Plots/Metrics:
     1. L0 boxplot (per example)
-    2a. Cosine-Similarity boxplot of reconstructions vs. true over all neurons (per example)
-    2b. Cosine-Similarity boxplot of reconstructions vs. true over all examples (per neuron)
-    3b. R² boxplot of reconstructions vs. true over all neurons (per example)
-    3a. R² boxplot of reconstructions vs. true over all examples (per neuron)
+    2. Latent activity-density histogram
+    3a. Cosine-Similarity boxplot of reconstructions vs. true over all units (per example)
+    3b. Cosine-Similarity boxplot of reconstructions vs. true over all examples (per unit)
+    4a. R² boxplot of reconstructions vs. true over all units (per example)
+    4b. R² boxplot of reconstructions vs. true over all examples (per unit)
 
     """
     device = spk_cts.device
@@ -357,7 +362,7 @@ def eval_model(
     d_sed = max(sed.cfg.dsed_topk_map.keys())
     n_steps = valid_starts // batch_sz  # total number of examples
     n_recon_examples = n_steps * batch_sz
-    
+
     # <ss> Run examples through model and compute metrics.
 
     # Create placeholders to store metrics.
@@ -391,17 +396,17 @@ def eval_model(
             cos_sim_per_example[start_idxs] = (
                 t.cosine_similarity(recon_levels[-1], spk_cts[start_idxs].unsqueeze(1), dim=-1)
             )
-            # Get top-k features and acts for examples in batch 
-            # (just need last level of msed -- it's a superset of the other levels)
+            # Get top-k features and acts for examples in batch
+            # (just need last level of msae -- it's a superset of the other levels)
             topk_acts = topk_acts_levels[-1][nonzero_mask]
             batch_ex_idxs, inst_idxs, feat_idxs = t.where(nonzero_mask)
             global_ex_idxs = batch_ex_idxs + start_idxs[0]
             cur_topk_acts_4d = t.stack(
-                [global_ex_idxs.float(), inst_idxs.float(), feat_idxs.float(), topk_acts.float()], 
+                [global_ex_idxs.float(), inst_idxs.float(), feat_idxs.float(), topk_acts.float()],
                 dim=1
             )
             topk_acts_4d.append(cur_topk_acts_4d)
-    
+
     topk_acts_4d = t.cat(topk_acts_4d, dim=0)
 
     r2_per_example[~t.isfinite(r2_per_example)] = 0.0  # div by 0 cases
@@ -430,53 +435,61 @@ def eval_model(
         2, 2, figsize=(12, 10), constrained_layout=True
     )
     sns.set_theme(style="whitegrid")
-    
+
     # <sss> L0 boxplot.
-    
+
     l0_data = [asnumpy(l0[:, i]) for i in range(n_inst)]
-    nplot.box_strip_plot(
+    mp.box_strip_plot(
         ax=ax_l0,
         data=l0_data,
         show_legend=True
     )
+    # Update width of box plot and size and alpha of strip plot.
+    # for box in ax_l0.artists:
+    #     box.set_width(0.4)  # Change boxplot width
+    # for collection in ax_l0.collections:
+    #     if isinstance(collection, plt.matplotlib.collections.PathCollection):
+    #         collection.set_sizes([4])
+    #         collection.set_alpha(0.4)
+    # Prettify axes.
     ax_l0.set_xlabel("")
     ax_l0.set_ylabel("")
     ax_l0.set_xticks(range(n_inst))
-    ax_l0.set_xticklabels([f"Model {i}" for i in range(n_inst)])
+    ax_l0.set_xticklabels([f"SED {i}" for i in range(n_inst)])
     ax_l0.set_yticks(np.arange(0, l0.max().item() + 1, 10))
-    ax_l0.set_title("L0 of model latents")
-    ax_l0.grid(axis="x")
-    
+    ax_l0.set_title("L0 of SED features")
+
     # </sss>
 
     # <sss> Latent density histogram.
-    
+
     latent_activity_frac = latent_activity_count / n_recon_examples
     for i in range(n_inst):
         data = asnumpy(latent_activity_frac[i])
         ax_density.hist(
             data,
-            bins=d_sed // 5,
+            bins=max(1, d_sed // 5),
             alpha=0.6,
-            weights=np.ones_like(data) / len(data),  # Normalize by total number of latents
+            weights=np.ones_like(data) / len(data),
+            label=f"SED {i}",
         )
     ax_density.set_title("Latent activity density")
     ax_density.set_xlabel("Fraction of time active")
     ax_density.set_ylabel("Fraction of latents")
     ax_density.set_xticks(np.arange(0, 1.05, 0.05))
     ax_density.set_xlim(-0.025, 1.025)
-    plt.setp(ax_density.get_xticklabels(), rotation=-40, ha="left")  # rotation_mode="anchor"
+    plt.setp(ax_density.get_xticklabels(), rotation=-40, ha="left")
     ax_density.legend()
 
     # </sss>
 
     # <sss> Format and plot R² and Cosine Similarity data.
-    
+
     cos_sim_per_example = asnumpy(cos_sim_per_example.float())
     r2_per_example = asnumpy(r2_per_example.float())
     cos_sim_per_unit = asnumpy(cos_sim_per_unit.float())
 
-    model_names = [f"SED {i}" for i in range(2)]
+    model_names = [f"SED {i}" for i in range(n_inst)]
     dfs = []
 
     dfs.append(
@@ -507,8 +520,8 @@ def eval_model(
 
     cos_sim_df = df[df["Metric"] == "Cosine Similarity"]
     r2_df = df[df["Metric"] == "R²"]
-    
-    nplot.box_strip_plot(
+
+    mp.box_strip_plot(
         ax=ax_r2,
         data=r2_df,
         x="Type",
@@ -521,10 +534,9 @@ def eval_model(
     ax_r2.set_ylabel("")
     ax_r2.set_ylim(-1.0, 1.0)
     ax_r2.set_yticks(np.arange(-1.0, 1.1, 0.1))
-    ax_r2.set_title("R² of reconstructions")
-    ax_r2.grid(axis="x")
+    ax_r2.set_title("R² of SED reconstructions")
 
-    nplot.box_strip_plot(
+    mp.box_strip_plot(
         ax=ax_cos,
         data=cos_sim_df,
         x="Type",
@@ -537,9 +549,8 @@ def eval_model(
     ax_cos.set_ylabel("")
     ax_cos.set_ylim(0.1, 1.0)
     ax_cos.set_yticks(np.arange(0.1, 1.1, 0.1))
-    ax_cos.set_title("Cosine Similarity of reconstructions")
-    ax_cos.grid(axis="x")
-    
+    ax_cos.set_title("Cosine Similarity of true and reconstructed spike counts")
+
     # </sss>
 
     # </ss>
@@ -551,7 +562,7 @@ def eval_model(
         # Log metrics figure
         wandb.log({"combined_metrics_plot": wandb.Image(fig)})
         plt.close(fig)
-        
+
         # Log metrics values
         wandb.log({
             "r2_per_example_mean": np.mean(r2_per_example),
@@ -565,5 +576,3 @@ def eval_model(
     # </ss>
 
 # </s>
-
-# <s> Options for transformer layer in latent space
