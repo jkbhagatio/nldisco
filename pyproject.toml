@@ -83,3 +83,6 @@ ignore = [
     "E202",  # Whitespace before closing parenthesis.
     "E203",  # Whitespace before colon.
 ]
+
+[tool.ruff.lint.isort]
+known-third-party = ["wandb"]
