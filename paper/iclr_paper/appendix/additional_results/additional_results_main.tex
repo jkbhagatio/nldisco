@@ -1,31 +1,15 @@
 \subsubsection{Simulated rat spike data in a navigation task}
-\label{subsubsection:synthetic_results_additional}
+\label{subsubsection:synthetic_results_details}
 
-\paragraph{Dataset info}
-\begin{itemize}
+The virtual rat moved along a 1-m linear track, with its velocity sampled from an Ornstein--Uhlenbeck (OU) process:
+\begin{equation}
+dv_t = \theta(\mu-v_t)\,dt + \sigma\,dW_t,
+\end{equation}
+with parameters $\theta=1.0$ (mean reversion), $\mu=0.0$ m/s (long-run mean), $\sigma=0.4$ (volatility), and $v_0=0.0$ (initial velocity). The simulation lasted 10 minutes (600 s) at a temporal resolution of 100 Hz.
 
-    \item Exp metadata \& info
-    
-    \begin{itemize}
-        \item Session duration
-        \item Stimulus conditions
-    \end{itemize}
-    
-    \item Neural data info
-    
-    \begin{itemize}
-        \item Brain regions
-        \item Number of units
-        \item Number of spikes
-        \item Spike summary stats
-    \end{itemize}
+Place fields were modeled as Gaussian functions of position. Two cells had broad fields ($\sigma=20$ cm) centered at 20 and 80 cm, while two had narrow fields ($\sigma=10$ cm) centered at 30 and 90 cm. Peak firing rates were 20, 16, 18, and 15 Hz, respectively, with a 0.1-Hz baseline. The 96 noise neurons had stable mean firing rates sampled uniformly between 1 and 5 Hz and were independent of position. Spikes were generated as Bernoulli draws using the firing-rate-by-time-step probability.
 
-    \item Recreation instructions
-
-\end{itemize}
-
-\paragraph{Latent comparisons with sparseNMF, t-SNE, and UMAP}
-
+The resulting spike-count matrix was used to train an SED with 128 latents and a sparsity constraint of four active latents per time bin.
 \subsubsection{Real macaque spike data in a reaching task}
 \label{subsubsection:churchland_results_additional}
 

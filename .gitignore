@@ -13,3 +13,9 @@ saved_sae_latent_activations/
 **ratemap_feature_*
 *.gz
 *.blg
+*.aux
+*.bbl
+*latexmk
+*.fls
+*paper.out
+*paper.log

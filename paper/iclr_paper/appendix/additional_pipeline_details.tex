@@ -10,7 +10,7 @@
 \begin{algorithmic}[1]
 \State \textbf{Data definitions:}
 \State \quad Input neural data: $\mathbf{Y} \in \mathbb{R}^{B \times S \times N_{\text{in}}}$ \textsuperscript{(Batch, Sequence length, Input neural units)}
-\State \quad Target neural data: $\mathbf{Z} \in \mathbb{R}^{B \times \times N_{\text{out}}}$ \textsuperscript{(Batch, Output neural units)}
+\State \quad Target neural data: $\mathbf{Z} \in \mathbb{R}^{B \times N_{\text{out}}}$ \textsuperscript{(Batch, Output neural units)}
 \State \textbf{Model definitions:}
 \State \quad Encoder: $\mathbf{W}_{\text{enc}} \in \mathbb{R}^{D_{\text{max}} \times S \times N_{\text{in}}}$, $\mathbf{b}_{\text{enc}} \in \mathbb{R}^{D_{\text{max}}}$ \textsuperscript{(Hidden layer neurons)}
 \State \quad Decoder: $\mathbf{W}_{\text{dec}} \in \mathbb{R}^{N_{\text{out}} \times D_{\text{max}}}$, $\mathbf{b}_{\text{dec}} \in \mathbb{R}^{N_{\text{out}}}$
@@ -61,7 +61,7 @@ A common failure mode in training SEDs is "latent death," where dictionary eleme
 \subsubsection{Model architecture}
 \label{subsubsection:model_architecture_details}
 
-The core of NLDisco is the implementation of overcomplete sparse encoder-decoder models with single hidden layers and ReLU activations. While we experimented with more complex model architectures, such as multi-layer decoders, we found that they often made interpreting the resulting latents more difficult without significant reconstruction gains. The Matryoshka architecture is particularly useful for datasets where features are expected to exist at multiple scales, as it helps mitigate "feature absorption" where general features are partially subsumed by more specific ones (TODO see Allen results with and without Matryoshka architecture). And the transformer block is most beneficial when analyzing data with meaningful temporal dynamics, as it allows the model to learn features that evolve over a sequence rather than just instantaneous neural patterns (TODO see Aeon results with and without transformer block).
+The core of NLDisco is an overcomplete sparse encoder-decoder model with a single hidden layer and ReLU activations. While we experimented with more complex architectures, such as multi-layer decoders, we found that they often made interpreting the resulting latents more difficult without significant reconstruction gains. The Matryoshka architecture is particularly useful for datasets where features are expected to exist at multiple scales, as it helps mitigate "feature absorption," where general features are partially subsumed by more specific ones~\citep{bussmann_2025_msae}. The transformer block is most beneficial when analyzing data with meaningful temporal dynamics, as it allows the model to learn features that evolve over a sequence rather than only instantaneous neural patterns.
 
 \subsubsection{Model evaluation}
 \label{subsubsection:model_evaluation_details}
@@ -75,20 +75,18 @@ For a deeper diagnosis, several additional optional metrics are available. To ch
     \includegraphics[width=\linewidth]{figures/model_eval.pdf}
     \caption{
         \textbf{Model evaluation metrics.} \\
-        \small This example SAE model evaluation examines a three-level Matryoshka architecture with a total of 320 latents and top-$k$ selections of 12 $\cdot B$, 24 $\cdot B$, and 36 $\cdot B$ active latents per batch size $B$ (1024). The recording had a total of 200 units, and the model was trained on 182,868 samples of 50 ms binned spike counts. The model exhibits an approximately normal distribution for the mean latent L0 norm (TODO metric), few dead or tonically active latents, and high neural reconstruction fidelity as measured by the R\textsuperscript{2} and cosine similarity metrics across both units and examples, all indicators of healthy training.
+        \small This example SAE model evaluation examines a three-level Matryoshka architecture with a total of 320 latents and top-$k$ selections of 12 $\cdot B$, 24 $\cdot B$, and 36 $\cdot B$ active latents per batch of size $B=1024$. The recording contained 200 units, and the model was trained on 182,868 samples of 50-ms binned spike counts. The model exhibits an approximately normal distribution of the mean latent L0 norm, few dead or tonically active latents, and high neural reconstruction fidelity as measured by R\textsuperscript{2} and cosine similarity across both units and examples, all indicators of healthy training.
     }
     \label{figure:model_eval}
 \end{figure}
 
 \subsubsection{Latents evaluation}
 
-We recommend building simple, bespoke dashboards for viewing the activity of model latents in the context of relevant environmental and/or behavioral variables. 
-
-(TODO: show dashboards for Churchland, Allen, and Aeon datasets).
+In this paper, we used prepared dashboards to visualize latent activity in the context of the simulated spatial-navigation task and the in vivo motor-control reaching task. More generally, when working with new datasets, we recommend designing similarly simple, bespoke dashboards that place latent activity alongside relevant environmental and behavioral variables.
 
 \subsubsection{Hyperparameter sweeps}
 \label{subsubsection:hyperparameter_sweeps}
 
-We typically sweep over key architectural parameters, including the number and size of Matryoshka levels, the batch top-$k$ sparsity coefficient, and the latent space sequence length for the self-attention layer. For the optimizer, we use Adam by default due to its robust performance across a wide range of tasks. We found popular variants to offer negligible benefits for our use case: direct sparsity enforcement obviates the need for weight decay (AdamW), our shallow models do not require layer-wise adaptive optimizers (LAdam), and additional tuning overhead for Nesterov momentum (NAdam) did not yield a corresponding performance gain.
+Effective hyperparameter tuning is crucial for balancing reconstruction fidelity with latent interpretability. We typically sweep over key architectural and optimizer parameters. Architectural choices center on the Matryoshka configuration: \texttt{dsed\_topk\_map} controls the sparsity at each hierarchical level, while \texttt{dsed\_loss\_x\_map} sets the relative weight of each level's reconstruction in the total loss. We also tune \texttt{dead\_latent\_window}, which determines when an inactive latent is revived via an auxiliary residual-reconstruction loss, as well as standard optimizer parameters such as learning and decay rates.
 
-While hyperparameter sweeps are an empirical science, we typically choose these heuristics for setting sweep ranges... TODO
+Although optimal settings are data-dependent, we use several general heuristics. The total number of latents can initially be set relative to the number of training examples (e.g., $n_{\text{examples}}/10$) and adjusted downward based on reconstruction performance. The top-$k$ value for a level should reflect a reasonable estimate of how many features might be co-active in a given time window. In our experiments, a cosine learning-rate schedule and the MSLE loss function often outperformed static learning rates and MSE loss, respectively, and therefore serve as useful defaults.

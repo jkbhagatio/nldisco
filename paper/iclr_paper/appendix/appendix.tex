@@ -41,7 +41,7 @@ Units are mapped to metadata variables through the calculation of a selectivity 
 \frac{\#\{\text{activations of } l \text{ in examples with } c\}}
      {\#\{\text{examples with } c\}} \\[6pt]
 \text{activation\_frac\_outside} &=
-\frac{\#\{\text{activations of } u \text{ in examples without } c\}}
+\frac{\#\{\text{activations of } l \text{ in examples without } c\}}
      {\#\{\text{examples without } c\}} \\[6pt]
 \text{selectivity\_score} &=
 \frac{\text{activation\_frac\_during}}
@@ -83,7 +83,6 @@ Light-green text indicates that the method has an ideal implementation of the fe
 \newcommand*\rot[1]{\rotatebox{90}{\parbox{3cm}{\centering\small #1}}}
 
 \begin{table}[th]
-\label{table:method_comparisons}
 \centering
 \begin{threeparttable}
 \setlength{\tabcolsep}{2.5pt}
@@ -124,6 +123,7 @@ Requires significant hyperparameter tuning & \badQual{Yes} & \badQual{Yes} & \ba
 \bottomrule
 \end{tabular}
 \caption{\centering Comparison of NLDisco with other neural LVM methods.}
+\label{table:method_comparisons}
 \begin{tablenotes}[flushleft]
 \footnotesize
 \item *: Latent comparison visualized in \nameref{section:results}
