@@ -30,7 +30,7 @@ Each noise unit has a constant rate independently sampled from Uniform$(1,5)$ Hz
 Full-recording reconstruction \metric{MSE} is $0.152\pm0.000$ for FW-SED and $0.153\pm0.000$ for TW-SED (mean $\pm1$ sample standard deviation across five initializations of each; standard deviations below 0.001 display as 0.000). Both architectures recover directional features under the same criteria, using the direction index (DI) and selection procedure defined below, though the TW-SED latents have higher selected composite direction scores. \autoref{figure:synthetic_temporal_comparison} compares the strongest passing forward feature from each architecture. These observations indicate TW-SED generates more interpretable latents for directionality in this dataset, though do not establish superiority of either architecture generally.
 
 \paragraph{Oppositely directed temporal features.}
-TW-SED finds features associated with ordered traversal of the first pair of place fields. We show the highest-scoring passing rightward feature (seed 0, latent 20) and leftward feature (seed 2, latent 66), using the selection criteria below. \autoref{figure:synthetic_temporal_features} shows each latent's place-cell decoder pattern alongside its 16 highest-activating nonoverlapping windows. Examples are selected greedily from all 11,981 windows with positive activation, without filtering position, displacement, reversals, or direction.
+TW-SED finds features associated with ordered traversal of the first pair of place fields. We show the highest-scoring passing forward feature (seed 0, latent 20) and backward feature (seed 2, latent 66), using the selection criteria below. \autoref{figure:synthetic_temporal_features} shows each latent's place-cell decoder pattern alongside its 16 highest-activating nonoverlapping windows. Examples are selected greedily from all 11,981 windows with positive activation, without filtering position, displacement, reversals, or direction.
 
 % Separate temporal comparison figures across successive pages.
 \begin{figure}[!b]
@@ -45,18 +45,18 @@ TW-SED finds features associated with ordered traversal of the first pair of pla
 \begin{figure}[!t]
     \centering
     \includegraphics[width=\linewidth]{figures/supplement_temporal_features.pdf}
-    \caption{\textbf{Rightward- and leftward-preferring TW-SED latents.} Left panels show decoder weights for the four known place cells over the window, normalized by their maximum absolute weight. Right panels show the 16 highest-activating windows for each latent, selected without behavioral filtering. Thin curves are trajectories, the mean is emphasized, and shading is $\pm1$ sample standard deviation across trajectories. The preferred direction occurs in 15/16 and 13/16 examples, respectively.}
+    \caption{\textbf{Forward- and backward-preferring TW-SED latents.} Left panels show decoder weights for the four known place cells over the window, normalized by their maximum absolute weight. Right panels show the 16 highest-activating windows for each latent, selected without behavioral filtering. Thin curves are trajectories, the mean is emphasized, and shading is $\pm1$ sample standard deviation across trajectories. The preferred direction occurs in 15/16 and 13/16 examples, respectively.}
     \label{figure:synthetic_temporal_features}
 \end{figure}
 
 \paragraph{Conditioning on clean crossings.}
-To further examine traversals over the first pair of place fields, we restrict the eligible pool to strict nonreversing first-pair crossings with mean position in $[0.2,0.4]$ m, i.e. the animal's average position within the window must lie between 0.2 and 0.4 m, but its trajectory may extend beyond this interval. There are 218 rightward and 232 leftward eligible windows. Both directions compete when selecting the 16 highest-activating windows for each of the same two latents; no preferred-direction filter is applied. All examples per latent now follow its preferred direction (\autoref{figure:synthetic_ramp_conditioned}).
+To further examine traversals over the first pair of place fields, we restrict the eligible pool to strict nonreversing first-pair crossings with mean position in $[0.2,0.4]$ m, i.e. the animal's average position within the window must lie between 0.2 and 0.4 m, but its trajectory may extend beyond this interval. There are 218 forward and 232 backward eligible windows. Both directions compete when selecting the 16 highest-activating windows for each of the same two latents; no preferred-direction filter is applied. All examples per latent now follow its preferred direction (\autoref{figure:synthetic_ramp_conditioned}).
 
 \paragraph{Source activity traceback for spatial latents.}
 For each selected spatial latent in \autoref{figure:synthetic_results}c, we apply the \hyperref[paragraph:source_activity_traceback]{source activity traceback} to standardized unit activity in its same model input form: unique 50-ms binned counts. For the linear vanilla encoder, this multiplies each unit's activity by its encoder weight. We average equally over active bins within each of 20 equal position bins over the 1-m track, regardless of latent activation value. At each position, we then average equally across the selected runs with active bins there, retaining one curve per recorded unit (\autoref{figure:synthetic_unit_traceback}). Each field has five selected runs; a run contributes no value at positions where its latent never activates.
 
 \paragraph{Source activity traceback over time.}
-For the same two TW-SED latents in \autoref{figure:synthetic_temporal_features},  \autoref{figure:synthetic_temporal_coactivity} applies the \hyperref[paragraph:source_activity_traceback]{source activity traceback} to the same model input form: unstandardized 50-ms counts, retaining the unit and timebin axes across the full window. At each relative time, we then average these attributions equally across all windows with positive latent activation: 9,991 windows for the rightward latent and 7,281 for the leftward latent. This analysis does not restrict to clean crossings or top examples, and does not weight windows by activation value.
+For the same two TW-SED latents in \autoref{figure:synthetic_temporal_features},  \autoref{figure:synthetic_temporal_coactivity} applies the \hyperref[paragraph:source_activity_traceback]{source activity traceback} to the same model input form: unstandardized 50-ms counts, retaining the unit and timebin axes across the full window. At each relative time, we then average these attributions equally across all windows with positive latent activation: 9,991 windows for the forward latent and 7,281 for the backward latent. This analysis does not restrict to clean crossings or top examples, and does not weight windows by activation value.
 
 \clearpage
 \begin{figure}[!t]
@@ -82,22 +82,27 @@ For the same two TW-SED latents in \autoref{figure:synthetic_temporal_features},
 \end{figure}
 
 \paragraph{Direction index.}
-To measure a latent's preference for rightward or leftward movement, we compare its mean activation in the two directions:
+To measure a latent's preference for forward or backward movement, we compare its mean activation in the two directions:
 \begin{equation}
 \mathrm{DI}=
-\frac{\bar z_{\mathrm{right}}-\bar z_{\mathrm{left}}}
-{\bar z_{\mathrm{right}}+\bar z_{\mathrm{left}}+10^{-12}}.
+\frac{\bar z_{\mathrm{forward}}-\bar z_{\mathrm{backward}}}
+{\bar z_{\mathrm{forward}}+\bar z_{\mathrm{backward}}+10^{-12}}.
 \end{equation}
-DI ranges from $-1$ to $1$: positive values indicate greater rightward activation, negative values greater leftward activation, and zero equal activation. Here, $\bar z_{\mathrm{right}}$ and $\bar z_{\mathrm{left}}$ are mean activations after matching the distribution of mean window position across directions, including windows in which the latent is inactive.
+DI ranges from $-1$ to $1$: positive values indicate greater forward activation, negative values greater backward activation, and zero equal activation. Here, $\bar z_{\mathrm{forward}}$ and $\bar z_{\mathrm{backward}}$ are mean activations after matching the distribution of mean window position across directions, including windows in which the latent is inactive.
 
 Matching position reduces differences caused by unequal sampling of locations. We group clean first-pair crossings by mean position into 0.025-m bins, retaining bins with at least ten windows in each direction. Within each bin, we calculate a mean activation for each direction. We then weight both means by the number of windows in the less frequent direction, giving greater influence to positions with more examples in both directions. The resulting mean for direction $d$ is
 \begin{equation}
 \bar z_d=\frac{\sum_{j\in\mathcal{J}}w_j\bar z_{j,d}}{\sum_{j\in\mathcal{J}}w_j},
-\qquad w_j=\min(n_{j,\mathrm{right}},n_{j,\mathrm{left}}),
+\qquad w_j=\min(n_{j,\mathrm{forward}},n_{j,\mathrm{backward}}),
 \end{equation}
 where $\mathcal{J}$ contains the qualifying position bins, $n_{j,d}$ is the number of windows in bin $j$ for direction $d$, and $\bar z_{j,d}$ is their mean latent activation.
 
 For clean crossings, eight position bins qualify, with weights summing to 209. To assess preference across the full track, we also analyze windows with no reversals and at least 0.1 m of net movement. The same procedure with wider, 0.1-m position bins retains eight bins, with weights summing to 939. Each total is the denominator for both directional means above. Both analyses use all windows in the retained bins, including overlapping windows, rather than only the illustrated examples.
+
+\paragraph{Temporal feature selection.}
+We apply the same selection criteria to FW-SED and TW-SED latents, assessing each movement direction separately. A passing latent must have a clean-crossing DI of at least 0.25 in the tested direction, decoder-center displacement of at least 0.01 m in that direction, and at least 20 active clean-crossing windows across both directions, with at least two matched position bins.
+
+To measure decoder-center displacement, we weight the known centers of cells 1 and 2 by their positive squared decoder weights, then subtract the weighted center over the first six timebins from that over the last six. The pair's mean positive squared weight per entry must be at least twice that of the 96 noise units. Each cell must contribute at least 10\% of the pair's total positive squared weight, and the pair at least 50\% of that across all four place cells. We rank passing latents by the product of direction-signed DI, direction-signed displacement, and $\log(1+\mathrm{enrichment})$, where enrichment is the pair-to-noise ratio above. Decoder displacement describes a learned pattern, not a calibrated trajectory estimate.
 
 \paragraph{Directional preferences.}
 The two selected TW-SED latents show opposite preferences during clean crossings, with weaker preferences across the full track:
@@ -107,8 +112,8 @@ The two selected TW-SED latents show opposite preferences during clean crossings
 & & & & \multicolumn{2}{c}{Preferred-direction examples} \\
 TW-SED latent & Seed & Crossing DI & Full-track DI & \autoref{figure:synthetic_temporal_features} & \autoref{figure:synthetic_ramp_conditioned} \\
 \midrule
-20 (rightward) & 0 & $+0.558$ & $+0.118$ & $15/16$ & $16/16$ \\
-66 (leftward) & 2 & $-0.479$ & $-0.199$ & $13/16$ & $16/16$ \\
+20 (forward) & 0 & $+0.558$ & $+0.118$ & $15/16$ & $16/16$ \\
+66 (backward) & 2 & $-0.479$ & $-0.199$ & $13/16$ & $16/16$ \\
 \bottomrule
 \end{tabular}
 \end{center}

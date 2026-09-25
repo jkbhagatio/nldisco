@@ -68,7 +68,7 @@ def clean_crossings_figure(results: dict) -> plt.Figure:
     for ax, (direction, record) in zip(axes, records.items()):
         paper._trajectories(ax, record, direction, ramp_conditioned=True)
         feature = record["summary"]["selected_directions"][direction]["latent_idx"]
-        ax.set_title(f"{'Rightward' if direction == 'right' else 'Leftward'}: "
+        ax.set_title(f"{'Forward' if direction == 'right' else 'Backward'}: "
                      f"latent {feature}, seed {record['summary']['seed']}")
     trajectories = [record["artifacts"][f"{direction}_clean_trajectories"]
                     for direction, record in records.items()]

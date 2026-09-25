@@ -198,7 +198,7 @@ def temporal_figure(results: dict, raw: Float[np.ndarray, "time unit"], traces: 
                     linestyle=":" if cell == 3 else "-", linewidth=1.8, label=f"Cell {cell + 1}")
         ax.axhline(0, color="#444444", linestyle="--", linewidth=0.6)
         ax.set(xlabel="Time from window end (s)", ylabel="Mean encoder attribution",
-               xlim=(-1, 0), title=f"{'Rightward' if direction == 'right' else 'Leftward'}: "
+               xlim=(-1, 0), title=f"{'Forward' if direction == 'right' else 'Backward'}: "
                f"latent {feature}, seed {record['summary']['seed']}\n"
                f"{int(active.sum()):,} active windows")
         handles, labels = ax.get_legend_handles_labels()

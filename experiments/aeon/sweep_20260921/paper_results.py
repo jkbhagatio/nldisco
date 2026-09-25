@@ -347,7 +347,8 @@ def render_main(out: Path = OUT) -> None:
     axes[1].scatter(marker["fpr"], marker["tpr"], color=blue, s=20, zorder=3)
     axes[1].text(.98, .08,
                  f"Cov = {marker['tpr']:.3f}\nSpec = {1 - marker['fpr']:.3f}\n"
-                 f"Sel = {row.selectivity:.3f}\nAUROC = {row.auroc:.3f}\nDecode = {decode_score:.3f}",
+                 f"Sel = {marker['tpr'] / (marker['tpr'] + marker['fpr']):.3f}\n"
+                 f"AUROC = {row.auroc:.3f}\nDecode = {decode_score:.3f}",
                  ha="right", transform=axes[1].transAxes)
     axes[1].set(xlabel="False-positive rate", ylabel="True-positive rate",
                 title="Latent ROC", xlim=(0, 1), ylim=(0, 1.04))

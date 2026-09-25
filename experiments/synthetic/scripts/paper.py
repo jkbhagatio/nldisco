@@ -298,7 +298,7 @@ def _decoder(fig, ax, record, direction: str, title_prefix: str = "") -> None:
     ax.set_yticks(np.arange(matrix.shape[0]) + 0.5)
     ax.set_yticklabels([f"{center:.1f}" for center in data["known_centers"]])
     feature = int(data[f"{direction}_feature"])
-    label = "Rightward" if direction == "right" else "Leftward"
+    label = "Forward" if direction == "right" else "Backward"
     ax.set(xlabel="Time from window end (s)", ylabel="Place-field center (m)",
            title=f"{title_prefix}{label}: latent {feature}, seed {record['summary']['seed']}")
     fig.colorbar(image, ax=ax, label="Normalized decoder weight", fraction=0.035, pad=0.02)
