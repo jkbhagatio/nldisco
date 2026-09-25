@@ -1,4 +1,4 @@
-"""SED model setup and training."""
+"""Training, splitting, and evaluation for window-reconstructing SEDs."""
 
 import math
 from dataclasses import dataclass
@@ -6,573 +6,555 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import torch as t
 import wandb
-from einops import asnumpy, einsum, rearrange, reduce, repeat
-from jaxtyping import Bool, Float, Int
-from matplotlib import pyplot as plt
-from matplotlib.figure import Figure
 from sklearn.metrics import r2_score
-from torch import Tensor, bfloat16, nn
+from torch import Tensor
 from torch.nn import functional as F
+from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from nldisco import plot as mp
-from nldisco.util import vec_r2
+from nldisco.config import LossConfig, TrainConfig
+from nldisco.data.window import WindowSample
+from nldisco.evaluation import DiagnosticResult, EvaluationConfig, evaluate_diagnostics
+from nldisco.model.sed import Sed
+from nldisco.model.sparsify import batch_topk
 
-# <s> SED class config
+ACTIVATION_TABLE_COLUMNS = [
+    "window_idx",
+    "anchor_idx",
+    "window_start_idx",
+    "source_time_idx",
+    "feature_time_idx",
+    "lag_from_anchor",
+    "trial_code",
+    "session_code",
+    "replica_id",
+    "latent_idx",
+    "activation_value",
+]
+
 
 @dataclass
-class SedConfig:
-    """Config class to set some params for the batch-topk MSAE."""
-    n_input: int  # number of inputs to the MSAE
-    dsed_topk_map: Dict[int, int]  # {d_sed: topk} pairing for the MSAE levels
-    dsed_loss_x_map: Dict[int, int]  # {d_sed: loss_x} pairing for the MSAE levels
-    seq_len: int = 1  # number of time bins in an input sequence
-    n_instances: int = 2  # number of model instances to optimize in parallel
-    dtype: t.dtype = bfloat16  # data type for the model and spike data
+class TrainingResult:
+    """Scalar training histories for one independently trained SED."""
+
+    loss: Dict[int, float]
+    weighted_reconstruction: Dict[int, float]
+    l0_mean: Dict[int, float]
+    dead_feature_fraction: Dict[int, float]
 
 
-class Sed(nn.Module):
-    """SED model for learning sparse representations of binned spike counts."""
-    # Shapes of weights and biases for the encoder and decoder in the single-layer SED.
-    W_enc: Float[Tensor, "inst d_sed (in_sed seq_len)"]
-    W_dec: Float[Tensor, "inst in_sed d_sed"]
-    b_enc: Float[Tensor, "inst d_sed"]
-    b_dec: Float[Tensor, "inst in_sed"]
+@dataclass
+class EvaluationResult:
+    """Full-window evaluation outputs for one SED replica."""
 
-    def __init__(self, cfg: SedConfig):
-        """Initializes model parameters."""
-        super().__init__()
-        self.cfg = cfg
-        in_dim = cfg.n_input * cfg.seq_len  # expand input dim for sequences
-        d_levels = cfg.dsed_topk_map.keys()
-        d_sed = max(d_levels)
-        dtype = cfg.dtype
-
-        # Tied weights initialization to reduce dead neurons (https://arxiv.org/pdf/2406.04093).
-        self.W_enc = t.empty((cfg.n_instances, d_sed, in_dim), dtype=dtype)
-        self.W_enc = nn.init.kaiming_normal_(self.W_enc, mode="fan_in", nonlinearity="relu")
-        self.W_dec = rearrange(
-            self.W_enc[..., :cfg.n_input], "inst d_sed in_sed -> inst in_sed d_sed"
-        ).clone()
-        self.W_enc, self.W_dec = nn.Parameter(self.W_enc), nn.Parameter(self.W_dec)
-
-        self.b_enc = nn.Parameter(t.zeros((cfg.n_instances, d_sed), dtype=dtype))
-        self.b_dec = nn.Parameter(t.zeros((cfg.n_instances, cfg.n_input), dtype=dtype))
-
-    def forward(self, x: Float[Tensor, "batch inst seq in_sed"]) -> (
-        Tuple[
-            List[Float[Tensor, "batch inst d_level"]],  # reconstructions for each level
-            List[Float[Tensor, "batch inst d_level"]],  # topk activations per level
-            Float[Tensor, "batch inst d_sed"]  # activations for all neurons
-        ]
-    ):
-        """Computes loss as a function of SED feature sparsity and spike_count reconstructions."""
-        # Compute encoder activations.
-        batch_sz = x.shape[0]
-        x = rearrange(x, "batch inst seq in_sed -> batch inst (seq in_sed)")
-        acts_enc = einsum(x, self.W_enc, "batch inst in_dim, inst d_sed in_dim -> batch inst d_sed")
-        acts_enc += self.b_enc
-        acts_enc = F.relu(acts_enc)
-
-        d_levels = sorted(self.cfg.dsed_topk_map.keys())
-        recon_levels = []
-        topk_acts_levels = []
-        for d_l in d_levels:
-            # Attempt reconstruction separately for each level in the group.
-            level_acts = acts_enc[..., :d_l]
-            batch_topk = batch_sz * self.cfg.n_instances * self.cfg.dsed_topk_map[d_l]
-            feat_keep_vals, feat_keep_idxs = level_acts.ravel().topk(batch_topk)
-            topk_acts = level_acts.ravel().zero_().scatter_(
-                0, feat_keep_idxs, feat_keep_vals
-            ).view_as(level_acts)
-            topk_acts_levels.append(topk_acts)
-            # Compute reconstructed input.
-            W_dec_slice = self.W_dec[..., :d_l]
-            x_recon = einsum(
-                topk_acts, W_dec_slice, "batch inst d_l, inst in_sed d_l -> batch inst in_sed"
-            )
-            x_recon += self.b_dec
-            x_recon = F.relu(x_recon)  # ensure reconstructed spikes are non-negative
-            recon_levels.append(x_recon)
-
-        return recon_levels, topk_acts_levels, acts_enc
-
-    @t.no_grad()
-    def norm_decoder(self) -> None:
-        """Weight norm (l2) for the hidden dimension via projected gradients."""
-        self.W_dec.data /= self.W_dec.norm(dim=1, p=2, keepdim=True)
-        # Update grad to keep weights normalized for optimizer step.
-        W_dec_grad_dot = (self.W_dec.grad * self.W_dec).sum(dim=1, keepdim=True)
-        W_dec_grad_proj = W_dec_grad_dot * self.W_dec
-        self.W_dec.grad -= W_dec_grad_proj  # subtract grad proj to ensure weights stay normed
-
-# </s>
-
-# <s> Loss and optimization functions
-
-# <ss> Loss functions for reconstruction.
-
-def mse(
-    x: Float[Tensor, "batch inst in_sed"],  # input
-    x_recon: Float[Tensor, "batch inst in_sed"],  # reconstruction
-    **kwargs: Optional[Dict],  # catch additional parameters (for interchangeable call with `msle`)
-) -> Float[Tensor, "batch inst"]:
-    """Computes the mean squared error loss between true input and reconstruction."""
-    return reduce((x - x_recon).pow(2), "batch inst in_sed -> batch inst", "mean")
+    reconstructions: Tensor  # [window, timebin, output_unit]
+    targets: Tensor  # [window, timebin, output_unit]
+    metrics_by_lag: pd.DataFrame
+    weighted_reconstruction: float
+    activation_table: pd.DataFrame
+    evaluation_index: pd.DataFrame
+    inference_sparsity: str
+    diagnostics: Optional[DiagnosticResult] = None
 
 
-def msle(
-    x: Float[Tensor, "batch inst in_sed"],  # input
-    x_recon: Float[Tensor, "batch inst in_sed"],  # reconstruction
-    tau: int = 1,  # relative overestimation/underestimation penalty (1 for symmetric)
-) -> Float[Tensor, "batch inst"]:
-    """Computes the mean squared log error loss between true input and reconstruction."""
-    return reduce(
-        (tau * t.log(x_recon + 1) - t.log(x + 1)).pow(2), "batch inst in_sed -> batch inst", "mean"
+def split_rows_by_trial_proportion(
+    trial_ids: np.ndarray,
+    session_ids: Optional[np.ndarray] = None,
+    train_proportion: float = 0.8,
+    shuffle: bool = True,
+    seed: Optional[int] = None,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """Return row masks after splitting unique (session, trial) identities."""
+
+    if not 0 < train_proportion < 1:
+        raise ValueError("train_proportion must be in (0, 1)")
+    trial_ids = np.asarray(trial_ids, dtype=object)
+    if session_ids is None:
+        session_ids = np.zeros(len(trial_ids), dtype=object)
+    else:
+        session_ids = np.asarray(session_ids, dtype=object)
+    if len(trial_ids) != len(session_ids):
+        raise ValueError("trial_ids and session_ids must have the same length")
+    valid = ~(pd.isna(trial_ids) | pd.isna(session_ids))
+    keys = np.empty(len(trial_ids), dtype=object)
+    keys[:] = list(zip(session_ids.tolist(), trial_ids.tolist()))
+    ordered = np.asarray(pd.Series(keys[valid]).unique(), dtype=object)
+    if len(ordered) < 2:
+        raise ValueError("At least two valid trial identities are required for a split")
+    if shuffle:
+        np.random.default_rng(seed).shuffle(ordered)
+    n_train = max(1, min(len(ordered) - 1, int(len(ordered) * train_proportion)))
+    train_keys = set(ordered[:n_train].tolist())
+    validation_keys = set(ordered[n_train:].tolist())
+    train_rows = np.asarray([is_valid and key in train_keys for key, is_valid in zip(keys, valid)])
+    validation_rows = np.asarray(
+        [is_valid and key in validation_keys for key, is_valid in zip(keys, valid)]
+    )
+    return train_rows, validation_rows
+
+
+def split_rows_by_session(
+    session_ids: np.ndarray,
+    train_sessions: List[object],
+    shuffle: bool = True,
+    seed: Optional[int] = None,
+) -> Tuple[np.ndarray, np.ndarray]:
+    """Return train/validation row masks according to session membership."""
+
+    if not train_sessions:
+        raise ValueError("At least one training session is required")
+    if shuffle or seed is not None:
+        # Retained in the signature for call-site symmetry; row membership is deterministic.
+        pass
+    valid = ~pd.isna(session_ids)
+    train_session_values = np.asarray(train_sessions, dtype=object)
+    train_rows = valid & np.isin(session_ids, train_session_values)
+    validation_rows = valid & ~np.isin(session_ids, train_session_values)
+    if not train_rows.any() or not validation_rows.any():
+        raise ValueError("Session split must leave at least one row in both partitions")
+    return np.asarray(train_rows), np.asarray(validation_rows)
+
+
+def elementwise_reconstruction_loss(
+    target: Tensor,
+    reconstruction: Tensor,
+    loss_cfg: LossConfig,
+) -> Tensor:
+    """Return an unreduced reconstruction loss with shape [B, S, N]."""
+
+    if target.shape != reconstruction.shape or target.ndim != 3:
+        raise ValueError(
+            "target and reconstruction must have matching [batch, timebin, neuron] shapes"
+        )
+    if loss_cfg.type == "mse":
+        return (target - reconstruction).pow(2)
+    if loss_cfg.type != "msle":
+        raise ValueError(f"Unknown reconstruction loss: {loss_cfg.type}")
+    if not math.isfinite(loss_cfg.tau) or loss_cfg.tau <= 0:
+        raise ValueError("tau must be finite and positive")
+    if (target < 0).any():
+        raise ValueError("MSLE requires nonnegative targets")
+    return (t.log1p(target) - loss_cfg.tau * t.log1p(reconstruction.clamp_min(0))).pow(2)
+
+
+def weighted_reconstruction_loss(
+    target: Tensor,
+    reconstruction: Tensor,
+    loss_cfg: LossConfig,
+) -> Tuple[Tensor, Tensor]:
+    """Return weighted full-window loss and the loss at every time bin."""
+
+    if len(loss_cfg.timebin_weights) != target.shape[1]:
+        raise ValueError("timebin_weights must contain exactly one value per target time bin")
+    if any(not math.isfinite(weight) or weight <= 0 for weight in loss_cfg.timebin_weights):
+        raise ValueError("Every timebin weight must be finite and positive")
+    per_timebin = elementwise_reconstruction_loss(target, reconstruction, loss_cfg).mean(
+        dim=(0, 2)
+    )
+    weights = t.as_tensor(
+        loss_cfg.timebin_weights,
+        dtype=per_timebin.dtype,
+        device=per_timebin.device,
+    )
+    weighted = (per_timebin * weights).sum() / weights.sum()
+    return weighted, per_timebin
+
+
+def simple_cosine_lr_schedule(
+    step: int,
+    n_steps: int,
+    initial_lr: float,
+    min_lr: float,
+) -> float:
+    """Warm up, hold, and cosine-decay the learning rate."""
+
+    n_warmup_steps = max(1, int(n_steps * 0.1))
+    decay_start_step = int(n_steps * 0.5)
+    if step < n_warmup_steps:
+        return max(initial_lr * step / n_warmup_steps, min_lr)
+    if step < decay_start_step:
+        return initial_lr
+    decay_steps = max(1, n_steps - decay_start_step)
+    decay_position = (step - decay_start_step) / decay_steps
+    return min_lr + 0.5 * (initial_lr - min_lr) * (1 + math.cos(math.pi * decay_position))
+
+
+def _batch_values(batch: WindowSample, device: t.device, dtype: t.dtype) -> Tensor:
+    return batch.values.to(device=device, dtype=dtype, non_blocking=True)
+
+
+def _validate_population_shapes(model: Sed, inputs: Tensor, target: Tensor, batched: bool) -> None:
+    """Reject incompatible populations before encoding or updating model parameters."""
+    ndim = 3 if batched else 2
+    if inputs.ndim != ndim or inputs.shape[-2:] != (model.cfg.seq_len, model.cfg.n_neurons):
+        raise ValueError(
+            f"inputs must have shape {'[batch, ' if batched else '['}"
+            f"{model.cfg.seq_len}, {model.cfg.n_neurons}]"
+        )
+    if target.ndim != ndim or target.shape[-2:] != (
+        model.cfg.seq_len, model.cfg.n_output_neurons
+    ) or (batched and inputs.shape[0] != target.shape[0]):
+        raise ValueError(
+            f"targets must have shape {'[batch, ' if batched else '['}"
+            f"{model.cfg.seq_len}, {model.cfg.n_output_neurons}] aligned with inputs"
+        )
+
+
+def _validate_target_domain(model: Sed, target: Tensor, loss_cfg: LossConfig) -> None:
+    if not t.isfinite(target).all():
+        raise ValueError("Targets must be finite")
+    if (target < 0).any():
+        if loss_cfg.type == "msle":
+            raise ValueError("MSLE requires nonnegative targets")
+        if model.cfg.decoder.output_activation != "none":
+            raise ValueError("Signed targets require decoder.output_activation=none")
+
+
+def _validate_loader_populations(model: Sed, loader: DataLoader, loss_cfg: LossConfig) -> None:
+    """Validate dataset shapes before training, without advancing its batch sampler."""
+    sample = loader.dataset[0]
+    _validate_population_shapes(model, sample.values, sample.target, batched=False)
+    # Window construction has already excluded invalid rows. Check all retained
+    # targets up front when the dataset exposes its underlying recording.
+    dataset = loader.dataset
+    if hasattr(dataset, "targets") and hasattr(dataset, "allowed_rows"):
+        for start in range(0, len(dataset.targets), 100_000):
+            stop = start + 100_000
+            rows = t.as_tensor(dataset.allowed_rows[start:stop], device=dataset.targets.device)
+            _validate_target_domain(model, dataset.targets[start:stop][rows], loss_cfg)
+    else:
+        _validate_target_domain(model, sample.target, loss_cfg)
+
+
+def _batch_populations(batch: WindowSample, model: Sed, loss_cfg: LossConfig) -> Tuple[Tensor, Tensor]:
+    device = next(model.parameters()).device
+    inputs = _batch_values(batch, device, model.cfg.dtype)
+    target = batch.target.to(device=device, dtype=model.cfg.dtype, non_blocking=True)
+    _validate_population_shapes(model, inputs, target, batched=True)
+    _validate_target_domain(model, target, loss_cfg)
+    if not t.isfinite(inputs).all():
+        raise ValueError("Inputs must be finite")
+    return inputs, target
+
+
+def _dead_feature_reconstruction(
+    model: Sed,
+    acts: Tensor,
+    dead_features: Tensor,
+    max_dead_feature_fraction: float,
+) -> Optional[Tensor]:
+    n_dead = int(dead_features.sum().item())
+    if n_dead == 0:
+        return None
+    broadcast_shape = [1] * (acts.ndim - 1) + [acts.shape[-1]]
+    dead_acts = acts * dead_features.view(*broadcast_shape)
+    average_top_k = max(1, min(n_dead, int(max_dead_feature_fraction * acts.shape[-1])))
+    sparse_dead_acts = batch_topk(dead_acts, average_top_k)
+    return model.decode(
+        sparse_dead_acts,
+        apply_output_activation=False,
+        include_bias=False,
     )
 
 
-def res_recon_loss(
-    x: Float[Tensor, "batch inst in_sed"],  # input
-    x_recon: Float[Tensor, "batch inst in_sed"],  # reconstruction
-    sed: Sed,  # SED model
-    acts_enc: Float[Tensor, "batch inst d_sed"],  # activations
-    dead_features: Bool[Tensor, "inst d_sed"],  # mask of dead neurons
-    loss_fn: callable,  # loss function to use for the auxiliary loss
-    max_revive_frac: float = 0.1,  # max fraction of dead neurons used for residual reconstruction
-    **loss_fn_kwargs: Optional[Dict],  # kwargs for the loss function
-) -> Float[Tensor, "batch inst"]:
-    """Computes an auxiliary loss for dead neurons that perform a residual reconstruction."""
-    res = x - x_recon  # the residual to try to reconstruct.
-
-    n_dead = dead_features.sum().item()
-    if n_dead:  # if dead neurons, try to reconstruct the residual from topk dead
-        topk_aux = min(n_dead, int(max_revive_frac * dead_features.shape[-1]))
-        acts_dead = acts_enc * repeat(
-            dead_features, "inst d_sed -> batch inst d_sed", batch=x.shape[0]
-        )
-        feat_keep_vals, feat_keep_idxs = acts_dead.ravel().topk(topk_aux)
-        topk_dead_acts = acts_dead.ravel().zero_().scatter_(
-            0, feat_keep_idxs, feat_keep_vals
-        ).view_as(acts_dead)
-        res_recon = einsum(
-            topk_dead_acts,
-            sed.W_dec,
-            "batch inst d_sed, inst in_sed d_sed -> batch inst in_sed"
-        )
-        return loss_fn(res, res_recon, **loss_fn_kwargs)
-
-    return reduce(t.zeros_like(x, device=x.device), "batch inst in_sed -> batch inst", "mean")
-
-# </ss>
-
-def simple_cosine_lr_sched(step: int, n_steps: int, initial_lr: float, min_lr: float):
-    """Learning rate schedule with warmup, decay and cosyne cycle."""
-    n_warmup_steps = int(n_steps * 0.1)
-    decay_start_step = int(n_steps * 0.5)
-    n_decay_steps = n_steps - decay_start_step
-    n_cycle_steps = int(n_decay_steps * 0.2)
-
-    # Warmup phase
-    if step < n_warmup_steps:
-        return max(initial_lr * (step / n_warmup_steps), min_lr)
-
-    # Decay phase: cosine decay with cycles
-    if step >= decay_start_step:
-        decay_steps = n_steps - decay_start_step
-        decay_position = (step - decay_start_step) / decay_steps
-        cosine_decay = 0.5 * (1 + math.cos(math.pi * decay_position))
-        decayed_lr = min_lr + (initial_lr - min_lr) * cosine_decay
-        cycle_position = ((step - decay_start_step) % n_cycle_steps) / n_cycle_steps
-        cycle_factor = 0.5 * (1 + math.cos(2 * math.pi * cycle_position))
-        cycle_amplitude = 0.1 * (initial_lr - min_lr)
-
-        return decayed_lr + cycle_amplitude * cycle_factor
-
-    # Constant phase: between warmup and decay start
-    return initial_lr
-
-
-def optimize(
-    spk_cts: Int[Tensor, "n_examples n_units"],
-    sed: Sed,
-    loss_fn: callable,
-    optimizer: t.optim.Optimizer,
-    use_lr_sched: bool,
-    dead_neuron_window: int,  # min consec steps a feature didn't fire for it to be considered dead
-    n_steps: int,
-    log_freq: int,
-    batch_sz: int = 1024,
+def train_model(
+    model: Sed,
+    train_loader: DataLoader,
+    loss_cfg: LossConfig,
+    train_cfg: TrainConfig,
+    *,
+    optimizer: Optional[t.optim.Optimizer] = None,
     log_wandb: bool = False,
-    plot_l0: bool = False,
-    **loss_fn_kwargs: Optional[Dict],
-):
-    """Optimizes the autoencoder."""
-    device=spk_cts.device
-    l0_history = []  # history of l0 mean and std for each step
-    data_log = {
-        "frac_active": {},
+) -> TrainingResult:
+    """Encode input windows and supervise every level with aligned target windows."""
+
+    loss_cfg.validate_for(model.cfg)
+    if len(train_loader) == 0:
+        raise ValueError("train_loader contains no valid windows")
+    _validate_loader_populations(model, train_loader, loss_cfg)
+    resolved_optimizer = (
+        t.optim.Adam(model.parameters(), lr=train_cfg.learning_rate)
+        if optimizer is None
+        else optimizer
+    )
+    device = next(model.parameters()).device
+    n_steps = train_cfg.epochs * len(train_loader)
+    initial_lr = resolved_optimizer.param_groups[0]["lr"]
+    min_lr = initial_lr * 1e-2
+    largest_level = model.cfg.n_features
+    inactive_steps = t.zeros(largest_level, dtype=t.long, device=device)
+    dead_features = t.zeros(largest_level, dtype=t.bool, device=device)
+    histories: Dict[str, Dict[int, float]] = {
         "loss": {},
-        "l0": {}
+        "weighted_reconstruction": {},
+        "l0_mean": {},
+        "dead_feature_fraction": {},
     }
-    n_examples, _n_units = spk_cts.shape
-    n_inst = sed.cfg.n_instances
-    seq_len = sed.cfg.seq_len
-    valid_starts = n_examples - seq_len + 1  # valid start indices for sequences
-    d_sed = max(sed.cfg.dsed_topk_map.keys())  # max number of features in the SED
-    n_steps_features_inactive = t.zeros((n_inst, d_sed), dtype=int, device=device)
-    dead_features = t.zeros((n_inst, d_sed), dtype=bool, device=device)
 
-    lr = optimizer.param_groups[0]["lr"]
-    if use_lr_sched:
-        min_lr = lr * 1e-2
-
-    pbar = tqdm(range(n_steps), desc="SED batch training step")
-    for step in pbar:
-
-        if use_lr_sched:
-            optimizer.param_groups[0]["lr"] = (
-                simple_cosine_lr_sched(step, n_steps, lr, min_lr)
-            )
-
-        # Get batch of spike counts to feed into SED.
-        start_idxs = t.randint(0, valid_starts, (batch_sz, sed.cfg.n_instances))
-        seq_idxs = start_idxs.unsqueeze(-1) + t.arange(seq_len)  # broadcast seq idxs to new dim
-        spike_count_seqs = spk_cts[seq_idxs]  # [batch_sz, n_instances, seq_len, n_units]
-
-        # Forward pass -- get reconstruction loss for each level:
-        # take loss between reconstructions and last timebin (sequence) of true spike counts
-        optimizer.zero_grad()
-        recon_levels, topk_acts_levels, acts_enc = sed(spike_count_seqs)  # forward
-        recon_loss = t.zeros((batch_sz, sed.cfg.n_instances), device=device)
-        loss_xs = list(dict(sorted(sed.cfg.dsed_loss_x_map.items())).values())  # sorted by d_sed
-        for level_idx, recon_level in enumerate(recon_levels):
-            recon_loss += (
-                loss_fn(spike_count_seqs[..., -1, :], recon_level, **loss_fn_kwargs)
-                * loss_xs[level_idx]
-            )
-        recon_loss = reduce(recon_loss, "batch inst -> ", "mean")
-
-        # Save these gradients before computing gradients for dead neurons for aux loss
-        recon_loss.backward(retain_graph=True)
-        grad_buffer = {
-            name: p.grad.clone() for name, p in sed.named_parameters() if p.grad is not None
-        }
-
-        # Get auxiliary loss for dead neurons
-        if dead_features.any():
-            optimizer.zero_grad()
-            aux_loss = res_recon_loss(
-                x=spike_count_seqs[..., -1, :],
-                x_recon=recon_levels[-1],
-                sed=sed,
-                acts_enc=acts_enc,
-                dead_features=dead_features,
-                loss_fn=loss_fn,
-                **loss_fn_kwargs
-            )
-            aux_loss = reduce(aux_loss, "batch inst -> ", "mean")
-
-            # Apply aux loss grads to dead neurons only (mask out active neurons)
-            aux_loss.backward()
-            for name, p in sed.named_parameters():
-                if p.grad is not None:
-                    if "W_enc" in name:
-                        p.grad *= dead_features.unsqueeze(2)  # broadcast to input dim
-                    elif "W_dec" in name:
-                        p.grad *= dead_features.unsqueeze(1)  # broadcast to output dim
-                    elif "b_enc" in name:  # don't need for 'b_dec': acts as global offset
-                        p.grad *= dead_features
-
-                    p.grad += grad_buffer.get(name, 0)  # add in gradients from recon_loss backward
-
-        sed.norm_decoder()  # normalize decoder weights
-        optimizer.step()
-
-        feat_active = reduce(
-            topk_acts_levels[-1], "batch inst d_sed -> inst d_sed", "sum"
-        ) > 0
-        n_steps_features_inactive[feat_active] = 0
-        n_steps_features_inactive[~feat_active] += 1
-        dead_features = n_steps_features_inactive > dead_neuron_window
-
-        # Display progress bar, and append new values for plotting.
-        if step % log_freq == 0 or (step + 1 == n_steps):
-            # import ipdb; ipdb.set_trace()
-            l0 = reduce(topk_acts_levels[-1] > 0, "batch inst d_sed -> batch inst", "sum").float()
-            l0_mean, l0_std = l0.mean().item(), l0.std().item()
-            frac_dead = dead_features.float().mean().item()
-            pbar.set_postfix(loss=f"{recon_loss.item():.5f},  {l0_mean=}, {l0_std=}, {frac_dead=}")
-            data_log["l0"][step] = {"mean": l0_mean, "std": l0_std}
-            data_log["loss"][step] = recon_loss.item()
-
-            if log_wandb:
-                wandb.log(
-                    {"loss": recon_loss.item(), "l0_mean": l0_mean, "l0_std": l0_std, "step": step}
+    progress = tqdm(total=n_steps, desc="SED training step")
+    step = 0
+    model.train()
+    for _epoch in range(train_cfg.epochs):
+        for batch in train_loader:
+            if train_cfg.use_lr_schedule:
+                resolved_optimizer.param_groups[0]["lr"] = simple_cosine_lr_schedule(
+                    step, n_steps, initial_lr, min_lr
                 )
 
-                if dead_features.any():
-                    wandb.log({"frac_dead": frac_dead, "step": step})
+            inputs, target = _batch_populations(batch, model, loss_cfg)
+            resolved_optimizer.zero_grad()
+            output = model(inputs, occurrence_mask=batch.occurrence_mask.to(device))
+            reconstruction_loss = t.zeros((), dtype=t.float32, device=device)
+            largest_weighted_loss = None
+            for d_sed, reconstruction in output.reconstructions.items():
+                level_loss, _ = weighted_reconstruction_loss(target, reconstruction, loss_cfg)
+                reconstruction_loss = reconstruction_loss + (
+                    level_loss.float() * loss_cfg.level_weight(d_sed)
+                )
+                if d_sed == largest_level:
+                    largest_weighted_loss = level_loss
 
-                if plot_l0:
-                    alpha = 0.3 + (0.7 * step / n_steps)  # alpha from 0.3 to 1.0
-                    l0_history.append(
-                        {"step": step, "mean": l0_mean, "std": l0_std, "alpha": alpha}
+            total_loss = reconstruction_loss
+            dead_reconstruction = _dead_feature_reconstruction(
+                model,
+                output.acts,
+                dead_features,
+                train_cfg.max_dead_feature_fraction,
+            )
+            if dead_reconstruction is not None and loss_cfg.dead_feature_loss_weight:
+                residual = target - output.reconstructions[largest_level].detach()
+                per_timebin_aux = (residual - dead_reconstruction).pow(2).mean(dim=(0, 2))
+                weights = t.as_tensor(
+                    loss_cfg.timebin_weights,
+                    device=device,
+                    dtype=per_timebin_aux.dtype,
+                )
+                auxiliary_loss = (per_timebin_aux * weights).sum() / weights.sum()
+                total_loss = total_loss + loss_cfg.dead_feature_loss_weight * auxiliary_loss
+
+            total_loss.backward()
+            model.constrain_dictionary()
+            resolved_optimizer.step()
+            model.normalize_dictionary()
+
+            largest_sparse = output.sparse_acts[largest_level]
+            reduce_dims = tuple(range(largest_sparse.ndim - 1))
+            active_features = largest_sparse.sum(dim=reduce_dims) > 0
+            inactive_steps[active_features] = 0
+            inactive_steps[~active_features] += 1
+            dead_features = inactive_steps > train_cfg.dead_feature_window
+
+            if step % train_cfg.log_frequency == 0 or step + 1 == n_steps:
+                l0 = (largest_sparse > 0).flatten(start_dim=1).sum(dim=1).float().mean()
+                dead_fraction = dead_features.float().mean()
+                histories["loss"][step] = float(total_loss.detach())
+                assert largest_weighted_loss is not None
+                histories["weighted_reconstruction"][step] = float(largest_weighted_loss.detach())
+                histories["l0_mean"][step] = float(l0)
+                histories["dead_feature_fraction"][step] = float(dead_fraction)
+                progress.set_postfix(
+                    loss=f"{float(total_loss.detach()):.5f}",
+                    l0=f"{float(l0):.2f}",
+                    dead=f"{float(dead_fraction):.3f}",
+                )
+                if log_wandb:
+                    wandb.log(  # pyright: ignore[reportAttributeAccessIssue]
+                        {
+                            "train/loss": float(total_loss.detach()),
+                            "train/reconstruction/window_weighted": float(
+                                largest_weighted_loss.detach()
+                            ),
+                            "train/l0_mean": float(l0),
+                            "train/dead_feature_fraction": float(dead_fraction),
+                            "train/step": step,
+                        }
                     )
-                    l0_fig = mp.plot_l0_stats(l0_history)
-                    wandb.log({"l0_std_vs_mean": l0_fig, "step": step})
+            step += 1
+            progress.update(1)
+    progress.close()
+    if model.cfg.inference_sparsity == "training_threshold":
+        was_training = model.training
+        model.eval()
+        model.sparsifier.begin_threshold_calibration()
+        with t.no_grad():
+            for batch in train_loader:
+                inputs = _batch_values(batch, device, model.cfg.dtype)
+                model(inputs, occurrence_mask=batch.occurrence_mask.to(device))
+        model.sparsifier.end_threshold_calibration()
+        model.train(was_training)
+    return TrainingResult(**histories)
 
-    return data_log
+
+def _activation_rows(
+    sparse_acts: Tensor,
+    batch: WindowSample,
+    replica_id: int,
+) -> List[Dict[str, object]]:
+    rows: List[Dict[str, object]] = []
+    sparse_cpu = sparse_acts.detach().float().cpu()
+    if sparse_cpu.ndim == 3:
+        sparse_cpu = sparse_cpu * batch.occurrence_mask.cpu().unsqueeze(-1)
+    if sparse_cpu.ndim == 2:
+        batch_indices, feature_indices = t.where(sparse_cpu > 0)
+        for batch_idx, feature_idx in zip(batch_indices.tolist(), feature_indices.tolist()):
+            rows.append(
+                {
+                    "window_idx": int(batch.window_index[batch_idx]),
+                    "anchor_idx": int(batch.anchor_index[batch_idx]),
+                    "window_start_idx": int(batch.source_indices[batch_idx, 0]),
+                    "source_time_idx": int(batch.anchor_index[batch_idx]),
+                    "feature_time_idx": -1,
+                    "lag_from_anchor": 0,
+                    "trial_code": int(batch.trial_code[batch_idx]),
+                    "session_code": int(batch.session_code[batch_idx]),
+                    "replica_id": replica_id,
+                    "latent_idx": feature_idx,
+                    "activation_value": float(sparse_cpu[batch_idx, feature_idx]),
+                }
+            )
+    else:
+        batch_indices, time_indices, feature_indices = t.where(sparse_cpu > 0)
+        seq_len = sparse_cpu.shape[1]
+        for batch_idx, time_idx, feature_idx in zip(
+            batch_indices.tolist(), time_indices.tolist(), feature_indices.tolist()
+        ):
+            rows.append(
+                {
+                    "window_idx": int(batch.window_index[batch_idx]),
+                    "anchor_idx": int(batch.anchor_index[batch_idx]),
+                    "window_start_idx": int(batch.source_indices[batch_idx, 0]),
+                    "source_time_idx": int(batch.source_indices[batch_idx, time_idx]),
+                    "feature_time_idx": time_idx,
+                    "lag_from_anchor": time_idx - seq_len + 1,
+                    "trial_code": int(batch.trial_code[batch_idx]),
+                    "session_code": int(batch.session_code[batch_idx]),
+                    "replica_id": replica_id,
+                    "latent_idx": feature_idx,
+                    "activation_value": float(sparse_cpu[batch_idx, time_idx, feature_idx]),
+                }
+            )
+    return rows
 
 
-def eval_model(
-    spk_cts: Int[Tensor, "n_examples n_units"],
-    sed: Sed,
-    batch_sz: int = 1024,
+def _evaluation_index_rows(
+    model: Sed,
+    batch: WindowSample,
+    replica_id: int,
+) -> List[Dict[str, int]]:
+    """List source rows on which an activation could have been selected."""
+
+    if model.code_layout == "global":
+        source_indices = batch.anchor_index.reshape(-1)
+    else:
+        required_left, required_right = model.temporal_occurrence_support()
+        stop = batch.source_indices.shape[1] - required_right
+        source_indices = batch.source_indices[:, required_left:stop]
+        occurrence_mask = batch.occurrence_mask[:, required_left:stop]
+        source_indices = source_indices[occurrence_mask]
+    return [
+        {"source_time_idx": int(source_idx), "replica_id": replica_id}
+        for source_idx in source_indices
+    ]
+
+
+def evaluate_model(
+    model: Sed,
+    evaluation_loader: DataLoader,
+    loss_cfg: LossConfig,
+    *,
+    replica_id: int = 0,
     log_wandb: bool = False,
-) -> Tuple[
-    Figure,
-    # 4d topk acts info (instance, example, feature, act_val)
-    Float[Tensor, "(n_recon_examples n_inst max_topk) 4"],
-    Float[Tensor, "n_recon_examples n_inst n_units"],  # reconstructions
-    Float[np.ndarray, "n_units n_inst"],  # R² per unit
-    Float[Tensor, "n_recon_examples n_inst"],  # R² per example
-    Float[Tensor, "n_units n_inst"],  # Cosine similarity per unit
-    Float[Tensor, "n_recon_examples n_inst"],  # Cosine similarity per example
-]:
-    """Evaluates the model after training, and generates plots/metrics.
+    diagnostics: Optional[EvaluationConfig] = None,
+    spectral_loader: Optional[DataLoader] = None,
+) -> EvaluationResult:
+    """Encode input windows and score their aligned targets at every output lag."""
 
-    Plots/Metrics:
-    1. L0 boxplot (per example)
-    2. Latent activity-density histogram
-    3a. Cosine-Similarity boxplot of reconstructions vs. true over all units (per example)
-    3b. Cosine-Similarity boxplot of reconstructions vs. true over all examples (per unit)
-    4a. R² boxplot of reconstructions vs. true over all units (per example)
-    4b. R² boxplot of reconstructions vs. true over all examples (per unit)
-
-    """
-    device = spk_cts.device
-    n_inst = sed.cfg.n_instances
-    n_units = spk_cts.shape[1]
-    n_examples = spk_cts.shape[0]
-    valid_starts = n_examples - sed.cfg.seq_len + 1
-    d_sed = max(sed.cfg.dsed_topk_map.keys())
-    n_steps = valid_starts // batch_sz  # total number of examples
-    n_recon_examples = n_steps * batch_sz
-
-    # <ss> Run examples through model and compute metrics.
-
-    # Create placeholders to store metrics.
-    l0 = t.zeros((n_recon_examples, n_inst), dtype=t.float32, device=device)
-    latent_activity_count = t.zeros((n_inst, d_sed), dtype=t.float32, device=device)
-    recon_spk_cts = t.empty((n_recon_examples, n_inst, n_units), dtype=sed.cfg.dtype, device=device)
-    r2_per_example = t.empty((n_recon_examples, n_inst), dtype=sed.cfg.dtype, device=device)
-    cos_sim_per_example = t.empty((n_recon_examples, n_inst), dtype=sed.cfg.dtype, device=device)
-    topk_acts_4d = []  # stores (inst_idx, ex_idx, feat_idx, act_val) for each topk act
-
-    progress_bar = tqdm(range(n_steps), desc="SED batch evaluation step")
+    loss_cfg.validate_for(model.cfg)
+    if len(evaluation_loader) == 0:
+        raise ValueError("evaluation_loader contains no valid windows")
+    _validate_loader_populations(model, evaluation_loader, loss_cfg)
+    largest_level = model.cfg.n_features
+    targets = []
+    reconstructions = []
+    activation_rows: List[Dict[str, object]] = []
+    evaluation_index_rows: List[Dict[str, int]] = []
+    seen_occurrence_sources = set()
+    model.eval()
     with t.no_grad():
-        for step in progress_bar:  # loop over all examples
-            # Get start index for each seq in batch, and then get the full seq indices.
-            start_idxs = t.arange(step * batch_sz, (step + 1) * batch_sz)
-            seq_idxs = repeat(start_idxs, "batch -> batch inst", inst=n_inst)
-            seq_idxs = seq_idxs.unsqueeze(-1) + t.arange(sed.cfg.seq_len)  # broadcast to seq dim
-            spike_count_seqs = spk_cts[seq_idxs]  # [batch, inst, seq, unit]
-            # Forward pass through SED.
-            recon_levels, topk_acts_levels, _acts_raw = sed(spike_count_seqs)
-            nonzero_mask = (topk_acts_levels[-1] > 0)
-            cur_l0 = reduce(nonzero_mask.float(), "batch inst sed_feat -> batch inst", "sum")
-            latent_activity_count += reduce(
-                nonzero_mask.float(), "batch inst sed_feat -> inst sed_feat", "sum"
+        for batch in tqdm(evaluation_loader, desc="SED evaluation batch"):
+            batch_index_rows = _evaluation_index_rows(model, batch, replica_id)
+            if model.code_layout == "temporal":
+                batch_source_list = [row["source_time_idx"] for row in batch_index_rows]
+                batch_sources = set(batch_source_list)
+                repeated_across_batches = seen_occurrence_sources.intersection(batch_sources)
+                if len(batch_source_list) != len(batch_sources) or repeated_across_batches:
+                    raise ValueError(
+                        "Shift-equivariant evaluation requires each physical occurrence once; "
+                        "use validation windows whose valid occurrence supports do not overlap"
+                    )
+                seen_occurrence_sources.update(batch_sources)
+            inputs, target = _batch_populations(batch, model, loss_cfg)
+            output = model(inputs)
+            reconstruction = output.reconstructions[largest_level]
+            targets.append(target.float().cpu())
+            reconstructions.append(reconstruction.float().cpu())
+            activation_rows.extend(
+                _activation_rows(output.sparse_acts[largest_level], batch, replica_id)
             )
-            # Store results.
-            l0[start_idxs] = cur_l0
-            recon_spk_cts[start_idxs] = recon_levels[-1]
-            # Calculate metrics for examples.
-            r2_per_example[start_idxs] = vec_r2(recon_levels[-1], spk_cts[start_idxs])
-            cos_sim_per_example[start_idxs] = (
-                t.cosine_similarity(recon_levels[-1], spk_cts[start_idxs].unsqueeze(1), dim=-1)
+            evaluation_index_rows.extend(batch_index_rows)
+
+    target_tensor = t.cat(targets)
+    reconstruction_tensor = t.cat(reconstructions)
+    weighted_loss, per_timebin_loss = weighted_reconstruction_loss(
+        target_tensor,
+        reconstruction_tensor,
+        loss_cfg,
+    )
+    metric_rows = []
+    seq_len = target_tensor.shape[1]
+    for time_idx in range(seq_len):
+        target_at_lag = target_tensor[:, time_idx]
+        reconstruction_at_lag = reconstruction_tensor[:, time_idx]
+        cosine = F.cosine_similarity(reconstruction_at_lag, target_at_lag, dim=-1).mean()
+        try:
+            r2 = r2_score(
+                target_at_lag.numpy(),
+                reconstruction_at_lag.numpy(),
+                multioutput="variance_weighted",
             )
-            # Get top-k features and acts for examples in batch
-            # (just need last level of msae -- it's a superset of the other levels)
-            topk_acts = topk_acts_levels[-1][nonzero_mask]
-            batch_ex_idxs, inst_idxs, feat_idxs = t.where(nonzero_mask)
-            global_ex_idxs = batch_ex_idxs + start_idxs[0]
-            cur_topk_acts_4d = t.stack(
-                [global_ex_idxs.float(), inst_idxs.float(), feat_idxs.float(), topk_acts.float()],
-                dim=1
-            )
-            topk_acts_4d.append(cur_topk_acts_4d)
-
-    topk_acts_4d = t.cat(topk_acts_4d, dim=0)
-
-    r2_per_example[~t.isfinite(r2_per_example)] = 0.0  # div by 0 cases
-
-    # Calculate metrics for units.
-    cos_sim_per_unit = t.empty((n_units, n_inst))
-    r2_per_unit = np.empty((n_units, n_inst))
-
-    spk_cts_np = asnumpy(spk_cts.float())
-    recon_spk_cts_np = asnumpy(recon_spk_cts.float())
-
-    for unit in range(n_units):
-        cos_sim_per_unit[unit] = t.cosine_similarity(
-            recon_spk_cts[..., unit], spk_cts[:n_recon_examples, unit].unsqueeze(-1), dim=0
-        )
-        for inst in range(n_inst):
-            r2_per_unit[unit, inst] = r2_score(
-                spk_cts_np[:n_recon_examples, unit], recon_spk_cts_np[:, inst, unit]
+        except ValueError:
+            r2 = float("nan")
+        metric_rows.append(
+            {
+                "lag": time_idx - seq_len + 1,
+                "timebin_index": time_idx,
+                "reconstruction_loss": float(per_timebin_loss[time_idx]),
+                "cosine_similarity": float(cosine),
+                "r2": float(r2),
+            }
         )
 
-    # </ss>
-
-    # <ss> Create plots.
-
-    fig, ((ax_l0, ax_density), (ax_r2, ax_cos)) = plt.subplots(
-        2, 2, figsize=(12, 10), constrained_layout=True
-    )
-    sns.set_theme(style="whitegrid")
-
-    # <sss> L0 boxplot.
-
-    l0_data = [asnumpy(l0[:, i]) for i in range(n_inst)]
-    mp.box_strip_plot(
-        ax=ax_l0,
-        data=l0_data,
-        show_legend=True
-    )
-    # Update width of box plot and size and alpha of strip plot.
-    # for box in ax_l0.artists:
-    #     box.set_width(0.4)  # Change boxplot width
-    # for collection in ax_l0.collections:
-    #     if isinstance(collection, plt.matplotlib.collections.PathCollection):
-    #         collection.set_sizes([4])
-    #         collection.set_alpha(0.4)
-    # Prettify axes.
-    ax_l0.set_xlabel("")
-    ax_l0.set_ylabel("")
-    ax_l0.set_xticks(range(n_inst))
-    ax_l0.set_xticklabels([f"SED {i}" for i in range(n_inst)])
-    ax_l0.set_yticks(np.arange(0, l0.max().item() + 1, 10))
-    ax_l0.set_title("L0 of SED features")
-
-    # </sss>
-
-    # <sss> Latent density histogram.
-
-    latent_activity_frac = latent_activity_count / n_recon_examples
-    for i in range(n_inst):
-        data = asnumpy(latent_activity_frac[i])
-        ax_density.hist(
-            data,
-            bins=max(1, d_sed // 5),
-            alpha=0.6,
-            weights=np.ones_like(data) / len(data),
-            label=f"SED {i}",
-        )
-    ax_density.set_title("Latent activity density")
-    ax_density.set_xlabel("Fraction of time active")
-    ax_density.set_ylabel("Fraction of latents")
-    ax_density.set_xticks(np.arange(0, 1.05, 0.05))
-    ax_density.set_xlim(-0.025, 1.025)
-    plt.setp(ax_density.get_xticklabels(), rotation=-40, ha="left")
-    ax_density.legend()
-
-    # </sss>
-
-    # <sss> Format and plot R² and Cosine Similarity data.
-
-    cos_sim_per_example = asnumpy(cos_sim_per_example.float())
-    r2_per_example = asnumpy(r2_per_example.float())
-    cos_sim_per_unit = asnumpy(cos_sim_per_unit.float())
-
-    model_names = [f"SED {i}" for i in range(n_inst)]
-    dfs = []
-
-    dfs.append(
-        pd.DataFrame(cos_sim_per_example, columns=model_names)
-        .melt(var_name="SED", value_name="Value")
-        .assign(Type="Examples", Metric="Cosine Similarity")
-    )
-
-    dfs.append(
-        pd.DataFrame(cos_sim_per_unit, columns=model_names)
-        .melt(var_name="SED", value_name="Value")
-        .assign(Type="Units", Metric="Cosine Similarity")
-    )
-
-    dfs.append(
-        pd.DataFrame(r2_per_example, columns=model_names)
-        .melt(var_name="SED", value_name="Value")
-        .assign(Type="Examples", Metric="R²")
-    )
-
-    dfs.append(
-        pd.DataFrame(r2_per_unit, columns=model_names)
-        .melt(var_name="SED", value_name="Value")
-        .assign(Type="Units", Metric="R²")
-    )
-
-    df = pd.concat(dfs, ignore_index=True)
-
-    cos_sim_df = df[df["Metric"] == "Cosine Similarity"]
-    r2_df = df[df["Metric"] == "R²"]
-
-    mp.box_strip_plot(
-        ax=ax_r2,
-        data=r2_df,
-        x="Type",
-        y="Value",
-        hue="SED",
-        show_legend=False
-    )
-    # Prettify axes.
-    ax_r2.set_xlabel("")
-    ax_r2.set_ylabel("")
-    ax_r2.set_ylim(-1.0, 1.0)
-    ax_r2.set_yticks(np.arange(-1.0, 1.1, 0.1))
-    ax_r2.set_title("R² of SED reconstructions")
-
-    mp.box_strip_plot(
-        ax=ax_cos,
-        data=cos_sim_df,
-        x="Type",
-        y="Value",
-        hue="SED",
-        show_legend=False
-    )
-    # Prettify axes.
-    ax_cos.set_xlabel("")
-    ax_cos.set_ylabel("")
-    ax_cos.set_ylim(0.1, 1.0)
-    ax_cos.set_yticks(np.arange(0.1, 1.1, 0.1))
-    ax_cos.set_title("Cosine Similarity of true and reconstructed spike counts")
-
-    # </sss>
-
-    # </ss>
-
-    # <ss> Log to wandb.
-
+    metrics_by_lag = pd.DataFrame(metric_rows)
     if log_wandb:
-
-        # Log metrics figure
-        wandb.log({"combined_metrics_plot": wandb.Image(fig)})
-        plt.close(fig)
-
-        # Log metrics values
-        wandb.log({
-            "r2_per_example_mean": np.mean(r2_per_example),
-            "r2_per_unit_mean": np.mean(r2_per_unit),
-            "cos_per_example_mean": np.mean(cos_sim_per_example),
-            "cos_per_unit_mean": np.mean(cos_sim_per_unit),
-        })
-
-    return fig, topk_acts_4d, recon_spk_cts, r2_per_unit, r2_per_example, cos_sim_per_unit, cos_sim_per_example
-
-    # </ss>
-
-# </s>
+        values = {
+            f"evaluation/reconstruction/lag_{row['lag']}": row["reconstruction_loss"]
+            for row in metric_rows
+        }
+        values["evaluation/reconstruction/window_weighted"] = float(weighted_loss)
+        wandb.log(values)  # pyright: ignore[reportAttributeAccessIssue]
+    evaluation_index = pd.DataFrame(evaluation_index_rows).drop_duplicates(ignore_index=True)
+    return EvaluationResult(
+        reconstructions=reconstruction_tensor,
+        targets=target_tensor,
+        metrics_by_lag=metrics_by_lag,
+        weighted_reconstruction=float(weighted_loss),
+        activation_table=pd.DataFrame(activation_rows, columns=ACTIVATION_TABLE_COLUMNS),
+        evaluation_index=evaluation_index,
+        inference_sparsity=model.cfg.inference_sparsity,
+        diagnostics=evaluate_diagnostics(
+            model, evaluation_loader, diagnostics, list(loss_cfg.timebin_weights),
+            spectral_loader=spectral_loader,
+        ) if diagnostics is not None else None,
+    )

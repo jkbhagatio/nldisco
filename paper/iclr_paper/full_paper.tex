@@ -27,6 +27,10 @@
 \usepackage{array}          % for advanced table column formatting
 \usepackage{svg}            % for including SVG graphics
 \usepackage{enumitem}
+\usepackage{afterpage}
+
+% Consistent metric typography in prose, equations, captions and result tables.
+\newcommand{\metric}[1]{\ensuremath{\mathbf{#1}}}
 
 \definecolor{cb_red}{HTML}{990000}
 \definecolor{cb_green}{HTML}{AAFF80}
@@ -50,16 +54,19 @@
   \texttt{saramolas18@gmail.com} \\
 }
 
+\renewcommand{\bottomfraction}{0.95}  % style raises only \topfraction; needed for stacked bottom floats
+\setcounter{bottomnumber}{2}  % LaTeX default allows only one bottom float per page
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-Mechanistic understanding of the brain requires interpretability of large-scale neuronal computations. Many latent variable model approaches applied to such datasets excel at decoding but yield opaque latent spaces. We address this with NLDisco, a pipeline for interpretable neural latent discovery. Motivated by successful applications of sparse dictionary learning in AI mechanistic interpretability, NLDisco encourages hidden layer neurons in sparse encoder-decoder models to learn interpretable structure in dense neural activity. A flexible, open-source, user-friendly software package supports interpretable latent discovery across recording modalities and experimental paradigms. We validate the pipeline on both synthetic and real extracellular recordings across species and brain regions, showing that it recovers ground-truth features in synthetic data and reveals meaningful representations in real data. These results highlight the pipeline’s potential to advance neuroscientific discovery and provide a foundation for future methodological extensions and applications in interpretable modeling of neural activity.
+Mechanistic understanding of the brain requires interpretability of large-scale neuronal computations. Many latent variable model approaches applied to such datasets excel at decoding but yield opaque latent spaces. We address this with NLDisco, a pipeline for interpretable neural latent discovery. Motivated by successful applications of sparse dictionary learning in AI mechanistic interpretability, NLDisco encourages hidden layer neurons in sparse encoder-decoder models to learn interpretable structure in dense neural activity. A flexible, open-source software package supports interpretable latent discovery across recording modalities and experimental paradigms. We validate the pipeline on both synthetic and real extracellular recordings across species and brain regions, showing that it recovers ground-truth features in synthetic data and reveals meaningful representations in real data. These results highlight the pipeline's potential to advance neuroscientific discovery and provide a foundation for future applications and extensions.
 \end{abstract}
 
 % Include individual sections
 \input{introduction/introduction}
+\input{related_work/related_work}
 \input{methods/methods}
 \input{results/results}
 \input{discussion/discussion}
@@ -70,7 +77,7 @@ Mechanistic understanding of the brain requires interpretability of large-scale 
 
 % Required by ICLR 2027; update this disclosure as AI use evolves.
 \section*{AI use statement}
-Generative AI tools were used to assist with manuscript organization, formatting, conference-guideline research, and editing for readability. All AI-assisted work was reviewed by the authors. The authors take responsibility for the final content of this work, including text, claims, and artifacts produced with the aid of generative AI.
+Generative AI tools were used to assist with writing and executing code, performing machine learning experiments, data analysis, schematic figure creation, and manuscript formatting and editing. Author review of this work was thorough. The authors take responsibility for reviewing the final content of this work, including text, claims, code, and artifacts produced with the aid of generative AI.
 
 % Ethics statement (recommended by ICLR 2027)
 

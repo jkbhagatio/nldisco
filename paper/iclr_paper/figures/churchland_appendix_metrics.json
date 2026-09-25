@@ -1,0 +1,1170 @@
+[
+  {
+    "selection": {
+      "method": "nldisco",
+      "feature": "recent_braking",
+      "criterion": "illustrative",
+      "config_id": "d192_k16_l2_seed1",
+      "n_bins": 88207,
+      "positive_bins": 16436,
+      "negative_bins": 71771,
+      "positive_trials": 1715,
+      "active_positive_bins": 9382,
+      "active_negative_bins": 3404,
+      "active_positive_trials": 1599,
+      "prevalence": 0.18447515503304726,
+      "tpr": 0.570820150888294,
+      "fpr": 0.046773766563096515,
+      "sel": 0.9242645284524228,
+      "precision": 0.7364785304968993,
+      "auroc": 0.7686532789066456,
+      "eligible": true,
+      "latent_id": 83,
+      "orientation": 1,
+      "threshold": 0.0,
+      "achieved_rate": 0.1444216445406827,
+      "varying": true
+    },
+    "displayed_scores": [
+      "0.6708",
+      "0.9532",
+      "0.924",
+      "0.868",
+      "0.7682",
+      "0.9176"
+    ],
+    "measured_scores": [
+      0.570820150888294,
+      0.9532262334369035,
+      0.9242645284524228,
+      0.7686532789066456,
+      0.7681652870093987,
+      0.9175946526259724
+    ],
+    "score_source": "Table 1",
+    "intervals": [
+      {
+        "ci_lower": 0.7507825847089458,
+        "ci_upper": 0.7845594281535739,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9119794308652877,
+        "ci_upper": 0.9237165736960903,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "cebra",
+      "feature": "recent_braking",
+      "criterion": "sel",
+      "config_id": "d192_t1p0_lag1",
+      "latent_id": 126,
+      "orientation": -1,
+      "threshold": 0.0232685077743506,
+      "reference_rate": 0.31921502828573695,
+      "achieved_rate": 0.31921502828573695,
+      "sel": 0.7499556552473983,
+      "auroc": 0.8184437728019099,
+      "tpr": 0.6975541494280847,
+      "fpr": 0.23257304482311797,
+      "active_positive_trials": 1468,
+      "positive_bins": 16436,
+      "negative_bins": 71771,
+      "varying": true,
+      "eligible": true,
+      "active_positive_bins": 11465,
+      "precision": 0.40718116276591965
+    },
+    "displayed_scores": [
+      "0.6976",
+      "0.7674",
+      "0.749",
+      "0.818",
+      "0.7291",
+      "0.8995"
+    ],
+    "measured_scores": [
+      0.6975541494280847,
+      0.767426955176882,
+      0.7499556552473983,
+      0.8184437728019099,
+      0.7291277366593061,
+      0.8994820737025488
+    ],
+    "score_source": "Table 1",
+    "intervals": [
+      {
+        "ci_lower": 0.706409524970808,
+        "ci_upper": 0.7456499323352163,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.8940103502500187,
+        "ci_upper": 0.9046394902235222,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "cebra",
+      "feature": "recent_braking",
+      "criterion": "auroc",
+      "config_id": "d192_t1p0_lag1",
+      "latent_id": 126,
+      "orientation": -1,
+      "threshold": 0.0232685077743506,
+      "reference_rate": 0.31921502828573695,
+      "achieved_rate": 0.31921502828573695,
+      "sel": 0.7499556552473983,
+      "auroc": 0.8184437728019099,
+      "tpr": 0.6975541494280847,
+      "fpr": 0.23257304482311797,
+      "active_positive_trials": 1468,
+      "positive_bins": 16436,
+      "negative_bins": 71771,
+      "varying": true,
+      "eligible": true,
+      "active_positive_bins": 11465,
+      "precision": 0.40718116276591965
+    },
+    "displayed_scores": [
+      "0.6976",
+      "0.7674",
+      "0.749",
+      "0.818",
+      "0.7291",
+      "0.8995"
+    ],
+    "measured_scores": [
+      0.6975541494280847,
+      0.767426955176882,
+      0.7499556552473983,
+      0.8184437728019099,
+      0.7291277366593061,
+      0.8994820737025488
+    ],
+    "score_source": "Table 1",
+    "intervals": [
+      {
+        "ci_lower": 0.706409524970808,
+        "ci_upper": 0.7456499323352163,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.8940103502500187,
+        "ci_upper": 0.9046394902235222,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "langevinflow",
+      "feature": "recent_braking",
+      "criterion": "sel",
+      "config_id": "h64_lr0p003_ramp500",
+      "latent_id": 136,
+      "orientation": -1,
+      "threshold": 0.6759632671939054,
+      "reference_rate": 0.31921502828573695,
+      "achieved_rate": 0.31921502828573695,
+      "sel": 0.8314949572124003,
+      "auroc": 0.9086645779417967,
+      "tpr": 0.9088586030664395,
+      "fpr": 0.18418302657062044,
+      "active_positive_trials": 1711,
+      "positive_bins": 16436,
+      "negative_bins": 71771,
+      "varying": true,
+      "eligible": true,
+      "active_positive_bins": 14938,
+      "precision": 0.5305252690272401
+    },
+    "displayed_scores": [
+      "0.9089",
+      "0.8158",
+      "0.831",
+      "0.908",
+      "0.8620",
+      "0.9021"
+    ],
+    "measured_scores": [
+      0.9088586030664395,
+      0.8158169734293795,
+      0.8314949572124003,
+      0.9086645779417967,
+      0.8619754158390572,
+      0.9020851596222772
+    ],
+    "score_source": "Table 1",
+    "intervals": [
+      {
+        "ci_lower": 0.8525143065465574,
+        "ci_upper": 0.8709482019122365,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.894644128117352,
+        "ci_upper": 0.9084496640335009,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "langevinflow",
+      "feature": "recent_braking",
+      "criterion": "auroc",
+      "config_id": "h64_lr0p003_ramp500",
+      "latent_id": 178,
+      "orientation": 1,
+      "threshold": 0.9148613753317923,
+      "reference_rate": 0.31921502828573695,
+      "achieved_rate": 0.31921502828573695,
+      "sel": 0.8258124065561291,
+      "auroc": 0.921552911797402,
+      "tpr": 0.8917619858846435,
+      "fpr": 0.1880982569561522,
+      "active_positive_trials": 1714,
+      "positive_bins": 16436,
+      "negative_bins": 71771,
+      "varying": true,
+      "eligible": true,
+      "active_positive_bins": 14657,
+      "precision": 0.52054551266115
+    },
+    "displayed_scores": [
+      "0.8918",
+      "0.8119",
+      "0.825",
+      "0.921",
+      "0.8497",
+      "0.9021"
+    ],
+    "measured_scores": [
+      0.8917619858846435,
+      0.8119017430438478,
+      0.8258124065561291,
+      0.921552911797402,
+      0.8496701583461868,
+      0.9020851596222772
+    ],
+    "score_source": "Table 1",
+    "intervals": [
+      {
+        "ci_lower": 0.8412859152005768,
+        "ci_upper": 0.8563810918578816,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.894644128117352,
+        "ci_upper": 0.9084496640335009,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "nldisco",
+      "feature": "fast_target_specific",
+      "criterion": "illustrative",
+      "config_id": "d192_k16_l2_seed1",
+      "n_bins": 88207,
+      "positive_bins": 694,
+      "negative_bins": 87513,
+      "positive_trials": 185,
+      "active_positive_bins": 688,
+      "active_negative_bins": 2238,
+      "active_positive_trials": 185,
+      "prevalence": 0.007414377543732357,
+      "tpr": 0.9913544668587896,
+      "fpr": 0.025161975935003942,
+      "sel": 0.9752468579201249,
+      "precision": 0.23806228373702423,
+      "auroc": 0.9896998259064748,
+      "eligible": true,
+      "latent_id": 20,
+      "orientation": 1,
+      "threshold": 0.0,
+      "achieved_rate": 0.03276383960456653,
+      "varying": true
+    },
+    "displayed_scores": [
+      "0.9914",
+      "0.9748",
+      "0.975",
+      "0.989",
+      "0.9814",
+      "0.9946"
+    ],
+    "measured_scores": [
+      0.9913544668587896,
+      0.9748380240649961,
+      0.9752468579201249,
+      0.9896998259064748,
+      0.9813971418125169,
+      0.9946269890473238
+    ],
+    "score_source": "Table 1",
+    "intervals": [
+      {
+        "ci_lower": 0.9693377354267894,
+        "ci_upper": 0.9897725968091508,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9929848688034464,
+        "ci_upper": 0.996028583867853,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "cebra",
+      "feature": "fast_target_specific",
+      "criterion": "sel",
+      "config_id": "d192_t1p0_lag1",
+      "latent_id": 93,
+      "orientation": -1,
+      "threshold": 0.143483856353965,
+      "reference_rate": 0.007935878104912308,
+      "achieved_rate": 0.007935878104912308,
+      "sel": 0.9654561796651838,
+      "auroc": 0.7854745318859339,
+      "tpr": 0.1829971181556196,
+      "fpr": 0.006547598642487402,
+      "active_positive_trials": 51,
+      "positive_bins": 694,
+      "negative_bins": 87513,
+      "varying": true,
+      "eligible": true,
+      "active_positive_bins": 127,
+      "precision": 0.18142857142857144
+    },
+    "displayed_scores": [
+      "0.1830",
+      "0.9935",
+      "0.965",
+      "0.785",
+      "0.7184",
+      "0.9890"
+    ],
+    "measured_scores": [
+      0.1829971181556196,
+      0.9934524013575126,
+      0.9654561796651838,
+      0.7854745318859339,
+      0.7184335606530274,
+      0.9889956602603844
+    ],
+    "score_source": "Table 1",
+    "intervals": [
+      {
+        "ci_lower": 0.6176195445501184,
+        "ci_upper": 0.8246640370639003,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9865238636051883,
+        "ci_upper": 0.9913779204296751,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "cebra",
+      "feature": "fast_target_specific",
+      "criterion": "auroc",
+      "config_id": "d192_t1p0_lag1",
+      "latent_id": 56,
+      "orientation": -1,
+      "threshold": 0.19158497712421235,
+      "reference_rate": 0.007935878104912308,
+      "achieved_rate": 0.007935878104912308,
+      "sel": 0.9405226076314724,
+      "auroc": 0.9087872362544999,
+      "tpr": 0.11239193083573487,
+      "fpr": 0.007107515454846709,
+      "active_positive_trials": 33,
+      "positive_bins": 694,
+      "negative_bins": 87513,
+      "varying": true,
+      "eligible": true,
+      "active_positive_bins": 78,
+      "precision": 0.11142857142857143
+    },
+    "displayed_scores": [
+      "0.1124",
+      "0.9929",
+      "0.940",
+      "0.908",
+      "0.8268",
+      "0.9890"
+    ],
+    "measured_scores": [
+      0.11239193083573487,
+      0.9928924845451533,
+      0.9405226076314724,
+      0.9087872362544999,
+      0.8267959050662088,
+      0.9889956602603844
+    ],
+    "score_source": "Table 1",
+    "intervals": [
+      {
+        "ci_lower": 0.7866019582711763,
+        "ci_upper": 0.8633427432983151,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9865238636051883,
+        "ci_upper": 0.9913779204296751,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "langevinflow",
+      "feature": "fast_target_specific",
+      "criterion": "sel",
+      "config_id": "h64_lr0p003_ramp500",
+      "latent_id": 179,
+      "orientation": -1,
+      "threshold": 0.9981170396002197,
+      "reference_rate": 0.007935878104912308,
+      "achieved_rate": 0.007935878104912308,
+      "sel": 0.9767620960991126,
+      "auroc": 0.9794276838770861,
+      "tpr": 0.2521613832853026,
+      "fpr": 0.005999108703849714,
+      "active_positive_trials": 73,
+      "positive_bins": 694,
+      "negative_bins": 87513,
+      "varying": true,
+      "eligible": true,
+      "active_positive_bins": 175,
+      "precision": 0.25
+    },
+    "displayed_scores": [
+      "0.2522",
+      "0.9940",
+      "0.975",
+      "0.979",
+      "0.9152",
+      "0.9578"
+    ],
+    "measured_scores": [
+      0.2521613832853026,
+      0.9940008912961503,
+      0.9767620960991126,
+      0.9794276838770861,
+      0.9152399573974279,
+      0.9577670211582177
+    ],
+    "score_source": "Table 1",
+    "intervals": [
+      {
+        "ci_lower": 0.8591660124718782,
+        "ci_upper": 0.9624610215200339,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9156270361184172,
+        "ci_upper": 0.9895423223175015,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "langevinflow",
+      "feature": "fast_target_specific",
+      "criterion": "auroc",
+      "config_id": "h64_lr0p003_ramp500",
+      "latent_id": 179,
+      "orientation": -1,
+      "threshold": 0.9981170396002197,
+      "reference_rate": 0.007935878104912308,
+      "achieved_rate": 0.007935878104912308,
+      "sel": 0.9767620960991126,
+      "auroc": 0.9794276838770861,
+      "tpr": 0.2521613832853026,
+      "fpr": 0.005999108703849714,
+      "active_positive_trials": 73,
+      "positive_bins": 694,
+      "negative_bins": 87513,
+      "varying": true,
+      "eligible": true,
+      "active_positive_bins": 175,
+      "precision": 0.25
+    },
+    "displayed_scores": [
+      "0.2522",
+      "0.9940",
+      "0.975",
+      "0.979",
+      "0.9152",
+      "0.9578"
+    ],
+    "measured_scores": [
+      0.2521613832853026,
+      0.9940008912961503,
+      0.9767620960991126,
+      0.9794276838770861,
+      0.9152399573974279,
+      0.9577670211582177
+    ],
+    "score_source": "Table 1",
+    "intervals": [
+      {
+        "ci_lower": 0.8591660124718782,
+        "ci_upper": 0.9624610215200339,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9156270361184172,
+        "ci_upper": 0.9895423223175015,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "nldisco",
+      "feature": "early_leftward",
+      "criterion": "sel",
+      "config_id": "d192_k16_l2_seed1",
+      "n_bins": 88207,
+      "positive_bins": 1280,
+      "negative_bins": 86927,
+      "positive_trials": 890,
+      "active_positive_bins": 694,
+      "active_negative_bins": 600,
+      "active_positive_trials": 572,
+      "prevalence": 0.014511319963268222,
+      "tpr": 0.5421875,
+      "fpr": 0.00690234334556582,
+      "sel": 0.9874294827536595,
+      "precision": 0.5363214837712519,
+      "auroc": 0.7684438972499914,
+      "eligible": true,
+      "latent_id": 122,
+      "orientation": 1,
+      "threshold": 0.0,
+      "achieved_rate": 0.014670037525366468,
+      "varying": true
+    },
+    "displayed_scores": [
+      "0.5422",
+      "0.9931",
+      "0.987",
+      "0.768",
+      "0.7556",
+      "0.9924"
+    ],
+    "measured_scores": [
+      0.5421875,
+      0.9930976566544342,
+      0.9874294827536595,
+      0.7684438972499914,
+      0.755641397082872,
+      0.9924108535190768
+    ],
+    "score_source": "saved results",
+    "intervals": [
+      {
+        "ci_lower": 0.7135089900814167,
+        "ci_upper": 0.7985916634894821,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9913601439063622,
+        "ci_upper": 0.9936228768301933,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "nldisco",
+      "feature": "early_leftward",
+      "criterion": "auroc",
+      "config_id": "d192_k16_l2_seed1",
+      "n_bins": 88207,
+      "positive_bins": 1280,
+      "negative_bins": 86927,
+      "positive_trials": 890,
+      "active_positive_bins": 1277,
+      "active_negative_bins": 6900,
+      "active_positive_trials": 887,
+      "prevalence": 0.014511319963268222,
+      "tpr": 0.99765625,
+      "fpr": 0.07937694847400692,
+      "sel": 0.9263003697690358,
+      "precision": 0.15616974440503853,
+      "auroc": 0.9912283663663188,
+      "eligible": true,
+      "latent_id": 40,
+      "orientation": 1,
+      "threshold": 0.0,
+      "achieved_rate": 0.09270239323409707,
+      "varying": true
+    },
+    "displayed_scores": [
+      "0.9977",
+      "0.9206",
+      "0.926",
+      "0.991",
+      "0.9726",
+      "0.9924"
+    ],
+    "measured_scores": [
+      0.99765625,
+      0.9206230515259931,
+      0.9263003697690358,
+      0.9912283663663188,
+      0.9726252710002936,
+      0.9924108535190768
+    ],
+    "score_source": "saved results",
+    "intervals": [
+      {
+        "ci_lower": 0.960986419247906,
+        "ci_upper": 0.9831078088940025,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9913601439063622,
+        "ci_upper": 0.9936228768301933,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "cebra",
+      "feature": "early_leftward",
+      "criterion": "sel",
+      "config_id": "d192_t1p0_lag1",
+      "latent_id": 93,
+      "orientation": -1,
+      "threshold": 0.1339874895434845,
+      "reference_rate": 0.014738059337694287,
+      "achieved_rate": 0.014738059337694287,
+      "sel": 0.9518300136431053,
+      "auroc": 0.737987801546125,
+      "tpr": 0.22890625,
+      "fpr": 0.011584432914974635,
+      "active_positive_trials": 214,
+      "positive_bins": 1280,
+      "negative_bins": 86927,
+      "varying": true,
+      "eligible": true
+    },
+    "displayed_scores": [
+      "0.2289",
+      "0.9884",
+      "0.951",
+      "0.737",
+      "0.6652",
+      "0.9457"
+    ],
+    "measured_scores": [
+      0.22890625,
+      0.9884155670850253,
+      0.9518300136431053,
+      0.737987801546125,
+      0.6652413145212145,
+      0.9456933244195074
+    ],
+    "score_source": "saved results",
+    "intervals": [
+      {
+        "ci_lower": 0.6199412487925485,
+        "ci_upper": 0.7059441373964107,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9244149399639707,
+        "ci_upper": 0.9677576194356109,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "cebra",
+      "feature": "early_leftward",
+      "criterion": "auroc",
+      "config_id": "d192_t1p0_lag1",
+      "latent_id": 54,
+      "orientation": 1,
+      "threshold": 0.14250462185954463,
+      "reference_rate": 0.014738059337694287,
+      "achieved_rate": 0.014738059337694287,
+      "sel": 0.9289969857306944,
+      "auroc": 0.855279443347579,
+      "tpr": 0.1640625,
+      "fpr": 0.012539257077777905,
+      "active_positive_trials": 153,
+      "positive_bins": 1280,
+      "negative_bins": 86927,
+      "varying": true,
+      "eligible": true
+    },
+    "displayed_scores": [
+      "0.1641",
+      "0.9875",
+      "0.928",
+      "0.855",
+      "0.7549",
+      "0.9457"
+    ],
+    "measured_scores": [
+      0.1640625,
+      0.9874607429222221,
+      0.9289969857306944,
+      0.855279443347579,
+      0.7549440242585577,
+      0.9456933244195074
+    ],
+    "score_source": "saved results",
+    "intervals": [
+      {
+        "ci_lower": 0.7220994545030094,
+        "ci_upper": 0.7832755872141058,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9244149399639707,
+        "ci_upper": 0.9677576194356109,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "langevinflow",
+      "feature": "early_leftward",
+      "criterion": "sel",
+      "config_id": "h64_lr0p003_ramp500",
+      "latent_id": 179,
+      "orientation": -1,
+      "threshold": 0.9954475744194935,
+      "reference_rate": 0.014738059337694287,
+      "achieved_rate": 0.014738059337694287,
+      "sel": 0.9603867179466736,
+      "auroc": 0.9630005996410782,
+      "tpr": 0.2671875,
+      "fpr": 0.011020741541753426,
+      "active_positive_trials": 252,
+      "positive_bins": 1280,
+      "negative_bins": 86927,
+      "varying": true,
+      "eligible": true
+    },
+    "displayed_scores": [
+      "0.2672",
+      "0.9890",
+      "0.960",
+      "0.963",
+      "0.9260",
+      "0.9815"
+    ],
+    "measured_scores": [
+      0.2671875,
+      0.9889792584582465,
+      0.9603867179466736,
+      0.9630005996410782,
+      0.926047747652722,
+      0.9815469383511799
+    ],
+    "score_source": "saved results",
+    "intervals": [
+      {
+        "ci_lower": 0.9049506870013151,
+        "ci_upper": 0.9451143948587918,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9790181952613201,
+        "ci_upper": 0.9837921791433715,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "langevinflow",
+      "feature": "early_leftward",
+      "criterion": "auroc",
+      "config_id": "h64_lr0p003_ramp500",
+      "latent_id": 179,
+      "orientation": -1,
+      "threshold": 0.9954475744194935,
+      "reference_rate": 0.014738059337694287,
+      "achieved_rate": 0.014738059337694287,
+      "sel": 0.9603867179466736,
+      "auroc": 0.9630005996410782,
+      "tpr": 0.2671875,
+      "fpr": 0.011020741541753426,
+      "active_positive_trials": 252,
+      "positive_bins": 1280,
+      "negative_bins": 86927,
+      "varying": true,
+      "eligible": true
+    },
+    "displayed_scores": [
+      "0.2672",
+      "0.9890",
+      "0.960",
+      "0.963",
+      "0.9260",
+      "0.9815"
+    ],
+    "measured_scores": [
+      0.2671875,
+      0.9889792584582465,
+      0.9603867179466736,
+      0.9630005996410782,
+      0.926047747652722,
+      0.9815469383511799
+    ],
+    "score_source": "saved results",
+    "intervals": [
+      {
+        "ci_lower": 0.9049506870013151,
+        "ci_upper": 0.9451143948587918,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9790181952613201,
+        "ci_upper": 0.9837921791433715,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "nldisco",
+      "feature": "late_target_specific",
+      "criterion": "sel",
+      "config_id": "d192_k16_l2_seed1",
+      "n_bins": 117487,
+      "positive_bins": 3061,
+      "negative_bins": 114426,
+      "positive_trials": 197,
+      "active_positive_bins": 725,
+      "active_negative_bins": 43,
+      "active_positive_trials": 153,
+      "prevalence": 0.02605394639406913,
+      "tpr": 0.23685070238484154,
+      "fpr": 0.00037578871934700156,
+      "sel": 0.9984159074410371,
+      "precision": 0.9440104166666666,
+      "auroc": 0.6182767464436913,
+      "eligible": true,
+      "latent_id": 165,
+      "orientation": 1,
+      "threshold": 0.0,
+      "achieved_rate": 0.006536893443529922,
+      "varying": true
+    },
+    "displayed_scores": [
+      "0.2369",
+      "0.9996",
+      "0.998",
+      "0.618",
+      "0.6202",
+      "0.9894"
+    ],
+    "measured_scores": [
+      0.23685070238484154,
+      0.999624211280653,
+      0.9984159074410371,
+      0.6182767464436913,
+      0.620159764693832,
+      0.9893607242928526
+    ],
+    "score_source": "saved results",
+    "intervals": [
+      {
+        "ci_lower": 0.593754742681114,
+        "ci_upper": 0.6431880545145623,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9818071339010696,
+        "ci_upper": 0.995150466010466,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "nldisco",
+      "feature": "late_target_specific",
+      "criterion": "auroc",
+      "config_id": "d192_k16_l2_seed1",
+      "n_bins": 117487,
+      "positive_bins": 3061,
+      "negative_bins": 114426,
+      "positive_trials": 197,
+      "active_positive_bins": 2946,
+      "active_negative_bins": 7397,
+      "active_positive_trials": 197,
+      "prevalence": 0.02605394639406913,
+      "tpr": 0.9624305782424044,
+      "fpr": 0.06464439900022723,
+      "sel": 0.9370597079740208,
+      "precision": 0.2848303200232041,
+      "auroc": 0.9762219525809755,
+      "eligible": true,
+      "latent_id": 75,
+      "orientation": 1,
+      "threshold": 0.0,
+      "achieved_rate": 0.08803527198753905,
+      "varying": true
+    },
+    "displayed_scores": [
+      "0.9624",
+      "0.9354",
+      "0.937",
+      "0.976",
+      "0.9510",
+      "0.9894"
+    ],
+    "measured_scores": [
+      0.9624305782424044,
+      0.9353556009997728,
+      0.9370597079740208,
+      0.9762219525809755,
+      0.9510271945281297,
+      0.9893607242928526
+    ],
+    "score_source": "saved results",
+    "intervals": [
+      {
+        "ci_lower": 0.9345133612233892,
+        "ci_upper": 0.9656633563838054,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9818071339010696,
+        "ci_upper": 0.995150466010466,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "cebra",
+      "feature": "late_target_specific",
+      "criterion": "sel",
+      "config_id": "d192_t1p0_lag1",
+      "latent_id": 142,
+      "orientation": 1,
+      "threshold": 0.16491287052075848,
+      "reference_rate": 0.024011167192966032,
+      "achieved_rate": 0.024011167192966032,
+      "sel": 0.9653673650110782,
+      "auroc": 0.9104849103997303,
+      "tpr": 0.3936622018948056,
+      "fpr": 0.014122664429412896,
+      "active_positive_trials": 125,
+      "positive_bins": 3061,
+      "negative_bins": 114426,
+      "varying": true,
+      "eligible": true
+    },
+    "displayed_scores": [
+      "0.3937",
+      "0.9859",
+      "0.965",
+      "0.910",
+      "0.7703",
+      "0.9778"
+    ],
+    "measured_scores": [
+      0.3936622018948056,
+      0.9858773355705871,
+      0.9653673650110782,
+      0.9104849103997303,
+      0.7703173980884506,
+      0.9778044084571205
+    ],
+    "score_source": "saved results",
+    "intervals": [
+      {
+        "ci_lower": 0.6906577223203636,
+        "ci_upper": 0.8539497204747392,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9693310061808738,
+        "ci_upper": 0.9856836302048105,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "cebra",
+      "feature": "late_target_specific",
+      "criterion": "auroc",
+      "config_id": "d192_t1p0_lag1",
+      "latent_id": 44,
+      "orientation": 1,
+      "threshold": 0.13467642608050384,
+      "reference_rate": 0.024011167192966032,
+      "achieved_rate": 0.024011167192966032,
+      "sel": 0.9612348519130417,
+      "auroc": 0.919605180679592,
+      "tpr": 0.3675269519764783,
+      "fpr": 0.014821806232849177,
+      "active_positive_trials": 137,
+      "positive_bins": 3061,
+      "negative_bins": 114426,
+      "varying": true,
+      "eligible": true
+    },
+    "displayed_scores": [
+      "0.3675",
+      "0.9852",
+      "0.961",
+      "0.919",
+      "0.8029",
+      "0.9778"
+    ],
+    "measured_scores": [
+      0.3675269519764783,
+      0.9851781937671509,
+      0.9612348519130417,
+      0.919605180679592,
+      0.8028787523334149,
+      0.9778044084571205
+    ],
+    "score_source": "saved results",
+    "intervals": [
+      {
+        "ci_lower": 0.7328659552030483,
+        "ci_upper": 0.8607083581855896,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9693310061808738,
+        "ci_upper": 0.9856836302048105,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "langevinflow",
+      "feature": "late_target_specific",
+      "criterion": "sel",
+      "config_id": "h64_lr0p003_ramp500",
+      "latent_id": 136,
+      "orientation": -1,
+      "threshold": 0.9996964931488037,
+      "reference_rate": 0.024011167192966032,
+      "achieved_rate": 0.024002655612961433,
+      "sel": 0.9793210785993469,
+      "auroc": 0.9608621885926107,
+      "tpr": 0.5148644233910487,
+      "fpr": 0.010871655043434184,
+      "active_positive_trials": 185,
+      "positive_bins": 3061,
+      "negative_bins": 114426,
+      "varying": true,
+      "eligible": true
+    },
+    "displayed_scores": [
+      "0.5149",
+      "0.9891",
+      "0.979",
+      "0.960",
+      "0.8932",
+      "0.9741"
+    ],
+    "measured_scores": [
+      0.5148644233910487,
+      0.9891283449565658,
+      0.9793210785993469,
+      0.9608621885926107,
+      0.8931850086247171,
+      0.9741426217127283
+    ],
+    "score_source": "saved results",
+    "intervals": [
+      {
+        "ci_lower": 0.8737623099412231,
+        "ci_upper": 0.9113816212068321,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9638690723686881,
+        "ci_upper": 0.9822219967616748,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  },
+  {
+    "selection": {
+      "method": "langevinflow",
+      "feature": "late_target_specific",
+      "criterion": "auroc",
+      "config_id": "h64_lr0p003_ramp500",
+      "latent_id": 136,
+      "orientation": -1,
+      "threshold": 0.9996964931488037,
+      "reference_rate": 0.024011167192966032,
+      "achieved_rate": 0.024002655612961433,
+      "sel": 0.9793210785993469,
+      "auroc": 0.9608621885926107,
+      "tpr": 0.5148644233910487,
+      "fpr": 0.010871655043434184,
+      "active_positive_trials": 185,
+      "positive_bins": 3061,
+      "negative_bins": 114426,
+      "varying": true,
+      "eligible": true
+    },
+    "displayed_scores": [
+      "0.5149",
+      "0.9891",
+      "0.979",
+      "0.960",
+      "0.8932",
+      "0.9741"
+    ],
+    "measured_scores": [
+      0.5148644233910487,
+      0.9891283449565658,
+      0.9793210785993469,
+      0.9608621885926107,
+      0.8931850086247171,
+      0.9741426217127283
+    ],
+    "score_source": "saved results",
+    "intervals": [
+      {
+        "ci_lower": 0.8737623099412231,
+        "ci_upper": 0.9113816212068321,
+        "bootstrap_valid_replicates": 300
+      },
+      {
+        "ci_lower": 0.9638690723686881,
+        "ci_upper": 0.9822219967616748,
+        "bootstrap_valid_replicates": 300
+      }
+    ]
+  }
+]

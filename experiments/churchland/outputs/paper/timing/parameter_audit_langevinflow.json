@@ -1,0 +1,245 @@
+{
+  "method": "langevinflow",
+  "total": 449199,
+  "trainable": 449199,
+  "nontrainable": 0,
+  "parameters": [
+    {
+      "name": "encoder.weight_ih",
+      "shape": [
+        192,
+        191
+      ],
+      "count": 36672,
+      "trainable": true
+    },
+    {
+      "name": "encoder.weight_hh",
+      "shape": [
+        192,
+        64
+      ],
+      "count": 12288,
+      "trainable": true
+    },
+    {
+      "name": "encoder.bias_ih",
+      "shape": [
+        192
+      ],
+      "count": 192,
+      "trainable": true
+    },
+    {
+      "name": "encoder.bias_hh",
+      "shape": [
+        192
+      ],
+      "count": 192,
+      "trainable": true
+    },
+    {
+      "name": "linear_z_means.weight",
+      "shape": [
+        64,
+        64
+      ],
+      "count": 4096,
+      "trainable": true
+    },
+    {
+      "name": "linear_z_means.bias",
+      "shape": [
+        64
+      ],
+      "count": 64,
+      "trainable": true
+    },
+    {
+      "name": "linear_z_logvar.weight",
+      "shape": [
+        64,
+        64
+      ],
+      "count": 4096,
+      "trainable": true
+    },
+    {
+      "name": "linear_z_logvar.bias",
+      "shape": [
+        64
+      ],
+      "count": 64,
+      "trainable": true
+    },
+    {
+      "name": "linear_v_means.weight",
+      "shape": [
+        64,
+        64
+      ],
+      "count": 4096,
+      "trainable": true
+    },
+    {
+      "name": "linear_v_means.bias",
+      "shape": [
+        64
+      ],
+      "count": 64,
+      "trainable": true
+    },
+    {
+      "name": "linear_v_logvar.weight",
+      "shape": [
+        64,
+        64
+      ],
+      "count": 4096,
+      "trainable": true
+    },
+    {
+      "name": "linear_v_logvar.bias",
+      "shape": [
+        64
+      ],
+      "count": 64,
+      "trainable": true
+    },
+    {
+      "name": "decoder.self_attn.in_proj_weight",
+      "shape": [
+        576,
+        192
+      ],
+      "count": 110592,
+      "trainable": true
+    },
+    {
+      "name": "decoder.self_attn.in_proj_bias",
+      "shape": [
+        576
+      ],
+      "count": 576,
+      "trainable": true
+    },
+    {
+      "name": "decoder.self_attn.out_proj.weight",
+      "shape": [
+        192,
+        192
+      ],
+      "count": 36864,
+      "trainable": true
+    },
+    {
+      "name": "decoder.self_attn.out_proj.bias",
+      "shape": [
+        192
+      ],
+      "count": 192,
+      "trainable": true
+    },
+    {
+      "name": "decoder.linear1.weight",
+      "shape": [
+        512,
+        192
+      ],
+      "count": 98304,
+      "trainable": true
+    },
+    {
+      "name": "decoder.linear1.bias",
+      "shape": [
+        512
+      ],
+      "count": 512,
+      "trainable": true
+    },
+    {
+      "name": "decoder.linear2.weight",
+      "shape": [
+        192,
+        512
+      ],
+      "count": 98304,
+      "trainable": true
+    },
+    {
+      "name": "decoder.linear2.bias",
+      "shape": [
+        192
+      ],
+      "count": 192,
+      "trainable": true
+    },
+    {
+      "name": "decoder.norm1.weight",
+      "shape": [
+        192
+      ],
+      "count": 192,
+      "trainable": true
+    },
+    {
+      "name": "decoder.norm1.bias",
+      "shape": [
+        192
+      ],
+      "count": 192,
+      "trainable": true
+    },
+    {
+      "name": "decoder.norm2.weight",
+      "shape": [
+        192
+      ],
+      "count": 192,
+      "trainable": true
+    },
+    {
+      "name": "decoder.norm2.bias",
+      "shape": [
+        192
+      ],
+      "count": 192,
+      "trainable": true
+    },
+    {
+      "name": "potential.conv_z",
+      "shape": [
+        4,
+        4,
+        3
+      ],
+      "count": 48,
+      "trainable": true
+    },
+    {
+      "name": "readout.weight",
+      "shape": [
+        191,
+        192
+      ],
+      "count": 36672,
+      "trainable": true
+    },
+    {
+      "name": "readout.bias",
+      "shape": [
+        191
+      ],
+      "count": 191,
+      "trainable": true
+    }
+  ],
+  "checkpoint_sha256": {
+    "03_langevinflow_seed0/model.pt": "883e1132872827ceefa07916ee09b7522f6c14fcfd3ed770c9c5cc5b8ea5cab2",
+    "05_langevinflow_seed1/model.pt": "416c6778004ade7e4f4a80b5c5efb62c3b9117c8d35530f95a691e99deaf43fc",
+    "07_langevinflow_seed2/model.pt": "3e8791a7d65d379a6fe03370629e66e76d144b6e5228d03d70e91f9e6fba500d",
+    "12_langevinflow_seed3/model.pt": "b7829be4519e6030488ff412a8c64c7889a6de1cefe072c56c81dc2b26255897",
+    "14_langevinflow_seed4/model.pt": "936f97ed797c84bc91b2179472014921533d4041bdfa0ba03875be2e5c1b2f24"
+  },
+  "policy": "Unique nn.Parameters; buffers excluded; requires_grad from the same model factory used during training, which does not freeze parameters."
+}

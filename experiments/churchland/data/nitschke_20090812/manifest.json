@@ -1,0 +1,2017 @@
+{
+  "schema_version": 1,
+  "session": "nitschke_20090812",
+  "bin_width_seconds": 0.05,
+  "timestamp_definition": "Bin center, seconds on processed repaired session clock",
+  "binning": "Trial-start anchored complete half-open 50 ms bins, zeros retained",
+  "terminal_remainder_policy": "Exclude only final incomplete bin (<50 ms per trial)",
+  "total_terminal_remainder_seconds": 47.4540000000502,
+  "feature_period": "Whole retained trial: all complete bins, including hold/reach/return",
+  "inclusion": "is_valid & correct_reach & ~novel_maze & valid interval/movement times",
+  "source_trials": 3038,
+  "excluded_trials_sequential": {
+    "invalid": 34,
+    "incorrect_reach": 1098,
+    "novel_maze": 0,
+    "invalid_interval": 0,
+    "invalid_movement_times": 0
+  },
+  "clock_repair_offsets_seconds": [
+    0.0,
+    6743.493766667
+  ],
+  "clock_repair": "Brainsets blockwise repair verified against raw NWB trial time fields",
+  "neurons": [
+    {
+      "column": 0,
+      "id": "nitschke_20090812/group_1/elec0",
+      "raw_unit_row": 0,
+      "raw_unit_id": 0,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 1,
+      "id": "nitschke_20090812/group_1/elec2",
+      "raw_unit_row": 2,
+      "raw_unit_id": 2,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 2,
+      "id": "nitschke_20090812/group_1/elec3",
+      "raw_unit_row": 3,
+      "raw_unit_id": 3,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 3,
+      "id": "nitschke_20090812/group_1/elec4",
+      "raw_unit_row": 4,
+      "raw_unit_id": 4,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 4,
+      "id": "nitschke_20090812/group_1/elec5",
+      "raw_unit_row": 5,
+      "raw_unit_id": 5,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 5,
+      "id": "nitschke_20090812/group_1/elec6",
+      "raw_unit_row": 6,
+      "raw_unit_id": 6,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 6,
+      "id": "nitschke_20090812/group_1/elec7",
+      "raw_unit_row": 7,
+      "raw_unit_id": 7,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 7,
+      "id": "nitschke_20090812/group_1/elec8",
+      "raw_unit_row": 8,
+      "raw_unit_id": 8,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 8,
+      "id": "nitschke_20090812/group_1/elec9",
+      "raw_unit_row": 9,
+      "raw_unit_id": 9,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 9,
+      "id": "nitschke_20090812/group_1/elec10",
+      "raw_unit_row": 10,
+      "raw_unit_id": 10,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 10,
+      "id": "nitschke_20090812/group_1/elec11",
+      "raw_unit_row": 11,
+      "raw_unit_id": 11,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 11,
+      "id": "nitschke_20090812/group_1/elec12",
+      "raw_unit_row": 12,
+      "raw_unit_id": 12,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 12,
+      "id": "nitschke_20090812/group_1/elec13",
+      "raw_unit_row": 13,
+      "raw_unit_id": 13,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 13,
+      "id": "nitschke_20090812/group_1/elec14",
+      "raw_unit_row": 14,
+      "raw_unit_id": 14,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 14,
+      "id": "nitschke_20090812/group_1/elec15",
+      "raw_unit_row": 15,
+      "raw_unit_id": 15,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 15,
+      "id": "nitschke_20090812/group_1/elec16",
+      "raw_unit_row": 16,
+      "raw_unit_id": 16,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 16,
+      "id": "nitschke_20090812/group_1/elec17",
+      "raw_unit_row": 17,
+      "raw_unit_id": 17,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 17,
+      "id": "nitschke_20090812/group_1/elec18",
+      "raw_unit_row": 18,
+      "raw_unit_id": 18,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 18,
+      "id": "nitschke_20090812/group_1/elec19",
+      "raw_unit_row": 19,
+      "raw_unit_id": 19,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 19,
+      "id": "nitschke_20090812/group_1/elec20",
+      "raw_unit_row": 20,
+      "raw_unit_id": 20,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 20,
+      "id": "nitschke_20090812/group_1/elec21",
+      "raw_unit_row": 21,
+      "raw_unit_id": 21,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 21,
+      "id": "nitschke_20090812/group_1/elec22",
+      "raw_unit_row": 22,
+      "raw_unit_id": 22,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 22,
+      "id": "nitschke_20090812/group_1/elec23",
+      "raw_unit_row": 23,
+      "raw_unit_id": 23,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 23,
+      "id": "nitschke_20090812/group_1/elec24",
+      "raw_unit_row": 24,
+      "raw_unit_id": 24,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 24,
+      "id": "nitschke_20090812/group_1/elec25",
+      "raw_unit_row": 25,
+      "raw_unit_id": 25,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 25,
+      "id": "nitschke_20090812/group_1/elec26",
+      "raw_unit_row": 26,
+      "raw_unit_id": 26,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 26,
+      "id": "nitschke_20090812/group_1/elec27",
+      "raw_unit_row": 27,
+      "raw_unit_id": 27,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 27,
+      "id": "nitschke_20090812/group_1/elec28",
+      "raw_unit_row": 28,
+      "raw_unit_id": 28,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 28,
+      "id": "nitschke_20090812/group_1/elec29",
+      "raw_unit_row": 29,
+      "raw_unit_id": 29,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 29,
+      "id": "nitschke_20090812/group_1/elec30",
+      "raw_unit_row": 30,
+      "raw_unit_id": 30,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 30,
+      "id": "nitschke_20090812/group_1/elec31",
+      "raw_unit_row": 31,
+      "raw_unit_id": 31,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 31,
+      "id": "nitschke_20090812/group_1/elec32",
+      "raw_unit_row": 32,
+      "raw_unit_id": 32,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 32,
+      "id": "nitschke_20090812/group_1/elec33",
+      "raw_unit_row": 33,
+      "raw_unit_id": 33,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 33,
+      "id": "nitschke_20090812/group_1/elec34",
+      "raw_unit_row": 34,
+      "raw_unit_id": 34,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 34,
+      "id": "nitschke_20090812/group_1/elec35",
+      "raw_unit_row": 35,
+      "raw_unit_id": 35,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 35,
+      "id": "nitschke_20090812/group_1/elec36",
+      "raw_unit_row": 36,
+      "raw_unit_id": 36,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 36,
+      "id": "nitschke_20090812/group_1/elec37",
+      "raw_unit_row": 37,
+      "raw_unit_id": 37,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 37,
+      "id": "nitschke_20090812/group_1/elec38",
+      "raw_unit_row": 38,
+      "raw_unit_id": 38,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 38,
+      "id": "nitschke_20090812/group_1/elec39",
+      "raw_unit_row": 39,
+      "raw_unit_id": 39,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 39,
+      "id": "nitschke_20090812/group_1/elec40",
+      "raw_unit_row": 40,
+      "raw_unit_id": 40,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 40,
+      "id": "nitschke_20090812/group_1/elec41",
+      "raw_unit_row": 41,
+      "raw_unit_id": 41,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 41,
+      "id": "nitschke_20090812/group_1/elec42",
+      "raw_unit_row": 42,
+      "raw_unit_id": 42,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 42,
+      "id": "nitschke_20090812/group_1/elec43",
+      "raw_unit_row": 43,
+      "raw_unit_id": 43,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 43,
+      "id": "nitschke_20090812/group_1/elec44",
+      "raw_unit_row": 44,
+      "raw_unit_id": 44,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 44,
+      "id": "nitschke_20090812/group_1/elec45",
+      "raw_unit_row": 45,
+      "raw_unit_id": 45,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 45,
+      "id": "nitschke_20090812/group_1/elec46",
+      "raw_unit_row": 46,
+      "raw_unit_id": 46,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 46,
+      "id": "nitschke_20090812/group_1/elec47",
+      "raw_unit_row": 47,
+      "raw_unit_id": 47,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 47,
+      "id": "nitschke_20090812/group_1/elec48",
+      "raw_unit_row": 48,
+      "raw_unit_id": 48,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 48,
+      "id": "nitschke_20090812/group_1/elec49",
+      "raw_unit_row": 49,
+      "raw_unit_id": 49,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 49,
+      "id": "nitschke_20090812/group_1/elec50",
+      "raw_unit_row": 50,
+      "raw_unit_id": 50,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 50,
+      "id": "nitschke_20090812/group_1/elec51",
+      "raw_unit_row": 51,
+      "raw_unit_id": 51,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 51,
+      "id": "nitschke_20090812/group_1/elec52",
+      "raw_unit_row": 52,
+      "raw_unit_id": 52,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 52,
+      "id": "nitschke_20090812/group_1/elec53",
+      "raw_unit_row": 53,
+      "raw_unit_id": 53,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 53,
+      "id": "nitschke_20090812/group_1/elec54",
+      "raw_unit_row": 54,
+      "raw_unit_id": 54,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 54,
+      "id": "nitschke_20090812/group_1/elec55",
+      "raw_unit_row": 55,
+      "raw_unit_id": 55,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 55,
+      "id": "nitschke_20090812/group_1/elec56",
+      "raw_unit_row": 56,
+      "raw_unit_id": 56,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 56,
+      "id": "nitschke_20090812/group_1/elec57",
+      "raw_unit_row": 57,
+      "raw_unit_id": 57,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 57,
+      "id": "nitschke_20090812/group_1/elec58",
+      "raw_unit_row": 58,
+      "raw_unit_id": 58,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 58,
+      "id": "nitschke_20090812/group_1/elec59",
+      "raw_unit_row": 59,
+      "raw_unit_id": 59,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 59,
+      "id": "nitschke_20090812/group_1/elec60",
+      "raw_unit_row": 60,
+      "raw_unit_id": 60,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 60,
+      "id": "nitschke_20090812/group_1/elec61",
+      "raw_unit_row": 61,
+      "raw_unit_id": 61,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 61,
+      "id": "nitschke_20090812/group_1/elec62",
+      "raw_unit_row": 62,
+      "raw_unit_id": 62,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 62,
+      "id": "nitschke_20090812/group_1/elec63",
+      "raw_unit_row": 63,
+      "raw_unit_id": 63,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 63,
+      "id": "nitschke_20090812/group_1/elec64",
+      "raw_unit_row": 64,
+      "raw_unit_id": 64,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 64,
+      "id": "nitschke_20090812/group_1/elec65",
+      "raw_unit_row": 65,
+      "raw_unit_id": 65,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 65,
+      "id": "nitschke_20090812/group_1/elec66",
+      "raw_unit_row": 66,
+      "raw_unit_id": 66,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 66,
+      "id": "nitschke_20090812/group_1/elec67",
+      "raw_unit_row": 67,
+      "raw_unit_id": 67,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 67,
+      "id": "nitschke_20090812/group_1/elec68",
+      "raw_unit_row": 68,
+      "raw_unit_id": 68,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 68,
+      "id": "nitschke_20090812/group_1/elec69",
+      "raw_unit_row": 69,
+      "raw_unit_id": 69,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 69,
+      "id": "nitschke_20090812/group_1/elec70",
+      "raw_unit_row": 70,
+      "raw_unit_id": 70,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 70,
+      "id": "nitschke_20090812/group_1/elec71",
+      "raw_unit_row": 71,
+      "raw_unit_id": 71,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 71,
+      "id": "nitschke_20090812/group_1/elec72",
+      "raw_unit_row": 72,
+      "raw_unit_id": 72,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 72,
+      "id": "nitschke_20090812/group_1/elec73",
+      "raw_unit_row": 73,
+      "raw_unit_id": 73,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 73,
+      "id": "nitschke_20090812/group_1/elec74",
+      "raw_unit_row": 74,
+      "raw_unit_id": 74,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 74,
+      "id": "nitschke_20090812/group_1/elec75",
+      "raw_unit_row": 75,
+      "raw_unit_id": 75,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 75,
+      "id": "nitschke_20090812/group_1/elec76",
+      "raw_unit_row": 76,
+      "raw_unit_id": 76,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 76,
+      "id": "nitschke_20090812/group_1/elec77",
+      "raw_unit_row": 77,
+      "raw_unit_id": 77,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 77,
+      "id": "nitschke_20090812/group_1/elec78",
+      "raw_unit_row": 78,
+      "raw_unit_id": 78,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 78,
+      "id": "nitschke_20090812/group_1/elec79",
+      "raw_unit_row": 79,
+      "raw_unit_id": 79,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 79,
+      "id": "nitschke_20090812/group_1/elec80",
+      "raw_unit_row": 80,
+      "raw_unit_id": 80,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 80,
+      "id": "nitschke_20090812/group_1/elec81",
+      "raw_unit_row": 81,
+      "raw_unit_id": 81,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 81,
+      "id": "nitschke_20090812/group_1/elec82",
+      "raw_unit_row": 82,
+      "raw_unit_id": 82,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 82,
+      "id": "nitschke_20090812/group_1/elec83",
+      "raw_unit_row": 83,
+      "raw_unit_id": 83,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 83,
+      "id": "nitschke_20090812/group_1/elec84",
+      "raw_unit_row": 84,
+      "raw_unit_id": 84,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 84,
+      "id": "nitschke_20090812/group_1/elec85",
+      "raw_unit_row": 85,
+      "raw_unit_id": 85,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 85,
+      "id": "nitschke_20090812/group_1/elec86",
+      "raw_unit_row": 86,
+      "raw_unit_id": 86,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 86,
+      "id": "nitschke_20090812/group_1/elec87",
+      "raw_unit_row": 87,
+      "raw_unit_id": 87,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 87,
+      "id": "nitschke_20090812/group_1/elec88",
+      "raw_unit_row": 88,
+      "raw_unit_id": 88,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 88,
+      "id": "nitschke_20090812/group_1/elec89",
+      "raw_unit_row": 89,
+      "raw_unit_id": 89,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 89,
+      "id": "nitschke_20090812/group_1/elec90",
+      "raw_unit_row": 90,
+      "raw_unit_id": 90,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 90,
+      "id": "nitschke_20090812/group_1/elec91",
+      "raw_unit_row": 91,
+      "raw_unit_id": 91,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 91,
+      "id": "nitschke_20090812/group_1/elec92",
+      "raw_unit_row": 92,
+      "raw_unit_id": 92,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 92,
+      "id": "nitschke_20090812/group_1/elec93",
+      "raw_unit_row": 93,
+      "raw_unit_id": 93,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 93,
+      "id": "nitschke_20090812/group_1/elec94",
+      "raw_unit_row": 94,
+      "raw_unit_id": 94,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 94,
+      "id": "nitschke_20090812/group_1/elec95",
+      "raw_unit_row": 95,
+      "raw_unit_id": 95,
+      "electrode_group": "1",
+      "location": "Pre-Motor Cortex, dorsal",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 95,
+      "id": "nitschke_20090812/group_2/elec96",
+      "raw_unit_row": 96,
+      "raw_unit_id": 96,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 96,
+      "id": "nitschke_20090812/group_2/elec97",
+      "raw_unit_row": 97,
+      "raw_unit_id": 97,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 97,
+      "id": "nitschke_20090812/group_2/elec98",
+      "raw_unit_row": 98,
+      "raw_unit_id": 98,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 98,
+      "id": "nitschke_20090812/group_2/elec99",
+      "raw_unit_row": 99,
+      "raw_unit_id": 99,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 99,
+      "id": "nitschke_20090812/group_2/elec100",
+      "raw_unit_row": 100,
+      "raw_unit_id": 100,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 100,
+      "id": "nitschke_20090812/group_2/elec101",
+      "raw_unit_row": 101,
+      "raw_unit_id": 101,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 101,
+      "id": "nitschke_20090812/group_2/elec102",
+      "raw_unit_row": 102,
+      "raw_unit_id": 102,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 102,
+      "id": "nitschke_20090812/group_2/elec103",
+      "raw_unit_row": 103,
+      "raw_unit_id": 103,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 103,
+      "id": "nitschke_20090812/group_2/elec104",
+      "raw_unit_row": 104,
+      "raw_unit_id": 104,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 104,
+      "id": "nitschke_20090812/group_2/elec105",
+      "raw_unit_row": 105,
+      "raw_unit_id": 105,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 105,
+      "id": "nitschke_20090812/group_2/elec106",
+      "raw_unit_row": 106,
+      "raw_unit_id": 106,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 106,
+      "id": "nitschke_20090812/group_2/elec107",
+      "raw_unit_row": 107,
+      "raw_unit_id": 107,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 107,
+      "id": "nitschke_20090812/group_2/elec108",
+      "raw_unit_row": 108,
+      "raw_unit_id": 108,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 108,
+      "id": "nitschke_20090812/group_2/elec109",
+      "raw_unit_row": 109,
+      "raw_unit_id": 109,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 109,
+      "id": "nitschke_20090812/group_2/elec110",
+      "raw_unit_row": 110,
+      "raw_unit_id": 110,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 110,
+      "id": "nitschke_20090812/group_2/elec111",
+      "raw_unit_row": 111,
+      "raw_unit_id": 111,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 111,
+      "id": "nitschke_20090812/group_2/elec112",
+      "raw_unit_row": 112,
+      "raw_unit_id": 112,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 112,
+      "id": "nitschke_20090812/group_2/elec113",
+      "raw_unit_row": 113,
+      "raw_unit_id": 113,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 113,
+      "id": "nitschke_20090812/group_2/elec114",
+      "raw_unit_row": 114,
+      "raw_unit_id": 114,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 114,
+      "id": "nitschke_20090812/group_2/elec115",
+      "raw_unit_row": 115,
+      "raw_unit_id": 115,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 115,
+      "id": "nitschke_20090812/group_2/elec116",
+      "raw_unit_row": 116,
+      "raw_unit_id": 116,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 116,
+      "id": "nitschke_20090812/group_2/elec117",
+      "raw_unit_row": 117,
+      "raw_unit_id": 117,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 117,
+      "id": "nitschke_20090812/group_2/elec118",
+      "raw_unit_row": 118,
+      "raw_unit_id": 118,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 118,
+      "id": "nitschke_20090812/group_2/elec119",
+      "raw_unit_row": 119,
+      "raw_unit_id": 119,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 119,
+      "id": "nitschke_20090812/group_2/elec120",
+      "raw_unit_row": 120,
+      "raw_unit_id": 120,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 120,
+      "id": "nitschke_20090812/group_2/elec121",
+      "raw_unit_row": 121,
+      "raw_unit_id": 121,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 121,
+      "id": "nitschke_20090812/group_2/elec122",
+      "raw_unit_row": 122,
+      "raw_unit_id": 122,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 122,
+      "id": "nitschke_20090812/group_2/elec123",
+      "raw_unit_row": 123,
+      "raw_unit_id": 123,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 123,
+      "id": "nitschke_20090812/group_2/elec124",
+      "raw_unit_row": 124,
+      "raw_unit_id": 124,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 124,
+      "id": "nitschke_20090812/group_2/elec125",
+      "raw_unit_row": 125,
+      "raw_unit_id": 125,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 125,
+      "id": "nitschke_20090812/group_2/elec126",
+      "raw_unit_row": 126,
+      "raw_unit_id": 126,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 126,
+      "id": "nitschke_20090812/group_2/elec127",
+      "raw_unit_row": 127,
+      "raw_unit_id": 127,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 127,
+      "id": "nitschke_20090812/group_2/elec128",
+      "raw_unit_row": 128,
+      "raw_unit_id": 128,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 128,
+      "id": "nitschke_20090812/group_2/elec129",
+      "raw_unit_row": 129,
+      "raw_unit_id": 129,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 129,
+      "id": "nitschke_20090812/group_2/elec130",
+      "raw_unit_row": 130,
+      "raw_unit_id": 130,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 130,
+      "id": "nitschke_20090812/group_2/elec131",
+      "raw_unit_row": 131,
+      "raw_unit_id": 131,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 131,
+      "id": "nitschke_20090812/group_2/elec132",
+      "raw_unit_row": 132,
+      "raw_unit_id": 132,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 132,
+      "id": "nitschke_20090812/group_2/elec133",
+      "raw_unit_row": 133,
+      "raw_unit_id": 133,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 133,
+      "id": "nitschke_20090812/group_2/elec134",
+      "raw_unit_row": 134,
+      "raw_unit_id": 134,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 134,
+      "id": "nitschke_20090812/group_2/elec135",
+      "raw_unit_row": 135,
+      "raw_unit_id": 135,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 135,
+      "id": "nitschke_20090812/group_2/elec136",
+      "raw_unit_row": 136,
+      "raw_unit_id": 136,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 136,
+      "id": "nitschke_20090812/group_2/elec137",
+      "raw_unit_row": 137,
+      "raw_unit_id": 137,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 137,
+      "id": "nitschke_20090812/group_2/elec138",
+      "raw_unit_row": 138,
+      "raw_unit_id": 138,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 138,
+      "id": "nitschke_20090812/group_2/elec139",
+      "raw_unit_row": 139,
+      "raw_unit_id": 139,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 139,
+      "id": "nitschke_20090812/group_2/elec140",
+      "raw_unit_row": 140,
+      "raw_unit_id": 140,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 140,
+      "id": "nitschke_20090812/group_2/elec141",
+      "raw_unit_row": 141,
+      "raw_unit_id": 141,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 141,
+      "id": "nitschke_20090812/group_2/elec142",
+      "raw_unit_row": 142,
+      "raw_unit_id": 142,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 142,
+      "id": "nitschke_20090812/group_2/elec143",
+      "raw_unit_row": 143,
+      "raw_unit_id": 143,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 143,
+      "id": "nitschke_20090812/group_2/elec144",
+      "raw_unit_row": 144,
+      "raw_unit_id": 144,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 144,
+      "id": "nitschke_20090812/group_2/elec145",
+      "raw_unit_row": 145,
+      "raw_unit_id": 145,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 145,
+      "id": "nitschke_20090812/group_2/elec146",
+      "raw_unit_row": 146,
+      "raw_unit_id": 146,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 146,
+      "id": "nitschke_20090812/group_2/elec147",
+      "raw_unit_row": 147,
+      "raw_unit_id": 147,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 147,
+      "id": "nitschke_20090812/group_2/elec148",
+      "raw_unit_row": 148,
+      "raw_unit_id": 148,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 148,
+      "id": "nitschke_20090812/group_2/elec149",
+      "raw_unit_row": 149,
+      "raw_unit_id": 149,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 149,
+      "id": "nitschke_20090812/group_2/elec150",
+      "raw_unit_row": 150,
+      "raw_unit_id": 150,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 150,
+      "id": "nitschke_20090812/group_2/elec151",
+      "raw_unit_row": 151,
+      "raw_unit_id": 151,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 151,
+      "id": "nitschke_20090812/group_2/elec152",
+      "raw_unit_row": 152,
+      "raw_unit_id": 152,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 152,
+      "id": "nitschke_20090812/group_2/elec153",
+      "raw_unit_row": 153,
+      "raw_unit_id": 153,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 153,
+      "id": "nitschke_20090812/group_2/elec154",
+      "raw_unit_row": 154,
+      "raw_unit_id": 154,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 154,
+      "id": "nitschke_20090812/group_2/elec155",
+      "raw_unit_row": 155,
+      "raw_unit_id": 155,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 155,
+      "id": "nitschke_20090812/group_2/elec156",
+      "raw_unit_row": 156,
+      "raw_unit_id": 156,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 156,
+      "id": "nitschke_20090812/group_2/elec157",
+      "raw_unit_row": 157,
+      "raw_unit_id": 157,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 157,
+      "id": "nitschke_20090812/group_2/elec158",
+      "raw_unit_row": 158,
+      "raw_unit_id": 158,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 158,
+      "id": "nitschke_20090812/group_2/elec159",
+      "raw_unit_row": 159,
+      "raw_unit_id": 159,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 159,
+      "id": "nitschke_20090812/group_2/elec160",
+      "raw_unit_row": 160,
+      "raw_unit_id": 160,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 160,
+      "id": "nitschke_20090812/group_2/elec161",
+      "raw_unit_row": 161,
+      "raw_unit_id": 161,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 161,
+      "id": "nitschke_20090812/group_2/elec162",
+      "raw_unit_row": 162,
+      "raw_unit_id": 162,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 162,
+      "id": "nitschke_20090812/group_2/elec163",
+      "raw_unit_row": 163,
+      "raw_unit_id": 163,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 163,
+      "id": "nitschke_20090812/group_2/elec164",
+      "raw_unit_row": 164,
+      "raw_unit_id": 164,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 164,
+      "id": "nitschke_20090812/group_2/elec165",
+      "raw_unit_row": 165,
+      "raw_unit_id": 165,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 165,
+      "id": "nitschke_20090812/group_2/elec166",
+      "raw_unit_row": 166,
+      "raw_unit_id": 166,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 166,
+      "id": "nitschke_20090812/group_2/elec167",
+      "raw_unit_row": 167,
+      "raw_unit_id": 167,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 167,
+      "id": "nitschke_20090812/group_2/elec168",
+      "raw_unit_row": 168,
+      "raw_unit_id": 168,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 168,
+      "id": "nitschke_20090812/group_2/elec169",
+      "raw_unit_row": 169,
+      "raw_unit_id": 169,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 169,
+      "id": "nitschke_20090812/group_2/elec170",
+      "raw_unit_row": 170,
+      "raw_unit_id": 170,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 170,
+      "id": "nitschke_20090812/group_2/elec171",
+      "raw_unit_row": 171,
+      "raw_unit_id": 171,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 171,
+      "id": "nitschke_20090812/group_2/elec172",
+      "raw_unit_row": 172,
+      "raw_unit_id": 172,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 172,
+      "id": "nitschke_20090812/group_2/elec173",
+      "raw_unit_row": 173,
+      "raw_unit_id": 173,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 173,
+      "id": "nitschke_20090812/group_2/elec174",
+      "raw_unit_row": 174,
+      "raw_unit_id": 174,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 174,
+      "id": "nitschke_20090812/group_2/elec175",
+      "raw_unit_row": 175,
+      "raw_unit_id": 175,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 175,
+      "id": "nitschke_20090812/group_2/elec176",
+      "raw_unit_row": 176,
+      "raw_unit_id": 176,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 176,
+      "id": "nitschke_20090812/group_2/elec177",
+      "raw_unit_row": 177,
+      "raw_unit_id": 177,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 177,
+      "id": "nitschke_20090812/group_2/elec178",
+      "raw_unit_row": 178,
+      "raw_unit_id": 178,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 178,
+      "id": "nitschke_20090812/group_2/elec179",
+      "raw_unit_row": 179,
+      "raw_unit_id": 179,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 179,
+      "id": "nitschke_20090812/group_2/elec180",
+      "raw_unit_row": 180,
+      "raw_unit_id": 180,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 180,
+      "id": "nitschke_20090812/group_2/elec181",
+      "raw_unit_row": 181,
+      "raw_unit_id": 181,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 181,
+      "id": "nitschke_20090812/group_2/elec182",
+      "raw_unit_row": 182,
+      "raw_unit_id": 182,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 182,
+      "id": "nitschke_20090812/group_2/elec183",
+      "raw_unit_row": 183,
+      "raw_unit_id": 183,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 183,
+      "id": "nitschke_20090812/group_2/elec184",
+      "raw_unit_row": 184,
+      "raw_unit_id": 184,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 184,
+      "id": "nitschke_20090812/group_2/elec185",
+      "raw_unit_row": 185,
+      "raw_unit_id": 185,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 185,
+      "id": "nitschke_20090812/group_2/elec186",
+      "raw_unit_row": 186,
+      "raw_unit_id": 186,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 186,
+      "id": "nitschke_20090812/group_2/elec187",
+      "raw_unit_row": 187,
+      "raw_unit_id": 187,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 187,
+      "id": "nitschke_20090812/group_2/elec188",
+      "raw_unit_row": 188,
+      "raw_unit_id": 188,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 188,
+      "id": "nitschke_20090812/group_2/elec189",
+      "raw_unit_row": 189,
+      "raw_unit_id": 189,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 189,
+      "id": "nitschke_20090812/group_2/elec190",
+      "raw_unit_row": 190,
+      "raw_unit_id": 190,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    },
+    {
+      "column": 190,
+      "id": "nitschke_20090812/group_2/elec191",
+      "raw_unit_row": 191,
+      "raw_unit_id": 191,
+      "electrode_group": "2",
+      "location": "M1 Motor Cortex",
+      "recording_type": "Utah array threshold crossings (not spike-sorted single cells)"
+    }
+  ],
+  "neuron_ids": [
+    "nitschke_20090812/group_1/elec0",
+    "nitschke_20090812/group_1/elec2",
+    "nitschke_20090812/group_1/elec3",
+    "nitschke_20090812/group_1/elec4",
+    "nitschke_20090812/group_1/elec5",
+    "nitschke_20090812/group_1/elec6",
+    "nitschke_20090812/group_1/elec7",
+    "nitschke_20090812/group_1/elec8",
+    "nitschke_20090812/group_1/elec9",
+    "nitschke_20090812/group_1/elec10",
+    "nitschke_20090812/group_1/elec11",
+    "nitschke_20090812/group_1/elec12",
+    "nitschke_20090812/group_1/elec13",
+    "nitschke_20090812/group_1/elec14",
+    "nitschke_20090812/group_1/elec15",
+    "nitschke_20090812/group_1/elec16",
+    "nitschke_20090812/group_1/elec17",
+    "nitschke_20090812/group_1/elec18",
+    "nitschke_20090812/group_1/elec19",
+    "nitschke_20090812/group_1/elec20",
+    "nitschke_20090812/group_1/elec21",
+    "nitschke_20090812/group_1/elec22",
+    "nitschke_20090812/group_1/elec23",
+    "nitschke_20090812/group_1/elec24",
+    "nitschke_20090812/group_1/elec25",
+    "nitschke_20090812/group_1/elec26",
+    "nitschke_20090812/group_1/elec27",
+    "nitschke_20090812/group_1/elec28",
+    "nitschke_20090812/group_1/elec29",
+    "nitschke_20090812/group_1/elec30",
+    "nitschke_20090812/group_1/elec31",
+    "nitschke_20090812/group_1/elec32",
+    "nitschke_20090812/group_1/elec33",
+    "nitschke_20090812/group_1/elec34",
+    "nitschke_20090812/group_1/elec35",
+    "nitschke_20090812/group_1/elec36",
+    "nitschke_20090812/group_1/elec37",
+    "nitschke_20090812/group_1/elec38",
+    "nitschke_20090812/group_1/elec39",
+    "nitschke_20090812/group_1/elec40",
+    "nitschke_20090812/group_1/elec41",
+    "nitschke_20090812/group_1/elec42",
+    "nitschke_20090812/group_1/elec43",
+    "nitschke_20090812/group_1/elec44",
+    "nitschke_20090812/group_1/elec45",
+    "nitschke_20090812/group_1/elec46",
+    "nitschke_20090812/group_1/elec47",
+    "nitschke_20090812/group_1/elec48",
+    "nitschke_20090812/group_1/elec49",
+    "nitschke_20090812/group_1/elec50",
+    "nitschke_20090812/group_1/elec51",
+    "nitschke_20090812/group_1/elec52",
+    "nitschke_20090812/group_1/elec53",
+    "nitschke_20090812/group_1/elec54",
+    "nitschke_20090812/group_1/elec55",
+    "nitschke_20090812/group_1/elec56",
+    "nitschke_20090812/group_1/elec57",
+    "nitschke_20090812/group_1/elec58",
+    "nitschke_20090812/group_1/elec59",
+    "nitschke_20090812/group_1/elec60",
+    "nitschke_20090812/group_1/elec61",
+    "nitschke_20090812/group_1/elec62",
+    "nitschke_20090812/group_1/elec63",
+    "nitschke_20090812/group_1/elec64",
+    "nitschke_20090812/group_1/elec65",
+    "nitschke_20090812/group_1/elec66",
+    "nitschke_20090812/group_1/elec67",
+    "nitschke_20090812/group_1/elec68",
+    "nitschke_20090812/group_1/elec69",
+    "nitschke_20090812/group_1/elec70",
+    "nitschke_20090812/group_1/elec71",
+    "nitschke_20090812/group_1/elec72",
+    "nitschke_20090812/group_1/elec73",
+    "nitschke_20090812/group_1/elec74",
+    "nitschke_20090812/group_1/elec75",
+    "nitschke_20090812/group_1/elec76",
+    "nitschke_20090812/group_1/elec77",
+    "nitschke_20090812/group_1/elec78",
+    "nitschke_20090812/group_1/elec79",
+    "nitschke_20090812/group_1/elec80",
+    "nitschke_20090812/group_1/elec81",
+    "nitschke_20090812/group_1/elec82",
+    "nitschke_20090812/group_1/elec83",
+    "nitschke_20090812/group_1/elec84",
+    "nitschke_20090812/group_1/elec85",
+    "nitschke_20090812/group_1/elec86",
+    "nitschke_20090812/group_1/elec87",
+    "nitschke_20090812/group_1/elec88",
+    "nitschke_20090812/group_1/elec89",
+    "nitschke_20090812/group_1/elec90",
+    "nitschke_20090812/group_1/elec91",
+    "nitschke_20090812/group_1/elec92",
+    "nitschke_20090812/group_1/elec93",
+    "nitschke_20090812/group_1/elec94",
+    "nitschke_20090812/group_1/elec95",
+    "nitschke_20090812/group_2/elec96",
+    "nitschke_20090812/group_2/elec97",
+    "nitschke_20090812/group_2/elec98",
+    "nitschke_20090812/group_2/elec99",
+    "nitschke_20090812/group_2/elec100",
+    "nitschke_20090812/group_2/elec101",
+    "nitschke_20090812/group_2/elec102",
+    "nitschke_20090812/group_2/elec103",
+    "nitschke_20090812/group_2/elec104",
+    "nitschke_20090812/group_2/elec105",
+    "nitschke_20090812/group_2/elec106",
+    "nitschke_20090812/group_2/elec107",
+    "nitschke_20090812/group_2/elec108",
+    "nitschke_20090812/group_2/elec109",
+    "nitschke_20090812/group_2/elec110",
+    "nitschke_20090812/group_2/elec111",
+    "nitschke_20090812/group_2/elec112",
+    "nitschke_20090812/group_2/elec113",
+    "nitschke_20090812/group_2/elec114",
+    "nitschke_20090812/group_2/elec115",
+    "nitschke_20090812/group_2/elec116",
+    "nitschke_20090812/group_2/elec117",
+    "nitschke_20090812/group_2/elec118",
+    "nitschke_20090812/group_2/elec119",
+    "nitschke_20090812/group_2/elec120",
+    "nitschke_20090812/group_2/elec121",
+    "nitschke_20090812/group_2/elec122",
+    "nitschke_20090812/group_2/elec123",
+    "nitschke_20090812/group_2/elec124",
+    "nitschke_20090812/group_2/elec125",
+    "nitschke_20090812/group_2/elec126",
+    "nitschke_20090812/group_2/elec127",
+    "nitschke_20090812/group_2/elec128",
+    "nitschke_20090812/group_2/elec129",
+    "nitschke_20090812/group_2/elec130",
+    "nitschke_20090812/group_2/elec131",
+    "nitschke_20090812/group_2/elec132",
+    "nitschke_20090812/group_2/elec133",
+    "nitschke_20090812/group_2/elec134",
+    "nitschke_20090812/group_2/elec135",
+    "nitschke_20090812/group_2/elec136",
+    "nitschke_20090812/group_2/elec137",
+    "nitschke_20090812/group_2/elec138",
+    "nitschke_20090812/group_2/elec139",
+    "nitschke_20090812/group_2/elec140",
+    "nitschke_20090812/group_2/elec141",
+    "nitschke_20090812/group_2/elec142",
+    "nitschke_20090812/group_2/elec143",
+    "nitschke_20090812/group_2/elec144",
+    "nitschke_20090812/group_2/elec145",
+    "nitschke_20090812/group_2/elec146",
+    "nitschke_20090812/group_2/elec147",
+    "nitschke_20090812/group_2/elec148",
+    "nitschke_20090812/group_2/elec149",
+    "nitschke_20090812/group_2/elec150",
+    "nitschke_20090812/group_2/elec151",
+    "nitschke_20090812/group_2/elec152",
+    "nitschke_20090812/group_2/elec153",
+    "nitschke_20090812/group_2/elec154",
+    "nitschke_20090812/group_2/elec155",
+    "nitschke_20090812/group_2/elec156",
+    "nitschke_20090812/group_2/elec157",
+    "nitschke_20090812/group_2/elec158",
+    "nitschke_20090812/group_2/elec159",
+    "nitschke_20090812/group_2/elec160",
+    "nitschke_20090812/group_2/elec161",
+    "nitschke_20090812/group_2/elec162",
+    "nitschke_20090812/group_2/elec163",
+    "nitschke_20090812/group_2/elec164",
+    "nitschke_20090812/group_2/elec165",
+    "nitschke_20090812/group_2/elec166",
+    "nitschke_20090812/group_2/elec167",
+    "nitschke_20090812/group_2/elec168",
+    "nitschke_20090812/group_2/elec169",
+    "nitschke_20090812/group_2/elec170",
+    "nitschke_20090812/group_2/elec171",
+    "nitschke_20090812/group_2/elec172",
+    "nitschke_20090812/group_2/elec173",
+    "nitschke_20090812/group_2/elec174",
+    "nitschke_20090812/group_2/elec175",
+    "nitschke_20090812/group_2/elec176",
+    "nitschke_20090812/group_2/elec177",
+    "nitschke_20090812/group_2/elec178",
+    "nitschke_20090812/group_2/elec179",
+    "nitschke_20090812/group_2/elec180",
+    "nitschke_20090812/group_2/elec181",
+    "nitschke_20090812/group_2/elec182",
+    "nitschke_20090812/group_2/elec183",
+    "nitschke_20090812/group_2/elec184",
+    "nitschke_20090812/group_2/elec185",
+    "nitschke_20090812/group_2/elec186",
+    "nitschke_20090812/group_2/elec187",
+    "nitschke_20090812/group_2/elec188",
+    "nitschke_20090812/group_2/elec189",
+    "nitschke_20090812/group_2/elec190",
+    "nitschke_20090812/group_2/elec191"
+  ],
+  "channel_exclusion": "Processed source excludes raw channel 1 for malformed spike timestamp blocks; no model-dependent selection",
+  "units": {
+    "speed": "source_position_units/s",
+    "velocity": "source_position_units/s",
+    "target": "source_position_units",
+    "timestamps": "s",
+    "counts": "spikes/bin"
+  },
+  "unit_audit": {
+    "nwb_hand_declared_unit": "meters",
+    "nwb_hand_conversion": null,
+    "status": "Physical position scale unresolved: NWB declares meters with NaN conversion; retain native numeric scale, do not label m/s",
+    "velocity_computation": "Trial-local numerical position derivative in seconds; mean instantaneous speed within bin",
+    "behavior_smoothing": "None added; positions are supplied by original source",
+    "conversion_source": "https://github.com/catalystneuro/shenoy-lab-to-nwb/blob/319acb472372c9e4359ebacf13c8df3652a822b1/maze_task_unsorted/shenoymatdatainterface.py",
+    "conversion_evidence": "Converter copies native HAND X/Y positions and explicitly passes conversion=np.nan; no physical calibration is supplied",
+    "missing_behavior": "Hand-position samples end before nominal trial stop; insufficiently covered bins remain NaN while neural counts and target labels are retained"
+  },
+  "label_split": {
+    "seed": 42,
+    "fractions": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "stratification": "maze_condition",
+    "procedure": "sklearn train_test_split 10% test, then 1/9 remaining validation; ceil rounding",
+    "codes": {
+      "0": "train",
+      "1": "validation",
+      "2": "test"
+    }
+  },
+  "data_use": "All retained neural rows for unsupervised representation learning; split applies only to labels (transductive/offline)",
+  "sources": {
+    "nwb": {
+      "path": "/nfs/nhome/live/jbhagat/nldisco/data/raw/sub-Nitschke_ses-20090812_behavior+ecephys.nwb",
+      "bytes": 7375599469,
+      "sha256": "3ac2060611166fcb20701ef7d9a908c0c421386bd613904c13fc726bfa6e2063"
+    },
+    "processed_hdf5": {
+      "path": "/nfs/nhome/live/jbhagat/nldisco/data/processed/nitschke_20090812_center_out_reaching.h5",
+      "bytes": 3114302725,
+      "sha256": "4f0d334f67863b5505ea417bca6007067beefb5c6c50a61412ad6f3070fb10cd"
+    },
+    "dandi": "https://dandiarchive.org/dandiset/000070"
+  },
+  "validation": {
+    "shape": [
+      147661,
+      191
+    ],
+    "trials": 1906,
+    "spikes": 53625900,
+    "zero_count_rows": 0,
+    "invalid_behavior_rows": 32544,
+    "trial_splits": [
+      1524,
+      191,
+      191
+    ],
+    "row_splits": [
+      118259,
+      14663,
+      14739
+    ]
+  },
+  "artifacts": {
+    "counts.npy": {
+      "sha256": "0dc4cd00dd95bdd680ba76acc77cf68cf5fac9930283bcc146909840d78f5fd0"
+    },
+    "metadata.npz": {
+      "sha256": "c7cd03f43628df2da6e3117f138fa2e63ca6efa5c192c1af06c5c4dd4f332917"
+    },
+    "trials.csv": {
+      "sha256": "0389836012412bb0c70b3893019dc9f811598c23f8362b5bafd27d92dae271d0"
+    }
+  },
+  "preparation_script_sha256": "1c946fbcd76b0717981a67e36c4c031c9b2b24c2d99eea771ac5f2fa0511140a"
+}

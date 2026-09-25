@@ -1,0 +1,16 @@
+{
+  "scope": "Render frozen PCA results; no fitting or changes to original standalone artifacts",
+  "source_sha256": "1a0c9157f12fd77356bf577cd1d925a533cd102765b02dc21f2a86550139b797",
+  "inputs": {
+    "experiments/synthetic/standalone_baselines_20260916/pca/summary.json": "dfd955570312ca3adb9a09b66718e6c57fd00915efaaa6e25327d79d2b98fece",
+    "experiments/synthetic/standalone_baselines_20260916/pca/diagnostics.npz": "351b7af68c2198c18d191db2d1d23d86c7243b257f99b6843986bdd85164ffaf",
+    "experiments/synthetic/standalone_baselines_20260916/pca/pca_fit.npz": "928dbf675c55cb30d6c7cee5f3bfc128c0123d1ab0c496b9f0137c28a76c9831",
+    "experiments/synthetic/standalone_baselines_20260916/pca/spatial_selected.csv": "0d56f12e1b211ced5b877ba0118ea943e8259be25b58c81719b52259b7114589"
+  },
+  "outputs": {
+    "experiments/synthetic/outputs/reproduced/supplement_pca_direction.pdf": "09ef410eb955098676ba05c05459b482721c828bc6c071ad09e7fd3a1db7da18",
+    "experiments/synthetic/outputs/reproduced/supplement_pca_spatial.pdf": "05ae643446697ef879e18ee2543449e661f795b9504cf72b18f071d28d0deaae",
+    "experiments/synthetic/outputs/reproduced/supplement_pca_direction.png": "576f33a94b3fa39c72d422592937aedeb1641ac20f808a4f89a229b1ac10b50d",
+    "experiments/synthetic/outputs/reproduced/supplement_pca_spatial.png": "cd36a07f88fc8f5d792e6817dc846e00a3137f82216bb33a86876f5e8406a07f"
+  }
+}

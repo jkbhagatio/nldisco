@@ -1,0 +1,54 @@
+{
+  "chosen_c": 0.001,
+  "candidates": [
+    {
+      "c": 0.001,
+      "validation_auroc": 0.9020527354164589,
+      "converged": true,
+      "iterations": 10,
+      "seconds": 0.8211707770824432
+    },
+    {
+      "c": 0.01,
+      "validation_auroc": 0.9020527354164589,
+      "converged": true,
+      "iterations": 10,
+      "seconds": 0.8277412690222263
+    },
+    {
+      "c": 0.1,
+      "validation_auroc": 0.9020527354164589,
+      "converged": true,
+      "iterations": 10,
+      "seconds": 0.8262155028060079
+    },
+    {
+      "c": 1.0,
+      "validation_auroc": 0.9020527354164589,
+      "converged": true,
+      "iterations": 10,
+      "seconds": 0.8244621269404888
+    },
+    {
+      "c": 10.0,
+      "validation_auroc": 0.9020527354164589,
+      "converged": true,
+      "iterations": 10,
+      "seconds": 0.8222190020605922
+    },
+    {
+      "c": 100.0,
+      "validation_auroc": 0.9020527354164589,
+      "converged": true,
+      "iterations": 10,
+      "seconds": 0.8215023027732968
+    },
+    {
+      "c": 1000.0,
+      "validation_auroc": 0.9020527354164589,
+      "converged": true,
+      "iterations": 10,
+      "seconds": 0.8100029788911343
+    }
+  ]
+}

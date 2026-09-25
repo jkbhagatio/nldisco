@@ -1,20 +1,18 @@
 [project]
 name = "nldisco"
-version = "0.1.0"
+version = "1.0.0"
 description = "Neural latent discovery with sparse encoder-decoder models"
 authors = [{ name = "Jai Bhagat", email = "jkbhagatio@gmail.com" }]
-readme = "readme.md"
+readme = "README.md"
 requires-python = ">=3.9,<3.10"
 dependencies = [
-    "allensdk>=2.16",
-    "brainsets==0.1.2",
+    "beartype>=0.18,<0.23",
     "cebra==0.4.0",
-    "dandi",
     "datasets>=2.14.6",
     "einops",
     "email-validator",
-    "h5py",
     "huggingface-hub",
+    "hydra-core>=1.3,<1.4",
     "ipython",
     "ipywidgets",
     "jax>=0.4.21",
@@ -24,14 +22,13 @@ dependencies = [
     "openai",
     "pandas==1.5.3",
     "plotly>=5.23,<6",
-    "requests",
+    "python-dotenv>=1,<2",
     "rich",
     "scikit-learn==1.5.2",
     "scipy<1.11",
     "seaborn",
     "sortedcontainers",
-    "submitit",
-    "temporaldata",
+    "submitit>=1.5,<2",
     "torch==2.5.1",
     "torcheval",
     "torchinfo",
@@ -39,6 +36,15 @@ dependencies = [
     "tqdm",
     "typeguard",
     "wandb",
+]
+
+[project.optional-dependencies]
+churchland = [
+    "brainsets==0.1.2",
+    "dandi",
+    "h5py",
+    "requests",
+    "temporaldata",
 ]
 
 [dependency-groups]
@@ -54,6 +60,15 @@ dev = [
 [build-system]
 build-backend = "hatchling.build"
 requires = ["hatchling"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/README.md",
+    "/pyproject.toml",
+    "/uv.lock",
+]
 
 [tool.uv]
 find-links = ["https://storage.googleapis.com/jax-releases/jax_cuda_releases.html"]
@@ -71,7 +86,12 @@ name = "pytorch-cu121"
 url = "https://download.pytorch.org/whl/cu121"
 explicit = true
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
 [tool.ruff]
+extend-exclude = ["experiments/**/archive"]
 line-length = 99
 target-version = "py39"
 

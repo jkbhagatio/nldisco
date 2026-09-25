@@ -1,0 +1,15 @@
+{
+  "figures": [
+    "figure3",
+    "supplement_rate_design",
+    "supplement_temporal_comparison",
+    "supplement_temporal_features",
+    "supplement_ramp_conditioned",
+    "supplement_unit_traceback",
+    "supplement_temporal_coactivity",
+    "supplement_pca_spatial",
+    "supplement_pca_direction"
+  ],
+  "sources": "Saved runs, activations, selected features, gradient-times-input arrays and frozen PCA fit",
+  "training": false
+}

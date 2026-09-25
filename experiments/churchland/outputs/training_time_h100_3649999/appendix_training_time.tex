@@ -1,0 +1,81 @@
+\subsubsection{Training-time comparison}
+\label{subsubsection:training_time_comparison}
+
+We compare the fixed 192-dimensional NLDisco, CEBRA-Time, and LangevinFlow
+configurations used in the Churchland reaching analysis on the same NVIDIA
+H100 80-GB GPU. Each method is trained from scratch five times (seeds 0--4),
+for 15 sequential fits in separate processes. Method order rotates between
+seeds. All fits use the same 130,507 complete within-trial windows, each
+containing ten 50-ms bins from 191 channels, with batch size 1,024.
+NLDisco and LangevinFlow make ten exhaustive shuffled passes (1,280 updates).
+CEBRA-Time samples temporal-positive reference pairs and negatives with
+replacement: its ten epoch-equivalents comprise 1,275 updates and 1,305,600
+reference draws, rather than exhaustive passes through the windows.
+The fixed configurations are NLDisco with nested widths 96/192 and sparsity
+budgets 8/16; CEBRA-Time with a 192-dimensional offset10 encoder, temperature
+1 and lag 1; and LangevinFlow with state width 64, exposing 192 concatenated
+position, velocity and recurrent-state coordinates, learning rate 0.003 and
+a 500-epoch KL/weight-decay ramp. Preprocessing and objectives remain
+method-specific, as detailed in the Churchland experiment.
+
+Wall-clock timing is synchronized with CUDA immediately before and after
+optimization. It includes minibatch preparation, device transfers during
+training, loss checks and the trainer's local progress bookkeeping; it
+excludes process startup, initial data loading/preprocessing, model and
+optimizer construction, checkpoint writing, and latent export. Each fit
+starts in a fresh process, without discarded training warm-up updates.
+NLDisco's post-training threshold calibration is timed separately and
+excluded from the plotted optimization time. Its median calibration time
+is 3.61~s. External experiment tracking is disabled, and all
+fits use four CPU threads and PyTorch 2.5.1 with CUDA 12.1. GPU process
+occupancy is sampled every two seconds; no competing compute process is
+observed on the benchmark GPU. Other GPUs on the host are not reserved.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/training_time_h100.pdf}
+    \caption{\textbf{LVM training time comparison.}
+    Models are fitted to the Churchland--Shenoy reaching recording of
+    Nitschke from 12 August 2009 (1,906 valid trials; 191 recorded channels).
+    One exhaustive epoch contains 130,507 overlapping, within-trial examples,
+    each comprising ten consecutive 50-ms bins (500 ms of neural data;
+    stride one bin). All three models expose a \textbf{192-dimensional latent
+    representation}: NLDisco's largest dictionary (with a nested 96-dimensional
+    level), CEBRA-Time's embedding, and LangevinFlow's concatenated position,
+    velocity and recurrent states (64 dimensions each).
+    Total/trainable parameter counts, excluding buffers, are
+    NLDisco, 614,859/614,859; CEBRA-Time, 270,784/270,784; LangevinFlow, 449,199/449,199. Each dot is one fresh fit; five seeds (0--4) per method
+    give 15 fits run sequentially on the same H100 80-GB GPU, with batch size
+    1,024 and four CPU threads. NLDisco and LangevinFlow train for ten exhaustive
+    epochs (1,280 updates). CEBRA-Time uses ten reference-draw epoch-equivalents
+    with replacement sampling (1,275 updates; 1,305,600 reference draws in total),
+    rather than exhaustive passes. CUDA-synchronized wall-clock time includes
+    optimization and minibatch preparation, but excludes initial data loading
+    and preprocessing, model/optimizer construction, checkpoint writing,
+    latent export, and NLDisco threshold calibration (median 3.61~s).
+    Boxes span the 25th--75th percentiles, horizontal lines and numeric labels
+    mark medians, and whiskers reach the most extreme observations within
+    1.5 interquartile ranges. All five observations per method are shown.
+    Equal latent width does not imply equal model size, objectives, or
+    convergence.}
+    \label{figure:training_time_h100}
+\end{figure}
+
+\begin{center}
+\begin{tabular}{lrr}
+\toprule
+Method & Median (s) & Interquartile interval (s) \\
+\midrule
+NLDisco & 43.42 & [43.36, 44.10] \\
+CEBRA-Time & 8.18 & [6.51, 8.23] \\
+LangevinFlow & 132.77 & [132.22, 132.89] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+These repeated timings compare the specified implementations at a fixed
+data-exposure budget on common hardware. Equal exposed dimension does not
+equalize parameter counts, training objectives, sampled observations, or
+convergence; the measurements do not establish time to matched predictive
+performance or discovery quality. The five fits characterize runtime and
+initialization variability on one recording, not between-dataset variation.

@@ -1,0 +1,113 @@
+{
+  "architecture": "vanilla_per_time_bin",
+  "model_config": {
+    "seq_len": 1,
+    "n_features": 128,
+    "topk": 4,
+    "loss": {
+      "timebin_weights": [
+        1.0
+      ],
+      "type": "msle",
+      "tau": 1.0,
+      "dsed_loss_weight_map": null,
+      "dead_feature_loss_weight": 1.0
+    },
+    "training": {
+      "batch_size": 1024,
+      "epochs": 20,
+      "learning_rate": 0.005,
+      "use_lr_schedule": true,
+      "log_frequency": 100,
+      "dead_feature_window": 19,
+      "max_dead_feature_fraction": 0.1
+    },
+    "dtype": "torch.bfloat16"
+  },
+  "dataset_sha256": "ce5bd9573966e96cd36a44a68cc4e84836c95f749a59260e87398aaab06db09f",
+  "data_usage": "All rows used for training and descriptive feature discovery; no held-out generalization estimate",
+  "decoder_loading_definition": "Signed weights in each unit-L2-norm decoder column; threshold 0.1 is an absolute normalized loading",
+  "traceback_definition": "Mean training-standardized biological unit activity at unique source bins where latent activation > 0; coactivity, not causal attribution.",
+  "n_trained_runs": 10,
+  "n_selected_per_target": {
+    "cell_0": 5,
+    "cell_1": 5,
+    "cell_2": 5,
+    "cell_3": 5
+  },
+  "max_selected_per_target": 5,
+  "selection_policy": "Choose each run's best passing latent; rank passing runs by shape score and retain up to the requested maximum. No nonpassing fallback. Training, selection and description use the same full simulation.",
+  "curve_normalization": "Each selected curve is independently divided by its peak.",
+  "shading": "Pointwise mean +/- 1 SD across the selected independent runs.",
+  "hit_counts": {
+    "cell_0": 9,
+    "cell_1": 6,
+    "cell_2": 8,
+    "cell_3": 8
+  },
+  "hit_counts_definition": "Runs with any passing latent on the full discovery dataset.",
+  "all_four_joint_hit_count": 3,
+  "all_four_joint_hit_seeds": [
+    1,
+    3,
+    9
+  ],
+  "any_hit_counts": {
+    "cell_0": 9,
+    "cell_1": 6,
+    "cell_2": 8,
+    "cell_3": 8
+  },
+  "selection_config": {
+    "n_position_bins": 40,
+    "track_range": [
+      0.0,
+      1.0
+    ],
+    "cell_centers": [
+      0.2,
+      0.4,
+      0.7,
+      0.7
+    ],
+    "left_widths": [
+      0.05,
+      0.1,
+      0.14,
+      0.06
+    ],
+    "right_widths": [
+      0.1,
+      0.05,
+      0.14,
+      0.06
+    ],
+    "peak_amplitudes_hz": [
+      10.0,
+      28.0,
+      20.0,
+      20.0
+    ],
+    "baseline_rate_hz": 0.1,
+    "field_width_multiplier": 2.0,
+    "min_shape_score": 0.6,
+    "max_outside_mean": 0.4,
+    "max_peak_distance": 0.075,
+    "min_active_samples": 100,
+    "min_active_per_field": 20,
+    "min_conditional_zscore": 0.3,
+    "min_decoder_loading": 0.1
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "method": "cebra",
+  "total": 270784,
+  "trainable": 270784,
+  "nontrainable": 0,
+  "parameters": [
+    {
+      "name": "net.0.weight",
+      "shape": [
+        128,
+        191,
+        2
+      ],
+      "count": 48896,
+      "trainable": true
+    },
+    {
+      "name": "net.0.bias",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "net.2.module.0.weight",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "count": 49152,
+      "trainable": true
+    },
+    {
+      "name": "net.2.module.0.bias",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "net.3.module.0.weight",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "count": 49152,
+      "trainable": true
+    },
+    {
+      "name": "net.3.module.0.bias",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "net.4.module.0.weight",
+      "shape": [
+        128,
+        128,
+        3
+      ],
+      "count": 49152,
+      "trainable": true
+    },
+    {
+      "name": "net.4.module.0.bias",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "net.5.weight",
+      "shape": [
+        192,
+        128,
+        3
+      ],
+      "count": 73728,
+      "trainable": true
+    },
+    {
+      "name": "net.5.bias",
+      "shape": [
+        192
+      ],
+      "count": 192,
+      "trainable": true
+    }
+  ],
+  "checkpoint_sha256": {
+    "02_cebra_seed0/model.pt": "f21cfd947f419e7c3365289f85eb97ff97ab39d097e4257c769f7088d40440ad",
+    "04_cebra_seed1/model.pt": "085198252b85b91ebde4adb200a0c9636483fcae0454837345a53c6b1e298bb6",
+    "09_cebra_seed2/model.pt": "563db0fa2eea65170826e9e19ce51a3178d97d4e8f92d59ff94016d0c3801570",
+    "11_cebra_seed3/model.pt": "a9899b63190e965101cfde131b0b4e6f5b39dbb81cbd9dfcd52934ddd560cf40",
+    "13_cebra_seed4/model.pt": "232b6de843896af102e4d110536fd1fdc5820ad38c015fd1d9255020833d40a8"
+  },
+  "policy": "Unique nn.Parameters; buffers excluded; requires_grad from the same model factory used during training, which does not freeze parameters."
+}

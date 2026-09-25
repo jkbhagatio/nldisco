@@ -1,0 +1,9 @@
+{
+  "target_fpr": 0.18,
+  "fpr": 0.18000012719126704,
+  "tpr": 0.9383422066213578,
+  "threshold": 3.306849718093872,
+  "rule": "z >= threshold",
+  "selection": "Nearest attainable empirical FPR; highest TPR among ties",
+  "scope": "Display-only operating point; Sel and source traceback retain z>0"
+}

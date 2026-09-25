@@ -1,0 +1,35 @@
+\paragraph{Methods' training time comparison.}
+\label{paragraph:training_time_comparison}
+
+We compare the fixed 192-dimensional NLDisco, CEBRA-Time, and LangevinFlow
+configurations used in Section~\ref{subsection:churchland_results} on the same NVIDIA
+H100 80-GB GPU. Each method is trained from scratch five times (seeds 0--4),
+for 15 sequential fits in separate processes. All fits use the same 130,507 complete within-trial windows, each containing ten 50-ms bins from 191 channels, with batch size 1,024. NLDisco and LangevinFlow make ten exhaustive shuffled passes (1,280 updates).
+CEBRA-Time samples temporal-positive reference pairs and negatives with
+replacement: its ten epoch-equivalents comprise 1,275 updates and 1,305,600
+reference draws, rather than exhaustive passes through the windows.
+For this dataset, GPU memory (VRAM) usage remained below 5~GB throughout all
+15 fits across the three methods.
+
+Wall-clock timing is synchronized with CUDA immediately before and after
+optimization. It includes minibatch preparation, device transfers during
+training, loss checks and the trainer's local progress bookkeeping; it
+excludes process startup, initial data loading/preprocessing, model and
+optimizer construction, checkpoint writing, and latent export. Each fit
+starts in a fresh process, without discarded training warm-up updates.
+External experiment tracking is disabled. All fits use four CPU threads and PyTorch 2.5.1 with CUDA 12.1. GPU process occupancy was sampled every two seconds; no competing compute process is observed on the benchmark GPU. Other GPUs on the host were not reserved.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/training_time_h100.pdf}
+    \caption{\textbf{LVM training time comparison.}
+    All three models expose a \textbf{192-dimensional latent
+    representation}: NLDisco's largest dictionary (with a nested 96-dimensional
+    level), CEBRA-Time's embedding, and LangevinFlow's concatenated position,
+    velocity and recurrent states (64 dimensions each).
+    Total/trainable parameter counts, excluding buffers, are
+    NLDisco, 614,859/614,859; CEBRA-Time, 270,784/270,784; LangevinFlow, 449,199/449,199. Each dot is one fresh fit; five seeds (0--4) per method
+    give 15 fits run sequentially on the same H100 80-GB GPU, with batch size
+    1,024 and four CPU threads. All five observations per method are shown.}
+    \label{figure:training_time_h100}
+\end{figure}

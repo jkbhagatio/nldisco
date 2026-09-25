@@ -1,0 +1,82 @@
+{
+  "feature": "area",
+  "space": "all",
+  "D": 256,
+  "k": 12,
+  "latent": 107,
+  "support": {
+    "train": {
+      "windows": 345658,
+      "positives": 72764,
+      "negatives": 272894
+    },
+    "validation": {
+      "windows": 46879,
+      "positives": 8709,
+      "negatives": 38170
+    },
+    "test": {
+      "windows": 40232,
+      "positives": 4573,
+      "negatives": 35659
+    }
+  },
+  "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/aeon/outputs/appendix_decoders_20260925/area/all_decoder.joblib",
+  "model_sha256": "1e5d66c5aee33e6b6f85e4d5549450c370683fe8fde192e8968671b5b79a70af",
+  "chosen_c": 0.001,
+  "threshold": 0.17168025394682082,
+  "validation_auroc": 0.9286603678757873,
+  "validation": {
+    "tp": 7557,
+    "fn": 1152,
+    "tn": 32469,
+    "fp": 5701,
+    "sensitivity": 0.867723045125732,
+    "specificity": 0.8506418653392717,
+    "balanced_accuracy": 0.8591824552325018
+  },
+  "candidates": [
+    {
+      "c": 0.001,
+      "validation_auroc": 0.9286603678757873,
+      "iterations": 37,
+      "seconds": 2.057798232883215
+    },
+    {
+      "c": 0.01,
+      "validation_auroc": 0.9263768523751985,
+      "iterations": 81,
+      "seconds": 7.749780873768032
+    },
+    {
+      "c": 0.1,
+      "validation_auroc": 0.9248906053389341,
+      "iterations": 164,
+      "seconds": 16.480544515885413
+    },
+    {
+      "c": 1.0,
+      "validation_auroc": 0.9239854019521482,
+      "iterations": 280,
+      "seconds": 28.494227985851467
+    },
+    {
+      "c": 10.0,
+      "validation_auroc": 0.9239491920117449,
+      "iterations": 308,
+      "seconds": 31.8581504477188
+    },
+    {
+      "c": 100.0,
+      "validation_auroc": 0.9239297859865275,
+      "iterations": 304,
+      "seconds": 25.583512152545154
+    },
+    {
+      "c": 1000.0,
+      "validation_auroc": 0.9239341208311,
+      "iterations": 295,
+      "seconds": 25.07801009621471
+    }
+  ]
+}

@@ -1,0 +1,1084 @@
+{
+  "results": [
+    {
+      "key": "nldisco_early_leftward_40",
+      "method": "nldisco",
+      "feature": "early_leftward",
+      "space": "single",
+      "latent_id": 40,
+      "chosen_c": 0.001,
+      "threshold": 0.033309365835734774,
+      "validation": {
+        "tp": 141,
+        "fn": 4,
+        "tn": 9267,
+        "fp": 297,
+        "sensitivity": 0.9724137931034482,
+        "specificity": 0.9689460476787954,
+        "balanced_accuracy": 0.9706799203911218
+      },
+      "validation_auroc": 0.9877878971430221,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/nldisco_early_leftward_40_probe.joblib",
+      "model_sha256": "2dc4de0add2bc031ffb475ff8834b972d12601c3eb1cd468082a474f85076e21",
+      "source_test_auroc": 0.9920678583976511,
+      "test": {
+        "tp": 134,
+        "fn": 3,
+        "tn": 9303,
+        "fp": 316,
+        "sensitivity": 0.9781021897810219,
+        "specificity": 0.9671483522195654,
+        "balanced_accuracy": 0.9726252710002936
+      },
+      "interval": {
+        "ci_lower": 0.960986419247906,
+        "ci_upper": 0.9831078088940025,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "nldisco_early_leftward_122",
+      "method": "nldisco",
+      "feature": "early_leftward",
+      "space": "single",
+      "latent_id": 122,
+      "chosen_c": 0.001,
+      "threshold": 0.04081025225786477,
+      "validation": {
+        "tp": 68,
+        "fn": 77,
+        "tn": 9488,
+        "fp": 76,
+        "sensitivity": 0.4689655172413793,
+        "specificity": 0.9920535340861564,
+        "balanced_accuracy": 0.7305095256637678
+      },
+      "validation_auroc": 0.7315168952537534,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/nldisco_early_leftward_122_probe.joblib",
+      "model_sha256": "4083069060dd72b2be9612ef97ab160b13527cd64db051f9b7e45997f08be0f2",
+      "source_test_auroc": 0.7601105779847215,
+      "test": {
+        "tp": 71,
+        "fn": 66,
+        "tn": 9552,
+        "fp": 67,
+        "sensitivity": 0.5182481751824818,
+        "specificity": 0.9930346189832623,
+        "balanced_accuracy": 0.755641397082872
+      },
+      "interval": {
+        "ci_lower": 0.7135089900814167,
+        "ci_upper": 0.7985916634894821,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "nldisco_early_leftward_full",
+      "method": "nldisco",
+      "feature": "early_leftward",
+      "space": "full",
+      "latent_id": null,
+      "chosen_c": 0.1,
+      "threshold": 0.012191148494477402,
+      "validation": {
+        "tp": 143,
+        "fn": 2,
+        "tn": 9417,
+        "fp": 147,
+        "sensitivity": 0.9862068965517241,
+        "specificity": 0.9846298619824341,
+        "balanced_accuracy": 0.9854183792670791
+      },
+      "validation_auroc": 0.9983321074719854,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/nldisco_early_leftward_full_probe.joblib",
+      "model_sha256": "5d243c0fc40e4491b83a942f65a93632ab486cd6f0dc2397ca9303d03be0aa2b",
+      "source_test_auroc": 0.9987297039087026,
+      "test": {
+        "tp": 137,
+        "fn": 0,
+        "tn": 9473,
+        "fp": 146,
+        "sensitivity": 1.0,
+        "specificity": 0.9848217070381536,
+        "balanced_accuracy": 0.9924108535190768
+      },
+      "interval": {
+        "ci_lower": 0.9913601439063622,
+        "ci_upper": 0.9936228768301933,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "nldisco_late_target_specific_75",
+      "method": "nldisco",
+      "feature": "late_target_specific",
+      "space": "single",
+      "latent_id": 75,
+      "chosen_c": 0.001,
+      "threshold": 0.01589468584258417,
+      "validation": {
+        "tp": 306,
+        "fn": 18,
+        "tn": 12080,
+        "fp": 540,
+        "sensitivity": 0.9444444444444444,
+        "specificity": 0.9572107765451664,
+        "balanced_accuracy": 0.9508276104948055
+      },
+      "validation_auroc": 0.96918911780243,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/nldisco_late_target_specific_75_probe.joblib",
+      "model_sha256": "9d72adc969fe5d609246381d89d7ed521e4aa48fd0646e18a6084ab1e874e9d4",
+      "source_test_auroc": 0.9680728917749518,
+      "test": {
+        "tp": 333,
+        "fn": 20,
+        "tn": 12144,
+        "fp": 523,
+        "sensitivity": 0.943342776203966,
+        "specificity": 0.9587116128522933,
+        "balanced_accuracy": 0.9510271945281297
+      },
+      "interval": {
+        "ci_lower": 0.9345133612233892,
+        "ci_upper": 0.9656633563838054,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "nldisco_late_target_specific_165",
+      "method": "nldisco",
+      "feature": "late_target_specific",
+      "space": "single",
+      "latent_id": 165,
+      "chosen_c": 0.001,
+      "threshold": 0.10421138187398482,
+      "validation": {
+        "tp": 74,
+        "fn": 250,
+        "tn": 12612,
+        "fp": 8,
+        "sensitivity": 0.22839506172839505,
+        "specificity": 0.9993660855784469,
+        "balanced_accuracy": 0.613880573653421
+      },
+      "validation_auroc": 0.6139478292344113,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/nldisco_late_target_specific_165_probe.joblib",
+      "model_sha256": "1b6ef920bcd47103070601d149fa44b22203477da6e23a33c57f23c023654e6d",
+      "source_test_auroc": 0.6202114257765544,
+      "test": {
+        "tp": 85,
+        "fn": 268,
+        "tn": 12661,
+        "fp": 6,
+        "sensitivity": 0.24079320113314448,
+        "specificity": 0.9995263282545196,
+        "balanced_accuracy": 0.620159764693832
+      },
+      "interval": {
+        "ci_lower": 0.593754742681114,
+        "ci_upper": 0.6431880545145623,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "nldisco_late_target_specific_full",
+      "method": "nldisco",
+      "feature": "late_target_specific",
+      "space": "full",
+      "latent_id": null,
+      "chosen_c": 0.1,
+      "threshold": 0.029566461199310477,
+      "validation": {
+        "tp": 321,
+        "fn": 3,
+        "tn": 12497,
+        "fp": 123,
+        "sensitivity": 0.9907407407407407,
+        "specificity": 0.9902535657686212,
+        "balanced_accuracy": 0.9904971532546809
+      },
+      "validation_auroc": 0.9993110582849093,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/nldisco_late_target_specific_full_probe.joblib",
+      "model_sha256": "716bb9640768ac800ab3c9a75f825096cac2325ae7bf4d47c824d400f0bf5937",
+      "source_test_auroc": 0.9989137754165259,
+      "test": {
+        "tp": 349,
+        "fn": 4,
+        "tn": 12541,
+        "fp": 126,
+        "sensitivity": 0.9886685552407932,
+        "specificity": 0.990052893344912,
+        "balanced_accuracy": 0.9893607242928526
+      },
+      "interval": {
+        "ci_lower": 0.9818071339010696,
+        "ci_upper": 0.995150466010466,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "cebra_early_leftward_54",
+      "method": "cebra",
+      "feature": "early_leftward",
+      "space": "single",
+      "latent_id": 54,
+      "chosen_c": 0.001,
+      "threshold": 0.013030899686353972,
+      "validation": {
+        "tp": 140,
+        "fn": 5,
+        "tn": 5922,
+        "fp": 3642,
+        "sensitivity": 0.9655172413793104,
+        "specificity": 0.6191969887076537,
+        "balanced_accuracy": 0.792357115043482
+      },
+      "validation_auroc": 0.8561603138205051,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/cebra_early_leftward_54_probe.joblib",
+      "model_sha256": "cb0df8219f0951e9a01c0ae890e462cdd77bce09cd65cf5117888ada3ee4d162",
+      "source_test_auroc": 0.8538226123327994,
+      "test": {
+        "tp": 121,
+        "fn": 16,
+        "tn": 6028,
+        "fp": 3591,
+        "sensitivity": 0.8832116788321168,
+        "specificity": 0.6266763696849984,
+        "balanced_accuracy": 0.7549440242585577
+      },
+      "interval": {
+        "ci_lower": 0.7220994545030094,
+        "ci_upper": 0.7832755872141058,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "cebra_early_leftward_93",
+      "method": "cebra",
+      "feature": "early_leftward",
+      "space": "single",
+      "latent_id": 93,
+      "chosen_c": 0.001,
+      "threshold": 0.023592096312488497,
+      "validation": {
+        "tp": 83,
+        "fn": 62,
+        "tn": 8315,
+        "fp": 1249,
+        "sensitivity": 0.5724137931034483,
+        "specificity": 0.8694061062317022,
+        "balanced_accuracy": 0.7209099496675753
+      },
+      "validation_auroc": 0.7498514544484345,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/cebra_early_leftward_93_probe.joblib",
+      "model_sha256": "96b4782a11ffe067bf47f72acf0d1bf8588856d10f7f699d8311543d1354601c",
+      "source_test_auroc": 0.7273492320172287,
+      "test": {
+        "tp": 61,
+        "fn": 76,
+        "tn": 8515,
+        "fp": 1104,
+        "sensitivity": 0.44525547445255476,
+        "specificity": 0.8852271545898742,
+        "balanced_accuracy": 0.6652413145212145
+      },
+      "interval": {
+        "ci_lower": 0.6199412487925485,
+        "ci_upper": 0.7059441373964107,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "cebra_early_leftward_full",
+      "method": "cebra",
+      "feature": "early_leftward",
+      "space": "full",
+      "latent_id": null,
+      "chosen_c": 10.0,
+      "threshold": 0.10850320273928407,
+      "validation": {
+        "tp": 142,
+        "fn": 3,
+        "tn": 9438,
+        "fp": 126,
+        "sensitivity": 0.9793103448275862,
+        "specificity": 0.9868255959849436,
+        "balanced_accuracy": 0.9830679704062648
+      },
+      "validation_auroc": 0.9968098761158943,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/cebra_early_leftward_full_probe.joblib",
+      "model_sha256": "3bd12ae66671bec5cdd77aeab99a350d2e1c9772c8f2427054ff5a0c1ebd3733",
+      "source_test_auroc": 0.9957300142737572,
+      "test": {
+        "tp": 124,
+        "fn": 13,
+        "tn": 9487,
+        "fp": 132,
+        "sensitivity": 0.9051094890510949,
+        "specificity": 0.9862771597879197,
+        "balanced_accuracy": 0.9456933244195074
+      },
+      "interval": {
+        "ci_lower": 0.9244149399639707,
+        "ci_upper": 0.9677576194356109,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "cebra_late_target_specific_44",
+      "method": "cebra",
+      "feature": "late_target_specific",
+      "space": "single",
+      "latent_id": 44,
+      "chosen_c": 0.001,
+      "threshold": 0.0327471774474755,
+      "validation": {
+        "tp": 281,
+        "fn": 43,
+        "tn": 10183,
+        "fp": 2437,
+        "sensitivity": 0.8672839506172839,
+        "specificity": 0.8068938193343899,
+        "balanced_accuracy": 0.8370888849758369
+      },
+      "validation_auroc": 0.9105767349494238,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/cebra_late_target_specific_44_probe.joblib",
+      "model_sha256": "9d975e00834b2ca4b73dac5eae1bbe1305c76cddafffa405b4caaa2b2c66d4b4",
+      "source_test_auroc": 0.8760411329566175,
+      "test": {
+        "tp": 283,
+        "fn": 70,
+        "tn": 10185,
+        "fp": 2482,
+        "sensitivity": 0.8016997167138811,
+        "specificity": 0.8040577879529486,
+        "balanced_accuracy": 0.8028787523334149
+      },
+      "interval": {
+        "ci_lower": 0.7328659552030483,
+        "ci_upper": 0.8607083581855896,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "cebra_late_target_specific_142",
+      "method": "cebra",
+      "feature": "late_target_specific",
+      "space": "single",
+      "latent_id": 142,
+      "chosen_c": 0.001,
+      "threshold": 0.03667207686003456,
+      "validation": {
+        "tp": 264,
+        "fn": 60,
+        "tn": 10123,
+        "fp": 2497,
+        "sensitivity": 0.8148148148148148,
+        "specificity": 0.8021394611727417,
+        "balanced_accuracy": 0.8084771379937783
+      },
+      "validation_auroc": 0.8951991743460311,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/cebra_late_target_specific_142_probe.joblib",
+      "model_sha256": "4934ad41eeffd53bc91ca713cc3aa1e428ae30df3508fc5aca8284f7d200bc11",
+      "source_test_auroc": 0.8656257219412671,
+      "test": {
+        "tp": 265,
+        "fn": 88,
+        "tn": 10006,
+        "fp": 2661,
+        "sensitivity": 0.7507082152974505,
+        "specificity": 0.7899265808794506,
+        "balanced_accuracy": 0.7703173980884506
+      },
+      "interval": {
+        "ci_lower": 0.6906577223203636,
+        "ci_upper": 0.8539497204747392,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "cebra_late_target_specific_full",
+      "method": "cebra",
+      "feature": "late_target_specific",
+      "space": "full",
+      "latent_id": null,
+      "chosen_c": 10.0,
+      "threshold": 0.01317773890136319,
+      "validation": {
+        "tp": 317,
+        "fn": 7,
+        "tn": 12177,
+        "fp": 443,
+        "sensitivity": 0.9783950617283951,
+        "specificity": 0.9648969889064977,
+        "balanced_accuracy": 0.9716460253174464
+      },
+      "validation_auroc": 0.9960857251863591,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/cebra_late_target_specific_full_probe.joblib",
+      "model_sha256": "347c12948eb21d5a00ff49238bc5888aee496ff105305a7d87c41679b490f881",
+      "source_test_auroc": 0.9979371349479174,
+      "test": {
+        "tp": 347,
+        "fn": 6,
+        "tn": 12320,
+        "fp": 347,
+        "sensitivity": 0.9830028328611898,
+        "specificity": 0.9726059840530512,
+        "balanced_accuracy": 0.9778044084571205
+      },
+      "interval": {
+        "ci_lower": 0.9693310061808738,
+        "ci_upper": 0.9856836302048105,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "langevinflow_early_leftward_179",
+      "method": "langevinflow",
+      "feature": "early_leftward",
+      "space": "single",
+      "latent_id": 179,
+      "chosen_c": 0.001,
+      "threshold": 0.04783207525506466,
+      "validation": {
+        "tp": 139,
+        "fn": 6,
+        "tn": 8734,
+        "fp": 830,
+        "sensitivity": 0.9586206896551724,
+        "specificity": 0.9132162275198662,
+        "balanced_accuracy": 0.9359184585875193
+      },
+      "validation_auroc": 0.9626206031237832,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/langevinflow_early_leftward_179_probe.joblib",
+      "model_sha256": "1ffb0ed8560008397bf198803ade1ed1dc38502dff37b0d6a379f368436eebb4",
+      "source_test_auroc": 0.9611406257232683,
+      "test": {
+        "tp": 129,
+        "fn": 8,
+        "tn": 8758,
+        "fp": 861,
+        "sensitivity": 0.9416058394160584,
+        "specificity": 0.9104896558893856,
+        "balanced_accuracy": 0.926047747652722
+      },
+      "interval": {
+        "ci_lower": 0.9049506870013151,
+        "ci_upper": 0.9451143948587918,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "langevinflow_early_leftward_full",
+      "method": "langevinflow",
+      "feature": "early_leftward",
+      "space": "full",
+      "latent_id": null,
+      "chosen_c": 1000.0,
+      "threshold": 0.038324650206184835,
+      "validation": {
+        "tp": 143,
+        "fn": 2,
+        "tn": 9237,
+        "fp": 327,
+        "sensitivity": 0.9862068965517241,
+        "specificity": 0.9658092848180677,
+        "balanced_accuracy": 0.9760080906848959
+      },
+      "validation_auroc": 0.9915141550930934,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/langevinflow_early_leftward_full_probe.joblib",
+      "model_sha256": "287e543cf1e4af89563a799f1fdb6d2134f28d2d6d3a0c40392c3dd621ed13e1",
+      "source_test_auroc": 0.9907755559821916,
+      "test": {
+        "tp": 137,
+        "fn": 0,
+        "tn": 9264,
+        "fp": 355,
+        "sensitivity": 1.0,
+        "specificity": 0.9630938767023599,
+        "balanced_accuracy": 0.9815469383511799
+      },
+      "interval": {
+        "ci_lower": 0.9790181952613201,
+        "ci_upper": 0.9837921791433715,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "langevinflow_late_target_specific_136",
+      "method": "langevinflow",
+      "feature": "late_target_specific",
+      "space": "single",
+      "latent_id": 136,
+      "chosen_c": 0.001,
+      "threshold": 0.06972987811400187,
+      "validation": {
+        "tp": 303,
+        "fn": 21,
+        "tn": 11041,
+        "fp": 1579,
+        "sensitivity": 0.9351851851851852,
+        "specificity": 0.8748811410459588,
+        "balanced_accuracy": 0.905033163115572
+      },
+      "validation_auroc": 0.9669579444737925,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/langevinflow_late_target_specific_136_probe.joblib",
+      "model_sha256": "627e7b2570a8359dc764cfbcd320920f09fe186c9a596e28e5ffe62ee83bf14f",
+      "source_test_auroc": 0.9604664123569732,
+      "test": {
+        "tp": 319,
+        "fn": 34,
+        "tn": 11181,
+        "fp": 1486,
+        "sensitivity": 0.9036827195467422,
+        "specificity": 0.882687297702692,
+        "balanced_accuracy": 0.8931850086247171
+      },
+      "interval": {
+        "ci_lower": 0.8737623099412231,
+        "ci_upper": 0.9113816212068321,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "langevinflow_late_target_specific_full",
+      "method": "langevinflow",
+      "feature": "late_target_specific",
+      "space": "full",
+      "latent_id": null,
+      "chosen_c": 1000.0,
+      "threshold": 0.013665589125002596,
+      "validation": {
+        "tp": 320,
+        "fn": 4,
+        "tn": 12246,
+        "fp": 374,
+        "sensitivity": 0.9876543209876543,
+        "specificity": 0.970364500792393,
+        "balanced_accuracy": 0.9790094108900236
+      },
+      "validation_auroc": 0.9977052395766078,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v3_192/langevinflow_late_target_specific_full_probe.joblib",
+      "model_sha256": "fccebfafbdf62be8ff35c789b98dc456f83a86dae934ea16a783736727259e52",
+      "source_test_auroc": 0.9982549288810277,
+      "test": {
+        "tp": 345,
+        "fn": 8,
+        "tn": 12299,
+        "fp": 368,
+        "sensitivity": 0.9773371104815864,
+        "specificity": 0.97094813294387,
+        "balanced_accuracy": 0.9741426217127283
+      },
+      "interval": {
+        "ci_lower": 0.9638690723686881,
+        "ci_upper": 0.9822219967616748,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "nldisco_recent_braking_83",
+      "method": "nldisco",
+      "feature": "recent_braking",
+      "space": "single",
+      "latent_id": 83,
+      "chosen_c": 0.001,
+      "threshold": 0.1875837491219659,
+      "validation": {
+        "tp": 1035,
+        "fn": 762,
+        "tn": 7527,
+        "fp": 385,
+        "sensitivity": 0.5759599332220368,
+        "specificity": 0.9513397371081901,
+        "balanced_accuracy": 0.7636498351651134
+      },
+      "validation_auroc": 0.7705231249926149,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/nldisco_recent_braking_83_probe.joblib",
+      "model_sha256": "2bd945bc91b5afa290af6de955e39dd29fbddffcb9336fe685f6d476b7ac91fb",
+      "source_test_auroc": 0.7736219956390995,
+      "test": {
+        "tp": 1057,
+        "fn": 759,
+        "tn": 7577,
+        "fp": 363,
+        "sensitivity": 0.5820484581497798,
+        "specificity": 0.9542821158690177,
+        "balanced_accuracy": 0.7681652870093987
+      },
+      "interval": {
+        "ci_lower": 0.7507825847089458,
+        "ci_upper": 0.7845594281535739,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "nldisco_recent_braking_full",
+      "method": "nldisco",
+      "feature": "recent_braking",
+      "space": "full",
+      "latent_id": null,
+      "chosen_c": 0.1,
+      "threshold": 0.1446423341615543,
+      "validation": {
+        "tp": 1697,
+        "fn": 100,
+        "tn": 7057,
+        "fp": 855,
+        "sensitivity": 0.9443516972732332,
+        "specificity": 0.8919362992922144,
+        "balanced_accuracy": 0.9181439982827238
+      },
+      "validation_auroc": 0.9831375514634265,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/nldisco_recent_braking_full_probe.joblib",
+      "model_sha256": "bb26fadf5c16d96f7a6c875e76fdd6aa2ce88fc8d5232ed30f048ce6cad33f0d",
+      "source_test_auroc": 0.9818619686192701,
+      "test": {
+        "tp": 1715,
+        "fn": 101,
+        "tn": 7073,
+        "fp": 867,
+        "sensitivity": 0.9443832599118943,
+        "specificity": 0.8908060453400504,
+        "balanced_accuracy": 0.9175946526259724
+      },
+      "interval": {
+        "ci_lower": 0.9119794308652877,
+        "ci_upper": 0.9237165736960903,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "nldisco_fast_target_specific_20",
+      "method": "nldisco",
+      "feature": "fast_target_specific",
+      "space": "single",
+      "latent_id": 20,
+      "chosen_c": 0.001,
+      "threshold": 0.004068725251946686,
+      "validation": {
+        "tp": 83,
+        "fn": 0,
+        "tn": 9388,
+        "fp": 238,
+        "sensitivity": 1.0,
+        "specificity": 0.9752752960731352,
+        "balanced_accuracy": 0.9876376480365676
+      },
+      "validation_auroc": 0.9937431003882558,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/nldisco_fast_target_specific_20_probe.joblib",
+      "model_sha256": "e73e2df0ed29e7e39f797f71c6ad32019161600c480a7bcd505b7cb199f984c4",
+      "source_test_auroc": 0.9873821673263707,
+      "test": {
+        "tp": 77,
+        "fn": 1,
+        "tn": 9442,
+        "fp": 236,
+        "sensitivity": 0.9871794871794872,
+        "specificity": 0.9756147964455466,
+        "balanced_accuracy": 0.9813971418125169
+      },
+      "interval": {
+        "ci_lower": 0.9693377354267894,
+        "ci_upper": 0.9897725968091508,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "nldisco_fast_target_specific_full",
+      "method": "nldisco",
+      "feature": "fast_target_specific",
+      "space": "full",
+      "latent_id": null,
+      "chosen_c": 0.01,
+      "threshold": 0.021009260120132857,
+      "validation": {
+        "tp": 83,
+        "fn": 0,
+        "tn": 9517,
+        "fp": 109,
+        "sensitivity": 1.0,
+        "specificity": 0.9886765011427384,
+        "balanced_accuracy": 0.9943382505713692
+      },
+      "validation_auroc": 0.9990725419859366,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/nldisco_fast_target_specific_full_probe.joblib",
+      "model_sha256": "04f8d4240306838c8c306c290995a8ed87512ba8bf96948e02fd520e7d965418",
+      "source_test_auroc": 0.9990780040377064,
+      "test": {
+        "tp": 78,
+        "fn": 0,
+        "tn": 9574,
+        "fp": 104,
+        "sensitivity": 1.0,
+        "specificity": 0.9892539780946477,
+        "balanced_accuracy": 0.9946269890473238
+      },
+      "interval": {
+        "ci_lower": 0.9929848688034464,
+        "ci_upper": 0.996028583867853,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "cebra_recent_braking_126",
+      "method": "cebra",
+      "feature": "recent_braking",
+      "space": "single",
+      "latent_id": 126,
+      "chosen_c": 0.001,
+      "threshold": 0.20588392592248358,
+      "validation": {
+        "tp": 1334,
+        "fn": 463,
+        "tn": 5805,
+        "fp": 2107,
+        "sensitivity": 0.7423483583750695,
+        "specificity": 0.7336956521739131,
+        "balanced_accuracy": 0.7380220052744912
+      },
+      "validation_auroc": 0.8176983195225386,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/cebra_recent_braking_126_probe.joblib",
+      "model_sha256": "8ee0a30bd82e3ffc7daa5e1a02d30bf8726562029d9f14d6d3854405b3606a8d",
+      "source_test_auroc": 0.8155274900409458,
+      "test": {
+        "tp": 1299,
+        "fn": 517,
+        "tn": 5899,
+        "fp": 2041,
+        "sensitivity": 0.7153083700440529,
+        "specificity": 0.7429471032745592,
+        "balanced_accuracy": 0.7291277366593061
+      },
+      "interval": {
+        "ci_lower": 0.706409524970808,
+        "ci_upper": 0.7456499323352163,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "cebra_recent_braking_full",
+      "method": "cebra",
+      "feature": "recent_braking",
+      "space": "full",
+      "latent_id": null,
+      "chosen_c": 100.0,
+      "threshold": 0.13074187610254287,
+      "validation": {
+        "tp": 1703,
+        "fn": 94,
+        "tn": 6753,
+        "fp": 1159,
+        "sensitivity": 0.9476905954368392,
+        "specificity": 0.8535136501516684,
+        "balanced_accuracy": 0.9006021227942538
+      },
+      "validation_auroc": 0.9705393862256665,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/cebra_recent_braking_full_probe.joblib",
+      "model_sha256": "657557fe2bfe127d20940186f511050c8650f4a6088f1997f1032a26a21d9086",
+      "source_test_auroc": 0.9704481713068277,
+      "test": {
+        "tp": 1716,
+        "fn": 100,
+        "tn": 6781,
+        "fp": 1159,
+        "sensitivity": 0.9449339207048458,
+        "specificity": 0.8540302267002519,
+        "balanced_accuracy": 0.8994820737025488
+      },
+      "interval": {
+        "ci_lower": 0.8940103502500187,
+        "ci_upper": 0.9046394902235222,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "cebra_fast_target_specific_56",
+      "method": "cebra",
+      "feature": "fast_target_specific",
+      "space": "single",
+      "latent_id": 56,
+      "chosen_c": 0.001,
+      "threshold": 0.009547214523855862,
+      "validation": {
+        "tp": 79,
+        "fn": 4,
+        "tn": 7265,
+        "fp": 2361,
+        "sensitivity": 0.9518072289156626,
+        "specificity": 0.754726781633077,
+        "balanced_accuracy": 0.8532670052743698
+      },
+      "validation_auroc": 0.8834844885463317,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/cebra_fast_target_specific_56_probe.joblib",
+      "model_sha256": "9ee7e81d086d02daf8bc4433bc71ae924519a4198fb1e29b8513a8af6aadac20",
+      "source_test_auroc": 0.8939293984241287,
+      "test": {
+        "tp": 71,
+        "fn": 7,
+        "tn": 7194,
+        "fp": 2484,
+        "sensitivity": 0.9102564102564102,
+        "specificity": 0.7433353998760074,
+        "balanced_accuracy": 0.8267959050662088
+      },
+      "interval": {
+        "ci_lower": 0.7866019582711763,
+        "ci_upper": 0.8633427432983151,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "cebra_fast_target_specific_93",
+      "method": "cebra",
+      "feature": "fast_target_specific",
+      "space": "single",
+      "latent_id": 93,
+      "chosen_c": 0.001,
+      "threshold": 0.013201695566307067,
+      "validation": {
+        "tp": 59,
+        "fn": 24,
+        "tn": 8978,
+        "fp": 648,
+        "sensitivity": 0.7108433734939759,
+        "specificity": 0.932682318720133,
+        "balanced_accuracy": 0.8217628461070544
+      },
+      "validation_auroc": 0.8544328988507532,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/cebra_fast_target_specific_93_probe.joblib",
+      "model_sha256": "eb2de3f2425a1a2ca9d3b40ba9868b4ceac8699abdab1f4b87e6263d3eba2058",
+      "source_test_auroc": 0.7653295075799725,
+      "test": {
+        "tp": 39,
+        "fn": 39,
+        "tn": 9067,
+        "fp": 611,
+        "sensitivity": 0.5,
+        "specificity": 0.936867121306055,
+        "balanced_accuracy": 0.7184335606530274
+      },
+      "interval": {
+        "ci_lower": 0.6176195445501184,
+        "ci_upper": 0.8246640370639003,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "cebra_fast_target_specific_full",
+      "method": "cebra",
+      "feature": "fast_target_specific",
+      "space": "full",
+      "latent_id": null,
+      "chosen_c": 10.0,
+      "threshold": 0.025360146096338788,
+      "validation": {
+        "tp": 83,
+        "fn": 0,
+        "tn": 9429,
+        "fp": 197,
+        "sensitivity": 1.0,
+        "specificity": 0.9795345938084354,
+        "balanced_accuracy": 0.9897672969042177
+      },
+      "validation_auroc": 0.9964316021618157,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/cebra_fast_target_specific_full_probe.joblib",
+      "model_sha256": "62a3aad5ca83c38644c6fa1724afc002ee512d49e35951f1c88f1695aa3cb78b",
+      "source_test_auroc": 0.9959887876812862,
+      "test": {
+        "tp": 78,
+        "fn": 0,
+        "tn": 9465,
+        "fp": 213,
+        "sensitivity": 1.0,
+        "specificity": 0.9779913205207688,
+        "balanced_accuracy": 0.9889956602603844
+      },
+      "interval": {
+        "ci_lower": 0.9865238636051883,
+        "ci_upper": 0.9913779204296751,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "langevinflow_recent_braking_136",
+      "method": "langevinflow",
+      "feature": "recent_braking",
+      "space": "single",
+      "latent_id": 136,
+      "chosen_c": 0.001,
+      "threshold": 0.13948093463681444,
+      "validation": {
+        "tp": 1709,
+        "fn": 88,
+        "tn": 6119,
+        "fp": 1793,
+        "sensitivity": 0.9510294936004452,
+        "specificity": 0.7733822042467139,
+        "balanced_accuracy": 0.8622058489235795
+      },
+      "validation_auroc": 0.9074298713224433,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/langevinflow_recent_braking_136_probe.joblib",
+      "model_sha256": "fbd8c01a384232b2f384c411a53d42f4c269215c4c684c24c155f87ad71a1cbf",
+      "source_test_auroc": 0.909153522009787,
+      "test": {
+        "tp": 1709,
+        "fn": 107,
+        "tn": 6216,
+        "fp": 1724,
+        "sensitivity": 0.941079295154185,
+        "specificity": 0.7828715365239295,
+        "balanced_accuracy": 0.8619754158390572
+      },
+      "interval": {
+        "ci_lower": 0.8525143065465574,
+        "ci_upper": 0.8709482019122365,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "langevinflow_recent_braking_178",
+      "method": "langevinflow",
+      "feature": "recent_braking",
+      "space": "single",
+      "latent_id": 178,
+      "chosen_c": 0.001,
+      "threshold": 0.3833252323483522,
+      "validation": {
+        "tp": 1611,
+        "fn": 186,
+        "tn": 6385,
+        "fp": 1527,
+        "sensitivity": 0.8964941569282137,
+        "specificity": 0.8070020222446916,
+        "balanced_accuracy": 0.8517480895864527
+      },
+      "validation_auroc": 0.9209815553166074,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/langevinflow_recent_braking_178_probe.joblib",
+      "model_sha256": "6e547c5188bf7e79ac661201f9af985e9fc98c8c659f361f96803aba9c983c49",
+      "source_test_auroc": 0.9221008125367569,
+      "test": {
+        "tp": 1630,
+        "fn": 186,
+        "tn": 6366,
+        "fp": 1574,
+        "sensitivity": 0.8975770925110133,
+        "specificity": 0.8017632241813603,
+        "balanced_accuracy": 0.8496701583461868
+      },
+      "interval": {
+        "ci_lower": 0.8412859152005768,
+        "ci_upper": 0.8563810918578816,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "langevinflow_recent_braking_full",
+      "method": "langevinflow",
+      "feature": "recent_braking",
+      "space": "full",
+      "latent_id": null,
+      "chosen_c": 0.1,
+      "threshold": 0.19845034459145608,
+      "validation": {
+        "tp": 1616,
+        "fn": 181,
+        "tn": 7120,
+        "fp": 792,
+        "sensitivity": 0.899276572064552,
+        "specificity": 0.8998988877654196,
+        "balanced_accuracy": 0.8995877299149858
+      },
+      "validation_auroc": 0.9702945533872036,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/langevinflow_recent_braking_full_probe.joblib",
+      "model_sha256": "af7c5d365e57714a080b5dbecebe5eddbfc6036735557c2e0f39e468ae42efd2",
+      "source_test_auroc": 0.9710702654268247,
+      "test": {
+        "tp": 1639,
+        "fn": 177,
+        "tn": 7159,
+        "fp": 781,
+        "sensitivity": 0.9025330396475771,
+        "specificity": 0.9016372795969774,
+        "balanced_accuracy": 0.9020851596222772
+      },
+      "interval": {
+        "ci_lower": 0.894644128117352,
+        "ci_upper": 0.9084496640335009,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "langevinflow_fast_target_specific_179",
+      "method": "langevinflow",
+      "feature": "fast_target_specific",
+      "space": "single",
+      "latent_id": 179,
+      "chosen_c": 0.001,
+      "threshold": 0.03561951101157028,
+      "validation": {
+        "tp": 83,
+        "fn": 0,
+        "tn": 9034,
+        "fp": 592,
+        "sensitivity": 1.0,
+        "specificity": 0.9384998961146894,
+        "balanced_accuracy": 0.9692499480573447
+      },
+      "validation_auroc": 0.9829402797143278,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/langevinflow_fast_target_specific_179_probe.joblib",
+      "model_sha256": "c28ee5eacd2fc2999ea9de9f7280edde56ccfda1145e99679abab7ea33f50a29",
+      "source_test_auroc": 0.9738025974851766,
+      "test": {
+        "tp": 70,
+        "fn": 8,
+        "tn": 9030,
+        "fp": 648,
+        "sensitivity": 0.8974358974358975,
+        "specificity": 0.9330440173589585,
+        "balanced_accuracy": 0.9152399573974279
+      },
+      "interval": {
+        "ci_lower": 0.8591660124718782,
+        "ci_upper": 0.9624610215200339,
+        "bootstrap_valid_replicates": 300
+      }
+    },
+    {
+      "key": "langevinflow_fast_target_specific_full",
+      "method": "langevinflow",
+      "feature": "fast_target_specific",
+      "space": "full",
+      "latent_id": null,
+      "chosen_c": 10.0,
+      "threshold": 0.07426855250431261,
+      "validation": {
+        "tp": 83,
+        "fn": 0,
+        "tn": 9549,
+        "fp": 77,
+        "sensitivity": 1.0,
+        "specificity": 0.9920008310824849,
+        "balanced_accuracy": 0.9960004155412425
+      },
+      "validation_auroc": 0.9984154361055274,
+      "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs/langevinflow_fast_target_specific_full_probe.joblib",
+      "model_sha256": "c66f711aa77b86462c0c23f64d6139b3db468360b737849c897f7abb7261238d",
+      "source_test_auroc": 0.9981692551438367,
+      "test": {
+        "tp": 72,
+        "fn": 6,
+        "tn": 9605,
+        "fp": 73,
+        "sensitivity": 0.9230769230769231,
+        "specificity": 0.9924571192395123,
+        "balanced_accuracy": 0.9577670211582177
+      },
+      "interval": {
+        "ci_lower": 0.9156270361184172,
+        "ci_upper": 0.9895423223175015,
+        "bootstrap_valid_replicates": 300
+      }
+    }
+  ]
+}

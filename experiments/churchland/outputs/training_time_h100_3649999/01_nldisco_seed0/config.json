@@ -1,0 +1,56 @@
+{
+  "sed": {
+    "n_neurons": 191,
+    "seq_len": 10,
+    "dsed_topk_map": {
+      "96": 8,
+      "192": 16
+    },
+    "encoder": {
+      "type": "TransformerWindow",
+      "shift_equivariant": true,
+      "d_model": 128,
+      "n_heads": 4,
+      "n_layers": 1,
+      "d_feedforward": 512,
+      "dropout": 0.0,
+      "causal": true,
+      "attention_radius": 9
+    },
+    "decoder": {
+      "output_activation": "none",
+      "temporal_kernel_len": 10,
+      "temporal_alignment": "causal"
+    },
+    "inference_sparsity": "training_threshold",
+    "threshold_decay": 0.99,
+    "dtype": "torch.float32"
+  },
+  "loss": {
+    "timebin_weights": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "type": "mse",
+    "tau": 1.0,
+    "dsed_loss_weight_map": null,
+    "dead_feature_loss_weight": 1.0
+  },
+  "training": {
+    "batch_size": 1024,
+    "epochs": 10,
+    "learning_rate": 0.005,
+    "use_lr_schedule": true,
+    "log_frequency": 32,
+    "dead_feature_window": 42,
+    "max_dead_feature_fraction": 0.1
+  }
+}

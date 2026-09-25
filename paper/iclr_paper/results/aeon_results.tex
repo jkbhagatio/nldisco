@@ -1,16 +1,17 @@
 \subsection{Mouse spike data in an ethological foraging assay}
 \label{subsection:aeon_results}
 
-- We analyze data from the Aeon project, which provides continuous long-term recordings of freely behaving mice in enriched environments. This dataset allows us to study neural dynamics during naturalistic behaviors over extended time periods, from minutes to weeks.
+Unlike the linear track and trial-structured reaching tasks in \hyperref[subsection:synthetic_results]{\ref*{subsection:synthetic_results}} \& \hyperref[subsection:churchland_results]{\ref*{subsection:churchland_results}}, naturalistic behavior unfolds continuously over extended periods without predefined boundaries. We ask whether NLDisco can support open-ended feature discovery in this setting using Aeon, a platform for continuously recording rodent neural and behavioral activity in naturalistic habitats~\citep{campagner_2025_aeon_platform}. 
 
-- Brief dataset info...
+% This provides an opportunity to generate feature hypotheses from extended, unconstrained activity rather than limiting interpretation to experimenter-defined task conditions.
 
-- Features found and decoding accuracy comparisons with LangevinFlow and CEBRA...
+We analyze an 18-hour interval from a week-long Aeon experiment in which one mouse in an open environment spontaneously forages by spinning a wheel on a foraging patch (\autoref{figure:task_overview}c). The neural data comes from a Neuropixels recording, processed into 20-ms binned spike counts from $N=90$ uncurated Kilosort units across retrosplenial cortex (RSC) and superior colliculus (SC). The behavioral data include the animal's centroid position and segmented image area estimated continuously from an overhead camera, together with foraging-wheel rotation and food-delivery events, with food dispensed every 75 cm of wheel movement (approximately three revolutions).
 
-% TODO: Add figure for Aeon results
-% \begin{figure}[h]
-% \centering
-% \includegraphics[width=\textwidth]{figures/aeon_features.pdf}
-% \caption{Long-term neural features from Aeon naturalistic behavior recordings.}
-% \label{fig:aeon_features}
-% \end{figure}
+As before, we train a two-level Matryoshka TW-SED ($S = 20$, $(D_1,k_1)=(96,6)$, $(D_2,k_2)=(192,12)$, $B = 1024$) to reconstruct the neural data. Among many features found (see \hyperref[subsubsection:aeon_results_additional]{\ref*{subsubsection:aeon_results_additional}}), here we show one descriptive example, latent 52, surprisngly preferentially active for \textit{wheel activity}: wheel speeds $>$ 0.75 cm/s, $\metric{Sel}=0.744$, $\metric{AUROC}=0.924$ (\autoref{fig:aeon_features}). The preference persists when controlling for the animal's position, and notably, this association re-emerges across foraging bouts separated by hours: the same latent tracks wheel activity throughout the 18-hour recording (\autoref{fig:aeon_wheel_vs_patch}). Although RSC and SC are implicated in foraging, that did not predict the surprising wheel-associated feature revealed here. These associations suggest follow-up experiments, for example, varying wheel engagement while measuring posture and controlling location could help distinguish wheel-related activity from accompanying movements.
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=\linewidth]{figures/aeon_main.pdf}
+    \caption{\textbf{A \textit{wheel activity} latent in a continuous foraging recording.} (\textbf{a}) Latent activation probability by wheel speed; vertical dashed line at 0.75 cm/s. (\textbf{b}) ROC based on latent activations; dot: FPR 0.180, TPR 0.938 at the displayed activation threshold. \metric{Decode}: test balanced accuracy of a single-latent logistic decoder with a validation-selected decision threshold (\hyperref[paragraph:latent_decoding]{\ref*{subsubsection:latents_evaluation_details}}). Source activity traceback appears in \autoref{fig:aeon_wheel_source_traceback}.}
+    \label{fig:aeon_features}
+\end{figure}

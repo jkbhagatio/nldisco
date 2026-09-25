@@ -1,0 +1,82 @@
+\subsubsection{Mouse spike data in an ethological foraging assay}
+\label{subsubsection:aeon_results_additional}
+
+\paragraph{Dataset.}
+We analyze an 18-hour interval from an Aeon experiment, which records neural activity alongside spontaneous behavior in a naturalistic foraging environment~\citep{campagner_2025_aeon_platform}. The recording is from subject \texttt{BAA-1104292} in \texttt{social-ephys0.1-aeon3}, from June 6, 2024, 23:00 to June 7, 17:00. It contains 56,191,057 spikes from 90 Kilosort~4 clusters across retrosplenial cortex and superior colliculus. We retain all 90 clusters.
+
+Spikes are binned at 20 ms after aligning the neural acquisition and behavioral clocks. We exclude bins with unsupported synchronization or clock anomalies and require complete neural support throughout each input window. This leaves 3,238,600 overlapping windows of $S=20$ bins, each spanning 400 ms. Unsmoothed counts are standardized per cluster using all valid neural bins.
+
+An overhead camera provides centroid position and segmented image area; the foraging patch provides wheel rotation and food-delivery events. Centroid velocity uses a causal 100-ms position average followed by a 100-ms backward difference. Wheel speed is the absolute net rotation per bin, averaged over the preceding 100 ms and converted to cm/s speed using the 4-cm wheel radius. Camera analyses exclude missing tracking data.
+
+\paragraph{Feature discovery.}
+We inspect latent activity alongside wheel movement, position, segmented area, and movement direction to identify candidate features. The nine-model sweep crosses $D\in\{128,192,256\}$ and $k\in\{8,12,16\}$, using two Matryoshka levels, $(D/2,k/2)$ and $(D,k)$. Each model uses a causal, shift-equivariant TW-SED with one Transformer layer, internal width 128, four attention heads, feedforward width 512, and no dropout. A learned projection maps the final token to the latent dictionary, and a linear temporal decoder reconstructs the preceding 400-ms window with an identity output activation. Training uses 5,000 Adam updates with $B=1,024$, initial learning rate 0.005, the warmup/cosine schedule described above, and equally weighted reconstruction losses across timebins and levels. All fits use seed 0; no behavioral labels enter training.
+
+The displayed latents are selected by inspecting behavioral tuning, high-activation episodes, and source activity across the sweep. Feature descriptions are refined during this exploration and then fixed for scoring:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+    \item \textit{Wheel activity}: endpoint wheel-rim speed exceeds $0.75$ cm/s. All input bins must have valid wheel measurements; proximity to the patch is not required. This is the main-text feature, illustrated by latent 52 of the $D=192$, $k=12$ model.
+    \item \textit{Smaller segmented area near the patch}: endpoint area lies in the lowest quintile, $101.5\leq a<512.5$ px$^2$, among camera-valid windows wholly within 100 px of the patch. The comparison is therefore between smaller and larger segmented areas near the patch. Area is an image measurement, not a verified posture or feeding label.
+    \item \textit{Highest centroid-speed quintile}: endpoint centroid speed lies in the highest quintile of speed-valid windows, beginning at 9.837 px/s. This is a relative speed preference within the recording, rather than a threshold for fast running.
+    \item \textit{Radially outward movement}: among camera-valid windows with endpoint centroid speed at least 100 px/s, movement heading is within $45^\circ$ of the outward radial direction from the arena center. Other fast-moving windows form the comparison population, allowing us to assess direction preference within fast movement.
+\end{enumerate}
+The supplementary features use latents 107, 109, and 10, respectively, from the $D=256$, $k=12$ model. All latent indices are zero-based.
+
+\subparagraph{Metrics.}
+We report \metric{Cov}, \metric{Spec}, \metric{Sel}, and \metric{AUROC} using the shared definitions in \hyperref[subsubsection:latents_evaluation_details]{\ref*{subsubsection:latents_evaluation_details}}. A latent is active when $z>0$, and \metric{AUROC} uses its continuous activation values. Scores include every eligible window inside and outside each condition, rather than only the examples used for visualization (\autoref{table:aeon_feature_metrics}). Because windows overlap, their counts do not represent independent observations.
+
+The area and speed tuning plots show activation probability within five empirical quintiles (\autoref{fig:aeon_additional_features}). The directional plot instead groups fast-moving windows by heading relative to the outward radial direction (\autoref{fig:aeon_direction}). Together, these plots show how the selected latents' activity varies around the scored conditions.
+
+We evaluate each feature using the shared \hyperref[paragraph:latent_decoding]{logistic-regression protocol}, fitting separate decoders to the selected latent and all $D$ latents from its model. Both use the feature's eligible comparison population. The recording is divided chronologically into 80/10/10 training, validation, and test intervals, excluding windows that cross partition boundaries. Standardization and decoder weights use training examples only; validation selects regularization and one probability threshold per decoder, both fixed for testing. The single-latent wheel decoder uses $C=0.001$ and $t=0.034469$, achieving test \metric{Decode} $0.889$. This decoder threshold differs from native activation ($z>0$) and the illustrative ROC marker in \autoref{fig:aeon_features}b, which shows \metric{TPR} $0.938$ at \metric{FPR} $0.180$ under a higher latent-activation threshold.
+
+\begin{table}[!t]
+    \centering
+    {\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+    \input{figures/aeon_feature_metrics.tex}}
+    \caption{\textbf{Feature recovery and decoding for the four behavioral descriptions.} Each row group reports the selected NLDisco latent for one feature. \metric{Cov}, \metric{Spec}, and \metric{Sel} use native positive activation; \metric{AUROC} uses continuous activation values. Association scores use all eligible windows in the feature-specific population. Single and All \metric{Decode} report test balanced accuracy using the selected latent or all $D$ latents from its model, respectively, with a separately validation-selected decision threshold for each decoder.}
+    \label{table:aeon_feature_metrics}
+\end{table}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\linewidth]{figures/aeon_additional_features.pdf}
+    \caption{\textbf{\textit{Smaller area} and \textit{higher speed} features.} Activation probabilities for NLDisco latents 107 and 109, respectively, in the $D=256$, $k=12$ model. Bars group eligible windows into empirical quintiles; dark bars identify the scored conditions. Area quintiles compare camera-valid windows wholly within 100 px of the patch. Speed quintiles use all windows with valid centroid-speed measurements.}
+    \label{fig:aeon_additional_features}
+\end{figure}
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\linewidth]{figures/aeon_direction.pdf}
+    \caption{\textbf{\textit{Radially outward movement} feature.} (\textbf{a}) Activation probability for NLDisco latent 10 ($D=256$, $k=12$), grouped by heading relative to the outward radial direction during movement at $\geq100$ px/s. Shading marks the scored $\pm45^\circ$ sector. (\textbf{b}) ROC curve comparing outward with other fast movement; the marker indicates native positive activation. Camera measurements must be valid throughout each input window.}
+    \label{fig:aeon_direction}
+\end{figure}
+
+\subparagraph{Behavioral controls.}
+To test whether the \textit{wheel activity} feature reflects simply being at the patch, we compare wheel-active and wheel-inactive windows while restricting both groups to camera-valid windows wholly within 100 px of the patch. The association remains (\metric{Sel} $0.698$, \metric{AUROC} $0.842$). We then compare the two states within 25-px-square position cells containing at least 20 windows of each state. Five cells cover 99.98\% of near-patch positive windows. Averaging the within-cell activation rates and AUROCs with weights proportional to each cell's positive-window count gives position-adjusted \metric{Sel} $0.617$ and within-cell \metric{AUROC} $0.755$. These checks support an association beyond coarse patch location, while leaving body orientation and movements required to spin the wheel unresolved. Two six-minute excerpts show the distinction directly: the latent activates during wheel bouts but remains largely silent during extended patch occupancy without wheel movement (\autoref{fig:aeon_wheel_vs_patch}).
+
+The \textit{radially outward} association also persists after coarse control for speed and position. Within fast-moving windows, we group endpoints into speed bins $[100,150)$, $[150,200)$, $[200,300)$, and $[300,\infty)$ px/s and 100-px-square position cells. Groups with at least 20 outward and 20 other-direction windows cover 91.6\% of outward examples. Weighting each group's activation rates and AUROC by its positive-window count gives adjusted \metric{Sel} $0.710$ and within-group \metric{AUROC} $0.833$. These results support direction preference beyond coarse speed and location. They do not establish movement toward a particular gate: the recording lacks a calibrated gate location, and an exploratory entrance-location proxy yields \metric{AUROC} $0.422$ for this latent. We therefore retain the directly measured radial description.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\linewidth]{figures/aeon_wheel_vs_patch.pdf}
+    \caption{\textbf{Wheel activity and patch occupancy.} Two excerpts from hours 1.2--1.3 (\textbf{a}) and 11--11.1 (\textbf{b}) of the same recording. Rows show 20-ms bins with centroid position within 100 px of the patch, wheel-rim speed above $0.75$ cm/s, and positive activation of latent 52 ($D=192$, $k=12$). Invalid observations are excluded. Patch occupancy without wheel movement often leaves the latent silent, whereas wheel bouts coincide with activation in both excerpts.}
+    \label{fig:aeon_wheel_vs_patch}
+\end{figure}
+
+\clearpage
+\subparagraph{Source activity traceback.}
+We apply the \hyperref[paragraph:source_activity_traceback]{source activity traceback} to the four selected latents using the same standardized counts as in training. Attribution maps retain all 90 recorded clusters and all 20 input timebins. We average equally over neural-valid windows with positive latent activation, regardless of behavioral condition. The wheel feature's time-averaged profile provides a compact view of its source contributions (\autoref{fig:aeon_wheel_source_traceback}); the complete maps show when each cluster contributes within the input window, alongside the decoder weights describing reconstruction (\autoref{fig:aeon_traceback}). These are model attributions, not causal effects or evidence of biological excitation or inhibition.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\linewidth]{figures/aeon_wheel_source_traceback.pdf}
+    \caption{\textbf{Source activity traceback for the \textit{wheel activity} feature.} Mean encoder attribution for latent 52 ($D=192$, $k=12$), averaged over the 20 input timebins and all neural-valid windows with positive latent activation. Each point identifies one recorded cluster; all 90 are shown. The full temporal map appears in \autoref{fig:aeon_traceback}.}
+    \label{fig:aeon_wheel_source_traceback}
+\end{figure}
+
+\begin{figure}[!p]
+    \centering
+    \includegraphics[width=\linewidth]{figures/aeon_traceback.pdf}
+    \caption{\textbf{Source activity traceback for all four behavioral features.} Rows follow the feature order in \autoref{table:aeon_feature_metrics}: wheel activity (latent 52), smaller area near the patch (107), highest centroid-speed quintile (109), and radially outward movement (10). Left: mean encoder attribution over neural-valid windows with positive latent activation. Right: temporal decoder weights. All 90 recorded clusters and 20 input timebins are retained. Colors are clipped symmetrically at each panel's 99th absolute percentile for readability.}
+    \label{fig:aeon_traceback}
+\end{figure}
+
+Across the Churchland and Aeon analyses, neural preprocessing and representation fitting use all retained neural inputs. Churchland feature descriptions use decoder-training and validation trials, whereas Aeon feature discovery and association scoring use the full recording. Decoder weights and decision thresholds use their designated training and validation partitions, but the resulting scores assess decoding within these recordings rather than independent validation of the full discovery procedure. The reported associations are exploratory and do not establish exclusive encoding or causal function.

@@ -1,0 +1,9 @@
+Use case: precise-object-edit. Edit the supplied three-panel neuroscience figure as a minimal, faithful final revision. Preserve the same image dimensions and composition, white background, panel letters, illustration style, every apparatus detail, the monkey, the mouse, the Aeon side nest and water bottle, all callouts, and the current scale of the apparatus.
+
+Make ONLY these changes:
+1. In panel a, uniformly reduce the RAT (head, torso, legs, ears and tail together) to about 80% of its CURRENT linear size in this reference image. This is a modest further 20% reduction, not a reduction to 20%. Keep its center horizontally in the same position near the middle of the track, facing right, with paws resting naturally on the track surface. Keep the linear track and its legs unchanged.
+2. Replace the species subtitle "Rat · simulated" with exactly "Rat", in the same typeface, size, color and left alignment. Remove the separator dot together with "simulated", leaving no stray mark.
+3. Completely remove the bottom text "Hand-controlled cursor" under panel b, restoring clean white background in its place.
+4. Completely remove the bottom text "Wheel turning for food" under panel c, restoring clean white background in its place.
+
+All other text must remain unchanged: "Linear-track navigation", "Visually guided reaching", "Macaque", "Aeon foraging", "Mouse", "Cursor", "Target", "Virtual barrier", "Foraging patch", "Wheel", "Nest", "Water", and panel letters a, b, c. Do not remove the "Cursor" label on the screen. Preserve the cursor trajectory and wheel rotation arrows. Do not add an arrow or scale bar to the rat panel. Do not enlarge the rat or mouse. Do not redraw, move, or simplify any other element. Keep all objects and labels fully within the frame. No new captions, footers, figure numbers, or watermark.

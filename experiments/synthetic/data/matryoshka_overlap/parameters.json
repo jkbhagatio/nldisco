@@ -1,0 +1,543 @@
+{
+  "design": "exploratory_matryoshka_concentric_broad_narrow_fields",
+  "source_dataset_sha256": "aa434315c8443c3fa4d5bdfe7de795db133c7dce85ce190f186724b04153bdaf",
+  "source_parameters": {
+    "schema_version": 2,
+    "design": "controlled_asymmetric_ramp_four_place_cells_96_position_independent_noise_neurons",
+    "realization_status": "controlled_revised_design_not_original_Theodoni_parameters_or_realization",
+    "duration_s": 600.0,
+    "dt_s": 0.01,
+    "sampling_rate_hz": 100.0,
+    "n_samples": 60000,
+    "n_units": 100,
+    "spike_matrix_axes": [
+      "unit",
+      "time"
+    ],
+    "place_cell_ids": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "noise_cell_ids": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99
+    ],
+    "centers_m": [
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "left_widths_m": [
+      0.05,
+      0.1,
+      0.07,
+      0.07
+    ],
+    "right_widths_m": [
+      0.1,
+      0.05,
+      0.07,
+      0.07
+    ],
+    "peak_rates_hz": [
+      10.0,
+      28.0,
+      20.0,
+      20.0
+    ],
+    "baseline_rate_hz": 0.1,
+    "rate_equation": "baseline + peak_amplitude * exp(-0.5 * ((position-center)/width)**2); width=left_width if position<center else right_width",
+    "directional_modulation": false,
+    "rate_dependencies": [
+      "position"
+    ],
+    "first_pair_ramp": {
+      "unit_ids": [
+        0,
+        1
+      ],
+      "definition": "sum of exact expected rates including both baselines",
+      "selection_basis": "fixed before training using analytic rate derivative only",
+      "monotonic_ramp_interval_m": [
+        0.2,
+        0.3885396133330735
+      ],
+      "verified_positive_slope_interval_m": [
+        0.2,
+        0.37
+      ],
+      "minimum_slope_on_17001_point_verified_grid_hz_per_m": 40.22695545948365,
+      "start_rate_hz": 13.989387930625155,
+      "rate_at_0_37_m_hz": 29.325390256885434,
+      "peak_position_m": 0.3885396133330735,
+      "peak_rate_hz": 29.707566396553933,
+      "increase_hz": 15.718178465928778,
+      "relative_increase": 1.1235787115116742
+    },
+    "peak_rate_convention": "Gaussian amplitude above baseline; absolute peaks are amplitude+0.1 Hz",
+    "noise_rates_hz": [
+      3.5478467492858172,
+      2.0791468550554812,
+      1.1638940957447788,
+      1.0661105421141164,
+      4.25308095680109,
+      4.651022309110887,
+      3.4265431030687195,
+      3.9179862439359936,
+      3.1744999658616915,
+      4.740289695151073,
+      4.263414216486129,
+      1.0109540006805924,
+      4.429617106350277,
+      1.1343423012218574,
+      3.9186217857197763,
+      1.702622482410236,
+      4.452715689399547,
+      3.165844880996367,
+      2.198847562149539,
+      2.690748884790634,
+      1.1132786845818519,
+      1.4971331059982558,
+      3.6824976587745213,
+      3.5887580462970003,
+      3.4615404459250154,
+      2.5347102170475337,
+      4.988839743156844,
+      4.92334135510492,
+      3.742167937922779,
+      3.601837105071265,
+      3.7537869222837603,
+      2.555685695916415,
+      1.5403860200896449,
+      3.885953360776327,
+      3.1014172899029036,
+      2.2409675022358226,
+      2.9433414353271563,
+      4.557951337396001,
+      4.736174063824999,
+      2.431180786836281,
+      3.2861193229190437,
+      2.2874775643037686,
+      3.377200120798787,
+      2.351644902028533,
+      2.566476002112645,
+      4.561097408019169,
+      1.9086303741335189,
+      3.4927485787441697,
+      1.3360613743295393,
+      4.330576590613591,
+      4.148393229954733,
+      1.9574777719718086,
+      4.505936923242816,
+      1.2342721392207774,
+      2.3444682421826415,
+      1.6011178675793563,
+      2.801357466597148,
+      4.1852970811491765,
+      1.9225688359749897,
+      1.2080852042576384,
+      2.618207359286113,
+      1.7940521780370213,
+      1.3630121824764876,
+      3.3213295439474027,
+      2.1947845312756904,
+      3.6879795118254375,
+      1.7980617758728532,
+      4.768452442025991,
+      2.4604406729793142,
+      1.421981118280918,
+      3.516432606158837,
+      4.708618212271469,
+      2.761508618863136,
+      4.818361974762949,
+      2.999583254750588,
+      2.700914499396302,
+      3.4808538080615112,
+      4.980386020941296,
+      4.795774699751061,
+      2.8401805572363843,
+      4.030915381233166,
+      2.989690781950476,
+      3.1172486407870816,
+      4.14314280285523,
+      2.658623397422683,
+      3.9379342871549174,
+      3.8445715119589994,
+      4.728238746453513,
+      1.4597305331236208,
+      3.9160604683052376,
+      4.70969571449824,
+      4.871704759698586,
+      1.0588252198614772,
+      4.454560360982303,
+      4.924780160265377,
+      4.828840718443854
+    ],
+    "noise_rate_distribution": "independent Uniform(1,5) Hz draws, constant over time and position",
+    "spike_distribution": "independent Bernoulli(rate_hz * dt_s) at each unit and sample",
+    "parameter_seed": 0,
+    "motion_seed": 42,
+    "place_spike_seed": 123,
+    "noise_spike_seed": 456,
+    "rng": "numpy.random.Generator(PCG64)",
+    "numpy_version": "1.23.5",
+    "motion": {
+      "process": "signed Ornstein-Uhlenbeck velocity",
+      "integrator": "Euler-Maruyama velocity; position uses new velocity",
+      "theta_per_s": 1.0,
+      "mu_m_per_s": 0.0,
+      "sigma_m_per_s_to_three_halves": 0.4,
+      "initial_velocity_m_per_s": 0.0,
+      "initial_position_m": 0.5,
+      "track_length_m": 1.0,
+      "boundary_condition": "specular reflection of position and velocity; no damping",
+      "saved_velocity": "signed OU state after endpoint reflection, m/s"
+    },
+    "analysis_scope": {
+      "kind": "full_recording_descriptive_feature_discovery",
+      "samples": [
+        0,
+        60000
+      ],
+      "held_out_split": false,
+      "interval_convention": "zero-based half-open",
+      "interpretation": "training, feature inspection, and descriptive scores use the full recording; no held-out generalization claim"
+    },
+    "theoretical_rate_maps": {
+      "unit_ids": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "axes": [
+        "place_unit",
+        "position"
+      ],
+      "units": "Hz",
+      "positions_file": "theoretical_rate_positions.npy",
+      "definition": "exact split-Gaussian generative rate including baseline, not empirical spike tuning"
+    },
+    "empirical_rate_maps": {
+      "unit_ids": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "axes": [
+        "place_unit",
+        "position_bin"
+      ],
+      "units": "Hz",
+      "data_scope": "all 60000 samples; descriptive illustration of simulated input",
+      "n_bins": 20,
+      "range": "observed position minimum to maximum",
+      "definition": "spike counts divided by occupancy seconds, then spatial Gaussian smoothing",
+      "gaussian_smoothing_sigma_bins": 0.5,
+      "smoothing_rationale": "modest 0.5-bin (approximately 0.025 m) smoothing preserves the narrower fields; unsmoothed and exact maps are retained",
+      "gaussian_smoothing_mode": "nearest",
+      "historical_correction": "np.histogram used for both occupancy and spike counts, consistently including the exact maximum sample in the final bin"
+    },
+    "provenance": {
+      "design_sources": [
+        "paper/iclr_paper/results/synthetic_results.tex",
+        "paper/iclr_paper/appendix/additional_results/additional_results_main.tex"
+      ],
+      "implementation_reference": "2e15908f0e48a3b06d197884c4f11c2e34ca1853:notebooks/simulation_fourPlacecellsAndNoise.ipynb",
+      "implementation_details": "Motion and noise generation retain the earlier signed-velocity design; place-field centers, asymmetric widths, and amplitudes are an explicitly controlled revision, not original paper/Theodoni parameters.",
+      "seed_provenance": "motion42/place123/noise456 occur in historical notebook; noise-rate parameter seed0 newly specified",
+      "figure_reference": "paper/iclr_paper/figures/synthetic_results.png",
+      "figure_heatmap_caveat": "Historical notebook includes empirical occupancy-normalized smoothed heatmaps and separate theoretical curves; exact historical plotting realization is unavailable."
+    },
+    "files": {
+      "spike_matrix.npy": {
+        "shape": [
+          100,
+          60000
+        ],
+        "dtype": "bool",
+        "sha256": "aa434315c8443c3fa4d5bdfe7de795db133c7dce85ce190f186724b04153bdaf"
+      },
+      "positions.npy": {
+        "shape": [
+          60000
+        ],
+        "dtype": "float64",
+        "sha256": "f9903aa2127fc53d10e478ada0a21142ff437d07efaecce4c29c4e826fc9eb3a"
+      },
+      "velocities.npy": {
+        "shape": [
+          60000
+        ],
+        "dtype": "float64",
+        "sha256": "3eb467a1d286933d04c8b0ba3b306a1783c743ef757b68bc9b10ad549d6499a1"
+      },
+      "timestamps.npy": {
+        "shape": [
+          60000
+        ],
+        "dtype": "float64",
+        "sha256": "2e2d3cdc26c963431da3f5d2633b795ab258b5d12b25949ec9f9f3de206d5848"
+      },
+      "theoretical_rate_positions.npy": {
+        "shape": [
+          501
+        ],
+        "dtype": "float64",
+        "sha256": "999337db1b60e6827ed94daaef69ac722dc93ecd2097e7cbd9d54957811b6e39"
+      },
+      "theoretical_rate_maps.npy": {
+        "shape": [
+          4,
+          501
+        ],
+        "dtype": "float64",
+        "sha256": "fd6a45fb45403e60aa556d33491e791909a0a209aad4ddfb881dba9644bce5eb"
+      },
+      "theoretical_first_pair_sum.npy": {
+        "shape": [
+          501
+        ],
+        "dtype": "float64",
+        "sha256": "16f05042befa58a53f9e6d9f2eb7dc55abf1dc82903d0735cbbfc5a73610b757"
+      },
+      "theoretical_first_pair_derivative.npy": {
+        "shape": [
+          501
+        ],
+        "dtype": "float64",
+        "sha256": "300f3a30b0a0b62b45e095dc0de0a95c581ed01473971a7f76d0de81f4404212"
+      },
+      "generative_place_rates.npy": {
+        "shape": [
+          4,
+          60000
+        ],
+        "dtype": "float64",
+        "sha256": "7bdae2802ee796edd90f1ecb888b9652c30d8e430be1f7846e0430d62040ac8d"
+      },
+      "empirical_rate_bin_edges.npy": {
+        "shape": [
+          21
+        ],
+        "dtype": "float64",
+        "sha256": "76a4a13ff7711568c68ea9740cc813661953a76b412901961df3f5a4454925c2"
+      },
+      "empirical_rate_positions.npy": {
+        "shape": [
+          20
+        ],
+        "dtype": "float64",
+        "sha256": "70ec8923da5819e62be1e4a523808070d4e4f84012e0910888e477e92081e953"
+      },
+      "empirical_rate_occupancy_s.npy": {
+        "shape": [
+          20
+        ],
+        "dtype": "float64",
+        "sha256": "9d8de3ab9670e0d1df9745f0bd229de103cead33172005c145dba1110fa05cec"
+      },
+      "empirical_rate_maps_unsmoothed.npy": {
+        "shape": [
+          4,
+          20
+        ],
+        "dtype": "float64",
+        "sha256": "625c0b8b2a6f83d61ace86b93841a832b7e51e3beeb50835dca0a7f95265f5c4"
+      },
+      "empirical_rate_maps.npy": {
+        "shape": [
+          4,
+          20
+        ],
+        "dtype": "float64",
+        "sha256": "6c1d234cd96bec8c8656ac7130a85b23d43b26fca3ab21e947ed9047982a1b6a"
+      }
+    },
+    "simulator_sha256": "1c4eab4a584786410c828314ecb11421cfb7c3acaa0e106537bb3d111ae5a672"
+  },
+  "centers_m": [
+    0.2,
+    0.4,
+    0.7,
+    0.7
+  ],
+  "left_widths_m": [
+    0.05,
+    0.1,
+    0.14,
+    0.06
+  ],
+  "right_widths_m": [
+    0.1,
+    0.05,
+    0.14,
+    0.06
+  ],
+  "peak_amplitudes_hz": [
+    10.0,
+    28.0,
+    20.0,
+    20.0
+  ],
+  "baseline_hz": 0.1,
+  "changed_units_zero_based": [
+    2,
+    3
+  ],
+  "unchanged": "positions, timestamps, velocities, units0/1 and all96 noise spike rows",
+  "generation": "Reuse original seed123 4x60000 uniform draws; replace only units2/3 with new Bernoulli rates",
+  "scope": "Full-recording descriptive feasibility; no vanilla comparison; no strict support nesting",
+  "selection_config": {
+    "n_position_bins": 40,
+    "track_range": [
+      0.0,
+      1.0
+    ],
+    "cell_centers": [
+      0.2,
+      0.4,
+      0.7,
+      0.7
+    ],
+    "left_widths": [
+      0.05,
+      0.1,
+      0.14,
+      0.06
+    ],
+    "right_widths": [
+      0.1,
+      0.05,
+      0.14,
+      0.06
+    ],
+    "peak_amplitudes_hz": [
+      10.0,
+      28.0,
+      20.0,
+      20.0
+    ],
+    "baseline_rate_hz": 0.1,
+    "field_width_multiplier": 2.0,
+    "min_shape_score": 0.6,
+    "max_outside_mean": 0.4,
+    "max_peak_distance": 0.075,
+    "min_active_samples": 100,
+    "min_active_per_field": 20,
+    "min_conditional_zscore": 0.3,
+    "min_decoder_loading": 0.1
+  },
+  "files": {
+    "positions.npy": "f9903aa2127fc53d10e478ada0a21142ff437d07efaecce4c29c4e826fc9eb3a",
+    "spike_matrix.npy": "ce5bd9573966e96cd36a44a68cc4e84836c95f749a59260e87398aaab06db09f",
+    "timestamps.npy": "2e2d3cdc26c963431da3f5d2633b795ab258b5d12b25949ec9f9f3de206d5848",
+    "velocities.npy": "3eb467a1d286933d04c8b0ba3b306a1783c743ef757b68bc9b10ad549d6499a1",
+    "generative_place_rates.npy": "3532d829bda782415cbf3e41196891aa500e4144038b467b5896a8dc447193d3",
+    "theoretical_rate_positions.npy": "999337db1b60e6827ed94daaef69ac722dc93ecd2097e7cbd9d54957811b6e39",
+    "theoretical_rate_maps.npy": "30d22a046d5f5611bafefa604122127cd4ec0380abb8b499274277fab63b141a",
+    "empirical_rate_bin_edges.npy": "76a4a13ff7711568c68ea9740cc813661953a76b412901961df3f5a4454925c2",
+    "empirical_rate_occupancy_s.npy": "9d8de3ab9670e0d1df9745f0bd229de103cead33172005c145dba1110fa05cec",
+    "empirical_rate_maps_unsmoothed.npy": "6c0c3463b0e9529aca82bc606d83e1660ce0452deac5e42707ca7da9b541941a",
+    "empirical_rate_maps.npy": "1f9ba84c59a7300540b8adf99cbbdc9136e834ea5d6c3367ffa843702c3e96c8"
+  },
+  "generator_sha256": "129e11f62ec81b25e34601abff2b163e3b9dc7d441d61592844547d7ed728da5"
+}

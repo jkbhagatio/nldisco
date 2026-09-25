@@ -1,0 +1,15 @@
+defaults:
+  - sweep
+  - _self_
+
+execution:
+  backend: slurm
+  devices: [cuda]
+  max_parallel: 4
+  wait: false
+  slurm:
+    partition: null  # Set your cluster's partition via YAML or CLI.
+    timeout_min: 120
+    cpus_per_task: 4
+    mem_gb: 16
+    gpus_per_node: 1

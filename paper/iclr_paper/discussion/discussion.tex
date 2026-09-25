@@ -1,63 +1,21 @@
 \section{Discussion}
 
-% TODO: Edit
-\subsection{Contributions}
+NLDisco provides a practical pipeline for discovering interpretable features in neural population activity. Our results show that NLDisco can robustly discover discrete and continuous, environmental and behavioral feature representations across varying timescales and levels of abstraction. Importantly, same feature representations can be found across model training runs and are stable within a subject over time. This work highlights individual sparse latents as useful units of representational analysis, enabling a direct mapping from representation to source neural activity. The illustrated features are candidates for further analysis and experiments, highlighting NLDisco's role in hypothesis generation.
 
-This paper makes the following key contributions:
-
-\begin{enumerate}
-\item We introduce a pipeline for applying sparse dictionary learning methods specifically designed to discover interpretable neurobiological latents ("features").
-
-\item Our pipeline is end-to-end from spatiotemporally binned neural data to interpretable latent discovery: containns functionality for neural data preprocessing, model training, model evaluation, and feature evaluation.
-
-\item We provide systematic evaluation on multiple synthetic and natural large-scale neurobiological datasets, demonstrating the effectiveness of our approach across different species, brain regions, recording techniques, experimental conditions, and spatiotemporal scales.
-
-\item We show that MSAE-derived features enable effective decoding of behavioral and stimulus variables, validating their biological relevance.
-
-\item We release our code open-source with interactive tutorials for facilitating broader adoption in the neuroscience community.
-\end{enumerate}
-
-\subsection{Pros and Cons}
-
-\textbf{Advantages}:
-\begin{itemize}
-    \item \textbf{Interpretability}: The sparse and multi-scale nature of the learned features facilitates direct interpretation and comparison with existing neuroscience knowledge.
-    \item \textbf{Scalability}: The model architecture is designed to scale to large datasets with thousands of neurons and millions of time points.
-    \item \textbf{Flexibility}: The framework can be adapted to various data modalities, including spike trains, calcium imaging, and LFP/EEG signals.
+\paragraph{Contributions.}
+\begin{itemize}[leftmargin=*, nosep, topsep=3pt]
+    \item We provide an open-source software package, NLDisco, that implements an end-to-end pipeline for discovery of interpretable neural representations.
+    \item We introduce novel sparse encoder-decoder architectures that support discovery of temporally-varying and nested feature representations.
+    \item We evaluate on both synthetic and real large-scale neural datasets, demonstrating utility across different species, brain regions, experimental conditions, and spatiotemporal scales.
+    \item We benchmark NLDisco against popular state-of-the-art neural LVMs, CEBRA and LangevinFlow, demonstrating interpretable feature discovery while maintaining competitive neural decoding.
 \end{itemize}
 
-\textbf{Limitations}:
-\begin{itemize}
-    \item Model performance is sensitive to the choice of hyperparameters, requiring careful tuning and validation.
-    \item  While our model reveals correlational structure, it does not inherently infer causal relationships between neural features and behavior.
-    \item The model is a simplified representation of neural circuits and does not capture all aspects of biological complexity.
-    \item Latent interpretability is subject to human subjectivity.
+\paragraph{Limitations.}
+\begin{itemize}[leftmargin=*, nosep, topsep=3pt]
+    \item Latent interpretability remains manual and partly subjective.
+    \item Learned latents reveal correlational structure, not causal mechanisms.  Causal claims require additional analyses with explicit assumptions.
+    \item Our targeted comparisons assess recovery of selected features rather than the breadth or effort of discovery across methods.
 \end{itemize}
 
-\subsection{Future Work}
-
-\begin{itemize}
-    
-    \item Actually apply to other recording modalities
-    \begin{itemize}
-        \item LFP \& EEG (reconstruct voltage values from C channels over T time)
-        \item Calcium imaging (reconstruct dF/F values from R RoIs over T time)
-    \end{itemize}
-    
-    \item Actually apply to multimodal data
-    \begin{itemize}
-        \item e.g. reconstruct spikes from spikes + multimodal behavior (e.g. pose-tracking, gaze-tracking, etc.)
-    \end{itemize}
-    
-    \item Use history to improve reconstructions and feature interpretability?
-    \begin{itemize}
-        \item While our codebase optionally allows for using history length, in practice we did not get improved reconstructions nor more interpretable latents, but in theory this approach could be improved to do so.
-    \end{itemize}
-    
-    \item CLTs \& SCCs
-    \begin{itemize}
-        \item Cross-region prediction
-        \item Brain diffing
-    \end{itemize}
-
-\end{itemize}
+\paragraph{Future work.}
+Extending empirical validation to other neural recording modalities, such as neuroimaging, would highlight the generality of NLDisco. Evaluating CLTs and SCCs, which are implemented in the codebase but not shown here, would support cross-region prediction and ``brain diffing'': distinguishing shared and divergent features across regions, sessions, or subjects. Finally, real-time identification of neural representational features could enable closed-loop experiments in which latent activation triggers precisely timed stimulation or task changes: such experiments would connect feature discovery to causal implications. We are excited to share NLDisco with the community and look forward to future applications using this work.

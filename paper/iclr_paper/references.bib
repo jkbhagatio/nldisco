@@ -1,7 +1,7 @@
 % Recording technologies
 
 @article{steinmetz_2021_neuropixels2,
-  title        = {Neuropixels 2.0: A miniaturized high-density probe for stable, long-term brain recordings},
+  title        = {{Neuropixels 2.0}: A miniaturized high-density probe for stable, long-term brain recordings},
   author       = {Nicholas A. Steinmetz  and Cagatay Aydin  and Anna Lebedeva  and Michael Okun  and Marius Pachitariu  and Marius Bauza  and Maxime Beau  and Jai Bhagat  and Claudia Böhm  and Martijn Broux  and Susu Chen  and Jennifer Colonell  and Richard J. Gardner  and Bill Karsh  and Fabian Kloosterman  and Dimitar Kostadinov  and Carolina Mora-Lopez  and John O'Callaghan  and Junchol Park  and Jan Putzeys  and Britton Sauerbrei  and Rik J. J. van Daal  and Abraham Z. Vollan  and Shiwei Wang  and Marleen Welkenhuysen  and Zhiwen Ye  and Joshua T. Dudman  and Barundeb Dutta  and Adam W. Hantman  and Kenneth D. Harris  and Albert K. Lee  and Edvard I. Moser  and John O'Keefe  and Alfonso Renart  and Karel Svoboda  and Michael Häusser  and Sebastian Haesler  and Matteo Carandini  and Timothy D. Harris },
   journal      = {Science},
   volume       = {372},
@@ -53,7 +53,7 @@
 }
 
 @article{ouzounov_2017_three_photon,
-  title        = {In vivo three-photon imaging of activity of GCaMP6-labeled neurons deep in intact mouse brain},
+  title        = {In vivo three-photon imaging of activity of {GCaMP6}-labeled neurons deep in intact mouse brain},
   author       = {Ouzounov, Dimitre G and Wang, Tianyu and Wang, Mengran and Feng, Danielle D and Horton, Nicholas G and Cruz-Hern{\'a}ndez, Jean C and Cheng, Yu-Ting and Reimer, Jacob and Tolias, Andreas S and Nishimura, Nozomi and Xu, Chris},
   journal      = {Nature Methods},
   volume       = {14},
@@ -80,46 +80,53 @@
 
 % Datasets used
 
-@article{churchland_2012_churchland_datasets,
+@article{churchland_2012_population_dynamics,
   title={Neural population dynamics during reaching},
-  author={Churchland, Mark M and Cunningham, John P and Kaufman, Matthew T and Foster, Justin D and Nuyujukian, Paul and Ryu, Stephen I and Shenoy, Krishna V},
+  author = {Churchland, Mark M. and Cunningham, John P. and Kaufman, Matthew T. and Foster, Justin D. and Nuyujukian, Paul and Ryu, Stephen I. and Shenoy, Krishna V.},
   journal={Nature},
   volume={487},
   number={7405},
   pages={51--56},
   year={2012},
-  publisher={Nature Publishing Group}
+  publisher={Nature Publishing Group},
+  doi = {10.1038/nature11129},
+  url = {https://doi.org/10.1038/nature11129}
 }
 
-@misc{brainsets_docs,
-  title        = {churchland\_shenoy\_neural\_2012 dataset documentation},
-  author       = {{Brainsets Project}},
-  howpublished = {\url{https://brainsets.readthedocs.io/en/latest/glossary/brainsets.html#churchland-shenoy-neural-2012}},
-  note         = {Accessed: 2025-09-23},
-  year         = {2022}
+@inproceedings{azabou_2023_unified,
+  title = {A Unified, Scalable Framework for Neural Population Decoding},
+  author = {Azabou, Mehdi and Arora, Vinam and Ganesh, Venkataramana and Mao, Ximeng and Nachimuthu, Santosh and Mendelson, Michael J. and Richards, Blake and Perich, Matthew G. and Lajoie, Guillaume and Dyer, Eva L.},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume = {36},
+  pages = {44937--44956},
+  year = {2023},
+  doi = {10.52202/075280-1948},
+  url = {https://proceedings.neurips.cc/paper_files/paper/2023/hash/8ca113d122584f12a6727341aaf58887-Abstract-Conference.html}
 }
 
 @misc{nlb_mcmaze,
-  title        = {MC\_Maze dataset, Neural Latents Benchmark},
+  title = {{MC\_Maze} dataset, {Neural Latents Benchmark}},
   author       = {{Neural Latents Benchmark Team}},
-  howpublished = {\url{https://neurallatents.github.io/datasets#mcmaze}},
-  note         = {Accessed: 2025-09-23},
-  year         = {2022}
+  note = {Accessed 2026-09-14},
+  year = {n.d.},
+  url = {https://neurallatents.github.io/datasets}
 }
 
 @article{siegle_2021_allen_datasets,
-  title={A survey of spiking activity reveals a functional hierarchy of mouse corticothalamic visual areas},
-  author={Siegle, Joshua H. and Jia, Xiaoxuan and Durand, Séverine and Gale, Sam and Bennett, Corbett and Graddis, Nile and Heller, Greggory and Ramirez, Tamina K. and Choi, Hannah and Luviano, Jennifer A. and Groblewski, Peter A. and Ahmed, Ruweida and Arkhipov, Anton and Bernard, Amy and Billeh, Yazan N. and Brown, Dillan and Buice, Michael A. and Cain, Nicolas and Caldejon, Shiella and Casal, Linzy and Cho, Andrew and Chvilicek, Maggie and Cox, Timothy C. and Dai, Kael and Denman, Daniel J. and de Vries, Saskia E. J. and Dietzman, Roald and Esposito, Luke and Farrell, Colin and Feng, David and Galbraith, John and Garrett, Marina and Gelfand, Emily C. and Hancock, Nicole and Harris, Julie A. and Howard, Robert and Hu, Brian and Hytnen, Ross and Iyer, Ramakrishnan and Jessett, Erika and Johnson, Katelyn and Kato, India and Kiggins, Justin and Lambert, Sophie and Lecoq, Jerome and Ledochowitsch, Peter and Lee, Jung Hoon and Leon, Arielle and Li, Yang and Liang, Elizabeth and Long, Fuhui and Mace, Kyla and Melchior, Jose and Millman, Daniel and Mollenkopf, Tyler and Nayan, Chelsea and Ng, Lydia and Ngo, Kiet and Nguyen, Thuyahn and Nicovich, Philip R. and North, Kat and Ocker, Gabriel Koch and Ollerenshaw, Doug and Oliver, Michael and Pachitariu, Marius and Perkins, Jed and Reding, Melissa and Reid, David and Robertson, Miranda and Ronellenfitch, Kara and Seid, Sam and Slaughterbeck, Cliff and Stoecklin, Michelle and Sullivan, David and Sutton, Ben and Swapp, Jackie and Thompson, Carol and Turner, Kristen and Wakeman, Wayne and Whitesell, Jennifer D. and Williams, Derric and Williford, Ali and Young, Rob and Zeng, Hongkui and Naylor, Sarah and Phillips, John W. and Reid, R. Clay and Mihalas, Stefan and Olsen, Shawn R. and Koch, Christof},
+  title = {Survey of spiking in the mouse visual system reveals functional hierarchy},
+  author={Siegle, Joshua H. and Jia, Xiaoxuan and Durand, Séverine and Gale, Sam and Bennett, Corbett and Graddis, Nile and Heller, Greggory and Ramirez, Tamina K. and Choi, Hannah and Luviano, Jennifer A. and Groblewski, Peter A. and Ahmed, Ruweida and Arkhipov, Anton and Bernard, Amy and Billeh, Yazan N. and Brown, Dillan and Buice, Michael A. and Cain, Nicolas and Caldejon, Shiella and Casal, Linzy and Cho, Andrew and Chvilicek, Maggie and Cox, Timothy C. and Dai, Kael and Denman, Daniel J. and de Vries, Saskia E. J. and Dietzman, Roald and Esposito, Luke and Farrell, Colin and Feng, David and Galbraith, John and Garrett, Marina and Gelfand, Emily C. and Hancock, Nicole and Harris, Julie A. and Howard, Robert and Hu, Brian and Hytnen, Ross and Iyer, Ramakrishnan and Jessett, Erika and Johnson, Katelyn and Kato, India and Kiggins, Justin and Lambert, Sophie and Lecoq, Jerome and Ledochowitsch, Peter and Lee, Jung Hoon and Leon, Arielle and Li, Yang and Liang, Elizabeth and Long, Fuhui and Mace, Kyla and Melchior, Jose and Millman, Daniel and Mollenkopf, Tyler and Nayan, Chelsea and Ng, Lydia and Ngo, Kiet and Nguyen, Thuyahn and Nicovich, Philip R. and North, Kat and Ocker, Gabriel Koch and Ollerenshaw, Doug and Oliver, Michael and Perkins, Jed and Reding, Melissa and Reid, David and Robertson, Miranda and Ronellenfitch, Kara and Seid, Sam and Slaughterbeck, Cliff and Stoecklin, Michelle and Sullivan, David and Sutton, Ben and Swapp, Jackie and Thompson, Carol and Turner, Kristen and Wakeman, Wayne and Whitesell, Jennifer D. and Williams, Derric and Williford, Ali and Young, Rob and Zeng, Hongkui and Naylor, Sarah and Phillips, John W. and Reid, R. Clay and Mihalas, Stefan and Olsen, Shawn R. and Koch, Christof},
   journal={Nature},
   volume={592},
-  number={7876},
+  number = {7852},
   pages={86--92},
   year={2021},
-  publisher={Nature Publishing Group}
+  publisher={Nature Publishing Group},
+  doi = {10.1038/s41586-020-03171-x},
+  url = {https://doi.org/10.1038/s41586-020-03171-x}
 }
 
 @article{campagner_2025_aeon_platform,
-  author = {Campagner, D. and Bhagat, J. and Lopes, G. and Calcaterra, L. and Pouget, A. G. and Almeida, A. and Nguyen, T. T. and Lo, C. H. and Ryan, T. and Cruz, B. and Carvalho, F. J. and Li, Z. and Erskine, A. and Rapela, J. and Folsz, O. and Marin, M. and Ahn, J. and Nierwetberg, S. and Lenzi, S. C. and Reggiani, J. D. S. and SGEN group {\textendash} SWC GCNU Experimental Neuroethology Group},
+  author = {Campagner, D. and Bhagat, J. and Lopes, G. and Calcaterra, L. and Pouget, A. G. and Almeida, A. and Nguyen, T. T. and Lo, C. H. and Ryan, T. and Cruz, B. and Carvalho, F. J. and Li, Z. and Erskine, A. and Rapela, J. and Folsz, O. and Marin, M. and Ahn, J. and Nierwetberg, S. and Lenzi, S. C. and Reggiani, J. D. S. and {SGEN group {\textendash} SWC GCNU Experimental Neuroethology Group}},
   title = {Aeon: an open-source platform to study the neural basis of ethological behaviours over naturalistic timescales},
   elocation-id = {2025.07.31.664513},
   year = {2025},
@@ -149,16 +156,17 @@
    journal={Neurons, Behavior, Data analysis, and Theory},
    volume={5},
    ISSN={2690-2664},
-   url={http://dx.doi.org/10.51628/001c.24619},
+  url = {https://doi.org/10.51628/001c.24619},
    DOI={10.51628/001c.24619},
    number={2},
    publisher={The Neurons Behavior Data Analysis and Theory collective},
    year={2021},
+  pages = {1--28}
 }
 
 @article {pachitariu_2016_kilosort,
 	title = {Kilosort: realtime spike-sorting for extracellular electrophysiology with hundreds of channels},
-	author = {Pachitariu, Marius and Steinmetz, Nicholas and Kadir, Shabnam and Carandini, Matteo and Kenneth D., Harris},
+  author = {Pachitariu, Marius and Steinmetz, Nicholas and Kadir, Shabnam and Carandini, Matteo and Harris, Kenneth D.},
 	journal = {bioRxiv},
 	elocation-id = {061481},
 	doi = {10.1101/061481},
@@ -169,7 +177,7 @@
 }
 
 @article {pachitariu_2017_suite2p,
-	title = {Suite2p: beyond 10,000 neurons with standard two-photon microscopy},
+	title = {{Suite2p}: beyond 10,000 neurons with standard two-photon microscopy},
 	author = {Pachitariu, Marius and Stringer, Carsen and Dipoppa, Mario and Schr{\"o}der, Sylvia and Rossi, L. Federico and Dalgleish, Henry and Carandini, Matteo and Harris, Kenneth D.},
 	journal = {bioRxiv},
 	elocation-id = {061507},
@@ -179,6 +187,18 @@
 	year = {2017},
 	publisher = {Cold Spring Harbor Laboratory},
 }
+@article{okeefe_dostrovsky_1971_place_cells,
+  title={The hippocampus as a spatial map. Preliminary evidence from unit activity in the freely-moving rat},
+  author={O'Keefe, J. and Dostrovsky, J.},
+  journal={Brain Research},
+  volume={34},
+  number={1},
+  pages={171--175},
+  year={1971},
+  doi={10.1016/0006-8993(71)90358-1},
+  url={https://doi.org/10.1016/0006-8993(71)90358-1}
+}
+
 @article{theodoni_2018_theta_ou,
   title={Theta-modulation drives the emergence of connectivity patterns underlying replay in a network model of place cells},
   author={Theodoni, Panagiota and Rovira, Bernat and Wang, Yingxue and Roxin, Alex},
@@ -220,15 +240,16 @@
 @article{hoyer_2004_sparsenmf,
   title={Non-negative matrix factorization with sparseness constraints},
   author={Hoyer, Patrik O},
-  journal={Journal of machine learning research},
+  journal = {Journal of Machine Learning Research},
   volume={5},
-  number={May},
+  number = {Nov},
   pages={1457--1469},
-  year={2004}
+  year={2004},
+  url = {https://jmlr.org/papers/v5/hoyer04a.html}
 }
 
 @article{vandermaaten_2008_tsne,
-  title={Visualizing data using t-SNE},
+  title={Visualizing data using {t-SNE}},
   author={van der Maaten, Laurens and Hinton, Geoffrey},
   journal={Journal of Machine Learning Research},
   volume={9},
@@ -237,7 +258,7 @@
 }
 
 @article{mcinnes_2018_umap,
-  title={UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction},
+  title={{UMAP}: Uniform Manifold Approximation and Projection for Dimension Reduction},
   author={McInnes, Leland and Healy, John and Melville, James},
   journal={arXiv preprint arXiv:1802.03426},
   year={2018}
@@ -266,7 +287,7 @@
 }
 
 @inproceedings{le_2022_stndt,
-  title={STNDT: Modeling Neural Population Activity with Spatiotemporal Transformers},
+  title={{STNDT}: Modeling Neural Population Activity with Spatiotemporal Transformers},
   author = {Le, Trung and Shlizerman, Eli},
   booktitle = {Advances in Neural Information Processing Systems},
   editor = {S. Koyejo and S. Mohamed and A. Agarwal and D. Belgrave and K. Cho and A. Oh},
@@ -279,13 +300,15 @@
 
 @article{keshtkaran_2022_autolfads,
   title={A large-scale neural network training framework for generalized estimation of single-trial population dynamics},
-  author={Keshtkaran, Mohammad R and Pandarinath, Chethan},
+  author = {Keshtkaran, Mohammad Reza and Sedler, Andrew R. and Chowdhury, Raeed H. and Tandon, Raghav and Basrai, Diya and Nguyen, Sarah L. and Sohn, Hansem and Jazayeri, Mehrdad and Miller, Lee E. and Pandarinath, Chethan},
   journal={Nature Methods},
   volume={19},
   number={12},
-  pages={1598--1608},
+  pages = {1572--1577},
   year={2022},
-  publisher={Nature Publishing Group UK}
+  publisher={Nature Publishing Group UK},
+  doi = {10.1038/s41592-022-01675-0},
+  url = {https://doi.org/10.1038/s41592-022-01675-0}
 }
 
 % Other LVMs
@@ -318,7 +341,7 @@
 
 @article{pandarinath_2018_lfads,
   title={Inferring single-trial neural population dynamics using sequential auto-encoders},
-  author={Pandarinath, Chethan and O'Shea, Daniel J and Collins, Jasmine and Jozefowicz, Rafal and Stavisky, Sergey D and Kao, Jonathan C and Trautmann, Eric M and Kaufman, Matthew T and Ryu, Stephen I and Hochberg, Leigh R and Henderson, Jaimie M, and Shenoy, Krishna V, and Abbott, Larry F, and Sussillo, David},
+  author={Pandarinath, Chethan and O'Shea, Daniel J and Collins, Jasmine and Jozefowicz, Rafal and Stavisky, Sergey D and Kao, Jonathan C and Trautmann, Eric M and Kaufman, Matthew T and Ryu, Stephen I and Hochberg, Leigh R and Henderson, Jaimie M and Shenoy, Krishna V and Abbott, Larry F and Sussillo, David},
   journal={Nature methods},
   volume={15},
   number={10},
@@ -336,17 +359,20 @@
 }
 
 @inproceedings{jensen_2020_mgplvm,
-  title={Manifold GPLVMs for discovering non-Euclidean latent structure in neural data},
+  title={Manifold {GPLVMs} for discovering non-Euclidean latent structure in neural data},
   author={Jensen, Kristopher T and Kao, Ta-Chu and Tripodi, Marco and Hennequin, Guillaume},
   booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
   year={2020}
 }
 
 @article{hernandez_2020_vind,
-  title={Nonlinear Evolution via Spatially-Dependent Linear Dynamics for Electrophysiology and Calcium Data (VIND)},
-  author={Hernandez, Daniel and Moretti, Antonio Khalil and Wei, Ziqiang and Saxena, Shreya and Cunningham, John P and Paninski, Liam},
-  journal={arXiv preprint arXiv:1811.02459},
+  title = {Nonlinear Evolution via Spatially-Dependent Linear Dynamics for Electrophysiology and Calcium Data},
+  author = {Hernandez, Daniel and Moretti, Antonio K. and Saxena, Shreya and Wei, Ziqiang and Cunningham, John and Paninski, Liam},
+  journal = {Neurons, Behavior, Data Analysis, and Theory},
   year={2020},
+  volume = {3},
+  number = {3},
+  url = {https://nbdt.scholasticahq.com/article/13476-nonlinear-evolution-via-spatially-dependent-linear-dynamics-for-electrophysiology-and-calcium-data}
 }
 
 @inproceedings{kim_2021_plnde,
@@ -355,9 +381,10 @@
   booktitle={Proceedings of the 38th International Conference on Machine Learning (ICML)},
   series={Proceedings of Machine Learning Research},
   volume={139},
-  pages={5568--5578},
+  pages = {5551--5561},
   year={2021},
-  publisher={PMLR}
+  publisher={PMLR},
+  url = {https://proceedings.mlr.press/v139/kim21h.html}
 }
 
 @inproceedings{hurwitz_2021_tndm,
@@ -368,17 +395,21 @@
 }
 
 @inproceedings{schimel_2022_ilqrvae,
-  title={ilqr-vae: Control-based learning of input-driven dynamics with applications to neural data},
-  author={Schimel, Mathieu and Kao, Ta-Chu and Jensen, Kristopher T and Hennequin, Guillaume},
+  title = {{ILQR-VAE}: Control-based learning of input-driven dynamics with applications to neural data},
+  author = {Schimel, Marine and Kao, Ta-Chu and Jensen, Kristopher T. and Hennequin, Guillaume},
   booktitle={The Tenth International Conference on Learning Representations (ICLR)},
-  year={2022}
+  year={2022},
+  url = {https://openreview.net/forum?id=wRODLDHaAiW}
 }
 
 @inproceedings{kudryashova_2023_ctrltndm,
-  title={Ctrl-TNDM: Decoding feedback-driven movement corrections from motor cortex neurons},
+  title = {{Ctrl-TNDM}: Decoding feedback-driven movement corrections from motor cortex neurons},
   author={Kudryashova, Nina and Perich, Matthew G and Miller, Lee E and Hennig, Matthias H},
   booktitle={Computational and Systems Neuroscience (Cosyne) Abstracts},
-  year={2023}
+  year={2023},
+  pages = {144--145},
+  note = {Abstract 2-053},
+  url = {https://www.cosyne.org/s/Cosyne2023_program_book.pdf}
 }
 
 @inproceedings{ye_2023_ndt2,
@@ -418,15 +449,18 @@
 }
 
 @inproceedings{pals_2024_smclr_rnn,
-  title={Inferring Stochastic Low-Rank Recurrent Neural Networks with Variational Sequential Monte Carlo},
-  author={Pals, Marten and Ramaswamy, Vineeth and Grinsztajn, L{\'e}o and Le Helley, Maxime and Roesch, Etienne},
-  booktitle={Proceedings of the 41st International Conference on Machine Learning (ICML)},
-  year={2024}
+  title = {Inferring stochastic low-rank recurrent neural networks from neural data},
+  author = {Pals, Matthijs and Sa{\u{g}}tekin, A. Erdem and Pei, Felix and Gloeckler, Manuel and Macke, Jakob H.},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year={2024},
+  volume = {37},
+  doi = {10.52202/079017-0579},
+  url = {https://papers.nips.cc/paper_files/paper/2024/hash/209423f076b6479ab3a4f45886e30306-Abstract-Conference.html}
 }
 
 @article{zhang_2024_mtm,
-  title={Towards a "universal translator" for neural dynamics at single-cell, single-spike resolution},
-  author={Yizi Zhang and Yanchen Wang and Donato Jimenez-Beneto and Zixuan Wang and Mehdi Azabou and Blake Richards and Olivier Winter and International Brain Laboratory and Eva Dyer and Liam Paninski and Cole Hurwitz},
+  title={Towards a ``universal translator'' for neural dynamics at single-cell, single-spike resolution},
+  author={Yizi Zhang and Yanchen Wang and Donato Jimenez-Beneto and Zixuan Wang and Mehdi Azabou and Blake Richards and Olivier Winter and {International Brain Laboratory} and Eva Dyer and Liam Paninski and Cole Hurwitz},
   journal={arXiv preprint arXiv:2407.14668},
   year={2024},
   eprint={2407.14668},
@@ -436,7 +470,7 @@
 }
 
 @inproceedings{george_2025_simpl,
-  title={SIMPL: Scalable and hassle-free optimisation of neural representations from behaviour},
+  title={{SIMPL}: Scalable and hassle-free optimisation of neural representations from behaviour},
   author={George, Tom M and Glaser, Pierre and Stachenfeld, Kim and Barry, Caswell and Clopath, Claudia},
   booktitle={The Thirteenth International Conference on Learning Representations (ICLR)},
   year={2025}
@@ -445,10 +479,12 @@
 @article{perkins_2025_mint,
   title={An emerging view of neural geometry in motor cortex supports high-performance decoding},
   author={Perkins, Sean M and Amematsro, Elom A and Cunningham, John P and Wang, Qi and Churchland, Mark M},
-  journal={eLife (Reviewed Preprint, Version of Record)},
+  journal = {eLife},
   year={2025},
-  doi={10.7554/eLife.89421},
-  url={https://elifesciences.org/reviewed-preprints/89421}
+  doi = {10.7554/eLife.89421.3},
+  url = {https://elifesciences.org/articles/89421},
+  volume = {12},
+  pages = {RP89421}
 }
 
 @article{schmutz_2025_nce,
@@ -520,17 +556,6 @@
   url          = {https://doi.org/10.1152/jn.00697.2004}
 }
 
-@article{churchland_2012_population_dynamics,
-  title        = {Neural Population Dynamics During Reaching},
-  author       = {Churchland, Mark M. and Cunningham, John P. and Kaufman, Matthew T. and Foster, Justin D. and Nuyujukian, Paul and Ryu, Stephen I. and Shenoy, Krishna V.},
-  journal      = {Nature},
-  volume       = {487},
-  number       = {7405},
-  pages        = {51--56},
-  year         = {2012},
-  doi          = {10.1038/nature11129},
-  url          = {https://doi.org/10.1038/nature11129}
-}
 
 @article{shenoy_2013_dynamical_perspective,
   title        = {Cortical Control of Arm Movements: A Dynamical Systems Perspective},
@@ -576,14 +601,16 @@
   url          = {https://doi.org/10.1038/nrn2787}
 }
 
-@misc{pei_2022_nlb,
+@inproceedings{pei_2022_nlb,
       title={Neural Latents Benchmark '21: Evaluating latent variable models of neural population activity}, 
       author={Felix Pei and Joel Ye and David Zoltowski and Anqi Wu and Raeed H. Chowdhury and Hansem Sohn and Joseph E. O'Doherty and Krishna V. Shenoy and Matthew T. Kaufman and Mark Churchland and Mehrdad Jazayeri and Lee E. Miller and Jonathan Pillow and Il Memming Park and Eva L. Dyer and Chethan Pandarinath},
-      year={2022},
+  year = {2021},
       eprint={2109.04463},
       archivePrefix={arXiv},
       primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2109.04463}, 
+  url = {https://datasets-benchmarks-proceedings.neurips.cc/paper/2021/hash/979d472a84804b9f647bc185a877a8b5-Abstract-round2.html},
+  booktitle = {Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks},
+  volume = {1}
 }
 
 % Mech Interp papers
@@ -643,7 +670,7 @@
 }
 
 @article{bussmann_2025_msae,
-      title={Learning Multi-Level Features with Matryoshka Sparse Autoencoders}, 
+      title={Learning Multi-Level Features with {Matryoshka} Sparse Autoencoders},
       author={Bart Bussmann and Noa Nabeshima and Adam Karvonen and Neel Nanda},
       journal={arXiv},
       eprint={2503.17547},
@@ -654,7 +681,7 @@
 }
 
 @article{bussmann_2024_batchtopk,
-      title={BatchTopK Sparse Autoencoders}, 
+      title={{BatchTopK} Sparse Autoencoders},
       author={Bart Bussmann and Patrick Leask and Neel Nanda},
       journal={arXiv},
       eprint={2412.06410},
@@ -664,17 +691,18 @@
       url={https://arxiv.org/abs/2412.06410}, 
 }
 
-@article{chanin_2024_feature_absorption,
+@inproceedings{chanin_2024_feature_absorption,
   title        = {A is for Absorption: Studying Feature Splitting and Absorption in Sparse Autoencoders},
   author       = {Chanin, David and Wilken-Smith, James and Dulka, Tomáš and Bhatnagar, Hardik and Golechha, Satvik and Bloom, Joseph},
-  journal      = {arXiv},
-  doi          = {10.48550/arXiv.2409.14507},
+  doi = {10.52202/085713-2755},
   year         = {2025},
-  url          = {https://arxiv.org/abs/2409.14507}
+  url = {https://proceedings.nips.cc/paper_files/paper/2025/hash/764ff7477b8e24dbe01531f6791e8bdf-Abstract-Conference.html},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume = {38}
 }
 
 @article{karvonen_2025_saebench,
-      title={SAEBench: A Comprehensive Benchmark for Sparse Autoencoders in Language Model Interpretability}, 
+      title={{SAEBench}: A Comprehensive Benchmark for Sparse Autoencoders in Language Model Interpretability},
       author={Adam Karvonen and Can Rager and Johnny Lin and Curt Tigges and Joseph Bloom and David Chanin and Yeu-Tong Lau and Eoin Farrell and Callum McDougall and Kola Ayonrinde and Demian Till and Matthew Wearden and Arthur Conmy and Samuel Marks and Neel Nanda},
       journal={arXiv},
       eprint={2503.09532},
@@ -685,7 +713,7 @@
 }
 
 @article{dunefsky_2024_transcoders,
-  title        = {Transcoders Find Interpretable LLM Feature Circuits},
+  title        = {Transcoders Find Interpretable {LLM} Feature Circuits},
   author       = {Dunefsky, Jacob and Chlenski, Philippe and Nanda, Neel},
   journal      = {arXiv},
   year         = {2024},
@@ -740,7 +768,7 @@
 % Other tool refs
 
 @article{lenail_2019_nnsvg,
-  title        = {NN-SVG: Publication-Ready Neural Network Architecture Schematics},
+  title        = {{NN-SVG}: Publication-Ready Neural Network Architecture Schematics},
   author       = {LeNail, Alexander},
   journal      = {Journal of Open Source Software},
   volume       = {4},
@@ -750,4 +778,30 @@
   publisher    = {The Open Journal},
   doi          = {10.21105/joss.00747},
   url          = {https://doi.org/10.21105/joss.00747}
+}
+
+% Foraging-related activity in retrosplenial cortex and superior colliculus
+
+@article{hattori_2019_history_value_coding,
+  title        = {Area-Specificity and Plasticity of History-Dependent Value Coding During Learning},
+  author       = {Hattori, Ryoma and Danskin, Bethanny and Babic, Zeljana and Mlynaryk, Nicole and Komiyama, Takaki},
+  journal      = {Cell},
+  volume       = {177},
+  number       = {7},
+  pages        = {1858--1872.e15},
+  year         = {2019},
+  doi          = {10.1016/j.cell.2019.04.027},
+  url          = {https://doi.org/10.1016/j.cell.2019.04.027}
+}
+
+@article{masullo_2019_colliculus_orienting,
+  title        = {Genetically Defined Functional Modules for Spatial Orienting in the Mouse Superior Colliculus},
+  author       = {Masullo, Laura and Mariotti, Letizia and Alexandre, Nicolas and Freire-Pritchett, Paula and Boulanger, Jerome and Tripodi, Marco},
+  journal      = {Current Biology},
+  volume       = {29},
+  number       = {17},
+  pages        = {2892--2904.e8},
+  year         = {2019},
+  doi          = {10.1016/j.cub.2019.07.083},
+  url          = {https://doi.org/10.1016/j.cub.2019.07.083}
 }

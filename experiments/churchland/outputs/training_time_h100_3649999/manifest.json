@@ -1,0 +1,97 @@
+{
+  "created_utc": "2026-09-22T01:35:25.430718+00:00",
+  "schedule": [
+    [
+      "nldisco",
+      0
+    ],
+    [
+      "cebra",
+      0
+    ],
+    [
+      "langevinflow",
+      0
+    ],
+    [
+      "cebra",
+      1
+    ],
+    [
+      "langevinflow",
+      1
+    ],
+    [
+      "nldisco",
+      1
+    ],
+    [
+      "langevinflow",
+      2
+    ],
+    [
+      "nldisco",
+      2
+    ],
+    [
+      "cebra",
+      2
+    ],
+    [
+      "nldisco",
+      3
+    ],
+    [
+      "cebra",
+      3
+    ],
+    [
+      "langevinflow",
+      3
+    ],
+    [
+      "cebra",
+      4
+    ],
+    [
+      "langevinflow",
+      4
+    ],
+    [
+      "nldisco",
+      4
+    ]
+  ],
+  "sources": {
+    "experiments/churchland/training_time_benchmark.py": "838b6994890e5e87aebd9d54c9ee2d4bfb16f04f4e449309aceba8c232f2537a",
+    "src/nldisco/__init__.py": "2b505c172e32a0c9f57b9efcd19d5e81c256c5e4449404cfffbaa489e4290c87",
+    "src/nldisco/config.py": "e42df5a38e4cb82c6d7039a07f87803725394555e4c3cf1d8a6cf469835ed0b8",
+    "src/nldisco/data/__init__.py": "ab3b492afdc4d922e21bb5762cf96f559c5bb012bd4b8850e24ed3de49ccdb67",
+    "src/nldisco/data/window.py": "7592a43431b22b9e7bdd766f5d9eb2147e10d2edc4985121070685282e156cd3",
+    "src/nldisco/feature_analysis.py": "188c2ca433c0dcfe07852c88a12964b172a55a0910e4870ad2cad9cc76ab25be",
+    "src/nldisco/model/__init__.py": "e55a20eb3661c9f263271a311a7e96af384b14f3a4a5cda71f3fbb774bc1aca0",
+    "src/nldisco/model/decoder.py": "b6aa3d53599be5bacf95f70761a45e2f30a74d70666f37aa48ca8cc29cec32b7",
+    "src/nldisco/model/encoder.py": "001489322f1b00f81441233bac68dde17648e9baeae5c3841049835bec9eb5ac",
+    "src/nldisco/model/sed.py": "9f1d2c04cc69f73250f60b45ae01155f635d817bd1ed18876fc185146637f66c",
+    "src/nldisco/model/sparsify.py": "7cc45573d6e4dde3622200bbb86d49abed4da6905c0a57d5e26117fe12a4fb30",
+    "src/nldisco/plot.py": "2e89281ec12e3d32bc0fc3c193e7d99226f6fb5bcd1fd7a2f6a1c1881ef40ad7",
+    "src/nldisco/train.py": "b9221836a4e6bf5b137362c4dc99ce9aba73e67916b8fb3544db468cd6f2a239",
+    "src/nldisco/util.py": "87f22c130cb65331ab03e792832a38d57bc75d7da948eb139324684d9b8b085c",
+    "experiments/churchland/sweeps/s10_endpoint_v1/nldisco.py": "d52d420eda209bb0de1eb4cb23c4e0996dabe3cb2f0b4b47f247a15d0eb0416c",
+    "experiments/churchland/sweeps/s10_endpoint_v1/cebra.py": "00a807236b98e4b75974b650fd2ddbc6b131a73cbfab2ef92b4c09365141643f",
+    "experiments/churchland/sweeps/s10_endpoint_v1/langevinflow.py": "33811d21c06b10918f1682bda59b158fdcda394b1a638ba988f6fd4d7588d1a7",
+    "experiments/churchland/scripts/train_nldisco.py": "fba135c48a2a12fcfec06dbb9a88b3ddd5948f59df935f79af0ab25414a79ef1",
+    "experiments/churchland/environments/LangevinFlow_CCN/nlb_lightning/models.py": "0f3cdaa4f63451d1603c288204f8c09cb4317e2c61da820f5667d49cc453929d"
+  },
+  "data": {
+    "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/data/nitschke_20090812/counts.npy": "0dc4cd00dd95bdd680ba76acc77cf68cf5fac9930283bcc146909840d78f5fd0",
+    "/nfs/nhome/live/jbhagat/nldisco/experiments/churchland/data/nitschke_20090812/metadata.npz": "c7cd03f43628df2da6e3117f138fa2e63ca6efa5c192c1af06c5c4dd4f332917",
+    "/ceph/aeon/aeon/nldisco/churchland/sweeps/20260914_s10_endpoint_v1/shared/index.npz": "821dfaba3829692f84bfca0b0a45df50ba300bc2bafb9b5fbcf0c7501a8fc79d"
+  },
+  "timing": "CUDA-synchronized wall time, training loop only; calibration separate",
+  "setup": "fresh process per fit; no discarded training warm-up",
+  "logging": "local only; no W&B, checkpointing or export in timed interval",
+  "gpu_uuid": "GPU-5a924816-0a8e-d1b5-086e-e98ffd4382bb",
+  "slurm_job_id": "3649999",
+  "other_gpus": "not reserved; other host jobs may continue"
+}

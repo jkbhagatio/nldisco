@@ -1,19 +1,27 @@
-"""Utility functions."""
+"""General utility functions for NLDisco."""
 
-from einops import reduce, repeat
-from jaxtyping import Float
-from torch import Tensor
+import random
+
+import numpy as np
+import torch as t
 
 
-def vec_r2(y_pred: Float[Tensor, "n inst feat"], y_true: Float[Tensor, "n feat"]) -> (
-    Float[Tensor, "n"]
-):
-    """Calculates vectorized R² scores for each example in a batch."""
-    # Calculate SST
-    y_true_mean = reduce(y_true, "n feat -> n", "mean")
-    ss_tot = reduce((y_true - y_true_mean.unsqueeze(-1)) ** 2, "n feat -> n", "sum")
-    # Calculate SSR
-    y_true = repeat(y_true, "n feat -> n inst feat", inst=y_pred.shape[1])  # match to broadcast
-    ss_res = reduce((y_true - y_pred) ** 2, "n inst feat -> n inst", "sum")
-    
-    return 1 - (ss_res / ss_tot.unsqueeze(-1))
+def set_seed(seed: int) -> None:
+    """Seed Python, NumPy, and PyTorch for one independent SED replica."""
+
+    random.seed(seed)
+    np.random.seed(seed)
+    t.manual_seed(seed)
+    if t.cuda.is_available():
+        t.cuda.manual_seed_all(seed)
+
+
+def vector_r2(y_pred: t.Tensor, y_true: t.Tensor) -> t.Tensor:
+    """Calculate R² over the final dimension for matching tensors."""
+
+    if y_pred.shape != y_true.shape:
+        raise ValueError("y_pred and y_true must have matching shapes")
+    residual = (y_true - y_pred).pow(2).sum(dim=-1)
+    total = (y_true - y_true.mean(dim=-1, keepdim=True)).pow(2).sum(dim=-1)
+    result = 1 - residual / total
+    return t.where(t.isfinite(result), result, t.zeros_like(result))

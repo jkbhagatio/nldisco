@@ -1,0 +1,15 @@
+{
+  "threshold": 0.034468714661533416,
+  "chosen_c": 0.001,
+  "validation": {
+    "tp": 9495,
+    "fn": 763,
+    "tn": 258206,
+    "fp": 55376,
+    "sensitivity": 0.9256190290504972,
+    "specificity": 0.823408231339809,
+    "balanced_accuracy": 0.874513630195153
+  },
+  "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/aeon/outputs/wheel_latent52_logistic_20260923/decoder.joblib",
+  "model_sha256": "7b3e932c96d011556f64904506a542462279ab2b36bc86242deabb6614454fd5"
+}

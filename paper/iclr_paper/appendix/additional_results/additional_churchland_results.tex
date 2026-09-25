@@ -1,0 +1,78 @@
+\subsubsection{Macaque motor cortex spike data in an active reaching task}
+\label{subsubsection:churchland_results_additional}
+
+\paragraph{Dataset.}
+We analyze the 12 August 2009 recording of Nitschke, a male macaque (\textit{Macaca mulatta}), in the Churchland--Shenoy reaching dataset~\citep{churchland_2012_population_dynamics}, using the Brainsets-prepared recording~\citep{azabou_2023_unified}. The recording has 191 retained Utah-array channels containing threshold-crossing spiking events from dorsal premotor and primary motor cortex; these are not 191 spike-sorted single cells. We retain 1,906 valid, correct reaches across 27 maze conditions. Of 3,038 source trials, 34 fail the validity flag and a further 1,098 are incorrect reaches. Channel identities and source trial indices are preserved in the data manifest; channels are not selected using model performance. This analysis is related to, but is not the official MC\_Maze benchmark evaluation~\citep{nlb_mcmaze}.
+
+Each trial is binned independently into 50-ms bins anchored at trial start. Zero-count bins are retained. The resulting matrix has 147,661 timebins and 191 channels, contains 53,625,900 spike threshold crossings, and covers 7,383.050 s of retained trial time. Only the final incomplete bin of each trial is omitted. 
+
+Neural inputs are not temporally smoothed. Behavioral samples within a bin are averaged and the result timestamped at its center. Hand kinematics are unavailable in 32,544 bins, principally because their recorded intervals end before the corresponding trial stops; these bins remain in neural training but are omitted from speed-specific measurements. Target labels remain available throughout each retained trial. Positions and target locations are expressed in mm, speed and velocity in mm/s, and speed slope in mm/s$^2$.
+
+Models are fit without behavioral supervision using all retained neural inputs. We form 130,507 stride-one windows of $S=10$ consecutive 50-ms bins, entirely within individual trials. Each scored representation corresponds to the final bin of its window and has access to exactly those ten bins.
+
+\paragraph{Feature discovery.}
+We define candidate features by inspecting latent activity in a reference NLDisco model with $D = 256$, alongside hand kinematics, target locations, and movement timing. Each feature description summarizes the behavioral condition associated with a latent's activation; we refine it when the latent responds to only part of a broader condition. We then use these same descriptions to assess recovery of all four features in CEBRA, LangevinFlow, and a freshly trained NLDisco model, each with a 192-dimensional latent space. The four descriptions are:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+    \item \textit{Recent deceleration}: the ordinary-least-squares slope of speed over the last five bins (250 ms) is $\leq -75$ mm/s$^2$.
+    \item \textit{Fast leftward target reach}: endpoint speed is at least $500$ mm/s, $v_x<0$ \& $|v_x|\geq|v_y|$, and the target is $(-144,-52)$ mm.
+    \item \textit{Early leftward movement}: the movement endpoint is $[75,150)$ ms after movement onset and its bin-averaged horizontal velocity $v_x<0$.
+    \item \textit{Late, target-specific reach}: the target is $(125,-18)$ mm and the movement endpoint is at least 250 ms after movement onset, in the direction towards the target. 
+\end{enumerate}
+
+For NLDisco, we use a two-level Matryoshka TW-SED with $(D_1,k_1)=(96,8)$ and $(D_2,k_2)=(192,16)$. Its causal, shift-equivariant Transformer has one layer, internal width 128, four attention heads, feedforward width 512, and no dropout. A learned projection maps the 128-dimensional hidden state to the 192 latent pre-activations. Channel counts are standardized using full-recording statistics. A linear temporal decoder reconstructs the ten-bin input with an identity output activation. Training uses equally weighted MSLE loss across timebins and levels, Adam optimizer with initial learning rate 0.005, and the warmup/cosine schedule described above over ten shuffled epochs (1,280 updates, $B=1,024$).
+
+For CEBRA (version 0.4.0), we use the label-free temporal contrastive variant, CEBRA-Time, with 128 hidden units and a 192-dimensional output embedding. We use the official \texttt{offset10} convolutional encoder, cosine InfoNCE loss, and Adam optimizer with learning rate $3\times10^{-4}$. Channel counts are standardized using full-recording channel statistics. The 12-run sweep crosses output widths $\{128,192,256\}$, temperatures $\{0.3,1\}$, and forward-positive lags $\{1,5\}$ bins. For InfoNCE, positive endpoints must have complete ten-bin context within the same trial, negatives are sampled globally. With $B=1,024$, 1,275 updates give 1,305,600 reference draws, approximately ten dataset epochs in expectation. The sweep selects temperature 1 and lag 1; we retain these settings in the subsequent 192-dimensional fit used here.
+
+For LangevinFlow (revision \texttt{68dcbfaa78b2371851842333ae933eea1f961832}), the selected model uses three 64-dimensional states---position, momentum, and GRU state---whose concatenation gives the 192-dimensional full latent space. We use the model's standard quadratic potential, underdamped transitions, Transformer/Poisson decoder, Adam optimizer with learning rate 0.003, solver step 0.01, damping 0.55, dropout 0.05, and coordinated dropout 0.5. Inputs are raw channel counts. Our adapter initializes from bin 0, consumes bins 1--9 once, and resets all states for each window. At extraction, dropout is disabled and Gaussian innovations are replaced by their means. In this implementation, position and momentum evolve autonomously after initialization, whereas the GRU state incorporates later observations. The 12-run sweep crosses state widths $\{32,64,128\}$, (corresponding to concatenated full latent space widths $\{96,192,384\}$), learning rates $\{0.001,0.003\}$, and KL/weight-decay ramp durations $\{5,500\}$ epochs. Each fit goes through ten shuffled epochs (1,280 updates, $B=1,024$). At zero-based epoch $e$, the KL coefficient is $0.1\min(e/r,1)$ and weight decay is $2\times10^{-5}\min(e/r,1)$ for ramp duration $r$.
+
+For CEBRA and LangevinFlow, sweep runs are ranked by the mean best eligible-latent \metric{AUROC} across the four descriptions. For CEBRA, each candidate latent is one coordinate of the output embedding; for LangevinFlow, it is one coordinate of the concatenated position, momentum, and recurrent states. We score these coordinates individually against each behavioral description using development trials. These dense coordinates may be sign-reversed so that larger values indicate a stronger association with the condition, and activation thresholds are calibrated as described below.
+
+In the results below, we show only NLDisco's illustrative main-text latent for each of the features mentioned in the main-text, but show NLDisco's highest-\metric{Sel} and highest-\metric{AUROC} eligible latents for the two supplementary features, matching the eligible latents shown for CEBRA and LangevinFlow.
+
+\subparagraph{Metrics.}
+We report \metric{Cov}, \metric{Spec}, \metric{Sel}, \metric{AUROC}, and single-latent and full-space \metric{Decode} using the shared definitions in \hyperref[subsubsection:latents_evaluation_details]{\ref*{subsubsection:latents_evaluation_details}}. An NLDisco latent counts as active when its activation is positive, $z>0$. For CEBRA and LangevinFlow, we first choose each coordinate's sign separately for each feature: if its development \metric{AUROC} is below 0.5, we multiply its values by $-1$, so that larger values indicate a stronger association with the condition. We then set an activation threshold so that approximately the highest $r$ fraction of its values across all eligible development windows count as active.
+
+For each feature, we calculate $r$ as the fraction of eligible development windows in which a latent from the reference NLDisco model had positive activation, including windows both inside and outside the behavioral condition. This gives $r=31.921\%$ for recent deceleration, $0.793\%$ for fast leftward target reach, $1.473\%$ for early leftward movement, and $2.401\%$ for late, target-specific reach. The aim is to compare baseline coordinates with the reference latent at approximately the same overall activation frequency. The rates differ because the reference latents activate with different frequencies; BatchTopK does not require equal activity across latents. These frequencies can reflect how often and for how long a behavior occurs, activation outside the described condition, and differences in which windows are eligible for each feature. Thus, $r$ measures the reference latent's activity, not the prevalence of the behavioral condition. We retain these original rates, so the baseline activation frequencies are not matched to the current NLDisco-192 latents.
+
+To be eligible for selection, a latent must activate in at least 5\% of windows satisfying the behavioral condition, and do so in at least 20 distinct trials. We select the eligible latents with the highest \metric{Sel} and highest \metric{AUROC}, except where we retain NLDisco's main-text illustrative latent as described above.
+
+The two supplementary features illustrate the difference between a selective detector and a broadly discriminative latent (\autoref{figure:churchland_additional_features}). For each, NLDisco's best-\metric{Sel} latent activates more narrowly, while its best-\metric{AUROC} latent covers a larger fraction of condition-positive windows. Movement-aligned curves use 50-ms bins around movement end or 25-ms bins around movement onset, with at least 20 observations per plotted cell. Feature scores use the all eligible development examples.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\linewidth]{figures/churchland_additional_features.pdf}
+    \caption{\textbf{\textit{Early-leftward} and \textit{late-reaching} features.} (\textbf{a}) Activation probabilities for NLDisco's best-\metric{Sel} and best-\metric{AUROC} latents, aligned to movement onset or end and separated by direction or target. (\textbf{b}) Their activation probabilities inside and outside each condition. (\textbf{c}) \metric{Sel} versus \metric{AUROC} for the two selected latents from each of the three 192-dimensional representations; coincident selections are overlaid. Scores use all valid development windows, including those outside the displayed timing ranges.}
+    \label{figure:churchland_additional_features}
+\end{figure}
+
+\clearpage
+\begin{table}[!t]
+    \centering
+    {\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+    \resizebox{\linewidth}{!}{\input{figures/churchland_feature_metrics.tex}}}
+    \caption{\textbf{Feature recovery and decoding for all four behavioral descriptions.} \metric{Cov}, \metric{Spec}, \metric{Sel}, and \metric{AUROC} use development windows. Single-latent and full-space \metric{Decode} report test balanced accuracy with validation-selected decision thresholds. NLDisco uses its illustrative latents for the two main-text features and both selectors for the supplementary features; both selectors are shown for each baseline. Repeated coordinates reflect coincident selections. Column maxima within each feature are bolded, including ties at the displayed precision.}
+    \label{table:churchland_feature_metrics}
+\end{table}
+
+The combined scores (\autoref{table:churchland_feature_metrics}) show why these metrics are useful together. The main-text deceleration latent has higher \metric{Spec} and \metric{Sel} than the baselines, but lower \metric{Cov}; for fast leftward target reaches, it covers nearly all positive examples. For the supplementary features, NLDisco's best-\metric{Sel} latents are more selective than either baseline, while its best-\metric{AUROC} latents provide stronger discrimination. NLDisco has the highest full-space decoding score for all four descriptions. Its shown single latents lead fast-reach, early-leftward, and late-reaching decoding, while LangevinFlow leads single-latent deceleration decoding.
+
+\clearpage
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\linewidth]{figures/churchland_feature_rocs.pdf}
+    \caption{\textbf{Discriminability of the selected feature latents.} ROC curves for the four behavioral descriptions in the three 192-dimensional representations. NLDisco uses its main-text illustrative latent for \textit{recent deceleration} and \textit{fast leftward target reach}, and its best-\metric{Sel} and best-\metric{AUROC} latents for the supplementary features. Baselines use both selectors. Curves use the same development windows as the association scores in \autoref{table:churchland_feature_metrics}.}
+    \label{figure:churchland_rocs}
+\end{figure}
+
+\subparagraph{Source activity traceback.}
+We apply the \hyperref[paragraph:source_activity_traceback]{source activity traceback} to NLDisco latents for all four features, using the same selections as in \autoref{table:churchland_feature_metrics}: the illustrative latents for the main-text features and both the best-\metric{Sel} and best-\metric{AUROC} latents for the supplementary features. Inputs are channel counts standardized using the same full-recording statistics as training. We retain all ten timebins and 191 channels, averaging attribution maps equally over development windows in which each latent is active. The corresponding signed decoder weights show how these latents contribute to reconstruction (\autoref{figure:churchland_traceback}).
+
+\begin{figure}[!p]
+    \centering
+    \includegraphics[width=\linewidth]{figures/churchland_traceback.pdf}
+    \caption{\textbf{Source activity traceback for all four behavioral features.} Rows follow the feature order in \autoref{table:churchland_feature_metrics}: \textit{recent deceleration} (illustrative latent 83), \textit{fast leftward target reach} (illustrative latent 20), \textit{early leftward movement} (best-\metric{Sel} latent 122 and best-\metric{AUROC} latent 40), and \textit{late, target-specific reach} (best-\metric{Sel} latent 165 and best-\metric{AUROC} latent 75). All latents are from seed 1. Left: mean encoder attribution over development windows with positive latent activation. Right: temporal decoder weights. All 191 recorded channels and ten input timebins are retained. Colors are clipped symmetrically at each panel's 99th absolute percentile for readability.}
+    \label{figure:churchland_traceback}
+\end{figure}
+
+\clearpage
+\input{appendix/training_time_comparison}

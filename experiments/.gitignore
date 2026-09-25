@@ -1,0 +1,3 @@
+__pycache__/
+.ipynb_checkpoints/
+/churchland/data/nitschke_20090812/counts.npy

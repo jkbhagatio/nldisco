@@ -1,0 +1,90 @@
+{
+  "threshold": 0.034468714661533416,
+  "chosen_c": 0.001,
+  "validation": {
+    "tp": 9495,
+    "fn": 763,
+    "tn": 258206,
+    "fp": 55376,
+    "sensitivity": 0.9256190290504972,
+    "specificity": 0.823408231339809,
+    "balanced_accuracy": 0.874513630195153
+  },
+  "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/aeon/outputs/wheel_latent52_logistic_20260923/decoder.joblib",
+  "model_sha256": "7b3e932c96d011556f64904506a542462279ab2b36bc86242deabb6614454fd5",
+  "test": {
+    "tp": 7312,
+    "fn": 580,
+    "tn": 269060,
+    "fp": 46908,
+    "sensitivity": 0.9265078560567663,
+    "specificity": 0.8515419282965364,
+    "balanced_accuracy": 0.8890248921766514
+  },
+  "test_balanced_accuracy": 0.8890248921766514,
+  "test_auroc": 0.9260853116314472,
+  "original_protocol": {
+    "created_utc": "2026-09-23T06:18:08.881174+00:00",
+    "model": "d192/k12_seed0",
+    "latent": 52,
+    "input": "continuous sparse latent amplitude",
+    "condition": "endpoint wheel-rim speed > 0.75 cm/s; 4-cm wheel radius",
+    "data_root": "/ceph/aeon/aeon/nldisco/aeon/sweeps/20260921_18h_s20",
+    "input_arrays": "/ceph/aeon/aeon/nldisco/aeon/sweeps/20260921_18h_s20/paper_revision_wheelcms_20260921/feature_arrays.npz",
+    "input_sha256": "27a5f9b9034a49f3e48de089f6823fe3886658d2d6007a671b2a92d8990a9f53",
+    "model_config_sha256": "7ce6948ae1cd4996691c162fe62f5cc023c6e4758099f94a3e4d1e487fe4cac2",
+    "split": "chronological 80/10/10 of the 18-hour recording",
+    "boundary_bins": [
+      0,
+      2592000,
+      2916000,
+      3240000
+    ],
+    "bin_seconds": 0.02,
+    "neural_window_bins": 20,
+    "boundary_rule": "Each input window lies entirely within its partition; no shared source bins.",
+    "support": {
+      "train": {
+        "windows": 2590859,
+        "positives": 75577,
+        "negatives": 2515282,
+        "first_endpoint_bin": 23,
+        "last_endpoint_bin": 2591999
+      },
+      "validation": {
+        "windows": 323840,
+        "positives": 10258,
+        "negatives": 313582,
+        "first_endpoint_bin": 2592019,
+        "last_endpoint_bin": 2915999
+      },
+      "test": {
+        "windows": 323860,
+        "positives": 7892,
+        "negatives": 315968,
+        "first_endpoint_bin": 2916019,
+        "last_endpoint_bin": 3239949
+      }
+    },
+    "c_grid": [
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0,
+      1000.0
+    ],
+    "regularization": "L2",
+    "class_weight": null,
+    "solver": "lbfgs",
+    "max_iter": 3000,
+    "tol": 1e-05,
+    "random_state": 0,
+    "selection": "Highest validation AUROC; ties choose smallest C; no train+validation refit.",
+    "preprocessing": "StandardScaler fitted on training latent amplitudes only.",
+    "scope": "Exploratory/transductive: frozen neural model, normalization, latent and feature were previously fitted or selected using the full recording.",
+    "sklearn_version": "1.5.2",
+    "numpy_version": "1.23.5"
+  }
+}
