@@ -6,10 +6,9 @@ authors = [{ name = "Jai Bhagat", email = "jkbhagatio@gmail.com" }]
 readme = "README.md"
 license = "PolyForm-Noncommercial-1.0.0"
 license-files = ["LICENSE.md"]
-requires-python = ">=3.9,<3.10"
+requires-python = ">=3.9,<3.14"
 dependencies = [
     "beartype>=0.18,<0.23",
-    "cebra==0.4.0",
     "datasets>=2.14.6",
     "einops",
     "email-validator",
@@ -20,29 +19,34 @@ dependencies = [
     "jax>=0.4.21",
     "jaxtyping",
     "matplotlib",
-    "numpy<1.24",
+    "numpy",
     "openai",
-    "pandas==1.5.3",
+    "pandas",
     "plotly>=5.23,<6",
     "python-dotenv>=1,<2",
     "rich",
-    "scikit-learn==1.5.2",
-    "scipy<1.11",
+    "scikit-learn",
+    "scipy",
     "seaborn",
     "sortedcontainers",
     "submitit>=1.5,<2",
-    "torch==2.5.1",
+    "torch",
     "torcheval",
     "torchinfo",
-    "torchvision==0.20.1",
+    "torchvision",
     "tqdm",
     "typeguard",
     "wandb",
 ]
 
 [project.optional-dependencies]
+analysis = [
+    "cebra>=0.6.1; python_version >= '3.10'",
+    "cebra; python_version < '3.10'",
+    "setuptools<81; python_version < '3.10'",
+]
 churchland = [
-    "brainsets==0.1.2",
+    "brainsets",
     "dandi",
     "h5py",
     "requests",
@@ -72,22 +76,6 @@ include = [
     "/pyproject.toml",
     "/uv.lock",
 ]
-
-[tool.uv]
-find-links = ["https://storage.googleapis.com/jax-releases/jax_cuda_releases.html"]
-
-[tool.uv.sources]
-torch = [
-    { index = "pytorch-cu121", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
-]
-torchvision = [
-    { index = "pytorch-cu121", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
-]
-
-[[tool.uv.index]]
-name = "pytorch-cu121"
-url = "https://download.pytorch.org/whl/cu121"
-explicit = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

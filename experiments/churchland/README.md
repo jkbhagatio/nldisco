@@ -36,6 +36,30 @@ Representation fitting and feature discovery are transductive, on the full recor
 Decoder labels use whole-trial 80/10/10 splits. These are exploratory within-recording
 comparisons, not an independent discovery test or the official NLB benchmark.
 
+## Loading recordings
+
+Install the data tools with `uv sync --extra churchland`; add `--extra analysis`
+for the CEBRA analyses. The supported Python range is 3.9–3.13.
+
+```python
+from pathlib import Path
+from experiments.churchland.data import download_and_preprocess, load_sessions
+
+download_and_preprocess(Path("data/raw"), Path("data/processed"), "Nitschke", 1)
+sessions = load_sessions(Path("data/processed"), "Nitschke")
+```
+
+The helper uses the Brainsets 0.2 `Pipeline` API. Brainsets 0.2.2 writes
+`nitschke_20090812_maze.h5`; the Python 3.9-compatible 0.2.0 release writes
+`nitschke_20090812_center_out_reaching.h5`. Cached NWB files and either processed
+format are reused without contacting DANDI. The loader accepts both formats;
+if both exist, it loads the `*_maze.h5` file once. Invalid files raise an error
+identifying the recording.
+
+`scripts/prepare.py` likewise prefers the current filename, with a fallback to
+the older file. Use `--processed PATH --output NEW_DIRECTORY` to prepare data
+from an explicit source without overwriting the frozen paper inputs.
+
 ## Upstream code
 
 `scripts/prepare.py` and `data.py` prepare the Churchland recording. The retained
