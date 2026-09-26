@@ -423,7 +423,17 @@ def main() -> None:
     parser.add_argument(
         "--processed",
         type=Path,
-        default=ROOT / "data/processed/nitschke_20090812_center_out_reaching.h5",
+        default=next(
+            (
+                path
+                for path in (
+                    ROOT / "data/processed/nitschke_20090812_maze.h5",
+                    ROOT / "data/processed/nitschke_20090812_center_out_reaching.h5",
+                )
+                if path.is_file()
+            ),
+            ROOT / "data/processed/nitschke_20090812_maze.h5",
+        ),
     )
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--split-seed", type=int, default=42)

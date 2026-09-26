@@ -1,16 +1,16 @@
 """Churchland MC Maze data loading and preprocessing for one experiment."""
 
-import sys
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
-from typing import List, Tuple
 
-import brainsets_pipelines.churchland_shenoy_neural_2012.prepare_data as prep
 import h5py
 import numpy as np
 import pandas as pd
 import requests
+from beartype import beartype
+from beartype.typing import List, Tuple, Union
+from brainsets_pipelines.churchland_shenoy_neural_2012.pipeline import Pipeline
 from dandi.dandiapi import DandiAPIClient
 from plotly import colors as pc
 from plotly import express as px
@@ -32,74 +32,61 @@ def download_with_progress(url, dest: Path, chunk_size=1024 * 1024):
                 bar.update(len(chunk))
 
 
-def download_and_preprocess(raw_dir, processed_dir, subject_name: str, num_files: int):
-    raw_dir = Path(raw_dir)
-    processed_dir = Path(processed_dir)
+_SESSION_DATES = {
+    "jenkins": ("20090912", "20090916", "20090918", "20090923"),
+    "nitschke": ("20090812", "20090819", "20090910"),
+}
+
+
+def _subject_key(subject_name: str) -> str:
+    subject = subject_name.strip().lower()
+    if subject not in _SESSION_DATES:
+        raise ValueError("subject_name must be 'Jenkins' or 'Nitschke'")
+    return subject
+
+
+@beartype
+def download_and_preprocess(
+    raw_dir: Union[str, Path],
+    processed_dir: Union[str, Path],
+    subject_name: str,
+    num_files: int,
+) -> None:
+    """Download selected recordings and process them with Brainsets' Pipeline API.
+
+    Existing processed outputs and cached NWB files are reused without a
+    network request. Accept both ``*_maze.h5`` (Brainsets 0.2.2) and
+    ``*_center_out_reaching.h5`` (0.2.0, used on Python 3.9).
+    """
+    subject = _subject_key(subject_name)
+    if num_files < 0:
+        raise ValueError("num_files must be nonnegative")
+    raw_dir, processed_dir = Path(raw_dir), Path(processed_dir)
     raw_dir.mkdir(parents=True, exist_ok=True)
     processed_dir.mkdir(parents=True, exist_ok=True)
+    pipeline = Pipeline(raw_dir, processed_dir, args=Pipeline.parser.parse_args([]))
 
-    subj = subject_name.strip().lower()
-    if subj not in {"jenkins", "nitschke"}:
-        raise ValueError("subject_name must be 'Jenkins' or 'Nitschke'")
-
-    # Date-ordered lists (ascending) per subject
-    jenkins_assets = [
-        "sub-Jenkins/sub-Jenkins_ses-20090912_behavior+ecephys.nwb",
-        "sub-Jenkins/sub-Jenkins_ses-20090916_behavior+ecephys.nwb",
-        "sub-Jenkins/sub-Jenkins_ses-20090918_behavior+ecephys.nwb",
-        "sub-Jenkins/sub-Jenkins_ses-20090923_behavior+ecephys.nwb",
-    ]
-    nitschke_assets = [
-        "sub-Nitschke/sub-Nitschke_ses-20090812_behavior+ecephys.nwb",
-        "sub-Nitschke/sub-Nitschke_ses-20090819_behavior+ecephys.nwb",
-        "sub-Nitschke/sub-Nitschke_ses-20090910_behavior+ecephys.nwb",
-    ]
-
-    if subj == "jenkins":
-        cap = 4
-        asset_paths = jenkins_assets[: min(num_files, cap)]
-    else:
-        cap = 3
-        asset_paths = nitschke_assets[: min(num_files, cap)]
-
-    # Download selected assets
-    local_paths = []
-    with DandiAPIClient() as client:
-        ds = client.get_dandiset("000070", "draft")
-        for ap in asset_paths:
-            asset = ds.get_asset_by_path(ap)
-            local_path = raw_dir / Path(ap).name
-            if local_path.exists():
-                print(f"Already exists: {local_path}")
-            else:
-                url = asset.download_url  # direct link to file
-                download_with_progress(url, local_path)
-                print(f"Downloaded: {local_path}")
-            local_paths.append(local_path)
-
-    # Preprocess with brainsets pipeline
-    for nwb_path in tqdm(local_paths, desc="Preprocessing NWB files", unit="file"):
-        date = nwb_path.stem.split("_")[1].replace("ses-", "")
-        out_file = processed_dir / f"{subj}_{date}_center_out_reaching.h5"
-
-        if out_file.exists():
-            print(f"Already preprocessed: {out_file}")
+    for date in _SESSION_DATES[subject][:num_files]:
+        outputs = [
+            processed_dir / f"{subject}_{date}_{suffix}.h5"
+            for suffix in ("maze", "center_out_reaching")
+        ]
+        existing = next((path for path in outputs if path.is_file()), None)
+        if existing is not None:
+            print(f"Already preprocessed: {existing}")
             continue
-
-        _argv = sys.argv[:]
-        try:
-            sys.argv = [
-                "prepare_data",
-                "--input_file",
-                str(nwb_path),
-                "--output_dir",
-                str(processed_dir),
-            ]
-            prep.main()
-        finally:
-            sys.argv = _argv
+        asset_path = f"sub-{subject.title()}/sub-{subject.title()}_ses-{date}_behavior+ecephys.nwb"
+        local_path = raw_dir / Path(asset_path).name
+        if not local_path.is_file():
+            with DandiAPIClient() as client:
+                asset = client.get_dandiset("000070", "draft").get_asset_by_path(asset_path)
+                download_with_progress(asset.download_url, local_path)
+        pipeline.process(local_path)
+        if not any(path.is_file() for path in outputs):
+            raise FileNotFoundError(f"Brainsets did not produce an expected file: {outputs}")
 
 
+@beartype
 def clean_session_data(session: Data) -> Data:
     """Clean session data by filtering trials and spikes based on quality criteria."""
     # Filter out extraneous trials
@@ -136,9 +123,10 @@ def clean_session_data(session: Data) -> Data:
     session.eye = session.eye.select_by_interval(session.trials)
 
     # Convert session recording date to timestamp
-    session.session.recording_date = datetime.strptime(
-        session.session.recording_date, "%Y-%m-%d %H:%M:%S"
-    ).timestamp()
+    recording_date = session.session.recording_date
+    if isinstance(recording_date, str):
+        recording_date = datetime.fromisoformat(recording_date)
+    session.session.recording_date = recording_date.timestamp()
 
     return session
 
@@ -273,79 +261,45 @@ def fix_maze_conditions_consistency(sessions: List[Data]) -> List[Data]:
     return processed_sessions
 
 
+@beartype
 def load_sessions(
     data_path: Path,
     subject_name: str,
 ) -> List[Data]:
-    """Load, clean, and harmonise MC Maze sessions from HDF5 files."""
-    subject_name = subject_name.lower()
+    """Load and clean current or legacy HDF5 sessions, in recording-date order.
 
-    # Allowed filenames per subject (case-insensitive match)
-    j_allowed = [
-        "jenkins_20090912_center_out_reaching.h5",
-        "jenkins_20090916_center_out_reaching.h5",
-        "jenkins_20090918_center_out_reaching.h5",
-        "jenkins_20090923_center_out_reaching.h5",
-    ]
-    n_allowed = [
-        "nitschke_20090812_center_out_reaching.h5",
-        "nitschke_20090819_center_out_reaching.h5",
-        "nitschke_20090910_center_out_reaching.h5",
-    ]
-
-    # Detect files present in the directory
-    h5_files = [p.name for p in Path(data_path).iterdir() if p.suffix.lower() == ".h5"]
-
-    # Filter strictly to the allowed filenames (present on disk), preserving the intended order
-    j_files = [fn for fn in j_allowed if fn.lower() in {f.lower() for f in h5_files}]
-    n_files = [fn for fn in n_allowed if fn.lower() in {f.lower() for f in h5_files}]
-
-    if subject_name == "jenkins":
-        subject_files = j_files
-    elif subject_name == "nitschke":
-        subject_files = n_files
-    else:
-        raise ValueError(
-            f"Unsupported subject '{subject_name}'. Expected 'jenkins' or 'nitschke'."
-        )
-
+    Prefer ``*_maze.h5`` when both formats exist for a recording. Matching is
+    case insensitive. Load all arrays eagerly so they remain usable after the
+    files close, and report invalid sessions instead of silently dropping them.
+    """
+    subject_name = _subject_key(subject_name)
+    available = {
+        path.name.lower(): path
+        for path in data_path.iterdir()
+        if path.is_file() and path.suffix.lower() == ".h5"
+    }
+    subject_files = []
+    for date in _SESSION_DATES[subject_name]:
+        for suffix in ("maze", "center_out_reaching"):
+            path = available.get(f"{subject_name}_{date}_{suffix}.h5")
+            if path is not None:
+                subject_files.append(path)
+                break
     if not subject_files:
         raise FileNotFoundError(
             f"No allowed files found for subject {subject_name} in {data_path}"
         )
 
     sessions: List[Data] = []
-    total = len(subject_files)
-    for i, fname in enumerate(subject_files, start=1):
-        file_path = Path(data_path) / fname
-        print(f"\nLoading file {i}/{total}: {fname}")
-
-        with h5py.File(str(file_path), "r") as f:
-            session = Data.from_hdf5(f)
-
-            session.spikes.materialize()
-            session.trials.materialize()
-            session.hand.materialize()
-            session.eye.materialize()
-            session.session.materialize()
-            session.units.materialize()
-
-            print(f"Session ID: {session.session.id}")
-            print(f"Session subject id: {session.subject.id}")
-            print(f"Session subject sex: {session.subject.sex}")
-            print(f"Session subject species: {session.subject.species}")
-            print(f"Session recording date: {session.session.recording_date}")
-            print(f"Original number of trials: {len(session.trials.start)}")
-
-            try:
-                print("Cleaning data...")
-                session = clean_session_data(session)
-                print(f"Final number of trials after cleaning: {len(session.trials.start)}")
-
-                sessions.append(session)
-            except Exception as e:
-                print(f"Error processing session {session.session.id}: {e}")
-                continue
+    for file_path in subject_files:
+        print(f"Loading {file_path.name}")
+        try:
+            with h5py.File(file_path, "r") as file:
+                session = Data.from_hdf5(file, lazy=False)
+            session = clean_session_data(session)
+        except Exception as exc:
+            raise ValueError(f"Could not load and clean Churchland session {file_path}") from exc
+        sessions.append(session)
 
     print(f"\nSuccessfully loaded and cleaned {len(sessions)} sessions for subject {subject_name}")
 
