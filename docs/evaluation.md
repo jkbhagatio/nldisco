@@ -1,5 +1,8 @@
 # Evaluation
 
+Follow the [installation guide](installation.md) first. Commands prefixed with
+`uv run` assume a source checkout; omit that prefix in an existing, activated environment.
+
 `nldisco.train.evaluate_model(model, validation_loader, loss_config)` returns:
 
 - `metrics_by_lag`: reconstruction loss, cosine similarity, and R² at each relative lag.

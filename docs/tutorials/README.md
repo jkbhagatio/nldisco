@@ -4,6 +4,9 @@
 walkthrough using generated data: normalize two populations, train, evaluate
 reconstruction and diagnostics, then predict targets from inputs alone.
 
+First [clone or download the source and sync the environment](../installation.md#work-from-source).
+Run this from the repository root:
+
 ```console
 uv run python examples/paired_transcoder.py --layout flat
 ```

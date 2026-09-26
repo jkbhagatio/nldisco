@@ -5,11 +5,11 @@
 **Neural Latent Discovery**  
 Find interpretable features in neural population activity.
 
-[Quick start](#quick-start) · [User guide](#user-guide) · [Documentation](docs/README.md) · [Paper](https://github.com/jkbhagatio/nldisco/blob/paper/paper/iclr_paper/full_paper.pdf) · [Experiments](experiments/README.md)
+[Quick start](#quick-start) · [User guide](#user-guide) · [Documentation](https://github.com/jkbhagatio/nldisco/blob/main/docs/README.md) · [Paper](https://github.com/jkbhagatio/nldisco/blob/paper/paper/iclr_paper/full_paper.pdf) · [Experiments](https://github.com/jkbhagatio/nldisco/blob/main/experiments/README.md)
 
 </div>
 
-![NLDisco pipeline: preprocess neural data, train sparse models, evaluate reconstruction, and interpret latents.](docs/assets/figure-1.png)
+![NLDisco pipeline: preprocess neural data, train sparse models, evaluate reconstruction, and interpret latents.](https://raw.githubusercontent.com/jkbhagatio/nldisco/main/docs/assets/figure-1.png)
 
 NLDisco learns sparse, overcomplete representations of neural activity. Each latent
 is a candidate feature to inspect alongside behavior, stimuli, or other metadata.
@@ -21,13 +21,13 @@ Training uses neural activity alone; behavioral labels enter during interpretati
 - **Connect populations.** Reconstruct the input population or predict an aligned target population.
 - **Inspect what you learn.** Evaluate reconstruction, latent ablations, and spectral fidelity.
 
-![Example datasets: simulated rat navigation, macaque reaching, and mouse foraging.](docs/assets/task_overview.png)
+![Example datasets: simulated rat navigation, macaque reaching, and mouse foraging.](https://raw.githubusercontent.com/jkbhagatio/nldisco/main/docs/assets/task_overview.png)
 
 **NLDisco across datasets:** simulated navigation, macaque reaching, and mouse foraging.
 
 ## From activity to interpretable latents
 
-![Sparse encoder-decoder architectures: single-bin, Matryoshka, and window models.](docs/assets/figure-2.png)
+![Sparse encoder-decoder architectures: single-bin, Matryoshka, and window models.](https://raw.githubusercontent.com/jkbhagatio/nldisco/main/docs/assets/figure-2.png)
 
 **Figure 2 · Model architecture.** **(a)** Natural features are jointly encoded in neural
 activity. **(b)** A sparse encoder-decoder reconstructs neural activity through a small
@@ -55,13 +55,13 @@ For paired populations, set `n_output_neurons` and supply `targets=` to
 `data.target_normalization`. Inputs and targets share their time grid and splits,
 while unit counts can differ. Inference needs only inputs.
 
-See [models and inference](docs/model_names.md), the
-[paired-population example](examples/paired_transcoder.py), and
-[evaluation](docs/evaluation.md) for details.
+See [models and inference](https://github.com/jkbhagatio/nldisco/blob/main/docs/model_names.md), the
+[paired-population example](https://github.com/jkbhagatio/nldisco/blob/main/examples/paired_transcoder.py), and
+[evaluation](https://github.com/jkbhagatio/nldisco/blob/main/docs/evaluation.md) for details.
 
 ## Why individual latents?
 
-![Toy example comparing neural activity, a tangled two-dimensional latent space, and individual NLDisco latents.](docs/assets/figure-s1.png)
+![Toy example comparing neural activity, a tangled two-dimensional latent space, and individual NLDisco latents.](https://raw.githubusercontent.com/jkbhagatio/nldisco/main/docs/assets/figure-s1.png)
 
 **Figure S1 · Interpretable latents in a complex latent space.** A toy example with a
 discrete variable (top) and a continuous variable (bottom). **(a)** Both are encoded
@@ -72,7 +72,7 @@ discovery. This is a conceptual illustration, not a benchmark result.
 
 ## Method comparison
 
-[![Table S1: comparison of NLDisco with other neural latent-variable methods, including qualifications and footnotes.](docs/assets/table-s1.png)](docs/assets/table-s1.png)
+[![Table S1: comparison of NLDisco with other neural latent-variable methods, including qualifications and footnotes.](https://raw.githubusercontent.com/jkbhagatio/nldisco/main/docs/assets/table-s1.png)](https://raw.githubusercontent.com/jkbhagatio/nldisco/main/docs/assets/table-s1.png)
 
 The paper's qualitative comparison of 15 methodological features. Click the table
 for full resolution; see the [paper](https://github.com/jkbhagatio/nldisco/blob/paper/paper/iclr_paper/full_paper.pdf) for context and references.
@@ -81,10 +81,10 @@ for full resolution; see the [paper](https://github.com/jkbhagatio/nldisco/blob/
 
 | Resource | Contents |
 | --- | --- |
-| [Documentation](docs/README.md) | Preprocessing, models, training, checkpoint reloads, and evaluation |
-| [Examples](docs/tutorials/README.md) | Runnable walkthroughs using generated data |
-| [Experiments](experiments/README.md) | Paper datasets, configurations, notebooks, and result artifacts |
-| [Library](src/nldisco/) | Model, data, training, evaluation, plotting, and sweep code |
+| [Documentation](https://github.com/jkbhagatio/nldisco/blob/main/docs/README.md) | Preprocessing, models, training, checkpoint reloads, and evaluation |
+| [Examples](https://github.com/jkbhagatio/nldisco/blob/main/docs/tutorials/README.md) | Runnable walkthroughs using generated data |
+| [Experiments](https://github.com/jkbhagatio/nldisco/blob/main/experiments/README.md) | Paper datasets, configurations, notebooks, and result artifacts |
+| [Library](https://github.com/jkbhagatio/nldisco/blob/main/src/nldisco/) | Model, data, training, evaluation, plotting, and sweep code |
 
 ```console
 uv run pytest                             # Core library tests
@@ -92,18 +92,36 @@ uv run pytest experiments/tests           # Paper-analysis tests
 uv run jupyter lab
 ```
 
-Churchland data helpers require `uv sync --extra churchland`.
+CEBRA comparisons require `uv sync --locked --extra analysis`; Churchland data
+helpers additionally require `--extra churchland`. See [installation](https://github.com/jkbhagatio/nldisco/blob/main/docs/installation.md).
 To register a Jupyter kernel, run `uv run python -m ipykernel install --user --name=nldisco`.
 
 ## Quick start
 
-From this checkout, install [uv](https://docs.astral.sh/uv/getting-started/installation/)
-and sync the environment (Python 3.9):
+NLDisco requires **Python 3.9–3.13**.
+
+To install the library into an existing, activated Python environment, use either:
 
 ```console
-uv sync
+uv pip install nldisco
+# Or:
+python -m pip install nldisco
+```
+
+To work with the source, examples, or notebooks, install
+[uv](https://docs.astral.sh/uv/getting-started/installation/) and clone the repository:
+
+```console
+git clone https://github.com/jkbhagatio/nldisco.git nldisco
+cd nldisco
+uv sync --locked
 uv run python examples/paired_transcoder.py --layout flat
 ```
+
+See [installation](https://github.com/jkbhagatio/nldisco/blob/main/docs/installation.md) for editable installs into existing
+environments, optional dependencies, and development setup. Commands prefixed
+with `uv run` below assume the source checkout; in an existing environment,
+activate it and omit `uv run`.
 
 The example generates its own data, trains a model, evaluates it, and demonstrates
 inference. It also supports `single_bin`, `transformer`, and `shift_equivariant` layouts.
@@ -120,8 +138,8 @@ uv run python -m nldisco.sweep data.path=/path/to/counts.npy execution.max_paral
 
 The defaults use MSLE loss and a ReLU decoder. For signed targets, including z-scores,
 set `loss.type=mse model.decoder.output_activation=none`.
-See [preprocessing](docs/preprocessing.md) for Kilosort/Phy loading and spike binning,
-and [training and sweeps](docs/training_and_sweeps.md) for GPU, W&B, and Slurm execution.
+See [preprocessing](https://github.com/jkbhagatio/nldisco/blob/main/docs/preprocessing.md) for Kilosort/Phy loading and spike binning,
+and [training and sweeps](https://github.com/jkbhagatio/nldisco/blob/main/docs/training_and_sweeps.md) for GPU, W&B, and Slurm execution.
 
 ## User guide
 
@@ -146,7 +164,7 @@ np.save("unit_ids.npy", binned.unit_ids)
 **2. Preprocess and split.** Keep the saved counts raw. The runner below fits z-score
 normalization on training rows only, then applies it to validation rows. It builds
 8-bin windows with an 80/20 chronological split. Supply trial/session IDs and validity
-masks when needed to prevent windows crossing boundaries; see [preprocessing](docs/preprocessing.md).
+masks when needed to prevent windows crossing boundaries; see [preprocessing](https://github.com/jkbhagatio/nldisco/blob/main/docs/preprocessing.md).
 
 **3. Train with a W&B sweep.** Authenticate with `uv run wandb login` (or set
 `WANDB_API_KEY` in `.env`), then launch a Bayesian search over learning rates and seeds:
@@ -160,7 +178,7 @@ uv run python -m nldisco.sweep --config-name wandb \
 
 W&B minimizes `validation/loss`. Each trial saves its configuration, calibrated
 checkpoint, and reconstruction metrics under `outputs/nldisco/`.
-[Training and sweeps](docs/training_and_sweeps.md) covers search spaces and GPU/Slurm settings.
+[Training and sweeps](https://github.com/jkbhagatio/nldisco/blob/main/docs/training_and_sweeps.md) covers search spaces and GPU/Slurm settings.
 
 **4. Evaluate the model.** Pick a trial using validation results and reload its checkpoint.
 With the original recording files unchanged, rebuild the same split and preprocessing:
@@ -179,7 +197,7 @@ print(result.metrics_by_lag)
 plot_reconstruction_by_lag(result.metrics_by_lag)
 ```
 
-Optional [ablation and spectral diagnostics](docs/evaluation.md) test individual latent
+Optional [ablation and spectral diagnostics](https://github.com/jkbhagatio/nldisco/blob/main/docs/evaluation.md) test individual latent
 contributions and frequency fidelity. Keep a separate test set for final reporting.
 
 **5. Evaluate the latents.** Inspect decoder patterns and align latent activations with
@@ -202,12 +220,12 @@ Synchronize behavioral measurements to the recording clock, then join them throu
 `source_time_idx`. Compare tuning and activating examples; quantify candidate features
 with coverage, specificity, and AUROC over both active and inactive positions.
 Decoder weights describe reconstructed activity; they are not causal attributions.
-See the [paper experiments](experiments/README.md) for dataset-specific latent analyses.
+See the [paper experiments](https://github.com/jkbhagatio/nldisco/blob/main/experiments/README.md) for dataset-specific latent analyses.
 
 ## License
 
 NLDisco's original software is source-available under the
-[PolyForm Noncommercial License 1.0.0](LICENSE.md). It permits use, modification,
+[PolyForm Noncommercial License 1.0.0](https://github.com/jkbhagatio/nldisco/blob/main/LICENSE.md). It permits use, modification,
 and redistribution for the purposes described in the license, including
 noncommercial use and use by the educational and research organizations it covers.
 Commercial uses outside those permissions require a separate license from the
@@ -217,4 +235,4 @@ For commercial licensing enquiries, contact [Jai Bhagat](mailto:jkbhagatio@gmail
 
 Third-party software and datasets retain their respective licenses and terms.
 In particular, the bundled LangevinFlow code retains its
-[own license](experiments/churchland/environments/LangevinFlow_CCN/LICENSE).
+[own license](https://github.com/jkbhagatio/nldisco/blob/main/experiments/churchland/environments/LangevinFlow_CCN/LICENSE).

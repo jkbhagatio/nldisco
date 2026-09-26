@@ -1,9 +1,11 @@
 # Documentation
 
-Start with the [quick start](../README.md#quick-start), then choose a guide:
+Start with [installation](installation.md) and the [quick start](../README.md#quick-start),
+then choose a guide:
 
 | Guide | Covers |
 | --- | --- |
+| [Installation](installation.md) | Environment setup, source development, and optional dependencies |
 | [Preprocessing](preprocessing.md) | Kilosort/Phy, spike binning, normalization, and paired populations |
 | [Models and inference](model_names.md) | Window encoders, Matryoshka levels, sparsity, and compatibility |
 | [Training and sweeps](training_and_sweeps.md) | Hydra configuration, CPU/GPU runs, W&B, Slurm, and checkpoint reloads |
