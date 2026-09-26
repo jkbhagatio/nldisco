@@ -1,0 +1,1153 @@
+[
+  {
+    "seed": 0,
+    "architecture": "flat",
+    "config": {
+      "architecture": "flat",
+      "data_dir": "/nfs/nhome/live/jbhagat/nldisco/experiments/synthetic/data/matryoshka_overlap",
+      "spikes_sha256": "ce5bd9573966e96cd36a44a68cc4e84836c95f749a59260e87398aaab06db09f",
+      "raw_dt": 0.009999999999990905,
+      "bin_factor": 5,
+      "seq_len": 20,
+      "raw_length": 100,
+      "duration_s": 0.9899999999990996,
+      "window_rule": "motion-only fixed50,75,100,125,150,175,200 raw bins; maximize minimum direction count of strict first-pair crossings; shorter tie-break",
+      "first_pair_centers_m": [
+        0.2,
+        0.4
+      ],
+      "first_pair_crossing_rule": "trajectory visits <=first center+.02m and >=second center-.02m; strict=no raw10ms reversal; ramp selection also mean position between centers",
+      "purposeful_motion_diagnostic": "same crossing with net>=pair gap-.04m, maximum backtracking<=.02m, net/pathlength>=.8; does not determine selection or pass gates",
+      "matched_ramp_occupancy": {
+        "latent_idx": 0.0,
+        "left_mean_activation": 1.0,
+        "right_mean_activation": 1.0,
+        "right_selectivity": 0.0,
+        "left_active_windows": 232.0,
+        "right_active_windows": 218.0,
+        "matched_position_bins": 8.0,
+        "matched_windows_per_direction": 209.0
+      },
+      "direction_position_bin_width_m": 0.025,
+      "minimum_direction_count_per_bin": 10,
+      "split_raw_bounds": [
+        0,
+        60000
+      ],
+      "analysis_scope": "in-sample descriptive discovery; full recording used for training and selection",
+      "preprocessing": "sum nonoverlapping count bins; no standardization or smoothing",
+      "minimum_displacement_m": 0.1,
+      "selection": "full recording strict first-pair crossings; position-matched DI times first-pair decoder motion times log1p first-pair enrichment; passing candidates precede failures",
+      "primary_metric_definitions": "right_selectivity uses ramp_clean windows in2.5cm occupancy-matched bins; decoder_center_displacement uses units0,1 positive squared weights early/late thirds; place_energy_enrichment uses units0,1 versus96noise; global_ prefixes retain fulltrack/all4 equivalents",
+      "trajectory_selection": "top activation over ALL analysis windows, greedy disjoint, no direction or motion filtering",
+      "hit_rule": "signed ramp DI>=.25, signed first-pair decoder displacement>=.01m, pair energy enrichment>=2, ramp active windows>=20, matched position bins>=2, each pair unit>=10%pair energy, pair>=50%allknown place energy",
+      "seed": 0,
+      "sed_config": {
+        "n_neurons": 100,
+        "seq_len": 20,
+        "dsed_topk_map": {
+          "128": 4
+        },
+        "encoder": {
+          "type": "flat",
+          "shift_equivariant": false,
+          "d_model": 128,
+          "n_heads": 4,
+          "n_layers": 2,
+          "d_feedforward": 256,
+          "dropout": 0.0,
+          "causal": true,
+          "attention_radius": 2
+        },
+        "decoder": {
+          "output_activation": "relu",
+          "temporal_kernel_len": 5,
+          "temporal_alignment": "causal"
+        },
+        "inference_sparsity": "training_threshold",
+        "threshold_decay": 0.99,
+        "dtype": "torch.float32"
+      },
+      "loss_config": {
+        "timebin_weights": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "type": "mse",
+        "tau": 1.0,
+        "dsed_loss_weight_map": null,
+        "dead_feature_loss_weight": 1.0
+      },
+      "train_config": {
+        "batch_size": 256,
+        "epochs": 40,
+        "learning_rate": 0.005,
+        "use_lr_schedule": true,
+        "log_frequency": 100,
+        "dead_feature_window": 1000,
+        "max_dead_feature_fraction": 0.1
+      },
+      "parameter_count": 514128
+    },
+    "selected_directions": {
+      "right": {
+        "latent_idx": 26,
+        "passes": true,
+        "selection_score": 0.24732239628540112,
+        "gate_diagnostics": {
+          "signed_ramp_DI_at_least_0.25": true,
+          "signed_pair_decoder_shift_at_least_0.01m": true,
+          "pair_noise_energy_enrichment_at_least_2": true,
+          "at_least_20_active_ramp_windows": true,
+          "at_least_2_matched_position_bins": true,
+          "each_pair_unit_at_least_10pct_pair_energy": true,
+          "pair_at_least_50pct_known_place_energy": true
+        },
+        "failed_gates": [],
+        "candidate_available": true,
+        "all_top_expected_direction_fraction": 0.6875,
+        "all_top_clean_fraction": 0.0625,
+        "all_top_ramp_clean_fraction": 0.0,
+        "all_top_n": 16,
+        "all_top_position_min_m": 0.029146272371884385,
+        "all_top_position_max_m": 0.3548753904850227,
+        "clean_top_expected_direction_fraction": 0.9375,
+        "clean_top_n": 16,
+        "decoder_raw_place_coactivity_excess_correlation": 0.9480235666867382,
+        "decoder_raw_first_pair_coactivity_excess_correlation": 0.975385805434287,
+        "first_pair_decoder_peak_lag_s": 0.6999999999993634,
+        "first_pair_raw_excess_peak_lag_s": 0.6999999999993634,
+        "circular_shift_max_score_95pct": 0.08296380464646029,
+        "circular_shift_max_score_exceedance": 0.009900990099009901
+      },
+      "left": {
+        "latent_idx": 26,
+        "passes": false,
+        "selection_score": 0.0,
+        "gate_diagnostics": {
+          "signed_ramp_DI_at_least_0.25": false,
+          "signed_pair_decoder_shift_at_least_0.01m": false,
+          "pair_noise_energy_enrichment_at_least_2": true,
+          "at_least_20_active_ramp_windows": true,
+          "at_least_2_matched_position_bins": true,
+          "each_pair_unit_at_least_10pct_pair_energy": true,
+          "pair_at_least_50pct_known_place_energy": true
+        },
+        "failed_gates": [
+          "signed_ramp_DI_at_least_0.25",
+          "signed_pair_decoder_shift_at_least_0.01m"
+        ],
+        "candidate_available": true,
+        "all_top_expected_direction_fraction": 0.3125,
+        "all_top_clean_fraction": 0.0625,
+        "all_top_ramp_clean_fraction": 0.0,
+        "all_top_n": 16,
+        "all_top_position_min_m": 0.029146272371884385,
+        "all_top_position_max_m": 0.3548753904850227,
+        "clean_top_expected_direction_fraction": 0.0625,
+        "clean_top_n": 16,
+        "decoder_raw_place_coactivity_excess_correlation": 0.9480235666867382,
+        "decoder_raw_first_pair_coactivity_excess_correlation": 0.975385805434287,
+        "first_pair_decoder_peak_lag_s": 0.6999999999993634,
+        "first_pair_raw_excess_peak_lag_s": 0.6999999999993634,
+        "circular_shift_max_score_95pct": 0.0,
+        "circular_shift_max_score_exceedance": 1.0
+      }
+    },
+    "analysis_mse": 0.15229840848404302,
+    "analysis_mean_l0": 3.9982472247725567,
+    "analysis_directional_hit_count": 1,
+    "analysis_selected_metrics": [
+      {
+        "latent_idx": 26,
+        "left_mean_activation": 1.0018843298323417,
+        "right_mean_activation": 2.796130648640354,
+        "right_selectivity": 0.4724168622233986,
+        "left_active_windows": 135,
+        "right_active_windows": 203,
+        "matched_position_bins": 8,
+        "matched_windows_per_direction": 209,
+        "global_place_energy_enrichment": 82.67786407470703,
+        "global_decoder_center_displacement": 0.10236851687770315,
+        "decoder_center_displacement": 0.10236851687770315,
+        "place_energy_enrichment": 165.35572814941406,
+        "pair_min_unit_energy_fraction": 0.11174948513507843,
+        "pair_known_place_energy_fraction": 1.0,
+        "place_energy_fraction": 0.7750232219696045,
+        "global_left_mean_activation": 1.176951842884413,
+        "global_right_mean_activation": 1.3502457650642172,
+        "global_right_selectivity": 0.06857157573855148,
+        "global_left_active_windows": 628,
+        "global_right_active_windows": 490,
+        "global_matched_position_bins": 8,
+        "global_matched_windows_per_direction": 939,
+        "right_selection_score": 0.24732239628540112,
+        "right_passes": true,
+        "left_selection_score": 0.0,
+        "left_passes": false,
+        "is_directional_hit": true
+      }
+    ],
+    "selected_features": {
+      "right": 26,
+      "left": 26
+    },
+    "supplementary_diagnostics": {
+      "clean_examples": "greedy disjoint top16 ramp_clean windows: strict first-pair crossings, mean position between first two centers; both directions compete; primary examples still use ALLwindows",
+      "null": "100 fixed-seed circular shifts of all dense activations relative to behavior; same ramp eligibility and maximum score across all128 latents per direction; descriptive reference only, not across-seed corrected",
+      "decoder_motion_caution": "primary center displacement summarizes positive squared dictionary weights over first two known place cells; not a calibrated position or speed estimate",
+      "position_confound_caution": "matching window mean position does not match the full trajectory or endpoint-specific firing; this position-only simulator can produce apparent directional sequences from temporal traversal of static fields"
+    }
+  },
+  {
+    "seed": 1,
+    "architecture": "flat",
+    "config": {
+      "architecture": "flat",
+      "data_dir": "/nfs/nhome/live/jbhagat/nldisco/experiments/synthetic/data/matryoshka_overlap",
+      "spikes_sha256": "ce5bd9573966e96cd36a44a68cc4e84836c95f749a59260e87398aaab06db09f",
+      "raw_dt": 0.009999999999990905,
+      "bin_factor": 5,
+      "seq_len": 20,
+      "raw_length": 100,
+      "duration_s": 0.9899999999990996,
+      "window_rule": "motion-only fixed50,75,100,125,150,175,200 raw bins; maximize minimum direction count of strict first-pair crossings; shorter tie-break",
+      "first_pair_centers_m": [
+        0.2,
+        0.4
+      ],
+      "first_pair_crossing_rule": "trajectory visits <=first center+.02m and >=second center-.02m; strict=no raw10ms reversal; ramp selection also mean position between centers",
+      "purposeful_motion_diagnostic": "same crossing with net>=pair gap-.04m, maximum backtracking<=.02m, net/pathlength>=.8; does not determine selection or pass gates",
+      "matched_ramp_occupancy": {
+        "latent_idx": 0.0,
+        "left_mean_activation": 1.0,
+        "right_mean_activation": 1.0,
+        "right_selectivity": 0.0,
+        "left_active_windows": 232.0,
+        "right_active_windows": 218.0,
+        "matched_position_bins": 8.0,
+        "matched_windows_per_direction": 209.0
+      },
+      "direction_position_bin_width_m": 0.025,
+      "minimum_direction_count_per_bin": 10,
+      "split_raw_bounds": [
+        0,
+        60000
+      ],
+      "analysis_scope": "in-sample descriptive discovery; full recording used for training and selection",
+      "preprocessing": "sum nonoverlapping count bins; no standardization or smoothing",
+      "minimum_displacement_m": 0.1,
+      "selection": "full recording strict first-pair crossings; position-matched DI times first-pair decoder motion times log1p first-pair enrichment; passing candidates precede failures",
+      "primary_metric_definitions": "right_selectivity uses ramp_clean windows in2.5cm occupancy-matched bins; decoder_center_displacement uses units0,1 positive squared weights early/late thirds; place_energy_enrichment uses units0,1 versus96noise; global_ prefixes retain fulltrack/all4 equivalents",
+      "trajectory_selection": "top activation over ALL analysis windows, greedy disjoint, no direction or motion filtering",
+      "hit_rule": "signed ramp DI>=.25, signed first-pair decoder displacement>=.01m, pair energy enrichment>=2, ramp active windows>=20, matched position bins>=2, each pair unit>=10%pair energy, pair>=50%allknown place energy",
+      "seed": 1,
+      "sed_config": {
+        "n_neurons": 100,
+        "seq_len": 20,
+        "dsed_topk_map": {
+          "128": 4
+        },
+        "encoder": {
+          "type": "flat",
+          "shift_equivariant": false,
+          "d_model": 128,
+          "n_heads": 4,
+          "n_layers": 2,
+          "d_feedforward": 256,
+          "dropout": 0.0,
+          "causal": true,
+          "attention_radius": 2
+        },
+        "decoder": {
+          "output_activation": "relu",
+          "temporal_kernel_len": 5,
+          "temporal_alignment": "causal"
+        },
+        "inference_sparsity": "training_threshold",
+        "threshold_decay": 0.99,
+        "dtype": "torch.float32"
+      },
+      "loss_config": {
+        "timebin_weights": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "type": "mse",
+        "tau": 1.0,
+        "dsed_loss_weight_map": null,
+        "dead_feature_loss_weight": 1.0
+      },
+      "train_config": {
+        "batch_size": 256,
+        "epochs": 40,
+        "learning_rate": 0.005,
+        "use_lr_schedule": true,
+        "log_frequency": 100,
+        "dead_feature_window": 1000,
+        "max_dead_feature_fraction": 0.1
+      },
+      "parameter_count": 514128
+    },
+    "selected_directions": {
+      "right": {
+        "latent_idx": 8,
+        "passes": false,
+        "selection_score": 0.0,
+        "gate_diagnostics": {
+          "signed_ramp_DI_at_least_0.25": false,
+          "signed_pair_decoder_shift_at_least_0.01m": false,
+          "pair_noise_energy_enrichment_at_least_2": true,
+          "at_least_20_active_ramp_windows": true,
+          "at_least_2_matched_position_bins": true,
+          "each_pair_unit_at_least_10pct_pair_energy": true,
+          "pair_at_least_50pct_known_place_energy": true
+        },
+        "failed_gates": [
+          "signed_ramp_DI_at_least_0.25",
+          "signed_pair_decoder_shift_at_least_0.01m"
+        ],
+        "candidate_available": true,
+        "all_top_expected_direction_fraction": 0.4375,
+        "all_top_clean_fraction": 0.1875,
+        "all_top_ramp_clean_fraction": 0.0625,
+        "all_top_n": 16,
+        "all_top_position_min_m": 0.07687710639372064,
+        "all_top_position_max_m": 0.5146705152122648,
+        "clean_top_expected_direction_fraction": 0.3125,
+        "clean_top_n": 16,
+        "decoder_raw_place_coactivity_excess_correlation": 0.9216631890891324,
+        "decoder_raw_first_pair_coactivity_excess_correlation": -0.453321517069297,
+        "first_pair_decoder_peak_lag_s": -0.24999999999977263,
+        "first_pair_raw_excess_peak_lag_s": -0.3499999999996817,
+        "circular_shift_max_score_95pct": 0.0,
+        "circular_shift_max_score_exceedance": 1.0
+      },
+      "left": {
+        "latent_idx": 8,
+        "passes": false,
+        "selection_score": 0.003819387576126788,
+        "gate_diagnostics": {
+          "signed_ramp_DI_at_least_0.25": false,
+          "signed_pair_decoder_shift_at_least_0.01m": true,
+          "pair_noise_energy_enrichment_at_least_2": true,
+          "at_least_20_active_ramp_windows": true,
+          "at_least_2_matched_position_bins": true,
+          "each_pair_unit_at_least_10pct_pair_energy": true,
+          "pair_at_least_50pct_known_place_energy": true
+        },
+        "failed_gates": [
+          "signed_ramp_DI_at_least_0.25"
+        ],
+        "candidate_available": true,
+        "all_top_expected_direction_fraction": 0.5625,
+        "all_top_clean_fraction": 0.1875,
+        "all_top_ramp_clean_fraction": 0.0625,
+        "all_top_n": 16,
+        "all_top_position_min_m": 0.07687710639372064,
+        "all_top_position_max_m": 0.5146705152122648,
+        "clean_top_expected_direction_fraction": 0.6875,
+        "clean_top_n": 16,
+        "decoder_raw_place_coactivity_excess_correlation": 0.9216631890891324,
+        "decoder_raw_first_pair_coactivity_excess_correlation": -0.453321517069297,
+        "first_pair_decoder_peak_lag_s": -0.24999999999977263,
+        "first_pair_raw_excess_peak_lag_s": -0.3499999999996817,
+        "circular_shift_max_score_95pct": 0.01050415147283978,
+        "circular_shift_max_score_exceedance": 0.27722772277227725
+      }
+    },
+    "analysis_mse": 0.15200672904181067,
+    "analysis_mean_l0": 3.9939070194474584,
+    "analysis_directional_hit_count": 0,
+    "analysis_selected_metrics": [
+      {
+        "latent_idx": 8,
+        "left_mean_activation": 3.5859428581438566,
+        "right_mean_activation": 3.204725555255653,
+        "right_selectivity": -0.05613840636599492,
+        "left_active_windows": 224,
+        "right_active_windows": 216,
+        "matched_position_bins": 8,
+        "matched_windows_per_direction": 209,
+        "global_place_energy_enrichment": 77.8210678100586,
+        "global_decoder_center_displacement": -0.013461750473291872,
+        "decoder_center_displacement": -0.013461750473291872,
+        "place_energy_enrichment": 155.6421356201172,
+        "pair_min_unit_energy_fraction": 0.1459921896457672,
+        "pair_known_place_energy_fraction": 1.0,
+        "place_energy_fraction": 0.7642918229103088,
+        "global_left_mean_activation": 1.945005384020912,
+        "global_right_mean_activation": 2.032855221035635,
+        "global_right_selectivity": 0.022084694698207567,
+        "global_left_active_windows": 679,
+        "global_right_active_windows": 676,
+        "global_matched_position_bins": 8,
+        "global_matched_windows_per_direction": 939,
+        "right_selection_score": 0.0,
+        "right_passes": false,
+        "left_selection_score": 0.003819387576126788,
+        "left_passes": false,
+        "is_directional_hit": false
+      }
+    ],
+    "selected_features": {
+      "right": 8,
+      "left": 8
+    },
+    "supplementary_diagnostics": {
+      "clean_examples": "greedy disjoint top16 ramp_clean windows: strict first-pair crossings, mean position between first two centers; both directions compete; primary examples still use ALLwindows",
+      "null": "100 fixed-seed circular shifts of all dense activations relative to behavior; same ramp eligibility and maximum score across all128 latents per direction; descriptive reference only, not across-seed corrected",
+      "decoder_motion_caution": "primary center displacement summarizes positive squared dictionary weights over first two known place cells; not a calibrated position or speed estimate",
+      "position_confound_caution": "matching window mean position does not match the full trajectory or endpoint-specific firing; this position-only simulator can produce apparent directional sequences from temporal traversal of static fields"
+    }
+  },
+  {
+    "seed": 2,
+    "architecture": "flat",
+    "config": {
+      "architecture": "flat",
+      "data_dir": "/nfs/nhome/live/jbhagat/nldisco/experiments/synthetic/data/matryoshka_overlap",
+      "spikes_sha256": "ce5bd9573966e96cd36a44a68cc4e84836c95f749a59260e87398aaab06db09f",
+      "raw_dt": 0.009999999999990905,
+      "bin_factor": 5,
+      "seq_len": 20,
+      "raw_length": 100,
+      "duration_s": 0.9899999999990996,
+      "window_rule": "motion-only fixed50,75,100,125,150,175,200 raw bins; maximize minimum direction count of strict first-pair crossings; shorter tie-break",
+      "first_pair_centers_m": [
+        0.2,
+        0.4
+      ],
+      "first_pair_crossing_rule": "trajectory visits <=first center+.02m and >=second center-.02m; strict=no raw10ms reversal; ramp selection also mean position between centers",
+      "purposeful_motion_diagnostic": "same crossing with net>=pair gap-.04m, maximum backtracking<=.02m, net/pathlength>=.8; does not determine selection or pass gates",
+      "matched_ramp_occupancy": {
+        "latent_idx": 0.0,
+        "left_mean_activation": 1.0,
+        "right_mean_activation": 1.0,
+        "right_selectivity": 0.0,
+        "left_active_windows": 232.0,
+        "right_active_windows": 218.0,
+        "matched_position_bins": 8.0,
+        "matched_windows_per_direction": 209.0
+      },
+      "direction_position_bin_width_m": 0.025,
+      "minimum_direction_count_per_bin": 10,
+      "split_raw_bounds": [
+        0,
+        60000
+      ],
+      "analysis_scope": "in-sample descriptive discovery; full recording used for training and selection",
+      "preprocessing": "sum nonoverlapping count bins; no standardization or smoothing",
+      "minimum_displacement_m": 0.1,
+      "selection": "full recording strict first-pair crossings; position-matched DI times first-pair decoder motion times log1p first-pair enrichment; passing candidates precede failures",
+      "primary_metric_definitions": "right_selectivity uses ramp_clean windows in2.5cm occupancy-matched bins; decoder_center_displacement uses units0,1 positive squared weights early/late thirds; place_energy_enrichment uses units0,1 versus96noise; global_ prefixes retain fulltrack/all4 equivalents",
+      "trajectory_selection": "top activation over ALL analysis windows, greedy disjoint, no direction or motion filtering",
+      "hit_rule": "signed ramp DI>=.25, signed first-pair decoder displacement>=.01m, pair energy enrichment>=2, ramp active windows>=20, matched position bins>=2, each pair unit>=10%pair energy, pair>=50%allknown place energy",
+      "seed": 2,
+      "sed_config": {
+        "n_neurons": 100,
+        "seq_len": 20,
+        "dsed_topk_map": {
+          "128": 4
+        },
+        "encoder": {
+          "type": "flat",
+          "shift_equivariant": false,
+          "d_model": 128,
+          "n_heads": 4,
+          "n_layers": 2,
+          "d_feedforward": 256,
+          "dropout": 0.0,
+          "causal": true,
+          "attention_radius": 2
+        },
+        "decoder": {
+          "output_activation": "relu",
+          "temporal_kernel_len": 5,
+          "temporal_alignment": "causal"
+        },
+        "inference_sparsity": "training_threshold",
+        "threshold_decay": 0.99,
+        "dtype": "torch.float32"
+      },
+      "loss_config": {
+        "timebin_weights": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "type": "mse",
+        "tau": 1.0,
+        "dsed_loss_weight_map": null,
+        "dead_feature_loss_weight": 1.0
+      },
+      "train_config": {
+        "batch_size": 256,
+        "epochs": 40,
+        "learning_rate": 0.005,
+        "use_lr_schedule": true,
+        "log_frequency": 100,
+        "dead_feature_window": 1000,
+        "max_dead_feature_fraction": 0.1
+      },
+      "parameter_count": 514128
+    },
+    "selected_directions": {
+      "right": {
+        "latent_idx": 27,
+        "passes": false,
+        "selection_score": 0.0,
+        "gate_diagnostics": {
+          "signed_ramp_DI_at_least_0.25": false,
+          "signed_pair_decoder_shift_at_least_0.01m": false,
+          "pair_noise_energy_enrichment_at_least_2": true,
+          "at_least_20_active_ramp_windows": true,
+          "at_least_2_matched_position_bins": true,
+          "each_pair_unit_at_least_10pct_pair_energy": true,
+          "pair_at_least_50pct_known_place_energy": true
+        },
+        "failed_gates": [
+          "signed_ramp_DI_at_least_0.25",
+          "signed_pair_decoder_shift_at_least_0.01m"
+        ],
+        "candidate_available": true,
+        "all_top_expected_direction_fraction": 0.5625,
+        "all_top_clean_fraction": 0.0625,
+        "all_top_ramp_clean_fraction": 0.0625,
+        "all_top_n": 16,
+        "all_top_position_min_m": 0.08672867362767286,
+        "all_top_position_max_m": 0.46863894929131994,
+        "clean_top_expected_direction_fraction": 0.625,
+        "clean_top_n": 16,
+        "decoder_raw_place_coactivity_excess_correlation": 0.8992670569114282,
+        "decoder_raw_first_pair_coactivity_excess_correlation": -0.5909555898715269,
+        "first_pair_decoder_peak_lag_s": 0.14999999999986358,
+        "first_pair_raw_excess_peak_lag_s": 0.14999999999986358,
+        "circular_shift_max_score_95pct": 0.0,
+        "circular_shift_max_score_exceedance": 1.0
+      },
+      "left": {
+        "latent_idx": 27,
+        "passes": false,
+        "selection_score": 0.0,
+        "gate_diagnostics": {
+          "signed_ramp_DI_at_least_0.25": false,
+          "signed_pair_decoder_shift_at_least_0.01m": true,
+          "pair_noise_energy_enrichment_at_least_2": true,
+          "at_least_20_active_ramp_windows": true,
+          "at_least_2_matched_position_bins": true,
+          "each_pair_unit_at_least_10pct_pair_energy": true,
+          "pair_at_least_50pct_known_place_energy": true
+        },
+        "failed_gates": [
+          "signed_ramp_DI_at_least_0.25"
+        ],
+        "candidate_available": true,
+        "all_top_expected_direction_fraction": 0.4375,
+        "all_top_clean_fraction": 0.0625,
+        "all_top_ramp_clean_fraction": 0.0625,
+        "all_top_n": 16,
+        "all_top_position_min_m": 0.08672867362767286,
+        "all_top_position_max_m": 0.46863894929131994,
+        "clean_top_expected_direction_fraction": 0.375,
+        "clean_top_n": 16,
+        "decoder_raw_place_coactivity_excess_correlation": 0.8992670569114282,
+        "decoder_raw_first_pair_coactivity_excess_correlation": -0.5909555898715269,
+        "first_pair_decoder_peak_lag_s": 0.14999999999986358,
+        "first_pair_raw_excess_peak_lag_s": 0.14999999999986358,
+        "circular_shift_max_score_95pct": 0.011453956018061167,
+        "circular_shift_max_score_exceedance": 1.0
+      }
+    },
+    "analysis_mse": 0.15193266790634144,
+    "analysis_mean_l0": 3.99624405308405,
+    "analysis_directional_hit_count": 0,
+    "analysis_selected_metrics": [
+      {
+        "latent_idx": 27,
+        "left_mean_activation": 3.925404320493269,
+        "right_mean_activation": 4.136603071358786,
+        "right_selectivity": 0.02619679449549256,
+        "left_active_windows": 228,
+        "right_active_windows": 217,
+        "matched_position_bins": 8,
+        "matched_windows_per_direction": 209,
+        "global_place_energy_enrichment": 129.97450256347656,
+        "global_decoder_center_displacement": -0.013002126388774404,
+        "decoder_center_displacement": -0.013002126388774404,
+        "place_energy_enrichment": 259.9490051269531,
+        "pair_min_unit_energy_fraction": 0.2685743272304535,
+        "pair_known_place_energy_fraction": 1.0,
+        "place_energy_fraction": 0.8441295027732849,
+        "global_left_mean_activation": 2.589375705288622,
+        "global_right_mean_activation": 2.4258351283459363,
+        "global_right_selectivity": -0.03260891363646506,
+        "global_left_active_windows": 806,
+        "global_right_active_windows": 690,
+        "global_matched_position_bins": 8,
+        "global_matched_windows_per_direction": 939,
+        "right_selection_score": 0.0,
+        "right_passes": false,
+        "left_selection_score": 0.0,
+        "left_passes": false,
+        "is_directional_hit": false
+      }
+    ],
+    "selected_features": {
+      "right": 27,
+      "left": 27
+    },
+    "supplementary_diagnostics": {
+      "clean_examples": "greedy disjoint top16 ramp_clean windows: strict first-pair crossings, mean position between first two centers; both directions compete; primary examples still use ALLwindows",
+      "null": "100 fixed-seed circular shifts of all dense activations relative to behavior; same ramp eligibility and maximum score across all128 latents per direction; descriptive reference only, not across-seed corrected",
+      "decoder_motion_caution": "primary center displacement summarizes positive squared dictionary weights over first two known place cells; not a calibrated position or speed estimate",
+      "position_confound_caution": "matching window mean position does not match the full trajectory or endpoint-specific firing; this position-only simulator can produce apparent directional sequences from temporal traversal of static fields"
+    }
+  },
+  {
+    "seed": 3,
+    "architecture": "flat",
+    "config": {
+      "architecture": "flat",
+      "data_dir": "/nfs/nhome/live/jbhagat/nldisco/experiments/synthetic/data/matryoshka_overlap",
+      "spikes_sha256": "ce5bd9573966e96cd36a44a68cc4e84836c95f749a59260e87398aaab06db09f",
+      "raw_dt": 0.009999999999990905,
+      "bin_factor": 5,
+      "seq_len": 20,
+      "raw_length": 100,
+      "duration_s": 0.9899999999990996,
+      "window_rule": "motion-only fixed50,75,100,125,150,175,200 raw bins; maximize minimum direction count of strict first-pair crossings; shorter tie-break",
+      "first_pair_centers_m": [
+        0.2,
+        0.4
+      ],
+      "first_pair_crossing_rule": "trajectory visits <=first center+.02m and >=second center-.02m; strict=no raw10ms reversal; ramp selection also mean position between centers",
+      "purposeful_motion_diagnostic": "same crossing with net>=pair gap-.04m, maximum backtracking<=.02m, net/pathlength>=.8; does not determine selection or pass gates",
+      "matched_ramp_occupancy": {
+        "latent_idx": 0.0,
+        "left_mean_activation": 1.0,
+        "right_mean_activation": 1.0,
+        "right_selectivity": 0.0,
+        "left_active_windows": 232.0,
+        "right_active_windows": 218.0,
+        "matched_position_bins": 8.0,
+        "matched_windows_per_direction": 209.0
+      },
+      "direction_position_bin_width_m": 0.025,
+      "minimum_direction_count_per_bin": 10,
+      "split_raw_bounds": [
+        0,
+        60000
+      ],
+      "analysis_scope": "in-sample descriptive discovery; full recording used for training and selection",
+      "preprocessing": "sum nonoverlapping count bins; no standardization or smoothing",
+      "minimum_displacement_m": 0.1,
+      "selection": "full recording strict first-pair crossings; position-matched DI times first-pair decoder motion times log1p first-pair enrichment; passing candidates precede failures",
+      "primary_metric_definitions": "right_selectivity uses ramp_clean windows in2.5cm occupancy-matched bins; decoder_center_displacement uses units0,1 positive squared weights early/late thirds; place_energy_enrichment uses units0,1 versus96noise; global_ prefixes retain fulltrack/all4 equivalents",
+      "trajectory_selection": "top activation over ALL analysis windows, greedy disjoint, no direction or motion filtering",
+      "hit_rule": "signed ramp DI>=.25, signed first-pair decoder displacement>=.01m, pair energy enrichment>=2, ramp active windows>=20, matched position bins>=2, each pair unit>=10%pair energy, pair>=50%allknown place energy",
+      "seed": 3,
+      "sed_config": {
+        "n_neurons": 100,
+        "seq_len": 20,
+        "dsed_topk_map": {
+          "128": 4
+        },
+        "encoder": {
+          "type": "flat",
+          "shift_equivariant": false,
+          "d_model": 128,
+          "n_heads": 4,
+          "n_layers": 2,
+          "d_feedforward": 256,
+          "dropout": 0.0,
+          "causal": true,
+          "attention_radius": 2
+        },
+        "decoder": {
+          "output_activation": "relu",
+          "temporal_kernel_len": 5,
+          "temporal_alignment": "causal"
+        },
+        "inference_sparsity": "training_threshold",
+        "threshold_decay": 0.99,
+        "dtype": "torch.float32"
+      },
+      "loss_config": {
+        "timebin_weights": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "type": "mse",
+        "tau": 1.0,
+        "dsed_loss_weight_map": null,
+        "dead_feature_loss_weight": 1.0
+      },
+      "train_config": {
+        "batch_size": 256,
+        "epochs": 40,
+        "learning_rate": 0.005,
+        "use_lr_schedule": true,
+        "log_frequency": 100,
+        "dead_feature_window": 1000,
+        "max_dead_feature_fraction": 0.1
+      },
+      "parameter_count": 514128
+    },
+    "selected_directions": {
+      "right": {
+        "latent_idx": 102,
+        "passes": false,
+        "selection_score": 0.03873780149851109,
+        "gate_diagnostics": {
+          "signed_ramp_DI_at_least_0.25": false,
+          "signed_pair_decoder_shift_at_least_0.01m": true,
+          "pair_noise_energy_enrichment_at_least_2": true,
+          "at_least_20_active_ramp_windows": true,
+          "at_least_2_matched_position_bins": true,
+          "each_pair_unit_at_least_10pct_pair_energy": true,
+          "pair_at_least_50pct_known_place_energy": true
+        },
+        "failed_gates": [
+          "signed_ramp_DI_at_least_0.25"
+        ],
+        "candidate_available": true,
+        "all_top_expected_direction_fraction": 0.625,
+        "all_top_clean_fraction": 0.125,
+        "all_top_ramp_clean_fraction": 0.0,
+        "all_top_n": 16,
+        "all_top_position_min_m": 0.09968700603425236,
+        "all_top_position_max_m": 0.9970490825761297,
+        "clean_top_expected_direction_fraction": 0.5,
+        "clean_top_n": 16,
+        "decoder_raw_place_coactivity_excess_correlation": 0.8831756543299122,
+        "decoder_raw_first_pair_coactivity_excess_correlation": 0.8848627102470213,
+        "first_pair_decoder_peak_lag_s": -0.049999999999954525,
+        "first_pair_raw_excess_peak_lag_s": 0.49999999999954525,
+        "circular_shift_max_score_95pct": 0.04466774244325934,
+        "circular_shift_max_score_exceedance": 0.0891089108910891
+      },
+      "left": {
+        "latent_idx": 120,
+        "passes": true,
+        "selection_score": 0.10294202356964861,
+        "gate_diagnostics": {
+          "signed_ramp_DI_at_least_0.25": true,
+          "signed_pair_decoder_shift_at_least_0.01m": true,
+          "pair_noise_energy_enrichment_at_least_2": true,
+          "at_least_20_active_ramp_windows": true,
+          "at_least_2_matched_position_bins": true,
+          "each_pair_unit_at_least_10pct_pair_energy": true,
+          "pair_at_least_50pct_known_place_energy": true
+        },
+        "failed_gates": [],
+        "candidate_available": true,
+        "all_top_expected_direction_fraction": 0.6875,
+        "all_top_clean_fraction": 0.0625,
+        "all_top_ramp_clean_fraction": 0.0,
+        "all_top_n": 16,
+        "all_top_position_min_m": 0.1816106661081222,
+        "all_top_position_max_m": 0.8422849940002726,
+        "clean_top_expected_direction_fraction": 0.6875,
+        "clean_top_n": 16,
+        "decoder_raw_place_coactivity_excess_correlation": 0.8429164107318557,
+        "decoder_raw_first_pair_coactivity_excess_correlation": 0.8810395870428042,
+        "first_pair_decoder_peak_lag_s": -0.7499999999993179,
+        "first_pair_raw_excess_peak_lag_s": -0.7499999999993179,
+        "circular_shift_max_score_95pct": 0.07004975764498325,
+        "circular_shift_max_score_exceedance": 0.019801980198019802
+      }
+    },
+    "analysis_mse": 0.1523316636135558,
+    "analysis_mean_l0": 3.994240881395543,
+    "analysis_directional_hit_count": 1,
+    "analysis_selected_metrics": [
+      {
+        "latent_idx": 102,
+        "left_mean_activation": 0.36091737670191165,
+        "right_mean_activation": 0.50326390500274,
+        "right_selectivity": 0.16471836559555672,
+        "left_active_windows": 50,
+        "right_active_windows": 58,
+        "matched_position_bins": 8,
+        "matched_windows_per_direction": 209,
+        "global_place_energy_enrichment": 103.32357788085938,
+        "global_decoder_center_displacement": 0.16926820008523064,
+        "decoder_center_displacement": 0.050323111575683976,
+        "place_energy_enrichment": 106.0525131225586,
+        "pair_min_unit_energy_fraction": 0.16747979819774628,
+        "pair_known_place_energy_fraction": 0.5132056474685669,
+        "place_energy_fraction": 0.8115039467811584,
+        "global_left_mean_activation": 0.43376977410052403,
+        "global_right_mean_activation": 0.472233890995177,
+        "global_right_selectivity": 0.04245470341507674,
+        "global_left_active_windows": 253,
+        "global_right_active_windows": 251,
+        "global_matched_position_bins": 8,
+        "global_matched_windows_per_direction": 939,
+        "right_selection_score": 0.03873780149851109,
+        "right_passes": false,
+        "left_selection_score": 0.0,
+        "left_passes": false,
+        "is_directional_hit": false
+      },
+      {
+        "latent_idx": 120,
+        "left_mean_activation": 0.3945269094842473,
+        "right_mean_activation": 0.20238413711626563,
+        "right_selectivity": -0.3218951524886969,
+        "left_active_windows": 52,
+        "right_active_windows": 26,
+        "matched_position_bins": 8,
+        "matched_windows_per_direction": 209,
+        "global_place_energy_enrichment": 96.97291564941406,
+        "global_decoder_center_displacement": -0.08527079856307229,
+        "decoder_center_displacement": -0.06738145444500998,
+        "place_energy_enrichment": 114.13566589355469,
+        "pair_min_unit_energy_fraction": 0.1012267991900444,
+        "pair_known_place_energy_fraction": 0.5884924530982971,
+        "place_energy_fraction": 0.8016080856323242,
+        "global_left_mean_activation": 0.5223480972349326,
+        "global_right_mean_activation": 0.3773781955876924,
+        "global_right_selectivity": -0.16112667019241914,
+        "global_left_active_windows": 286,
+        "global_right_active_windows": 216,
+        "global_matched_position_bins": 8,
+        "global_matched_windows_per_direction": 939,
+        "right_selection_score": 0.0,
+        "right_passes": false,
+        "left_selection_score": 0.10294202356964861,
+        "left_passes": true,
+        "is_directional_hit": true
+      }
+    ],
+    "selected_features": {
+      "right": 102,
+      "left": 120
+    },
+    "supplementary_diagnostics": {
+      "clean_examples": "greedy disjoint top16 ramp_clean windows: strict first-pair crossings, mean position between first two centers; both directions compete; primary examples still use ALLwindows",
+      "null": "100 fixed-seed circular shifts of all dense activations relative to behavior; same ramp eligibility and maximum score across all128 latents per direction; descriptive reference only, not across-seed corrected",
+      "decoder_motion_caution": "primary center displacement summarizes positive squared dictionary weights over first two known place cells; not a calibrated position or speed estimate",
+      "position_confound_caution": "matching window mean position does not match the full trajectory or endpoint-specific firing; this position-only simulator can produce apparent directional sequences from temporal traversal of static fields"
+    }
+  },
+  {
+    "seed": 4,
+    "architecture": "flat",
+    "config": {
+      "architecture": "flat",
+      "data_dir": "/nfs/nhome/live/jbhagat/nldisco/experiments/synthetic/data/matryoshka_overlap",
+      "spikes_sha256": "ce5bd9573966e96cd36a44a68cc4e84836c95f749a59260e87398aaab06db09f",
+      "raw_dt": 0.009999999999990905,
+      "bin_factor": 5,
+      "seq_len": 20,
+      "raw_length": 100,
+      "duration_s": 0.9899999999990996,
+      "window_rule": "motion-only fixed50,75,100,125,150,175,200 raw bins; maximize minimum direction count of strict first-pair crossings; shorter tie-break",
+      "first_pair_centers_m": [
+        0.2,
+        0.4
+      ],
+      "first_pair_crossing_rule": "trajectory visits <=first center+.02m and >=second center-.02m; strict=no raw10ms reversal; ramp selection also mean position between centers",
+      "purposeful_motion_diagnostic": "same crossing with net>=pair gap-.04m, maximum backtracking<=.02m, net/pathlength>=.8; does not determine selection or pass gates",
+      "matched_ramp_occupancy": {
+        "latent_idx": 0.0,
+        "left_mean_activation": 1.0,
+        "right_mean_activation": 1.0,
+        "right_selectivity": 0.0,
+        "left_active_windows": 232.0,
+        "right_active_windows": 218.0,
+        "matched_position_bins": 8.0,
+        "matched_windows_per_direction": 209.0
+      },
+      "direction_position_bin_width_m": 0.025,
+      "minimum_direction_count_per_bin": 10,
+      "split_raw_bounds": [
+        0,
+        60000
+      ],
+      "analysis_scope": "in-sample descriptive discovery; full recording used for training and selection",
+      "preprocessing": "sum nonoverlapping count bins; no standardization or smoothing",
+      "minimum_displacement_m": 0.1,
+      "selection": "full recording strict first-pair crossings; position-matched DI times first-pair decoder motion times log1p first-pair enrichment; passing candidates precede failures",
+      "primary_metric_definitions": "right_selectivity uses ramp_clean windows in2.5cm occupancy-matched bins; decoder_center_displacement uses units0,1 positive squared weights early/late thirds; place_energy_enrichment uses units0,1 versus96noise; global_ prefixes retain fulltrack/all4 equivalents",
+      "trajectory_selection": "top activation over ALL analysis windows, greedy disjoint, no direction or motion filtering",
+      "hit_rule": "signed ramp DI>=.25, signed first-pair decoder displacement>=.01m, pair energy enrichment>=2, ramp active windows>=20, matched position bins>=2, each pair unit>=10%pair energy, pair>=50%allknown place energy",
+      "seed": 4,
+      "sed_config": {
+        "n_neurons": 100,
+        "seq_len": 20,
+        "dsed_topk_map": {
+          "128": 4
+        },
+        "encoder": {
+          "type": "flat",
+          "shift_equivariant": false,
+          "d_model": 128,
+          "n_heads": 4,
+          "n_layers": 2,
+          "d_feedforward": 256,
+          "dropout": 0.0,
+          "causal": true,
+          "attention_radius": 2
+        },
+        "decoder": {
+          "output_activation": "relu",
+          "temporal_kernel_len": 5,
+          "temporal_alignment": "causal"
+        },
+        "inference_sparsity": "training_threshold",
+        "threshold_decay": 0.99,
+        "dtype": "torch.float32"
+      },
+      "loss_config": {
+        "timebin_weights": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "type": "mse",
+        "tau": 1.0,
+        "dsed_loss_weight_map": null,
+        "dead_feature_loss_weight": 1.0
+      },
+      "train_config": {
+        "batch_size": 256,
+        "epochs": 40,
+        "learning_rate": 0.005,
+        "use_lr_schedule": true,
+        "log_frequency": 100,
+        "dead_feature_window": 1000,
+        "max_dead_feature_fraction": 0.1
+      },
+      "parameter_count": 514128
+    },
+    "selected_directions": {
+      "right": {
+        "latent_idx": 111,
+        "passes": true,
+        "selection_score": 0.4879236799448652,
+        "gate_diagnostics": {
+          "signed_ramp_DI_at_least_0.25": true,
+          "signed_pair_decoder_shift_at_least_0.01m": true,
+          "pair_noise_energy_enrichment_at_least_2": true,
+          "at_least_20_active_ramp_windows": true,
+          "at_least_2_matched_position_bins": true,
+          "each_pair_unit_at_least_10pct_pair_energy": true,
+          "pair_at_least_50pct_known_place_energy": true
+        },
+        "failed_gates": [],
+        "candidate_available": true,
+        "all_top_expected_direction_fraction": 0.6875,
+        "all_top_clean_fraction": 0.3125,
+        "all_top_ramp_clean_fraction": 0.125,
+        "all_top_n": 16,
+        "all_top_position_min_m": 0.00023756217960411215,
+        "all_top_position_max_m": 0.8448525481229442,
+        "clean_top_expected_direction_fraction": 1.0,
+        "clean_top_n": 16,
+        "decoder_raw_place_coactivity_excess_correlation": 0.8569698231254316,
+        "decoder_raw_first_pair_coactivity_excess_correlation": 0.8211783637256019,
+        "first_pair_decoder_peak_lag_s": 0.6499999999994088,
+        "first_pair_raw_excess_peak_lag_s": 0.6499999999994088,
+        "circular_shift_max_score_95pct": 0.09269918760810304,
+        "circular_shift_max_score_exceedance": 0.009900990099009901
+      },
+      "left": {
+        "latent_idx": 92,
+        "passes": false,
+        "selection_score": 0.0,
+        "gate_diagnostics": {
+          "signed_ramp_DI_at_least_0.25": false,
+          "signed_pair_decoder_shift_at_least_0.01m": false,
+          "pair_noise_energy_enrichment_at_least_2": true,
+          "at_least_20_active_ramp_windows": true,
+          "at_least_2_matched_position_bins": true,
+          "each_pair_unit_at_least_10pct_pair_energy": true,
+          "pair_at_least_50pct_known_place_energy": true
+        },
+        "failed_gates": [
+          "signed_ramp_DI_at_least_0.25",
+          "signed_pair_decoder_shift_at_least_0.01m"
+        ],
+        "candidate_available": true,
+        "all_top_expected_direction_fraction": 0.3125,
+        "all_top_clean_fraction": 0.25,
+        "all_top_ramp_clean_fraction": 0.0625,
+        "all_top_n": 16,
+        "all_top_position_min_m": 0.0881910442343796,
+        "all_top_position_max_m": 0.9996537366669478,
+        "clean_top_expected_direction_fraction": 0.125,
+        "clean_top_n": 16,
+        "decoder_raw_place_coactivity_excess_correlation": 0.924420129487113,
+        "decoder_raw_first_pair_coactivity_excess_correlation": 0.9265704662946088,
+        "first_pair_decoder_peak_lag_s": -0.14999999999986358,
+        "first_pair_raw_excess_peak_lag_s": -0.14999999999986358,
+        "circular_shift_max_score_95pct": 0.0,
+        "circular_shift_max_score_exceedance": 1.0
+      }
+    },
+    "analysis_mse": 0.1521254173665679,
+    "analysis_mean_l0": 3.9987480176946835,
+    "analysis_directional_hit_count": 2,
+    "analysis_selected_metrics": [
+      {
+        "latent_idx": 92,
+        "left_mean_activation": 0.1263774511132514,
+        "right_mean_activation": 0.4002376280047677,
+        "right_selectivity": 0.5200386159653089,
+        "left_active_windows": 20,
+        "right_active_windows": 49,
+        "matched_position_bins": 8,
+        "matched_windows_per_direction": 209,
+        "global_place_energy_enrichment": 38.69729995727539,
+        "global_decoder_center_displacement": 0.13519616559954406,
+        "decoder_center_displacement": 0.08737332608635634,
+        "place_energy_enrichment": 40.345787048339844,
+        "pair_min_unit_energy_fraction": 0.3184691369533539,
+        "pair_known_place_energy_fraction": 0.5212997794151306,
+        "place_energy_fraction": 0.6172082424163818,
+        "global_left_mean_activation": 0.29059728012044334,
+        "global_right_mean_activation": 0.3536073268888096,
+        "global_right_selectivity": 0.09781061185016239,
+        "global_left_active_windows": 176,
+        "global_right_active_windows": 204,
+        "global_matched_position_bins": 8,
+        "global_matched_windows_per_direction": 939,
+        "right_selection_score": 0.16911705052499773,
+        "right_passes": true,
+        "left_selection_score": 0.0,
+        "left_passes": false,
+        "is_directional_hit": true
+      },
+      {
+        "latent_idx": 111,
+        "left_mean_activation": 0.26676243379640807,
+        "right_mean_activation": 1.623173127048894,
+        "right_selectivity": 0.7177020853796164,
+        "left_active_windows": 42,
+        "right_active_windows": 161,
+        "matched_position_bins": 8,
+        "matched_windows_per_direction": 209,
+        "global_place_energy_enrichment": 226.60504150390625,
+        "global_decoder_center_displacement": 0.2567470358505917,
+        "decoder_center_displacement": 0.12330435448823296,
+        "place_energy_enrichment": 247.02359008789062,
+        "pair_min_unit_energy_fraction": 0.30068865418434143,
+        "pair_known_place_energy_fraction": 0.5450531840324402,
+        "place_energy_fraction": 0.9042317867279053,
+        "global_left_mean_activation": 0.774991030668933,
+        "global_right_mean_activation": 1.0466801016229474,
+        "global_right_selectivity": 0.1491427657483093,
+        "global_left_active_windows": 419,
+        "global_right_active_windows": 521,
+        "global_matched_position_bins": 8,
+        "global_matched_windows_per_direction": 939,
+        "right_selection_score": 0.4879236799448652,
+        "right_passes": true,
+        "left_selection_score": 0.0,
+        "left_passes": false,
+        "is_directional_hit": true
+      }
+    ],
+    "selected_features": {
+      "right": 111,
+      "left": 92
+    },
+    "supplementary_diagnostics": {
+      "clean_examples": "greedy disjoint top16 ramp_clean windows: strict first-pair crossings, mean position between first two centers; both directions compete; primary examples still use ALLwindows",
+      "null": "100 fixed-seed circular shifts of all dense activations relative to behavior; same ramp eligibility and maximum score across all128 latents per direction; descriptive reference only, not across-seed corrected",
+      "decoder_motion_caution": "primary center displacement summarizes positive squared dictionary weights over first two known place cells; not a calibrated position or speed estimate",
+      "position_confound_caution": "matching window mean position does not match the full trajectory or endpoint-specific firing; this position-only simulator can produce apparent directional sequences from temporal traversal of static fields"
+    }
+  }
+]

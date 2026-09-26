@@ -1,0 +1,71 @@
+{
+  "checkpoint": "/ceph/aeon/aeon/nldisco/churchland/sweeps/20260914_s10_endpoint_v1/width192_checks/nldisco_seeds_1_to_5/d192_k16_l2_seed1/final_model.pt",
+  "preprocessing": "/ceph/aeon/aeon/nldisco/churchland/sweeps/20260914_s10_endpoint_v1/width192_checks/nldisco_seeds_1_to_5/d192_k16_l2_seed1/preprocessing.npz",
+  "partition": "behaviorally valid development windows for each feature",
+  "activation_rule": "native z > 0; includes condition-positive and condition-negative windows",
+  "attribution": "input times gradient of endpoint pre-activation; equal weight per active window",
+  "device": "cpu",
+  "batch_size": 1024,
+  "rows": [
+    {
+      "feature": "recent_braking",
+      "criterion": "illustrative",
+      "latent_id": 83,
+      "active_windows": 12739,
+      "absolute_color_limits": [
+        0.09684207278184676,
+        0.07919694460928442
+      ]
+    },
+    {
+      "feature": "fast_target_specific",
+      "criterion": "illustrative",
+      "latent_id": 20,
+      "active_windows": 2890,
+      "absolute_color_limits": [
+        0.08458389461070072,
+        0.07604471676051618
+      ]
+    },
+    {
+      "feature": "early_leftward",
+      "criterion": "sel",
+      "latent_id": 122,
+      "active_windows": 1294,
+      "absolute_color_limits": [
+        0.062255941793265226,
+        0.07727822013199338
+      ]
+    },
+    {
+      "feature": "early_leftward",
+      "criterion": "auroc",
+      "latent_id": 40,
+      "active_windows": 8177,
+      "absolute_color_limits": [
+        0.09746597372537812,
+        0.07940282680094242
+      ]
+    },
+    {
+      "feature": "late_target_specific",
+      "criterion": "sel",
+      "latent_id": 165,
+      "active_windows": 768,
+      "absolute_color_limits": [
+        0.08030533123345643,
+        0.0786392918229104
+      ]
+    },
+    {
+      "feature": "late_target_specific",
+      "criterion": "auroc",
+      "latent_id": 75,
+      "active_windows": 10343,
+      "absolute_color_limits": [
+        0.07061528142649533,
+        0.08858780845999728
+      ]
+    }
+  ]
+}

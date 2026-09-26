@@ -1,0 +1,34 @@
+{
+  "association": [
+    {
+      "feature": "wheel",
+      "coverage": 0.9792695808038239,
+      "specificity": 0.6638309373678404,
+      "selectivity": 0.7444433730834672,
+      "auroc": 0.9243390685647872
+    },
+    {
+      "feature": "area",
+      "coverage": 0.8366920019524441,
+      "specificity": 0.7607442997963905,
+      "selectivity": 0.7776325933647392,
+      "auroc": 0.8492192085425225
+    },
+    {
+      "feature": "speed",
+      "coverage": 0.7179921671425674,
+      "specificity": 0.7813525431080889,
+      "selectivity": 0.7665618117349021,
+      "auroc": 0.7784732590021441
+    },
+    {
+      "feature": "direction",
+      "coverage": 0.8399760860900757,
+      "specificity": 0.8050513272378123,
+      "selectivity": 0.8116301005510905,
+      "auroc": 0.8717359898792505
+    }
+  ],
+  "decoder_scores_verified": true,
+  "wheel_tick_plot": "Regenerated from native activations; differs from current manuscript tick geometry, which is unchanged."
+}

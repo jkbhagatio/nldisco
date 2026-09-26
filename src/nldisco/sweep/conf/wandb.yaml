@@ -1,0 +1,13 @@
+defaults:
+  - sweep
+  - _self_
+
+search:
+  backend: wandb
+  method: bayes
+  max_runs: 20
+  parameters:
+    training.learning_rate:
+      values: [0.0005, 0.001, 0.005]
+wandb:
+  project: nldisco

@@ -1,0 +1,76 @@
+{
+  "verified_at": "2026-09-25T08:36:23.501950+00:00",
+  "notebooks": {
+    "synthetic": {
+      "notebook": "synthetic/analysis.ipynb",
+      "executed_code_cells": 6,
+      "errors": 0
+    },
+    "churchland": {
+      "notebook": "churchland/analysis.ipynb",
+      "executed_code_cells": 4,
+      "errors": 0
+    },
+    "aeon": {
+      "notebook": "aeon/analysis.ipynb",
+      "executed_code_cells": 6,
+      "errors": 0
+    }
+  },
+  "experiment_tests": {
+    "project_passed": 137,
+    "optional_overlay_passed": 1
+  },
+  "churchland_decoder_replay": {
+    "probes": 30,
+    "thresholds_and_confusion_matrices": "exact match from fitted models"
+  },
+  "figures": 20,
+  "tables": 3,
+  "artifacts": {
+    "synthetic/outputs/reproduced/figure3.pdf": "138666602e54d2dec2dc19057699a1b1d8f3cd9dc025653a745ce1807e408163",
+    "synthetic/outputs/reproduced/figure3.png": "880b5cf28b6d7f22e9b95fc95537aacaae8fa9da01d046327026a187724933c1",
+    "synthetic/outputs/reproduced/supplement_rate_design.pdf": "e07f44a38058c9f299604c33182cec864f3ad911006480d1d93f01644e7e07e3",
+    "synthetic/outputs/reproduced/supplement_rate_design.png": "613a29131feb43f0e7e374ff8e9438dba413062f55639d374c88e04269c3e1b6",
+    "synthetic/outputs/reproduced/supplement_temporal_comparison.pdf": "de01382c4e7f9daf1d4147563fc11d013c6a21d3d0dc0f2b2c540e096be317f5",
+    "synthetic/outputs/reproduced/supplement_temporal_comparison.png": "db7826b01b59ac585adb0edca464be08180dfd0fdfd484fbfef1f95e805c97d4",
+    "synthetic/outputs/reproduced/supplement_temporal_features.pdf": "5b53f93fcf728e3250d0e0dc827939fb01919b23c019645f635c6ec3b85d5d92",
+    "synthetic/outputs/reproduced/supplement_temporal_features.png": "409b83d12636641d9b4a8d2ed394acc5b64b7aa453543551c58a0a1436fccf6c",
+    "synthetic/outputs/reproduced/supplement_ramp_conditioned.pdf": "f2b5ac073f51f6368edb0643c2b810fc94d341d281c2ee77e03e6058283b11b3",
+    "synthetic/outputs/reproduced/supplement_ramp_conditioned.png": "025e436589e912c20986afe313de0f8731ea63cd273bef1f8272334e0085826b",
+    "synthetic/outputs/reproduced/supplement_unit_traceback.pdf": "69705c8ec27bb5616fce64059cac3910572b6263dea0dbdad99fbdccccf44dda",
+    "synthetic/outputs/reproduced/supplement_unit_traceback.png": "6a878f0ffc4689890d49e21c21406acac7408cfc1f2d1b6b4cc6337e3a426734",
+    "synthetic/outputs/reproduced/supplement_temporal_coactivity.pdf": "3727a5b9a0dbc35ff02677e5eac28172fd60ff8946054304e19409b3ef690916",
+    "synthetic/outputs/reproduced/supplement_temporal_coactivity.png": "b6c689272edf927fcc55f8db494c2e8de40c51e7ba5993410568e6dc11a9fd01",
+    "synthetic/outputs/reproduced/supplement_pca_spatial.pdf": "05ae643446697ef879e18ee2543449e661f795b9504cf72b18f071d28d0deaae",
+    "synthetic/outputs/reproduced/supplement_pca_spatial.png": "cd36a07f88fc8f5d792e6817dc846e00a3137f82216bb33a86876f5e8406a07f",
+    "synthetic/outputs/reproduced/supplement_pca_direction.pdf": "09ef410eb955098676ba05c05459b482721c828bc6c071ad09e7fd3a1db7da18",
+    "synthetic/outputs/reproduced/supplement_pca_direction.png": "576f33a94b3fa39c72d422592937aedeb1641ac20f808a4f89a229b1ac10b50d",
+    "churchland/outputs/paper/figure4.pdf": "97f0f6d24a8be70fbebbf956b4ea24d2f3825c4ccddef925f6569f0d999c74f5",
+    "churchland/outputs/paper/figure4.png": "b79392398b27ccbcd7eb37a32fcc7702e7f8465a68e4aa93c37b4932d6e4a5df",
+    "churchland/outputs/paper/churchland_additional_features.pdf": "b1db9893c68c23316b36712937e1248d73863b1fe6fa75329539f6f8c6bfba89",
+    "churchland/outputs/paper/churchland_additional_features.png": "62a32f544b240346320c9b148bdbceb0b344711637d4532bec1bdce552b97013",
+    "churchland/outputs/paper/churchland_feature_rocs.pdf": "caeb51099fa1e8b32e1029f28612b51689b9a01361d95e4da14e39f2d371a9e5",
+    "churchland/outputs/paper/churchland_feature_rocs.png": "03c849f295b96cd62ff6fdeac7403fbdd63b969200b935b1be3cfd03c7775d22",
+    "churchland/outputs/paper/churchland_traceback.pdf": "d516d4823ff4a948f58386552cd6b43d8d3d9115fa4f749c90153e6021b6529c",
+    "churchland/outputs/paper/churchland_traceback.png": "defee6faa9b2ca24099cbb53ab88cdefae2f96222658a13752d328489e8d93b6",
+    "churchland/outputs/paper/training_time_h100.pdf": "8ee82960445068d88a3d1a69ebe1962618723c351d8feffdedecf86723ea7463",
+    "churchland/outputs/paper/training_time_h100.png": "b80aaca82fce0db38c5580d42275239575a3abded4ff2ac33a61629fb51cfeec",
+    "aeon/outputs/paper/aeon_main.pdf": "cb2eb140d2339c3a092eecf2056b5a4c516bcb8535cb316a1c74dce3662207ee",
+    "aeon/outputs/paper/aeon_main.png": "534455d838930789d3efac510c311695d1392e065ddb44385b40c57dce74b110",
+    "aeon/outputs/paper/aeon_additional_features.pdf": "f7347e21f5167cd2d9f4cae4857e33a699411af95f3ac16657577dc92ede0dd2",
+    "aeon/outputs/paper/aeon_additional_features.png": "9383c98e55ebeb023f3e34f345e52e3fb2e8ab37934ef7d1ffd6d53ebea52ef6",
+    "aeon/outputs/paper/aeon_direction.pdf": "0b33ee9aa261158fffb606b3ddd6bb8384caacee918131b2c85dc033dfb0f1a8",
+    "aeon/outputs/paper/aeon_direction.png": "42c55b95b544cfeb06da6d7f3aa85b979c10b82fa9aacf7f80de3adbb49a121b",
+    "aeon/outputs/paper/aeon_wheel_vs_patch.pdf": "6ac7da1252e85bd563ff395935cc1de74f88bf4522ca0dd3f57c20c32e0d284e",
+    "aeon/outputs/paper/aeon_wheel_vs_patch.png": "a3600fbe7d09fd0b551fe2cfffb7ffb7b5e182e682314fe6177e78f4517016c4",
+    "aeon/outputs/paper/aeon_wheel_source_traceback.pdf": "d2b16d53f01036a156b8735bda96bc5e8be43f4e195980119bc1ed22d529c1d4",
+    "aeon/outputs/paper/aeon_wheel_source_traceback.png": "9d8fb46f9480afeeae62de8678684575fba019198e90f400b855dcca317cc156",
+    "aeon/outputs/paper/aeon_traceback.pdf": "e0a2044207406d6d93b360b36ae4a7c425b8c4ec086e3302b50795a0ec95c0b0",
+    "aeon/outputs/paper/aeon_traceback.png": "81a3c3afa55d2d6a3831f5d6118651e47300664162f05ecbd62a9ada22be84c9",
+    "churchland/outputs/paper/churchland_comparison_main.tex": "a19e807424872ec9ece6da48119ee8c28ba02a2956d0966959d84e42d74359b9",
+    "churchland/outputs/paper/churchland_feature_metrics.tex": "fb3c436ef063e78c1b41209ceefa786d21780efd3e30f4d82f0ead718abcb349",
+    "aeon/outputs/paper/aeon_feature_metrics.tex": "06122f74e3d4a15889360f86d95ba1d44239f10ae8bc6e96675f1e951c060c00"
+  },
+  "write_scope": "Only experiments/ was edited by this cleanup; concurrent changes elsewhere were left untouched."
+}

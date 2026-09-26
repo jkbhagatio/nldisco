@@ -1,0 +1,19 @@
+{
+  "interval": [
+    "2024-06-06 23:00:00",
+    "2024-06-07 17:00:00"
+  ],
+  "end_exclusive": true,
+  "clock": "Acquisition-clock timestamps; no timezone conversion",
+  "bin_seconds": 0.02,
+  "input_bins": 20,
+  "ticks": "One tick at each active window endpoint, not bout onsets; no downsampling or rate smoothing",
+  "patch": "Endpoint centroid within100px of Patch2; all20camera bins QC-valid/finite; neural-supported endpoints",
+  "wheel": "Saved exact >0.75cm/s condition and complete20bin wheel-valid support; all speeds retained",
+  "latent": "Saved native z>0, D192/K12/latent52; all neural-supported windows, independently of behavior validity",
+  "unavailable": "Light gray ticks distinguish missing/invalid support from known inactive baseline",
+  "source": "/ceph/aeon/aeon/nldisco/aeon/sweeps/20260921_18h_s20/paper_revision_wheelcms_20260921",
+  "recording_maintenance": "Retained, matching primary analysis",
+  "scope": "Two descriptive temporal excerpts; no temporal-stability claim",
+  "feature_scores_sha256": "ce5d205440a690fd5690fefb23712cac0b4454eb056f08505b9085f3244630a3"
+}

@@ -1,0 +1,4 @@
+{
+  "seed": 2,
+  "policy": "best minimum pair score among joint-passing run/level combinations; same seed shown at all levels"
+}

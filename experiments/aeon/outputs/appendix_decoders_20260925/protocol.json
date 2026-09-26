@@ -1,0 +1,64 @@
+{
+  "created_utc": "2026-09-25T07:29:24.879037+00:00",
+  "boundary_bins": [
+    0,
+    2592000,
+    2916000,
+    3240000
+  ],
+  "window_bins": 20,
+  "c_grid": [
+    0.001,
+    0.01,
+    0.1,
+    1.0,
+    10.0,
+    100.0,
+    1000.0
+  ],
+  "solver": "lbfgs",
+  "max_iter": 3000,
+  "tol": 1e-05,
+  "class_weight": null,
+  "selection": "Highest validation AUROC; exact ties choose smallest C; no refit.",
+  "threshold": "Maximize validation balanced accuracy; highest threshold breaks ties; p >= t.",
+  "scaling": "Training mean and standard deviation only, separately for each feature population.",
+  "test_policy": "All fits and thresholds frozen before any new test scores are calculated.",
+  "scope": "Frozen representations and exploratory feature definitions use the full recording.",
+  "features": {
+    "wheel": {
+      "definition": "Endpoint wheel-rim speed >0.75 cm/s (0.029841551829730376 turns/s)",
+      "comparison": "All neural windows with 20-bin finite wheel support; maintenance retained"
+    },
+    "area": {
+      "definition": "101.5 <= area < 512.5",
+      "comparison": "Camera-QC-valid complete 20-bin support wholly within 100px of Patch2; maintenance retained",
+      "quantile_edges": [
+        101.5,
+        512.5,
+        561.5,
+        602.0,
+        669.5,
+        1032.5
+      ]
+    },
+    "speed": {
+      "definition": "9.83743488 <= speed <= 972.914691",
+      "comparison": "Camera-QC-valid complete 20-bin support; maintenance retained",
+      "quantile_edges": [
+        0.0008886852894999028,
+        0.4965058702489163,
+        0.9377457872698602,
+        2.797873522720696,
+        9.837434881187276,
+        972.9146910156343
+      ]
+    },
+    "direction": {
+      "definition": "Centroid speed >=100px/s and heading within45deg of radially outward",
+      "comparison": "Within complete camera/finite position-speed windows with endpoint speed >=100px/s; outward heading vs other fast movement. Arena center (731,561)."
+    }
+  },
+  "input_path": "/ceph/aeon/aeon/nldisco/aeon/sweeps/20260921_18h_s20/paper_revision_wheelcms_20260921/feature_arrays.npz",
+  "input_sha256": "27a5f9b9034a49f3e48de089f6823fe3886658d2d6007a671b2a92d8990a9f53"
+}

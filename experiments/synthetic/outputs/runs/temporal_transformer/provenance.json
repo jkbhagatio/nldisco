@@ -1,0 +1,23 @@
+{
+  "source_sha256": {
+    "experiments/synthetic/scripts/finalize_temporal.py": "3ab4c5f4362452829f26801f965adbc344f6bfbf1afa10b3508b3a502511d5e6",
+    "experiments/synthetic/scripts/train_window.py": "24931f24804692ef7f47fce98871f7266c6ff4285e70dffa826506fcd939ad25",
+    "experiments/synthetic/scripts/temporal_analysis.py": "774bf3ed6a4e7df56b60d4de8b56dbf79ed90e09375e24080fec94502cc0d42e",
+    "src/nldisco/model/__init__.py": "df9db4b116e504464b003c3d0fdc587d9d5832a3f382443c7837d7f1c67adaf1",
+    "src/nldisco/model/decoder.py": "b6aa3d53599be5bacf95f70761a45e2f30a74d70666f37aa48ca8cc29cec32b7",
+    "src/nldisco/model/encoder.py": "12e9d2a48c50c2e7aa5fa78a890ad3740b9ec1aa356563f56a24c8d073495dc6",
+    "src/nldisco/model/sed.py": "6794ce9adb7f34eecffd410345e77a8f12b7cb078f6e6fcf37bb92c9d4e77862",
+    "src/nldisco/model/sparsify.py": "7cc45573d6e4dde3622200bbb86d49abed4da6905c0a57d5e26117fe12a4fb30",
+    "src/nldisco/train.py": "b9221836a4e6bf5b137362c4dc99ce9aba73e67916b8fb3544db468cd6f2a239",
+    "src/nldisco/config.py": "d5c3adade8e554988f11a0e68dfc5e14b6746a894470149e85cf1b052d7facb0"
+  },
+  "python": "3.9.25",
+  "numpy": "1.23.5",
+  "seeding": "Python, NumPy, torch CPU/CUDA seeded; DataLoader generator seeded; deterministic CUDA algorithms not forced",
+  "encoder_positions": "learned absolute positions; causal attention; last-token readout; global sparse vector",
+  "hardware": "NVIDIA H10080GB; physical GPU1; two CPU threads per worker",
+  "reproduce": [
+    "CUDA_VISIBLE_DEVICES=1 uv run python experiments/synthetic/scripts/train_window.py --architecture temporal_transformer --seeds 0 1 2 3 4",
+    "uv run python experiments/synthetic/scripts/finalize_temporal.py --architecture temporal_transformer"
+  ]
+}

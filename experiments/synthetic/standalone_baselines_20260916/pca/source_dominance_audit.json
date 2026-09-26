@@ -1,0 +1,26 @@
+[
+  {
+    "cell": 1,
+    "max_source_energy_pc": 6,
+    "max_source_energy": 0.3051110483492342,
+    "source_dominant_component_count": 0
+  },
+  {
+    "cell": 2,
+    "max_source_energy_pc": 3,
+    "max_source_energy": 0.7221014616582052,
+    "source_dominant_component_count": 8
+  },
+  {
+    "cell": 3,
+    "max_source_energy_pc": 7,
+    "max_source_energy": 0.4205567262911024,
+    "source_dominant_component_count": 37
+  },
+  {
+    "cell": 4,
+    "max_source_energy_pc": 4,
+    "max_source_energy": 0.29188374989650157,
+    "source_dominant_component_count": 0
+  }
+]

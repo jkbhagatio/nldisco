@@ -1,0 +1,912 @@
+Starting 1/15: nldisco, seed 0
+Completed 1/15: 44.100 s
+Starting 2/15: cebra, seed 0
+Completed 2/15: 8.228 s
+Starting 3/15: langevinflow, seed 0
+Completed 3/15: 135.544 s
+Starting 4/15: cebra, seed 1
+Completed 4/15: 8.184 s
+Starting 5/15: langevinflow, seed 1
+Completed 5/15: 132.218 s
+Starting 6/15: nldisco, seed 1
+Completed 6/15: 44.427 s
+Starting 7/15: langevinflow, seed 2
+Completed 7/15: 132.767 s
+Starting 8/15: nldisco, seed 2
+Completed 8/15: 43.308 s
+Starting 9/15: cebra, seed 2
+Completed 9/15: 6.512 s
+Starting 10/15: nldisco, seed 3
+Completed 10/15: 43.421 s
+Starting 11/15: cebra, seed 3
+Completed 11/15: 8.322 s
+Starting 12/15: langevinflow, seed 3
+Completed 12/15: 131.346 s
+Starting 13/15: cebra, seed 4
+Completed 13/15: 5.946 s
+Starting 14/15: langevinflow, seed 4
+Completed 14/15: 132.885 s
+Starting 15/15: nldisco, seed 4
+Completed 15/15: 43.365 s
+Complete: /nfs/nhome/live/jbhagat/nldisco/experiments/churchland/outputs/training_time_h100_3649999
+Rc files read:
+  NONE
+Latexmk: This is Latexmk, John Collins, 15 June 2025. Version 4.87.
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Changed files or newly in use/created:
+  appendix/additional_pipeline_details.tex
+  appendix/additional_results/additional_churchland_results.tex
+Category 'changed_user':
+  appendix/additional_pipeline_details.tex
+  appendix/additional_results/additional_churchland_results.tex
+
+------------
+Run number 1 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -halt-on-error -recorder  "full_paper.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./full_paper.tex
+LaTeX2e <2025-06-01> patch level 1
+L3 programming layer <2025-07-20>
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/base/size10.clo))
+(./iclr_2027_guidelines/iclr2027_conference.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics/keyval.sty)
+ (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics-cfg/color.c
+fg)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics-def/pdftex.
+def)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics/mathcolor.l
+tx))) (./fancyhdr.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/natbib/natbib.sty))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/psnfss/times.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/adjustbox/adjustbox.
+sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/xkeyval/xkeyval.te
+x
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/xkeyval/xkvutils.t
+ex)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/adjustbox/adjcalc.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/adjustbox/trimclip.s
+ty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics/graphicx.st
+y
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics/graphics.st
+y (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics/trig.sty)
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics-cfg/graphic
+s.cfg)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/collectbox/collectbo
+x.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/adjustbox/tc-pdftex.
+def))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/ifoddpage/ifoddpage.
+sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/varwidth/varwidth.st
+y)
+==> First Aid for varwidth.sty applied!
+) (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/base/inputenc.sty)
+ (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/base/fontenc.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/psnfss/t1ptm.fd))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.st
+y (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty)
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.
+sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/kvdefinekeys/kvdef
+inekeys.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pdfescape/pdfescap
+e.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/ltxcmds/ltxcmds.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexc
+mds.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/infwarerr/infwarer
+r.sty)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/hycolor/hycolor.sty)
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/hyperref/nameref.sty
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/refcount/refcount.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/gettitlestring/get
+titlestring.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/kvoptions/kvoptions.
+sty)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/stringenc/stringen
+c.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/hyperref/pd1enc.def)
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/intcalc/intcalc.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/hyperref/puenc.def)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/url/url.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/bitset/bitset.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintc
+alc.sty)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/hyperref/hpdftex.def
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerun
+filecheck.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniq
+uecounter.sty)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsmath/amstext.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty))
+ (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+ (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty)
+)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsfonts/amssymb.sty
+) (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/units/nicefrac.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/base/ifthen.sty))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/microtype.
+sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/microtype-
+pdftex.def)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/microtype.
+cfg))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
+))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/caption/subcaption.s
+ty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/threeparttable/three
+parttable.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/algorithms/algorithm
+.sty (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/float/float.sty
+))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/algorithmicx/algorit
+hmicx.sty
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/algorithmicx/algpseu
+docode.sty
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/tools/array.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/svg/svg.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/koma-script/scrbase.
+sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/koma-script/scrlfile
+.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/koma-script/scrlfile
+-hook.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/koma-script/scrlogo.
+sty))))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/trimspaces/trimspace
+s.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/tools/shellesc.sty))
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/transparent/transpar
+ent.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/transparent/transpar
+ent-nometadata.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/auxhook/auxhook.sty)
+))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/pgf/systemlayer/pgfs
+ys.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/pgf/utilities/pgfrcs
+.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfu
+til-common.tex)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfu
+til-latex.def)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfr
+cs.code.tex
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/pgf.revision.t
+ex)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pg
+fsys.code.tex
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfk
+eys.code.tex
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfk
+eyslibraryfiltered.code.tex))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pg
+f.cfg)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pg
+fsys-pdftex.def
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pg
+fsys-common-pdf.def)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pg
+fsyssoftpath.code.tex)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pg
+fsysprotocol.code.tex))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/enumitem/enumitem.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/tools/afterpage.sty)
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-
+pdftex.def) (./full_paper.aux)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf
+.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopd
+f-base.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf
+-sys.cfg)) (./full_paper.out) (./full_paper.out)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/mt-ptm.cfg
+)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/mt-cmr.cfg
+) (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg
+) (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg
+) (./introduction/introduction.tex
+[1{/nfs/nhome/live/jbhagat/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdfte
+x.map}{/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.
+enc}]) (./related_work/related_work.tex) (./methods/methods.tex
+[2] (./methods/sed_arch_caption.tex)
+Underfull \vbox (badness 10000) has occurred while \output is active
+[3 <./figures/nldisco_pipeline.pdf> <./figures/sed_arch.pdf>]
+[4]) (./results/results.tex (./results/synthetic_results.tex
+[5]) (./results/churchland_results.tex
+[6 <./figures/figure3.pdf>]
+[7 <./figures/figure4_mock.pdf>] (./figures/churchland_comparison_main.tex))
+(./results/aeon_results.tex
+[8])) (./discussion/discussion.tex
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd))
+[9 <./figures/aeon_main.pdf>] (./full_paper.bbl
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/psnfss/t1pcr.fd)
+Underfull \hbox (badness 10000) in paragraph at lines 35--44
+\T1/ptm/m/n/10 (+20) URL []$\T1/pcr/m/n/10 https : / / proceedings . neurips . 
+cc / paper _ files / paper / 2023 / hash /
+
+Underfull \hbox (badness 1142) in paragraph at lines 49--60
+\T1/ptm/m/n/10 (+20) pos-ing lan-guage mod-els with dic-tio-nary learn-ing.  \T
+1/ptm/m/it/10 (+20) Trans-former Cir-cuits Thread\T1/ptm/m/n/10 (+20) , 2023.
+
+Underfull \hbox (badness 3250) in paragraph at lines 49--60
+\T1/ptm/m/n/10 (+20) URL []$\T1/pcr/m/n/10 https : / / transformer-[]circuits .
+ pub / 2023 / monosemantic-[]features /
+
+[10]
+Underfull \hbox (badness 3780) in paragraph at lines 216--224
+[]\T1/ptm/m/n/10 (+20) Daniel Her-nan-dez, An-to-nio K. Moretti, Shreya Sax-ena
+, Ziqiang Wei, John Cun-ning-
+
+Underfull \hbox (badness 1917) in paragraph at lines 216--224
+\T1/ptm/m/n/10 (+20) ham, and Liam Panin-ski.  Non-lin-ear evo-lu-tion via spat
+ially-dependent lin-ear dy-nam-
+
+Underfull \hbox (badness 1728) in paragraph at lines 216--224
+\T1/ptm/m/n/10 (+20) ics for elec-tro-phys-i-ol-ogy and cal-cium data.  \T1/ptm
+/m/it/10 (+20) Neu-rons, Be-hav-ior, Data Anal-y-sis, and
+
+Underfull \hbox (badness 10000) in paragraph at lines 216--224
+\T1/ptm/m/it/10 (+20) The-ory\T1/ptm/m/n/10 (+20) , 3(3), 2020.  URL []$\T1/pcr
+/m/n/10 https : / / nbdt . scholasticahq . com / article /
+
+Overfull \hbox (242.91502pt too wide) in paragraph at lines 216--224
+\T1/pcr/m/n/10 13476-[]nonlinear-[]evolution-[]via-[]spatially-[]dependent-[]li
+near-[]dynamics-[]for-[]electrophysiology-[]and-[]calcium-[]data$[]\T1/ptm/m/n/
+10 (-20) . 
+
+[11]
+[12]
+Underfull \hbox (badness 1874) in paragraph at lines 436--445
+[]\T1/ptm/m/n/10 (+20) Matthijs Pals, A. Er-dem Sa§tekin, Fe-lix Pei, Manuel Gl
+oeck-ler, and Jakob H. Macke.
+
+Underfull \hbox (badness 3942) in paragraph at lines 436--445
+\T1/ptm/m/n/10 (+20) In-fer-ring stochas-tic low-rank re-cur-rent neu-ral net-w
+orks from neu-ral data.  In \T1/ptm/m/it/10 (+20) Ad-
+
+Underfull \hbox (badness 1117) in paragraph at lines 436--445
+\T1/ptm/m/it/10 (+20) vances in Neu-ral In-for-ma-tion Pro-cess-ing Sys-tems\T1
+/ptm/m/n/10 (+20) , vol-ume 37, 2024.  doi: $10 . 52202 /
+
+Underfull \hbox (badness 10000) in paragraph at lines 460--470
+\T1/ptm/m/n/10 (+20) URL []$\T1/pcr/m/n/10 https : / / datasets-[]benchmarks-[]
+proceedings . neurips . cc / paper /
+
+[13]
+[14]
+[15]) (./acknowledgements.tex)
+[16] (./appendix/appendix.tex (./appendix/additional_pipeline_details.tex
+[17 <./figures/interpretable_latents_vs_latent_space.pdf>]
+[18]
+[19]
+[20]
+[21 <./figures/model_eval.pdf>] (./appendix/training_time_comparison.tex
+[22])) (./appendix/additional_results/additional_results.tex
+(./appendix/additional_results/additional_results_main.tex
+(./appendix/additional_results/additional_synthetic_results.tex
+[23 <./figures/training_time_h100.pdf>]
+[24 <./figures/task_overview.png (PNG copy)> <../../experiments/synthetic/outpu
+ts/paper/supplement_rate_design.pdf>]
+[25]
+[26 <../../experiments/synthetic/outputs/paper/supplement_all_place_fields.pdf>
+]
+[27 <../../experiments/synthetic/outputs/paper/supplement_unit_traceback.pdf>]
+[28 <../../experiments/synthetic/outputs/paper/supplement_temporal_features.pdf
+> <../../experiments/synthetic/outputs/paper/supplement_ramp_conditioned.pdf>]
+[29 <../../experiments/synthetic/outputs/paper/supplement_temporal_coactivity.p
+df>] (./appendix/additional_results/additional_synthetic_pca.tex
+[30 <../../experiments/synthetic/outputs/paper/supplement_temporal_comparison.p
+df>]
+[31]
+[32 <../../experiments/synthetic/outputs/paper/supplement_pca_spatial.pdf>]
+[33 <../../experiments/synthetic/outputs/paper/supplement_pca_direction.pdf>]))
+(./appendix/additional_results/additional_churchland_results.tex
+Underfull \hbox (badness 1112) in paragraph at lines 147--1
+ []\T1/ptm/b/n/10 (+20) Reproducibility.[] \T1/ptm/m/n/10 (+20) The syn-thetic 
+ex-per-i-ment note-book loads saved nu-meric ar-ti-facts to re-
+
+Underfull \hbox (badness 1062) in paragraph at lines 147--1
+\T1/ptm/m/n/10 (+20) gen-er-ate the fig-ures with-out re-train-ing. Se-lected s
+pa-tial iden-ti-ties and curves, both tem-
+
+Underfull \hbox (badness 1648) in paragraph at lines 147--1
+\T1/ptm/m/n/10 (+20) men-tary fig-ures in-de-pen-dently of main Fig-ure 3, with
+ in-put hashes recorded for prove-
+
+[34]
+[35]
+[36 <./figures/churchland_additional_features.pdf>]
+[37] (./figures/churchland_feature_metrics.tex)
+(./figures/churchland_candidate_sensitivity.tex)
+[38] (./figures/churchland_seed_replication.tex)
+[39]
+[40 <./figures/churchland_feature_rocs.pdf>]
+(./figures/churchland_decoding_all.tex)
+[41] (./figures/churchland_linear_feature_metrics.tex)
+[42 <../../experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs
+/traceback.pdf>]
+
+LaTeX Warning: Reference `subsubsection:training_time_comparison' on page 43 un
+defined on input line 162.
+
+
+[43]
+
+LaTeX Warning: Reference `subsubsection:training_time_comparison' on page 44 un
+defined on input line 165.
+
+
+[44 <./figures/churchland_linear_baselines.pdf>])
+Underfull \hbox (badness 2903) in paragraph at lines 167--3
+\T1/pcr/m/n/10 v1/$\T1/ptm/m/n/10 (+20) . The ex-e-cutable note-book $\T1/pcr/m
+/n/10 experiments / churchland / paper _ results _ 192 .
+(./appendix/additional_results/additional_aeon_results.tex
+[45]
+[46] (./figures/aeon_feature_metrics.tex)
+[47 <./figures/aeon_additional_features.pdf>]
+[48 <./figures/aeon_direction.pdf> <./figures/aeon_wheel_source_traceback.pdf>]
+
+[49 <./figures/aeon_traceback.pdf> <./figures/aeon_wheel_context_traceback.pdf>
+])) (./appendix/additional_results/additional_results_allen.tex))
+[50])
+[51]
+[52] (./full_paper.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `full_paper.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+ )
+(see the transcript file for additional information)
+pdfTeX warning (dest): name{table.caption.77} has been referenced but does not 
+exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{table.caption.67} has been referenced but does not 
+exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.caption.40} has been referenced but does not
+ exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.caption.38} has been referenced but does not
+ exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.caption.34} has been referenced but does not
+ exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.caption.31} has been referenced but does not
+ exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.caption.82} has been referenced but does not
+ exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.caption.59} has been referenced but does not
+ exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.caption.50} has been referenced but does not
+ exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.caption.48} has been referenced but does not
+ exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.caption.43} has been referenced but does not
+ exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.caption.36} has been referenced but does not
+ exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{figure.caption.45} has been referenced but does not
+ exist, replaced by a fixed one
+
+</nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmbx10.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmbx6.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmbx7.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></nfs/nhome/live/jbhagat/texlive/2
+025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></nfs/nhome/live/jbhag
+at/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></nfs/
+nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
+0.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmmi5.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmmi6.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmmi7.pfb></nfs/nhome/live/jbhagat/texlive/2025/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></nfs/nhome/live/jbhagat/texl
+ive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></nfs/nhome/live/j
+bhagat/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></nfs/nh
+ome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pf
+b></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr9.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmsy10.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy6.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></nfs/nhome/live/jbhagat/texlive/
+2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></nfs/nhome/live/jbhag
+at/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></nfs
+/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb>
+</nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/urw/helvetic/uhvb8
+a.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/urw/times/ut
+mb8a.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/urw/times
+/utmbi8a.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/urw/t
+imes/utmr8a.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/ur
+w/times/utmri8a.pfb>
+Output written on full_paper.pdf (52 pages, 3515838 bytes).
+Transcript written on full_paper.log.
+Latexmk: Getting log file 'full_paper.log'
+Latexmk: Examining 'full_paper.fls'
+Latexmk: Examining 'full_paper.log'
+Latexmk: Found input bbl file 'full_paper.bbl'
+Latexmk: References changed.
+Latexmk: References changed.
+Latexmk: Log file says output to 'full_paper.pdf'
+Latexmk: Using bibtex to make bibliography file(s).
+  ===Source file 'full_paper.bbl' for 'pdflatex'
+Latexmk: Found bibliography file(s):
+  ./references.bib
+Latexmk: applying rule 'bibtex full_paper'...
+Rule 'bibtex full_paper':  Reasons for rerun
+Changed files or newly in use/created:
+  full_paper.aux
+
+------------
+Run number 1 of rule 'bibtex full_paper'
+------------
+------------
+Running 'bibtex  "full_paper.aux"'
+------------
+This is BibTeX, Version 0.99d (TeX Live 2025)
+The top-level auxiliary file: full_paper.aux
+The style file: iclr_2027_guidelines/iclr2027_conference.bst
+Database file #1: references.bib
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Changed files or newly in use/created:
+  full_paper.aux
+  full_paper.out
+
+------------
+Run number 2 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -halt-on-error -recorder  "full_paper.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./full_paper.tex
+LaTeX2e <2025-06-01> patch level 1
+L3 programming layer <2025-07-20>
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/base/size10.clo))
+(./iclr_2027_guidelines/iclr2027_conference.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/eso-pic/eso-pic.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics/keyval.sty)
+ (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics-cfg/color.c
+fg)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics-def/pdftex.
+def)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics/mathcolor.l
+tx))) (./fancyhdr.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/natbib/natbib.sty))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/psnfss/times.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/adjustbox/adjustbox.
+sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/xkeyval/xkeyval.te
+x
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/xkeyval/xkvutils.t
+ex)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/adjustbox/adjcalc.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/adjustbox/trimclip.s
+ty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics/graphicx.st
+y
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics/graphics.st
+y (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics/trig.sty)
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/graphics-cfg/graphic
+s.cfg)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/collectbox/collectbo
+x.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/adjustbox/tc-pdftex.
+def))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/ifoddpage/ifoddpage.
+sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/varwidth/varwidth.st
+y)
+==> First Aid for varwidth.sty applied!
+) (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/base/inputenc.sty)
+ (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/base/fontenc.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/psnfss/t1ptm.fd))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.st
+y (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty)
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.
+sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/kvdefinekeys/kvdef
+inekeys.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pdfescape/pdfescap
+e.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/ltxcmds/ltxcmds.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexc
+mds.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/infwarerr/infwarer
+r.sty)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/hycolor/hycolor.sty)
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/hyperref/nameref.sty
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/refcount/refcount.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/gettitlestring/get
+titlestring.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/kvoptions/kvoptions.
+sty)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/stringenc/stringen
+c.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/hyperref/pd1enc.def)
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/intcalc/intcalc.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/hyperref/puenc.def)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/url/url.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/bitset/bitset.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintc
+alc.sty)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/hyperref/hpdftex.def
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerun
+filecheck.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniq
+uecounter.sty)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsmath/amstext.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty))
+ (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+ (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty)
+)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsfonts/amssymb.sty
+) (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/units/nicefrac.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/base/ifthen.sty))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/microtype.
+sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/microtype-
+pdftex.def)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/microtype.
+cfg))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/caption/caption.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/caption/caption3.sty
+))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/caption/subcaption.s
+ty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/threeparttable/three
+parttable.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/algorithms/algorithm
+.sty (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/float/float.sty
+))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/algorithmicx/algorit
+hmicx.sty
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/algorithmicx/algpseu
+docode.sty
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/tools/array.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/svg/svg.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/koma-script/scrbase.
+sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/koma-script/scrlfile
+.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/koma-script/scrlfile
+-hook.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/koma-script/scrlogo.
+sty))))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/trimspaces/trimspace
+s.sty)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/tools/shellesc.sty))
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/transparent/transpar
+ent.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/transparent/transpar
+ent-nometadata.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/auxhook/auxhook.sty)
+))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/pgf/systemlayer/pgfs
+ys.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/pgf/utilities/pgfrcs
+.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfu
+til-common.tex)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfu
+til-latex.def)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfr
+cs.code.tex
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/pgf.revision.t
+ex)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pg
+fsys.code.tex
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfk
+eys.code.tex
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfk
+eyslibraryfiltered.code.tex))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pg
+f.cfg)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pg
+fsys-pdftex.def
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pg
+fsys-common-pdf.def)))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pg
+fsyssoftpath.code.tex)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pg
+fsysprotocol.code.tex))
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/enumitem/enumitem.st
+y)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/tools/afterpage.sty)
+
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-
+pdftex.def) (./full_paper.aux)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf
+.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopd
+f-base.sty
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf
+-sys.cfg)) (./full_paper.out) (./full_paper.out)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/mt-ptm.cfg
+)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/mt-cmr.cfg
+) (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg
+) (/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd)
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg
+) (./introduction/introduction.tex
+[1{/nfs/nhome/live/jbhagat/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdfte
+x.map}{/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.
+enc}]) (./related_work/related_work.tex) (./methods/methods.tex
+[2] (./methods/sed_arch_caption.tex)
+Underfull \vbox (badness 10000) has occurred while \output is active
+[3 <./figures/nldisco_pipeline.pdf> <./figures/sed_arch.pdf>]
+[4]) (./results/results.tex (./results/synthetic_results.tex
+[5]) (./results/churchland_results.tex
+[6 <./figures/figure3.pdf>]
+[7 <./figures/figure4_mock.pdf>] (./figures/churchland_comparison_main.tex))
+(./results/aeon_results.tex
+[8])) (./discussion/discussion.tex
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd))
+[9 <./figures/aeon_main.pdf>] (./full_paper.bbl
+(/nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/tex/latex/psnfss/t1pcr.fd)
+Underfull \hbox (badness 10000) in paragraph at lines 35--44
+\T1/ptm/m/n/10 (+20) URL []$\T1/pcr/m/n/10 https : / / proceedings . neurips . 
+cc / paper _ files / paper / 2023 / hash /
+
+Underfull \hbox (badness 1142) in paragraph at lines 49--60
+\T1/ptm/m/n/10 (+20) pos-ing lan-guage mod-els with dic-tio-nary learn-ing.  \T
+1/ptm/m/it/10 (+20) Trans-former Cir-cuits Thread\T1/ptm/m/n/10 (+20) , 2023.
+
+Underfull \hbox (badness 3250) in paragraph at lines 49--60
+\T1/ptm/m/n/10 (+20) URL []$\T1/pcr/m/n/10 https : / / transformer-[]circuits .
+ pub / 2023 / monosemantic-[]features /
+
+[10]
+Underfull \hbox (badness 3780) in paragraph at lines 216--224
+[]\T1/ptm/m/n/10 (+20) Daniel Her-nan-dez, An-to-nio K. Moretti, Shreya Sax-ena
+, Ziqiang Wei, John Cun-ning-
+
+Underfull \hbox (badness 1917) in paragraph at lines 216--224
+\T1/ptm/m/n/10 (+20) ham, and Liam Panin-ski.  Non-lin-ear evo-lu-tion via spat
+ially-dependent lin-ear dy-nam-
+
+Underfull \hbox (badness 1728) in paragraph at lines 216--224
+\T1/ptm/m/n/10 (+20) ics for elec-tro-phys-i-ol-ogy and cal-cium data.  \T1/ptm
+/m/it/10 (+20) Neu-rons, Be-hav-ior, Data Anal-y-sis, and
+
+Underfull \hbox (badness 10000) in paragraph at lines 216--224
+\T1/ptm/m/it/10 (+20) The-ory\T1/ptm/m/n/10 (+20) , 3(3), 2020.  URL []$\T1/pcr
+/m/n/10 https : / / nbdt . scholasticahq . com / article /
+
+Overfull \hbox (242.91502pt too wide) in paragraph at lines 216--224
+\T1/pcr/m/n/10 13476-[]nonlinear-[]evolution-[]via-[]spatially-[]dependent-[]li
+near-[]dynamics-[]for-[]electrophysiology-[]and-[]calcium-[]data$[]\T1/ptm/m/n/
+10 (-20) . 
+
+[11]
+[12]
+Underfull \hbox (badness 1874) in paragraph at lines 436--445
+[]\T1/ptm/m/n/10 (+20) Matthijs Pals, A. Er-dem Sa§tekin, Fe-lix Pei, Manuel Gl
+oeck-ler, and Jakob H. Macke.
+
+Underfull \hbox (badness 3942) in paragraph at lines 436--445
+\T1/ptm/m/n/10 (+20) In-fer-ring stochas-tic low-rank re-cur-rent neu-ral net-w
+orks from neu-ral data.  In \T1/ptm/m/it/10 (+20) Ad-
+
+Underfull \hbox (badness 1117) in paragraph at lines 436--445
+\T1/ptm/m/it/10 (+20) vances in Neu-ral In-for-ma-tion Pro-cess-ing Sys-tems\T1
+/ptm/m/n/10 (+20) , vol-ume 37, 2024.  doi: $10 . 52202 /
+
+Underfull \hbox (badness 10000) in paragraph at lines 460--470
+\T1/ptm/m/n/10 (+20) URL []$\T1/pcr/m/n/10 https : / / datasets-[]benchmarks-[]
+proceedings . neurips . cc / paper /
+
+[13]
+[14]
+[15]) (./acknowledgements.tex)
+[16] (./appendix/appendix.tex (./appendix/additional_pipeline_details.tex
+[17 <./figures/interpretable_latents_vs_latent_space.pdf>]
+[18]
+[19]
+[20]
+[21 <./figures/model_eval.pdf>] (./appendix/training_time_comparison.tex
+[22])) (./appendix/additional_results/additional_results.tex
+(./appendix/additional_results/additional_results_main.tex
+(./appendix/additional_results/additional_synthetic_results.tex
+[23 <./figures/training_time_h100.pdf>]
+[24 <./figures/task_overview.png (PNG copy)> <../../experiments/synthetic/outpu
+ts/paper/supplement_rate_design.pdf>]
+[25]
+[26 <../../experiments/synthetic/outputs/paper/supplement_all_place_fields.pdf>
+]
+[27 <../../experiments/synthetic/outputs/paper/supplement_unit_traceback.pdf>]
+[28 <../../experiments/synthetic/outputs/paper/supplement_temporal_features.pdf
+> <../../experiments/synthetic/outputs/paper/supplement_ramp_conditioned.pdf>]
+[29 <../../experiments/synthetic/outputs/paper/supplement_temporal_coactivity.p
+df>] (./appendix/additional_results/additional_synthetic_pca.tex
+[30 <../../experiments/synthetic/outputs/paper/supplement_temporal_comparison.p
+df>]
+[31]
+[32 <../../experiments/synthetic/outputs/paper/supplement_pca_spatial.pdf>]
+[33 <../../experiments/synthetic/outputs/paper/supplement_pca_direction.pdf>]))
+(./appendix/additional_results/additional_churchland_results.tex
+Underfull \hbox (badness 1112) in paragraph at lines 147--1
+ []\T1/ptm/b/n/10 (+20) Reproducibility.[] \T1/ptm/m/n/10 (+20) The syn-thetic 
+ex-per-i-ment note-book loads saved nu-meric ar-ti-facts to re-
+
+Underfull \hbox (badness 1062) in paragraph at lines 147--1
+\T1/ptm/m/n/10 (+20) gen-er-ate the fig-ures with-out re-train-ing. Se-lected s
+pa-tial iden-ti-ties and curves, both tem-
+
+Underfull \hbox (badness 1648) in paragraph at lines 147--1
+\T1/ptm/m/n/10 (+20) men-tary fig-ures in-de-pen-dently of main Fig-ure 3, with
+ in-put hashes recorded for prove-
+
+[34]
+[35]
+[36 <./figures/churchland_additional_features.pdf>]
+[37] (./figures/churchland_feature_metrics.tex)
+(./figures/churchland_candidate_sensitivity.tex)
+[38] (./figures/churchland_seed_replication.tex)
+[39]
+[40 <./figures/churchland_feature_rocs.pdf>]
+(./figures/churchland_decoding_all.tex)
+[41] (./figures/churchland_linear_feature_metrics.tex)
+[42 <../../experiments/churchland/outputs/s10_endpoint_revision_v4_nice_cutoffs
+/traceback.pdf>]
+[43]
+[44 <./figures/churchland_linear_baselines.pdf>])
+Underfull \hbox (badness 2903) in paragraph at lines 167--3
+\T1/pcr/m/n/10 v1/$\T1/ptm/m/n/10 (+20) . The ex-e-cutable note-book $\T1/pcr/m
+/n/10 experiments / churchland / paper _ results _ 192 .
+(./appendix/additional_results/additional_aeon_results.tex
+[45]
+[46] (./figures/aeon_feature_metrics.tex)
+[47 <./figures/aeon_additional_features.pdf>]
+[48 <./figures/aeon_direction.pdf> <./figures/aeon_wheel_source_traceback.pdf>]
+
+[49 <./figures/aeon_traceback.pdf> <./figures/aeon_wheel_context_traceback.pdf>
+])) (./appendix/additional_results/additional_results_allen.tex))
+[50])
+[51]
+[52] (./full_paper.aux) )
+(see the transcript file for additional information)</nfs/nhome/live/jbhagat/te
+xlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></nfs/nhome/liv
+e/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></nf
+s/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
+x7.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmbx9.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmex10.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/
+fonts/type1/public/amsfonts/cmextra/cmex9.pfb></nfs/nhome/live/jbhagat/texlive/
+2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></nfs/nhome/live/jbha
+gat/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></nfs/nhom
+e/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb
+></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi7.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmmi9.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr6.pfb></nfs/nhome/live/jbhagat/texlive/20
+25/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></nfs/nhome/live/jbhagat/
+texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></nfs/nhome/liv
+e/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></n
+fs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+sy6.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmsy7.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmsy9.pfb></nfs/nhome/live/jbhagat/texlive/2025/texmf-dist/
+fonts/type1/public/amsfonts/symbols/msbm10.pfb></nfs/nhome/live/jbhagat/texlive
+/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></nfs/nhome/live/jbhagat/te
+xlive/2025/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></nfs/nhome/live/jbha
+gat/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></nfs/nhome/live/j
+bhagat/texlive/2025/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></nfs/nhome/li
+ve/jbhagat/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></nfs/nhome
+/live/jbhagat/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on full_paper.pdf (52 pages, 3515420 bytes).
+Transcript written on full_paper.log.
+Latexmk: Getting log file 'full_paper.log'
+Latexmk: Examining 'full_paper.fls'
+Latexmk: Examining 'full_paper.log'
+Latexmk: Found input bbl file 'full_paper.bbl'
+Latexmk: Log file says output to 'full_paper.pdf'
+Latexmk: Using bibtex to make bibliography file(s).
+  ===Source file 'full_paper.bbl' for 'pdflatex'
+Latexmk: Found bibliography file(s):
+  ./references.bib
+Latexmk: All targets (full_paper.pdf) are up-to-date
+

@@ -1,0 +1,11 @@
+defaults:
+  - train
+  - _self_
+
+mode: sweep
+search:
+  parameters:
+    training.learning_rate:
+      values: [0.001, 0.005]
+    seed:
+      values: [0, 1]

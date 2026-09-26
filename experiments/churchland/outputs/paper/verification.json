@@ -1,0 +1,342 @@
+{
+  "association": [
+    {
+      "feature": "recent_braking",
+      "method": "nldisco",
+      "selector": "illustrative",
+      "latent": 83,
+      "measured": [
+        0.570820150888294,
+        0.9532262334369035,
+        0.9242645284524228,
+        0.7686532789066456
+      ],
+      "displayed": [
+        "0.6708",
+        "0.9532",
+        "0.924",
+        "0.868"
+      ]
+    },
+    {
+      "feature": "recent_braking",
+      "method": "cebra",
+      "selector": "sel",
+      "latent": 126,
+      "measured": [
+        0.6975541494280847,
+        0.767426955176882,
+        0.7499556552473983,
+        0.8184437728019099
+      ],
+      "displayed": [
+        "0.6976",
+        "0.7674",
+        "0.749",
+        "0.818"
+      ]
+    },
+    {
+      "feature": "recent_braking",
+      "method": "cebra",
+      "selector": "auroc",
+      "latent": 126,
+      "measured": [
+        0.6975541494280847,
+        0.767426955176882,
+        0.7499556552473983,
+        0.8184437728019099
+      ],
+      "displayed": [
+        "0.6976",
+        "0.7674",
+        "0.749",
+        "0.818"
+      ]
+    },
+    {
+      "feature": "recent_braking",
+      "method": "langevinflow",
+      "selector": "sel",
+      "latent": 136,
+      "measured": [
+        0.9088586030664395,
+        0.8158169734293795,
+        0.8314949572124003,
+        0.9086645779417967
+      ],
+      "displayed": [
+        "0.9089",
+        "0.8158",
+        "0.831",
+        "0.908"
+      ]
+    },
+    {
+      "feature": "recent_braking",
+      "method": "langevinflow",
+      "selector": "auroc",
+      "latent": 178,
+      "measured": [
+        0.8917619858846435,
+        0.8119017430438478,
+        0.8258124065561291,
+        0.921552911797402
+      ],
+      "displayed": [
+        "0.8918",
+        "0.8119",
+        "0.825",
+        "0.921"
+      ]
+    },
+    {
+      "feature": "fast_target_specific",
+      "method": "nldisco",
+      "selector": "illustrative",
+      "latent": 20,
+      "measured": [
+        0.9913544668587896,
+        0.9748380240649961,
+        0.9752468579201249,
+        0.9896998259064748
+      ],
+      "displayed": [
+        "0.9914",
+        "0.9748",
+        "0.975",
+        "0.989"
+      ]
+    },
+    {
+      "feature": "fast_target_specific",
+      "method": "cebra",
+      "selector": "sel",
+      "latent": 93,
+      "measured": [
+        0.1829971181556196,
+        0.9934524013575126,
+        0.9654561796651838,
+        0.7854745318859339
+      ],
+      "displayed": [
+        "0.1830",
+        "0.9935",
+        "0.965",
+        "0.785"
+      ]
+    },
+    {
+      "feature": "fast_target_specific",
+      "method": "cebra",
+      "selector": "auroc",
+      "latent": 56,
+      "measured": [
+        0.11239193083573487,
+        0.9928924845451533,
+        0.9405226076314724,
+        0.9087872362544999
+      ],
+      "displayed": [
+        "0.1124",
+        "0.9929",
+        "0.940",
+        "0.908"
+      ]
+    },
+    {
+      "feature": "fast_target_specific",
+      "method": "langevinflow",
+      "selector": "sel",
+      "latent": 179,
+      "measured": [
+        0.2521613832853026,
+        0.9940008912961503,
+        0.9767620960991126,
+        0.9794276838770861
+      ],
+      "displayed": [
+        "0.2522",
+        "0.9940",
+        "0.975",
+        "0.979"
+      ]
+    },
+    {
+      "feature": "fast_target_specific",
+      "method": "langevinflow",
+      "selector": "auroc",
+      "latent": 179,
+      "measured": [
+        0.2521613832853026,
+        0.9940008912961503,
+        0.9767620960991126,
+        0.9794276838770861
+      ],
+      "displayed": [
+        "0.2522",
+        "0.9940",
+        "0.975",
+        "0.979"
+      ]
+    },
+    {
+      "feature": "early_leftward",
+      "method": "nldisco",
+      "selector": "sel",
+      "latent": 122,
+      "measured": [
+        0.5421875,
+        0.9930976566544342,
+        0.9874294827536595,
+        0.7684438972499913
+      ],
+      "displayed": null
+    },
+    {
+      "feature": "early_leftward",
+      "method": "nldisco",
+      "selector": "auroc",
+      "latent": 40,
+      "measured": [
+        0.99765625,
+        0.9206230515259931,
+        0.9263003697690358,
+        0.991228366366319
+      ],
+      "displayed": null
+    },
+    {
+      "feature": "early_leftward",
+      "method": "cebra",
+      "selector": "sel",
+      "latent": 93,
+      "measured": [
+        0.22890625,
+        0.9884155670850253,
+        0.9518300136431053,
+        0.7379878015461249
+      ],
+      "displayed": null
+    },
+    {
+      "feature": "early_leftward",
+      "method": "cebra",
+      "selector": "auroc",
+      "latent": 54,
+      "measured": [
+        0.1640625,
+        0.9874607429222221,
+        0.9289969857306944,
+        0.855279443347579
+      ],
+      "displayed": null
+    },
+    {
+      "feature": "early_leftward",
+      "method": "langevinflow",
+      "selector": "sel",
+      "latent": 179,
+      "measured": [
+        0.2671875,
+        0.9889792584582465,
+        0.9603867179466736,
+        0.9630005996410781
+      ],
+      "displayed": null
+    },
+    {
+      "feature": "early_leftward",
+      "method": "langevinflow",
+      "selector": "auroc",
+      "latent": 179,
+      "measured": [
+        0.2671875,
+        0.9889792584582465,
+        0.9603867179466736,
+        0.9630005996410781
+      ],
+      "displayed": null
+    },
+    {
+      "feature": "late_target_specific",
+      "method": "nldisco",
+      "selector": "sel",
+      "latent": 165,
+      "measured": [
+        0.23685070238484154,
+        0.999624211280653,
+        0.9984159074410371,
+        0.6182767464436913
+      ],
+      "displayed": null
+    },
+    {
+      "feature": "late_target_specific",
+      "method": "nldisco",
+      "selector": "auroc",
+      "latent": 75,
+      "measured": [
+        0.9624305782424044,
+        0.9353556009997728,
+        0.9370597079740208,
+        0.9762219525809757
+      ],
+      "displayed": null
+    },
+    {
+      "feature": "late_target_specific",
+      "method": "cebra",
+      "selector": "sel",
+      "latent": 142,
+      "measured": [
+        0.3936622018948056,
+        0.9858773355705871,
+        0.9653673650110782,
+        0.9104849103997303
+      ],
+      "displayed": null
+    },
+    {
+      "feature": "late_target_specific",
+      "method": "cebra",
+      "selector": "auroc",
+      "latent": 44,
+      "measured": [
+        0.3675269519764783,
+        0.9851781937671509,
+        0.9612348519130417,
+        0.919605180679592
+      ],
+      "displayed": null
+    },
+    {
+      "feature": "late_target_specific",
+      "method": "langevinflow",
+      "selector": "sel",
+      "latent": 136,
+      "measured": [
+        0.5148644233910487,
+        0.9891283449565658,
+        0.9793210785993469,
+        0.9608621885926106
+      ],
+      "displayed": null
+    },
+    {
+      "feature": "late_target_specific",
+      "method": "langevinflow",
+      "selector": "auroc",
+      "latent": 136,
+      "measured": [
+        0.5148644233910487,
+        0.9891283449565658,
+        0.9793210785993469,
+        0.9608621885926106
+      ],
+      "displayed": null
+    }
+  ],
+  "decoder_scores_verified": true,
+  "note": "All regenerated plots/tables use measured results. Frozen manuscript scores are retained only for comparison."
+}

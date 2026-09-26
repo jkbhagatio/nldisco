@@ -1,0 +1,40 @@
+{
+  "feature": "wheel",
+  "space": "single",
+  "D": 192,
+  "k": 12,
+  "latent": 52,
+  "support": {
+    "train": {
+      "windows": 2590859,
+      "positives": 75577,
+      "negatives": 2515282
+    },
+    "validation": {
+      "windows": 323840,
+      "positives": 10258,
+      "negatives": 313582
+    },
+    "test": {
+      "windows": 323860,
+      "positives": 7892,
+      "negatives": 315968
+    }
+  },
+  "model_path": "/nfs/nhome/live/jbhagat/nldisco/experiments/aeon/outputs/appendix_decoders_20260925/wheel/single_decoder.joblib",
+  "model_sha256": "7b3e932c96d011556f64904506a542462279ab2b36bc86242deabb6614454fd5",
+  "chosen_c": 0.001,
+  "threshold": 0.034468714661533416,
+  "validation_auroc": 0.9020527354164589,
+  "validation": {
+    "tp": 9495,
+    "fn": 763,
+    "tn": 258206,
+    "fp": 55376,
+    "sensitivity": 0.9256190290504972,
+    "specificity": 0.823408231339809,
+    "balanced_accuracy": 0.874513630195153
+  },
+  "reused_from": "/nfs/nhome/live/jbhagat/nldisco/experiments/outputs/decoder_balanced_accuracy_20260923/aeon/results.json",
+  "candidates": []
+}

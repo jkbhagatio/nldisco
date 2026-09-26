@@ -1,0 +1,42 @@
+{
+  "test_auroc": 0.9260853116314472,
+  "validation_auroc": 0.9020527354164589,
+  "chosen_c": 0.001,
+  "test_log_loss": 0.08921948506130344,
+  "coefficient": 1.0066960294163978,
+  "intercept": -4.227259538305474,
+  "scaler_mean": 1.6016213457360027,
+  "scaler_scale": 2.8533949636304428,
+  "support": {
+    "train": {
+      "windows": 2590859,
+      "positives": 75577,
+      "negatives": 2515282,
+      "first_endpoint_bin": 23,
+      "last_endpoint_bin": 2591999
+    },
+    "validation": {
+      "windows": 323840,
+      "positives": 10258,
+      "negatives": 313582,
+      "first_endpoint_bin": 2592019,
+      "last_endpoint_bin": 2915999
+    },
+    "test": {
+      "windows": 323860,
+      "positives": 7892,
+      "negatives": 315968,
+      "first_endpoint_bin": 2916019,
+      "last_endpoint_bin": 3239949
+    }
+  },
+  "full_recording_direct_latent_auroc": 0.9243390685647872,
+  "checks": [
+    "Original wheel labels and validity independently verified against behavior.",
+    "No shared input bins across partitions.",
+    "Every fitted candidate converged.",
+    "Test AUROC equals monotonic scalar ranking AUROC.",
+    "Saved decoder reload reproduces predictions exactly."
+  ],
+  "scope": "Exploratory/transductive: frozen neural model, normalization, latent and feature were previously fitted or selected using the full recording."
+}

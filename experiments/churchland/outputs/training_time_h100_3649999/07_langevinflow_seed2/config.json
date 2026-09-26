@@ -1,0 +1,16 @@
+{
+  "hidden_size": 64,
+  "dimension": 192,
+  "learning_rate": 0.003,
+  "ramp": 500,
+  "gamma": 0.55,
+  "step": 0.01,
+  "dropout": 0.05,
+  "cd_rate": 0.5,
+  "target_kl": 0.1,
+  "target_weight_decay": 2e-05,
+  "source_revision": "68dcbfaa78b2371851842333ae933eea1f961832",
+  "batch_size": 1024,
+  "preprocessing": "raw counts",
+  "adapter": "observation-aligned independent windows"
+}

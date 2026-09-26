@@ -1,0 +1,12 @@
+{
+  "additional_seeds": [5, 6],
+  "epochs": 20,
+  "gpu": 1,
+  "dataset_sha256": "ce5bd9573966e96cd36a44a68cc4e84836c95f749a59260e87398aaab06db09f",
+  "settings": "Unchanged model, loss, training, and selection settings from seed_00/config.json; canonical encoder-name alias only",
+  "prefix": 128,
+  "retained_qualifying_seeds": [0, 1, 2, 3],
+  "selection_policy": "Require both cells 3/4 to pass the existing fixed criteria as distinct latents at prefix 128. Retain seeds 0/1/2/3 and add the new passing seed with highest minimum pair shape score; break ties by lower seed. If neither new seed passes, do not substitute a failed run or claim five-run recovery.",
+  "display": "Independently peak-normalized curves, pointwise mean and sample standard deviation (ddof=1) over the same five selected runs for both cells",
+  "scope": "Two additional independently initialized models; all seven runs retained and counted, no held-out generalization claim"
+}

@@ -1,0 +1,35 @@
+\begin{tabular}{lrrrrrrr}
+\toprule
+Method / selector & Latent & \metric{Cov} & \metric{Spec} & \metric{Sel} & \metric{AUROC} & \shortstack{Single\\Decode} & \shortstack{All\\Decode} \\
+\midrule
+\multicolumn{8}{l}{\textit{Recent deceleration}} \\
+NLDisco & 83 & 0.5708 & \textbf{0.9532} & \textbf{0.924} & 0.768 & 0.7682 & \textbf{0.9176} \\
+CEBRA-Time (best \metric{Sel}) & 126 & 0.6976 & 0.7674 & 0.749 & 0.818 & 0.7291 & 0.8995 \\
+CEBRA-Time (best \metric{AUROC}) & 126 & 0.6976 & 0.7674 & 0.749 & 0.818 & 0.7291 & 0.8995 \\
+LangevinFlow (best \metric{Sel}) & 136 & \textbf{0.9089} & 0.8158 & 0.831 & 0.908 & \textbf{0.8620} & 0.9021 \\
+LangevinFlow (best \metric{AUROC}) & 178 & 0.8918 & 0.8119 & 0.825 & \textbf{0.921} & 0.8497 & 0.9021 \\
+\midrule
+\multicolumn{8}{l}{\textit{Fast leftward target reach}} \\
+NLDisco & 20 & \textbf{0.9914} & 0.9748 & 0.975 & \textbf{0.989} & \textbf{0.9814} & \textbf{0.9946} \\
+CEBRA-Time (best \metric{Sel}) & 93 & 0.1830 & 0.9935 & 0.965 & 0.785 & 0.7184 & 0.9890 \\
+CEBRA-Time (best \metric{AUROC}) & 56 & 0.1124 & 0.9929 & 0.940 & 0.908 & 0.8268 & 0.9890 \\
+LangevinFlow (best \metric{Sel}) & 179 & 0.2522 & \textbf{0.9940} & \textbf{0.976} & 0.979 & 0.9152 & 0.9578 \\
+LangevinFlow (best \metric{AUROC}) & 179 & 0.2522 & \textbf{0.9940} & \textbf{0.976} & 0.979 & 0.9152 & 0.9578 \\
+\midrule
+\multicolumn{8}{l}{\textit{Early leftward movement}} \\
+NLDisco (best \metric{Sel}) & 122 & 0.5422 & \textbf{0.9931} & \textbf{0.987} & 0.768 & 0.7556 & \textbf{0.9924} \\
+NLDisco (best \metric{AUROC}) & 40 & \textbf{0.9977} & 0.9206 & 0.926 & \textbf{0.991} & \textbf{0.9726} & \textbf{0.9924} \\
+CEBRA-Time (best \metric{Sel}) & 93 & 0.2289 & 0.9884 & 0.951 & 0.737 & 0.6652 & 0.9457 \\
+CEBRA-Time (best \metric{AUROC}) & 54 & 0.1641 & 0.9875 & 0.928 & 0.855 & 0.7549 & 0.9457 \\
+LangevinFlow (best \metric{Sel}) & 179 & 0.2672 & 0.9890 & 0.960 & 0.963 & 0.9260 & 0.9815 \\
+LangevinFlow (best \metric{AUROC}) & 179 & 0.2672 & 0.9890 & 0.960 & 0.963 & 0.9260 & 0.9815 \\
+\midrule
+\multicolumn{8}{l}{\textit{Late, target-specific reach}} \\
+NLDisco (best \metric{Sel}) & 165 & 0.2369 & \textbf{0.9996} & \textbf{0.998} & 0.618 & 0.6202 & \textbf{0.9894} \\
+NLDisco (best \metric{AUROC}) & 75 & \textbf{0.9624} & 0.9354 & 0.937 & \textbf{0.976} & \textbf{0.9510} & \textbf{0.9894} \\
+CEBRA-Time (best \metric{Sel}) & 142 & 0.3937 & 0.9859 & 0.965 & 0.910 & 0.7703 & 0.9778 \\
+CEBRA-Time (best \metric{AUROC}) & 44 & 0.3675 & 0.9852 & 0.961 & 0.919 & 0.8029 & 0.9778 \\
+LangevinFlow (best \metric{Sel}) & 136 & 0.5149 & 0.9891 & 0.979 & 0.960 & 0.8932 & 0.9741 \\
+LangevinFlow (best \metric{AUROC}) & 136 & 0.5149 & 0.9891 & 0.979 & 0.960 & 0.8932 & 0.9741 \\
+\bottomrule
+\end{tabular}

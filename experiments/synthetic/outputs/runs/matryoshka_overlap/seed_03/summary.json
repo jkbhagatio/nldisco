@@ -1,0 +1,207 @@
+{
+  "seed": 3,
+  "config": {
+    "seed": 3,
+    "sed_config": {
+      "n_neurons": 100,
+      "seq_len": 1,
+      "dsed_topk_map": {
+        "16": 4,
+        "32": 4,
+        "64": 4,
+        "128": 4
+      },
+      "encoder": {
+        "type": "flat",
+        "shift_equivariant": false,
+        "d_model": 128,
+        "n_heads": 4,
+        "n_layers": 2,
+        "d_feedforward": 512,
+        "dropout": 0.0,
+        "causal": true,
+        "attention_radius": 2
+      },
+      "decoder": {
+        "output_activation": "relu",
+        "temporal_kernel_len": 5,
+        "temporal_alignment": "causal"
+      },
+      "inference_sparsity": "training_threshold",
+      "threshold_decay": 0.99,
+      "dtype": "torch.bfloat16"
+    },
+    "loss_config": {
+      "timebin_weights": [
+        1.0
+      ],
+      "type": "msle",
+      "tau": 1.0,
+      "dsed_loss_weight_map": null,
+      "dead_feature_loss_weight": 1.0
+    },
+    "train_config": {
+      "batch_size": 1024,
+      "epochs": 20,
+      "learning_rate": 0.005,
+      "use_lr_schedule": true,
+      "log_frequency": 100,
+      "dead_feature_window": 19,
+      "max_dead_feature_fraction": 0.1
+    },
+    "selection_config": {
+      "n_position_bins": 40,
+      "track_range": [
+        0.0,
+        1.0
+      ],
+      "cell_centers": [
+        0.2,
+        0.4,
+        0.7,
+        0.7
+      ],
+      "left_widths": [
+        0.05,
+        0.1,
+        0.14,
+        0.06
+      ],
+      "right_widths": [
+        0.1,
+        0.05,
+        0.14,
+        0.06
+      ],
+      "peak_amplitudes_hz": [
+        10.0,
+        28.0,
+        20.0,
+        20.0
+      ],
+      "baseline_rate_hz": 0.1,
+      "field_width_multiplier": 2.0,
+      "min_shape_score": 0.6,
+      "max_outside_mean": 0.4,
+      "max_peak_distance": 0.075,
+      "min_active_samples": 100,
+      "min_active_per_field": 20,
+      "min_conditional_zscore": 0.3,
+      "min_decoder_loading": 0.1
+    },
+    "dataset_sha256": "ce5bd9573966e96cd36a44a68cc4e84836c95f749a59260e87398aaab06db09f",
+    "scope": "all60000samples train/select/evaluate; exploratory, not paper-data replacement",
+    "level_loss_weighting": "equal reconstruction loss weights across nested prefixes",
+    "script_sha256": "129e11f62ec81b25e34601abff2b163e3b9dc7d441d61592844547d7ed728da5"
+  },
+  "levels": {
+    "16": {
+      "selected": {
+        "cell_0": {
+          "latent_idx": null,
+          "score": null,
+          "hit": false
+        },
+        "cell_1": {
+          "latent_idx": null,
+          "score": null,
+          "hit": false
+        },
+        "cell_2": {
+          "latent_idx": null,
+          "score": null,
+          "hit": false
+        },
+        "cell_3": {
+          "latent_idx": null,
+          "score": null,
+          "hit": false
+        }
+      },
+      "both_cells_recovered": false,
+      "full_recording_msle": 0.1226400828242302,
+      "mean_l0": 3.988
+    },
+    "32": {
+      "selected": {
+        "cell_0": {
+          "latent_idx": null,
+          "score": null,
+          "hit": false
+        },
+        "cell_1": {
+          "latent_idx": null,
+          "score": null,
+          "hit": false
+        },
+        "cell_2": {
+          "latent_idx": 31,
+          "score": 0.924818067832671,
+          "hit": true
+        },
+        "cell_3": {
+          "latent_idx": null,
+          "score": null,
+          "hit": false
+        }
+      },
+      "both_cells_recovered": false,
+      "full_recording_msle": 0.10651979163885117,
+      "mean_l0": 4.008033333333334
+    },
+    "64": {
+      "selected": {
+        "cell_0": {
+          "latent_idx": null,
+          "score": null,
+          "hit": false
+        },
+        "cell_1": {
+          "latent_idx": null,
+          "score": null,
+          "hit": false
+        },
+        "cell_2": {
+          "latent_idx": 31,
+          "score": 0.9564931445807957,
+          "hit": true
+        },
+        "cell_3": {
+          "latent_idx": 30,
+          "score": 0.9007459099123151,
+          "hit": true
+        }
+      },
+      "both_cells_recovered": true,
+      "full_recording_msle": 0.08455603663921356,
+      "mean_l0": 4.0118833333333335
+    },
+    "128": {
+      "selected": {
+        "cell_0": {
+          "latent_idx": null,
+          "score": null,
+          "hit": false
+        },
+        "cell_1": {
+          "latent_idx": 104,
+          "score": 0.9769108132925509,
+          "hit": true
+        },
+        "cell_2": {
+          "latent_idx": 71,
+          "score": 0.9228220306962964,
+          "hit": true
+        },
+        "cell_3": {
+          "latent_idx": 127,
+          "score": 0.9683080183017371,
+          "hit": true
+        }
+      },
+      "both_cells_recovered": true,
+      "full_recording_msle": 0.06677593845923742,
+      "mean_l0": 4.0221
+    }
+  }
+}

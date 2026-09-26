@@ -1,0 +1,10 @@
+{
+  "architecture": "offset10-model",
+  "num_units": 128,
+  "dimension": 192,
+  "temperature": 1.0,
+  "lag": 1,
+  "learning_rate": 0.0003,
+  "preprocessing": "sqrt counts, unit z-score",
+  "batch_size": 1024
+}

@@ -1,0 +1,8 @@
+{
+  "metric": "Test balanced accuracy = (sensitivity + specificity) / 2",
+  "threshold": "Maximize validation balanced accuracy; highest threshold breaks exact ties; p >= t",
+  "regularization": "Reuse existing L2 logistic fits selected by validation AUROC; no refitting",
+  "test_policy": "Freeze all thresholds before test scoring; no test-based threshold tuning",
+  "scope": "Reanalysis after prior test exposure; representation and feature discovery are transductive",
+  "bootstrap": "Churchland: 300 whole-test-trial resamples, seed 734, fixed threshold"
+}

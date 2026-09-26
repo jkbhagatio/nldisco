@@ -1,0 +1,5 @@
+direction,pool,pc,orientation,n,preferred,clean_crossings,mean_position
+forward,unrestricted,4,-1,16,7,0,0.7170669649494092
+forward,clean_crossing,4,-1,16,16,16,0.2760958518611596
+backward,unrestricted,4,1,16,7,0,0.6872831097322742
+backward,clean_crossing,4,1,16,16,16,0.2889596175125736

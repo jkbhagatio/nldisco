@@ -1,0 +1,36 @@
+{
+  "n_runs": 7,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "recovery_by_level": {
+    "16": {
+      "cell_2_hit": 1,
+      "cell_3_hit": 0,
+      "both": 0
+    },
+    "32": {
+      "cell_2_hit": 3,
+      "cell_3_hit": 1,
+      "both": 0
+    },
+    "64": {
+      "cell_2_hit": 3,
+      "cell_3_hit": 4,
+      "both": 1
+    },
+    "128": {
+      "cell_2_hit": 6,
+      "cell_3_hit": 5,
+      "both": 5
+    }
+  },
+  "same_run_any_level_joint_count": 5,
+  "scope": "Feasibility only, no vanilla baseline or unique Matryoshka advantage claim"
+}

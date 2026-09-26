@@ -1,0 +1,105 @@
+{
+  "architecture": "temporal_transformer",
+  "data_dir": "/nfs/nhome/live/jbhagat/nldisco/experiments/synthetic/data/matryoshka_overlap",
+  "spikes_sha256": "ce5bd9573966e96cd36a44a68cc4e84836c95f749a59260e87398aaab06db09f",
+  "raw_dt": 0.009999999999990905,
+  "bin_factor": 5,
+  "seq_len": 20,
+  "raw_length": 100,
+  "duration_s": 0.9899999999990996,
+  "window_rule": "motion-only fixed50,75,100,125,150,175,200 raw bins; maximize minimum direction count of strict first-pair crossings; shorter tie-break",
+  "first_pair_centers_m": [
+    0.2,
+    0.4
+  ],
+  "first_pair_crossing_rule": "trajectory visits <=first center+.02m and >=second center-.02m; strict=no raw10ms reversal; ramp selection also mean position between centers",
+  "purposeful_motion_diagnostic": "same crossing with net>=pair gap-.04m, maximum backtracking<=.02m, net/pathlength>=.8; does not determine selection or pass gates",
+  "matched_ramp_occupancy": {
+    "latent_idx": 0.0,
+    "left_mean_activation": 1.0,
+    "right_mean_activation": 1.0,
+    "right_selectivity": 0.0,
+    "left_active_windows": 232.0,
+    "right_active_windows": 218.0,
+    "matched_position_bins": 8.0,
+    "matched_windows_per_direction": 209.0
+  },
+  "direction_position_bin_width_m": 0.025,
+  "minimum_direction_count_per_bin": 10,
+  "split_raw_bounds": [
+    0,
+    60000
+  ],
+  "analysis_scope": "in-sample descriptive discovery; full recording used for training and selection",
+  "preprocessing": "sum nonoverlapping count bins; no standardization or smoothing",
+  "minimum_displacement_m": 0.1,
+  "selection": "full recording strict first-pair crossings; position-matched DI times first-pair decoder motion times log1p first-pair enrichment; passing candidates precede failures",
+  "primary_metric_definitions": "right_selectivity uses ramp_clean windows in2.5cm occupancy-matched bins; decoder_center_displacement uses units0,1 positive squared weights early/late thirds; place_energy_enrichment uses units0,1 versus96noise; global_ prefixes retain fulltrack/all4 equivalents",
+  "trajectory_selection": "top activation over ALL analysis windows, greedy disjoint, no direction or motion filtering",
+  "hit_rule": "signed ramp DI>=.25, signed first-pair decoder displacement>=.01m, pair energy enrichment>=2, ramp active windows>=20, matched position bins>=2, each pair unit>=10%pair energy, pair>=50%allknown place energy",
+  "seed": 0,
+  "sed_config": {
+    "n_neurons": 100,
+    "seq_len": 20,
+    "dsed_topk_map": {
+      "128": 4
+    },
+    "encoder": {
+      "type": "temporal_transformer",
+      "shift_equivariant": false,
+      "d_model": 128,
+      "n_heads": 4,
+      "n_layers": 2,
+      "d_feedforward": 256,
+      "dropout": 0.0,
+      "causal": true,
+      "attention_radius": 2
+    },
+    "decoder": {
+      "output_activation": "relu",
+      "temporal_kernel_len": 5,
+      "temporal_alignment": "causal"
+    },
+    "inference_sparsity": "training_threshold",
+    "threshold_decay": 0.99,
+    "dtype": "torch.float32"
+  },
+  "loss_config": {
+    "timebin_weights": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "type": "mse",
+    "tau": 1.0,
+    "dsed_loss_weight_map": null,
+    "dead_feature_loss_weight": 1.0
+  },
+  "train_config": {
+    "batch_size": 256,
+    "epochs": 40,
+    "learning_rate": 0.005,
+    "use_lr_schedule": true,
+    "log_frequency": 100,
+    "dead_feature_window": 1000,
+    "max_dead_feature_fraction": 0.1
+  },
+  "parameter_count": 555216
+}

@@ -1,0 +1,193 @@
+{
+  "method": "nldisco",
+  "total": 614859,
+  "trainable": 614859,
+  "nontrainable": 0,
+  "parameters": [
+    {
+      "name": "encoder.input_projection.weight",
+      "shape": [
+        128,
+        191
+      ],
+      "count": 24448,
+      "trainable": true
+    },
+    {
+      "name": "encoder.input_projection.bias",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.relative_bias",
+      "shape": [
+        4,
+        19
+      ],
+      "count": 76,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.norm_attention.weight",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.norm_attention.bias",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.attention.in_proj_weight",
+      "shape": [
+        384,
+        128
+      ],
+      "count": 49152,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.attention.in_proj_bias",
+      "shape": [
+        384
+      ],
+      "count": 384,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.attention.out_proj.weight",
+      "shape": [
+        128,
+        128
+      ],
+      "count": 16384,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.attention.out_proj.bias",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.norm_feedforward.weight",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.norm_feedforward.bias",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.feedforward.0.weight",
+      "shape": [
+        512,
+        128
+      ],
+      "count": 65536,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.feedforward.0.bias",
+      "shape": [
+        512
+      ],
+      "count": 512,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.feedforward.3.weight",
+      "shape": [
+        128,
+        512
+      ],
+      "count": 65536,
+      "trainable": true
+    },
+    {
+      "name": "encoder.blocks.0.feedforward.3.bias",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "encoder.output_norm.weight",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "encoder.output_norm.bias",
+      "shape": [
+        128
+      ],
+      "count": 128,
+      "trainable": true
+    },
+    {
+      "name": "encoder.feature_projection.weight",
+      "shape": [
+        192,
+        128
+      ],
+      "count": 24576,
+      "trainable": true
+    },
+    {
+      "name": "encoder.feature_projection.bias",
+      "shape": [
+        192
+      ],
+      "count": 192,
+      "trainable": true
+    },
+    {
+      "name": "decoder.weight",
+      "shape": [
+        192,
+        191,
+        10
+      ],
+      "count": 366720,
+      "trainable": true
+    },
+    {
+      "name": "decoder.bias",
+      "shape": [
+        191
+      ],
+      "count": 191,
+      "trainable": true
+    }
+  ],
+  "checkpoint_sha256": {
+    "01_nldisco_seed0/model.pt": "2eeb9b083d0fea1bfefb23faeb924aab7851d28361e3140129e9772db870722f",
+    "06_nldisco_seed1/model.pt": "2ab9bea3331bf3b26ae71ad61c6baa1e1772a4ee11bb86ad56871a5f8f6778bf",
+    "08_nldisco_seed2/model.pt": "d42f69f478e4ede17524c68c53696e5e309b352955f1aade429a3676081b2939",
+    "10_nldisco_seed3/model.pt": "afa7b3174f5e33daa5afa3dad270782d8ca3332f3f3d85e0b82ea26332b5e473",
+    "15_nldisco_seed4/model.pt": "e97c5713e8439eda488bc3196278960639e7d5328ee0994dc79ca7a1b91c106f"
+  },
+  "policy": "Unique nn.Parameters; buffers excluded; requires_grad from the same model factory used during training, which does not freeze parameters."
+}

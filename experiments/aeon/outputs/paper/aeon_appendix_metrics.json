@@ -1,0 +1,63 @@
+{
+  "association_source": "/ceph/aeon/aeon/nldisco/aeon/sweeps/20260921_18h_s20/paper_revision_wheelcms_20260921/feature_scores.csv",
+  "activation_rule": "native z > 0",
+  "decode_source": "/nfs/nhome/live/jbhagat/nldisco/experiments/aeon/outputs/appendix_decoders_20260925/results.json",
+  "rows": [
+    {
+      "feature": "wheel",
+      "D": 192,
+      "k": 12,
+      "latent": 52,
+      "coverage": 0.979269580803824,
+      "specificity": 0.6638309373678404,
+      "selectivity": 0.7444433730834672,
+      "auroc": 0.9243390685647872,
+      "single_decode": 0.8890248921766514,
+      "all_decode": 0.932787501478333,
+      "positive_windows": 93727,
+      "negative_windows": 3144870
+    },
+    {
+      "feature": "area",
+      "D": 256,
+      "k": 12,
+      "latent": 107,
+      "coverage": 0.8366920019524441,
+      "specificity": 0.7607442997963905,
+      "selectivity": 0.7776325933647392,
+      "auroc": 0.8492192085425224,
+      "single_decode": 0.7989485462398045,
+      "all_decode": 0.7936792794213297,
+      "positive_windows": 86046,
+      "negative_windows": 346742
+    },
+    {
+      "feature": "speed",
+      "D": 256,
+      "k": 12,
+      "latent": 109,
+      "coverage": 0.7179921671425674,
+      "specificity": 0.7813525431080889,
+      "selectivity": 0.7665618117349021,
+      "auroc": 0.7784732590021441,
+      "single_decode": 0.7117507315955595,
+      "all_decode": 0.79493128737624,
+      "positive_windows": 640890,
+      "negative_windows": 2563556
+    },
+    {
+      "feature": "direction",
+      "D": 256,
+      "k": 12,
+      "latent": 10,
+      "coverage": 0.8399760860900757,
+      "specificity": 0.8050513272378124,
+      "selectivity": 0.8116301005510905,
+      "auroc": 0.8717359898792504,
+      "single_decode": 0.8550495433620475,
+      "all_decode": 0.9005287243444066,
+      "positive_windows": 15054,
+      "negative_windows": 126541
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+defaults:
+  - nldisco_schema
+  - _self_
+
+mode: train
+model:
+  dsed_topk_map: {128: 16}
+
+hydra:
+  job:
+    chdir: false
+  run:
+    dir: ${output_dir}/hydra/${now:%Y-%m-%d_%H-%M-%S-%f}
+  sweep:
+    dir: ${output_dir}/hydra/${now:%Y-%m-%d_%H-%M-%S-%f}
+    subdir: ${hydra.job.num}

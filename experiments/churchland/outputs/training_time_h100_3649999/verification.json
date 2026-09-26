@@ -1,0 +1,32 @@
+{
+  "verified_utc": "2026-09-22T04:42:21.367052+00:00",
+  "completed_fits": 15,
+  "one_gpu": true,
+  "sequential": true,
+  "input_hashes_unchanged": true,
+  "optimizer_update_budgets_verified": true,
+  "all_checkpoints_exact": true,
+  "no_observed_gpu_contention": true,
+  "figure_matches_paper": true,
+  "original_training_runner_sha256": "838b6994890e5e87aebd9d54c9ee2d4bfb16f04f4e449309aceba8c232f2537a",
+  "final_report_runner_sha256": "357c37a5fe6d63432a1b5e83923fb5be50209cc0705d616d3658ef545b0850bc",
+  "rendering_change": "Title changed to LVM training time comparison; expanded dataset, epoch, latent-width, parameter-count and timing caption; measurements unchanged.",
+  "parameter_counts_verified": {
+    "nldisco": {
+      "total": 614859,
+      "trainable": 614859,
+      "nontrainable": 0
+    },
+    "cebra": {
+      "total": 270784,
+      "trainable": 270784,
+      "nontrainable": 0
+    },
+    "langevinflow": {
+      "total": 449199,
+      "trainable": 449199,
+      "nontrainable": 0
+    }
+  },
+  "model_sources_match_training_manifest": true
+}
