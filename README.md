@@ -203,3 +203,16 @@ Synchronize behavioral measurements to the recording clock, then join them throu
 with coverage, specificity, and AUROC over both active and inactive positions.
 Decoder weights describe reconstructed activity; they are not causal attributions.
 See the [paper experiments](experiments/README.md) for dataset-specific latent analyses.
+
+## License
+
+NLDisco's original software is source-available under the
+[PolyForm Noncommercial License 1.0.0](LICENSE.md). It permits use, modification,
+and redistribution for the purposes described in the license, including
+noncommercial use and use by the educational and research organizations it covers.
+Commercial uses outside those permissions require a separate license from the
+copyright holders.
+
+Third-party software and datasets retain their respective licenses and terms.
+In particular, the bundled LangevinFlow code retains its
+[own license](experiments/churchland/environments/LangevinFlow_CCN/LICENSE).
