@@ -39,6 +39,12 @@ dependencies = [
     "wandb",
 ]
 
+[project.urls]
+Homepage = "https://github.com/jkbhagatio/nldisco"
+Documentation = "https://github.com/jkbhagatio/nldisco/blob/main/docs/README.md"
+Repository = "https://github.com/jkbhagatio/nldisco"
+Issues = "https://github.com/jkbhagatio/nldisco/issues"
+
 [project.optional-dependencies]
 analysis = [
     "cebra>=0.6.1; python_version >= '3.10'",
@@ -65,7 +71,7 @@ dev = [
 
 [build-system]
 build-backend = "hatchling.build"
-requires = ["hatchling"]
+requires = ["hatchling>=1.27"]
 
 [tool.hatch.build.targets.sdist]
 include = [
