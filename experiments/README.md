@@ -1,6 +1,8 @@
 # Paper experiments
 
-These workflows reproduce the **current `paper/iclr_paper/full_paper.tex` results**.
+These workflows reproduce the **[manuscript results](https://github.com/jkbhagatio/nldisco/blob/paper/paper/iclr_paper/full_paper.tex)**
+maintained on the `paper` branch. The top-level `paper/` directory is not required
+for the dataset workflows below.
 Only experiment code, data, fitted artifacts, and checks supporting those results are retained.
 
 | Notebook | Paper outputs | Generated files |
@@ -31,8 +33,9 @@ record measured scores alongside the frozen manuscript values. Aeon's
 activations; these differ from the current manuscript tick geometry. The paper is unchanged.
 
 Figures 1/2 and S3 are conceptual/assay illustrations. Figure S1's methods illustration
-has its existing notebook under `paper/iclr_paper/figures/`; it is outside these dataset
-workflows. The retained Allen-data methods illustration, Figure S2, is also excluded.
+has its [existing notebook](https://github.com/jkbhagatio/nldisco/blob/paper/paper/iclr_paper/figures/interpretable_latents_vs_latent_space.ipynb)
+on the `paper` branch; it is outside these dataset workflows. The retained Allen-data
+methods illustration, Figure S2, is also excluded.
 
 ## Shared helpers and tests
 
@@ -57,3 +60,10 @@ are removed. Saved models, original selection records, trial/window identities, 
 fits still used by the paper are retained, including older-revision decoder files
 that remain inputs to current results. Dated input paths preserve artifact identity;
 there is one maintained report notebook per dataset.
+
+Historical script snapshots retained under `outputs/` are provenance records, not
+the maintained reproduction entry points. In particular,
+`churchland/outputs/training_time_h100_3649999/runner_source.py` and
+`outputs/decoder_balanced_accuracy_20260923/churchland/render_decoder_balanced_accuracy.py`
+contain manuscript-editing routines that depend on manuscript files. Use the
+notebooks above for reproduction without the top-level `paper/` directory.

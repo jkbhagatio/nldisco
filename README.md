@@ -5,7 +5,7 @@
 **Neural Latent Discovery**  
 Find interpretable features in neural population activity.
 
-[Quick start](#quick-start) · [User guide](#user-guide) · [Documentation](docs/README.md) · [Paper](paper/iclr_paper/full_paper.pdf) · [Experiments](experiments/README.md)
+[Quick start](#quick-start) · [User guide](#user-guide) · [Documentation](docs/README.md) · [Paper](https://github.com/jkbhagatio/nldisco/blob/paper/paper/iclr_paper/full_paper.pdf) · [Experiments](experiments/README.md)
 
 </div>
 
@@ -21,7 +21,7 @@ Training uses neural activity alone; behavioral labels enter during interpretati
 - **Connect populations.** Reconstruct the input population or predict an aligned target population.
 - **Inspect what you learn.** Evaluate reconstruction, latent ablations, and spectral fidelity.
 
-![Example datasets: simulated rat navigation, macaque reaching, and mouse foraging.](paper/iclr_paper/figures/task_overview.png)
+![Example datasets: simulated rat navigation, macaque reaching, and mouse foraging.](docs/assets/task_overview.png)
 
 **NLDisco across datasets:** simulated navigation, macaque reaching, and mouse foraging.
 
@@ -75,7 +75,7 @@ discovery. This is a conceptual illustration, not a benchmark result.
 [![Table S1: comparison of NLDisco with other neural latent-variable methods, including qualifications and footnotes.](docs/assets/table-s1.png)](docs/assets/table-s1.png)
 
 The paper's qualitative comparison of 15 methodological features. Click the table
-for full resolution; see the [paper](paper/iclr_paper/full_paper.pdf) for context and references.
+for full resolution; see the [paper](https://github.com/jkbhagatio/nldisco/blob/paper/paper/iclr_paper/full_paper.pdf) for context and references.
 
 ## Explore and develop
 

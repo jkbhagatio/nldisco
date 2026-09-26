@@ -1,6 +1,6 @@
 # README figure exports
 
-These PNGs are display exports of the current [ICLR paper](../../paper/iclr_paper/full_paper.pdf),
+These PNGs are display exports of the current [ICLR paper](https://github.com/jkbhagatio/nldisco/blob/paper/paper/iclr_paper/full_paper.pdf),
 not independently redrawn results. Captions in the project README are shortened for that context.
 
 | Asset | Source |
@@ -9,13 +9,16 @@ not independently redrawn results. Captions in the project README are shortened 
 | `figure-2.png` | `paper/iclr_paper/figures/sed_arch.pdf` |
 | `figure-s1.png` | `paper/iclr_paper/figures/interpretable_latents_vs_latent_space.svg` and `.pdf` |
 | `table-s1.png` | Page 18 of the current `paper/iclr_paper/full_paper.pdf`, including its caption and notes |
+| `task_overview.png` | `paper/iclr_paper/figures/task_overview.png` |
 
-Figure S3 uses `paper/iclr_paper/figures/task_overview.png` directly.
+Figure S3 uses the local `task_overview.png` copy.
 Figure S1's panel-c title was corrected in the SVG to “NLDisco latents” and its
 standalone PDF regenerated. Plot data and legends were retained. The compiled full-paper
 PDF is not rebuilt by these documentation edits.
 
-From the repository root, export figures with Poppler:
+The manuscript sources live on the [`paper` branch](https://github.com/jkbhagatio/nldisco/tree/paper/paper).
+To regenerate these assets, use a checkout of that branch. From its repository root,
+export figures with Poppler, then copy the updated assets into this branch:
 
 ```bash
 pdftoppm -scale-to 2000 -png -singlefile paper/iclr_paper/figures/nldisco_pipeline.pdf docs/assets/figure-1
