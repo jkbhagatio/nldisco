@@ -92,18 +92,29 @@ uv run pytest experiments/tests           # Paper-analysis tests
 uv run jupyter lab
 ```
 
-Churchland data helpers require `uv sync --extra churchland`.
+CEBRA comparisons require `uv sync --locked --extra analysis`; Churchland data
+helpers additionally require `--extra churchland`. See [installation](docs/installation.md).
 To register a Jupyter kernel, run `uv run python -m ipykernel install --user --name=nldisco`.
 
 ## Quick start
 
-From this checkout, install [uv](https://docs.astral.sh/uv/getting-started/installation/)
-and sync the environment (Python 3.9):
+NLDisco requires **Python 3.9–3.13**.
+
+Download the source ZIP from the
+[anonymized repository](https://anonymous.4open.science/r/F3E2-ocsidln), extract it,
+and open a terminal in the extracted repository root (the directory containing
+`pyproject.toml`). Install [uv](https://docs.astral.sh/uv/getting-started/installation/),
+then run:
 
 ```console
-uv sync
+uv sync --locked
 uv run python examples/paired_transcoder.py --layout flat
 ```
+
+See [installation](docs/installation.md) for editable installs into existing
+environments, optional dependencies, and development setup. Commands prefixed
+with `uv run` below assume the source checkout; in an existing environment,
+activate it and omit `uv run`.
 
 The example generates its own data, trains a model, evaluates it, and demonstrates
 inference. It also supports `single_bin`, `transformer`, and `shift_equivariant` layouts.

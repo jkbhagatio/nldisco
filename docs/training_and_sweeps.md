@@ -1,7 +1,9 @@
 # Training and hyperparameter sweeps
 
 One-off training and sweeps share a **Hydra structured configuration**, the current
-`train_model`/`evaluate_model` APIs, preprocessing, and output format. Install with `uv sync`.
+`train_model`/`evaluate_model` APIs, preprocessing, and output format. Follow the [installation guide](installation.md).
+Commands below use `uv run` from a source checkout; in an existing environment,
+activate it and omit `uv run`.
 The CLI defaults to raw nonnegative counts, MSLE loss, a ReLU decoder, and CPU execution.
 For signed targets, set `loss.type=mse model.decoder.output_activation=none`.
 
