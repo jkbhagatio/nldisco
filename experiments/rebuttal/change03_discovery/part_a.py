@@ -33,8 +33,11 @@ def select_runs(runs: Path) -> dict:
             if not (directory / "COMPLETE.json").is_file():
                 continue
             summary = json.loads((directory / "summary.json").read_text())
+            loss = summary.get("validation_loss")
+            if loss is None and isinstance(summary.get("validation"), dict):
+                loss = summary["validation"]["masked_nll"]  # change 1's ST-NDT runner
             candidates.append(dict(config=directory.name, path=str(directory / "representation.npy"),
-                                   validation_loss=summary.get("validation_loss")))
+                                   validation_loss=loss))
         if not candidates:
             continue
         if len(candidates) > 1 and any(c["validation_loss"] is None for c in candidates):

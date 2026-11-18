@@ -25,7 +25,14 @@ develop and test the code; no session A result is reported.
 - LangevinFlow: Section 4.2 recipe (64-dimensional position, momentum and GRU
   states = 192 latents), adapter extended to 20 bins. Settings compared: learning
   rate {0.001, 0.003} x ramp {5, 500} (the Section 4.2 sweep at the selected width).
-- ST-NDT: change 1's runner, settings selected there, on the same windows.
+- ST-NDT: change 1's runner (branch rebuttal/c01-stndt, commit 3e5344e) on the same
+  windows. Its width equals the number of units (87 latents for session B). Change 1's
+  Section 4.2 selection was not finished when this was fixed (2026-11-18 10:45 UTC,
+  before any ST-NDT run on session B), so the settings compared are contrastive weight
+  {0.01, 0.1, 1} at learning rate 0.001 and learning rate 0.003 at contrastive weight
+  0.1 (dropout 0.1, 4 layers), chosen by held-out masked Poisson NLL on the validation
+  portion. The runner trains in whole epochs: 3 epochs of the fit windows at batch
+  size 1,024 (6,405 updates).
 - PCA: first 192 principal components of the z-scored, flattened 20-bin window.
 - Every neural-network method gets the same budget as NLDisco: 5,000 updates of
   1,024 windows. A baseline setting is chosen only by its own loss on the
