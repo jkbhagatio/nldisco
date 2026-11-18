@@ -47,12 +47,11 @@ class Binning:
 
 
 def _label(lo: float, hi: float) -> str:
-    text = lambda v: f"{v:g}"
     if lo == -INF:
-        return f"<{text(hi)}"
+        return f"<{hi:g}"
     if hi == INF:
-        return f">={text(lo)}"
-    return f"{text(lo)}..{text(hi)}"
+        return f">={lo:g}"
+    return f"{lo:g}..{hi:g}"
 
 
 @beartype

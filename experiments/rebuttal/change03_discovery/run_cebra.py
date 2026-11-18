@@ -1,4 +1,5 @@
 """CEBRA-Time on Aeon windows: the Section 4.2 recipe with a 20-bin receptive field."""
+# ruff: noqa: F821, F722  (jaxtyping shape annotations)
 from __future__ import annotations
 
 import argparse
@@ -103,7 +104,8 @@ def run(args: argparse.Namespace) -> None:
 
     def loss_on(pool: str, generator=None) -> torch.Tensor:
         references, members = pools[pool]
-        pick = lambda n: torch.randint(n, (args.batch_size,), device=device, generator=generator)
+        def pick(n: int) -> torch.Tensor:
+            return torch.randint(n, (args.batch_size,), device=device, generator=generator)
         reference = references[pick(len(references))]
         index = torch.cat((reference, reference + LAG, members[pick(len(members))]))
         embedded = model(windows(values, starts[index]))

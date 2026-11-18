@@ -1,4 +1,5 @@
 """One scoring rule for every method: orientation, discovery threshold, held-out scores."""
+# ruff: noqa: F821, F722  (jaxtyping shape annotations)
 from __future__ import annotations
 
 import numpy as np

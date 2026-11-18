@@ -3,6 +3,7 @@
 Everything here is independent of any model. The split and the behavior variables
 were fixed before session B existed (see `PROTOCOL.md` beside this file).
 """
+# ruff: noqa: F821, F722  (jaxtyping shape annotations)
 from __future__ import annotations
 
 from dataclasses import dataclass

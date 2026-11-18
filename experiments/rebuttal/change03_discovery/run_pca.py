@@ -1,4 +1,5 @@
 """PCA baseline: principal components of the z-scored, flattened 20-bin window."""
+# ruff: noqa: F821, F722  (jaxtyping shape annotations)
 from __future__ import annotations
 
 import argparse

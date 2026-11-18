@@ -17,7 +17,7 @@ from beartype import beartype
 from scipy.cluster.hierarchy import fcluster, linkage
 from scipy.spatial.distance import squareform
 
-from experiments.rebuttal.change03_discovery import cards, common, data, rules, scoring
+from experiments.rebuttal.change03_discovery import cards, data, rules, scoring
 from experiments.rebuttal.change03_discovery.part_a import LABELS, METHODS, select_runs
 from experiments.rebuttal.change03_discovery.rater_cli import read_jsonl
 
@@ -97,7 +97,6 @@ def build(data_root: Path, runs: Path, output: Path, python: str,
     raters_path = output / "key" / "raters.json"
     rater_dirs = json.loads(raters_path.read_text()) if raters_path.exists() else \
         [str(output / "raters" / secrets.token_hex(6)) for _ in range(N_RATERS)]
-    common.write_json(raters_path.with_suffix(".tmp"), {"raters": rater_dirs})
     raters_path.write_text(json.dumps(rater_dirs, indent=2))
     new_cards = {}
     for method in METHODS:
