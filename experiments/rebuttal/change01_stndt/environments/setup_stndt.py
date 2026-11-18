@@ -11,10 +11,11 @@ from pathlib import Path
 
 REVISION = "92ffe21c2042eb886389b7ebc97d300c2fd23cac"
 SOURCE_URL = "https://github.com/trungle93/STNDT.git"
-# The vendored copy carries no git metadata, so the pin is verified by content.
+# The vendored copy carries no git metadata, so the pin is verified by content: the
+# SHA-256 of the upstream blobs (LF line endings, whatever the checkout converts them to).
 SOURCE_SHA256 = {
-    "src/model.py": "08aa7d2157a849d863164ac199d3728b9c404fc34a836b42b3646c37560e455e",
-    "src/mask.py": "8c8fbadc236a317a5624af431991788ce6e2043c825222b9a0364b5664f895b0",
+    "src/model.py": "326dedbc4adf7945d71b150d0565e65c7e02e5d71a447fdcf364dc2fb34040fb",
+    "src/mask.py": "266d35caa00cb53a2a40bfef81506320eefcc0792ac3cefeb84dc3ae8cb8b7e0",
 }
 HERE = Path(__file__).resolve().parent
 SOURCE = HERE / "STNDT"
@@ -24,7 +25,8 @@ DEFAULT_ENVIRONMENT = Path("/ceph/aeon/aeon/nldisco/rebuttal_20261118/change01_s
 
 def source_digests() -> dict[str, str]:
     """Hash the two upstream modules whose code defines the model and its masking."""
-    return {name: hashlib.sha256((SOURCE / name).read_bytes()).hexdigest()
+    return {name: hashlib.sha256(
+        (SOURCE / name).read_bytes().replace(b"\r\n", b"\n")).hexdigest()
             for name in SOURCE_SHA256}
 
 
