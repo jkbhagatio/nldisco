@@ -17,31 +17,46 @@ SENSITIVITY = {"primary (AUROC>=0.75, Sel>=0.75)": (0.75, 0.75),
 
 
 @jaxtyped(typechecker=beartype)
+def auroc_column(values: Float[torch.Tensor, "windows"],
+                 positive: Bool[torch.Tensor, "features windows"],
+                 negative: Bool[torch.Tensor, "features windows"],
+                 ) -> Float[torch.Tensor, "features"]:
+    """Exact tie-aware AUROC of one latent for every feature.
+
+    The latent is sorted once; tied values form groups, and for every feature
+    AUROC = sum_g pos_g * (negatives below g + neg_g / 2) / (P * N), with the group
+    counts read from cumulative sums at the last element of each group.
+    """
+    ordered, order = torch.sort(values)
+    pos_cum = torch.cumsum(positive[:, order], 1, dtype=torch.int32)
+    neg_cum = torch.cumsum(negative[:, order], 1, dtype=torch.int32)
+    last = torch.ones_like(ordered, dtype=torch.bool)
+    last[:-1] = ordered[1:] != ordered[:-1]
+    if not bool(last.all()):
+        ends = torch.nonzero(last).squeeze(1)
+        pos_cum, neg_cum = pos_cum[:, ends], neg_cum[:, ends]
+    zero = torch.zeros(len(positive), 1, dtype=torch.int32, device=values.device)
+    pos = torch.diff(pos_cum, dim=1, prepend=zero).long()
+    neg = torch.diff(neg_cum, dim=1, prepend=zero).long()
+    concordant = (pos * (2 * (neg_cum.long() - neg) + neg)).sum(1).double() / 2
+    return concordant / (pos_cum[:, -1].double() * neg_cum[:, -1].double())
+
+
+@jaxtyped(typechecker=beartype)
 def auroc_matrix(values: Float[torch.Tensor, "windows latents"],
                  positive: Bool[torch.Tensor, "windows features"],
-                 negative: Bool[torch.Tensor, "windows features"],
+                 negative: Bool[torch.Tensor, "windows features"], workers: int = 1,
                  ) -> Float[torch.Tensor, "latents features"]:
-    """Exact tie-aware AUROC of every latent for every feature.
+    """`auroc_column` for every latent, optionally in `workers` threads (CPU)."""
+    positive, negative = positive.T.contiguous(), negative.T.contiguous()
 
-    Each latent is sorted once; tied values form groups, and for every feature
-    AUROC = sum_g pos_g * (negatives below g + neg_g / 2) / (P * N).
-    """
-    n_positive, n_negative = positive.sum(0).double(), negative.sum(0).double()
-    result = torch.empty(values.shape[1], positive.shape[1], dtype=torch.float64,
-                         device=values.device)
-    for latent in range(values.shape[1]):
-        ordered, order = torch.sort(values[:, latent])
-        first = torch.ones_like(ordered, dtype=torch.bool)
-        first[1:] = ordered[1:] != ordered[:-1]
-        group = torch.cumsum(first, 0) - 1
-        shape = (int(group[-1]) + 1, positive.shape[1])
-        pos = torch.zeros(shape, dtype=torch.float64, device=values.device).index_add_(
-            0, group, positive[order].double())
-        neg = torch.zeros(shape, dtype=torch.float64, device=values.device).index_add_(
-            0, group, negative[order].double())
-        below = torch.cumsum(neg, 0) - neg
-        result[latent] = (pos * (below + neg / 2)).sum(0) / (n_positive * n_negative)
-    return result
+    def column(latent: int) -> torch.Tensor:
+        return auroc_column(values[:, latent].contiguous(), positive, negative)
+    if workers > 1:
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(workers) as pool:
+            return torch.stack(list(pool.map(column, range(values.shape[1]))))
+    return torch.stack([column(latent) for latent in range(values.shape[1])])
 
 
 @jaxtyped(typechecker=beartype)

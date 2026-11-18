@@ -108,7 +108,7 @@ Answer the card that was just shown (use its identifier):
 
 ```
 PYTHON -m experiments.rebuttal.change03_discovery.rater_cli submit --dir RATER_DIR --card CARD_ID --none
-PYTHON -m experiments.rebuttal.change03_discovery.rater_cli submit --dir RATER_DIR --card CARD_ID --direction high --rule "wheel_speed > 0.05" --description "running on the wheel"
+PYTHON -m experiments.rebuttal.change03_discovery.rater_cli submit --dir RATER_DIR --card CARD_ID --direction high --rule "speed >= 100" --description "fast locomotion"
 ```
 
 The tool checks that the rule can be read and tells you in how many windows it

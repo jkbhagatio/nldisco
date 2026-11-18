@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import numpy as np
@@ -16,6 +17,7 @@ from beartype import beartype
 from experiments.rebuttal.change03_discovery import common, data, features, scoring
 
 METHODS = ("nldisco", "cebra", "langevinflow", "stndt", "pca")  # fixed order (seeds use it)
+WORKERS = 24
 LABELS = {"nldisco": "NLDisco", "cebra": "CEBRA-Time", "langevinflow": "LangevinFlow",
           "stndt": "ST-NDT", "pca": "PCA"}
 
@@ -56,21 +58,24 @@ def recover(representation: np.ndarray, feature_list: list, discovery: np.ndarra
     positive = torch.as_tensor(np.stack([f.mask[index] for f in feature_list], 1), device=device)
     negative = torch.as_tensor(np.stack([(f.valid & ~f.mask)[index] for f in feature_list], 1),
                                device=device)
-    auc = scoring.auroc_matrix(values, positive, negative).cpu().numpy()
+    auc = scoring.auroc_matrix(values, positive, negative,
+                               workers=1 if device != "cpu" else WORKERS).cpu().numpy()
     del values, positive, negative
-    rows = []
-    for column, feature in enumerate(feature_list):
+
+    def score(item: tuple) -> dict:
+        column, feature = item
         row = dict(feature=feature.name, family=feature.family, label=feature.label)
         if not np.isfinite(auc[:, column]).all():
-            rows.append(dict(row, scorable=False, passed=False))
-            continue
+            return dict(row, scorable=False, passed=False)
         oriented = np.maximum(auc[:, column], 1 - auc[:, column])
         latent = int(np.argmax(oriented))
         orientation = 1 if auc[latent, column] >= 0.5 else -1
         result = scoring.evaluate(np.asarray(representation[:, latent]), orientation,
                                   feature.mask, feature.valid, discovery, heldout)
-        rows.append(dict(row, latent=latent, selection_auroc=float(oriented[latent]), **result))
-    return rows
+        return dict(row, latent=latent, selection_auroc=float(oriented[latent]), **result)
+
+    with ThreadPoolExecutor(WORKERS) as pool:
+        return list(pool.map(score, enumerate(feature_list)))
 
 
 @beartype
@@ -92,6 +97,7 @@ def summarize(table: pd.DataFrame) -> pd.DataFrame:
 @beartype
 def run(data_root: Path, runs: Path, output: Path, device: str) -> None:
     """Score every selected method on every prespecified feature."""
+    torch.set_num_threads(1)  # threads are used across latents instead
     output.mkdir(parents=True, exist_ok=True)
     session = data.load_session(data_root)
     feature_list = features.build_features(session.variables, session.support, session.discovery)
@@ -123,7 +129,7 @@ def main() -> None:
     parser.add_argument("--data", type=Path, required=True)
     parser.add_argument("--runs", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument("--device", default="cpu")
     args = parser.parse_args()
     run(args.data, args.runs, args.output, args.device)
 

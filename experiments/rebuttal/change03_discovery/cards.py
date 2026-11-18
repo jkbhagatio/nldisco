@@ -248,6 +248,7 @@ def render_card(card_id: str, values: np.ndarray, variables: dict, support: dict
             i = start + length // 2
             lines.append(_row(f"{length * BIN_SECONDS:.2f}",
                               ["-" if not np.isfinite(variables[f][i]) else
+                               f"{variables[f][i]:.0f}" if abs(variables[f][i]) >= 100 else
                                f"{variables[f][i]:.3g}" for f in fields]))
         lines.append("")
     return "\n".join(lines)
