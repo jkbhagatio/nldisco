@@ -1,0 +1,37 @@
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrr@{}}
+\toprule
+Part & \metric{Cov} & \metric{Spec} & \metric{Sel} & \metric{AUROC} \\
+\midrule
+\multicolumn{4}{l}{\textit{Recent deceleration} (NLDisco 192/16; latents 81, 83, 91)} \\
+Training & $0.645{\pm}0.102$ & $0.914{\pm}0.063$ & $0.891{\pm}0.076$ & $0.795{\pm}0.040$ \\
+Held-out & $0.653{\pm}0.101$ & $0.912{\pm}0.066$ & $0.889{\pm}0.079$ & $0.798{\pm}0.040$ \\
+\midrule
+\multicolumn{4}{l}{\textit{Fast leftward target reach} (NLDisco 192/16; latents 75, 20, 60)} \\
+Training & $0.894{\pm}0.062$ & $0.942{\pm}0.030$ & $0.940{\pm}0.027$ & $0.929{\pm}0.029$ \\
+Held-out & $0.901{\pm}0.076$ & $0.942{\pm}0.030$ & $0.940{\pm}0.027$ & $0.931{\pm}0.036$ \\
+\midrule
+\multicolumn{4}{l}{\textit{Early leftward movement} (NLDisco 192/16; latents 75, 20, 61)} \\
+Training & $0.958{\pm}0.035$ & $0.953{\pm}0.032$ & $0.954{\pm}0.028$ & $0.971{\pm}0.018$ \\
+Held-out & $0.950{\pm}0.044$ & $0.952{\pm}0.032$ & $0.953{\pm}0.028$ & $0.966{\pm}0.022$ \\
+\midrule
+\multicolumn{4}{l}{\textit{Late, target-specific reach} (NLDisco 192/16; latents 72, 75, 93)} \\
+Training & $0.881{\pm}0.070$ & $0.918{\pm}0.090$ & $0.922{\pm}0.078$ & $0.926{\pm}0.030$ \\
+Held-out & $0.871{\pm}0.067$ & $0.915{\pm}0.093$ & $0.918{\pm}0.081$ & $0.921{\pm}0.029$ \\
+\midrule
+\multicolumn{4}{l}{\textit{Wheel activity} (NLDisco 192/12; latents 2, 72, 49)} \\
+Training & $0.940{\pm}0.010$ & $0.820{\pm}0.000$ & $0.839{\pm}0.001$ & $0.918{\pm}0.014$ \\
+Held-out & $0.943{\pm}0.018$ & $0.807{\pm}0.002$ & $0.830{\pm}0.004$ & $0.915{\pm}0.023$ \\
+\midrule
+\multicolumn{4}{l}{\textit{Smaller segmented area near the patch} (NLDisco 256/12; latents 107, 19, 89)} \\
+Training & $0.856{\pm}0.010$ & $0.677{\pm}0.073$ & $0.728{\pm}0.042$ & $0.837{\pm}0.015$ \\
+Held-out & $0.878{\pm}0.008$ & $0.649{\pm}0.096$ & $0.717{\pm}0.052$ & $0.843{\pm}0.021$ \\
+\midrule
+\multicolumn{4}{l}{\textit{Highest centroid-speed quintile} (NLDisco 256/12; latents 109, 112, 17)} \\
+Training & $0.836{\pm}0.020$ & $0.738{\pm}0.025$ & $0.762{\pm}0.018$ & $0.837{\pm}0.021$ \\
+Held-out & $0.868{\pm}0.013$ & $0.740{\pm}0.028$ & $0.770{\pm}0.019$ & $0.856{\pm}0.017$ \\
+\midrule
+\multicolumn{4}{l}{\textit{Radially outward movement} (NLDisco 256/12; latents 70, 117, 3)} \\
+Training & $0.971{\pm}0.006$ & $0.447{\pm}0.024$ & $0.637{\pm}0.010$ & $0.899{\pm}0.022$ \\
+Held-out & $0.966{\pm}0.005$ & $0.427{\pm}0.044$ & $0.628{\pm}0.017$ & $0.892{\pm}0.020$ \\
+\bottomrule
+\end{tabular*}

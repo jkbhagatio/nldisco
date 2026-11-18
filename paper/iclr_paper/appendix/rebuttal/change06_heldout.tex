@@ -1,0 +1,31 @@
+\subsubsection{Held-out validation of latent interpretations}
+\label{subsubsection:rebuttal_heldout}
+
+We test whether the feature descriptions of Sections~\ref{subsection:churchland_results} and~\ref{subsection:aeon_results} hold on data that never enters model fitting or latent selection. The descriptions are the paper's own: the four macaque descriptions and the four Aeon descriptions listed in \hyperref[subsubsection:churchland_results_additional]{\ref*{subsubsection:churchland_results_additional}} and \hyperref[subsubsection:aeon_results_additional]{\ref*{subsubsection:aeon_results_additional}}, with their numerical cutoffs unchanged.
+
+\paragraph{Split.}
+Each recording is divided once, before any model is trained, into a training part and a held-out part holding 20\% of the data. For the macaque recording we reuse the whole-trial split of the decoding analysis: 1,524 trials form the training part, and the 382 validation and test trials are held out. For the Aeon recording we divide the 18 hours into 72 blocks of 15 minutes and hold out every fifth block (14 blocks, 19.4\% of the recording; blocks with index $\equiv2 \bmod 5$). This rule was fixed from block timing and the behavioral recordings alone, so that each held-out part contains 18--21\% of each feature's condition-positive windows, spread over several separate held-out blocks (wheel-active windows occur in 7 of the 14 held-out blocks, 17,197 windows in 89 separate episodes). Windows that cross a block boundary are discarded; 2,608,670 training and 629,531 held-out windows remain.
+
+\paragraph{Training and selection.}
+We retrain each model with the settings of the main experiments on the training part only. For the macaque data this is the two-level TW-SED with $(D_1,k_1)=(96,8)$ and $(D_2,k_2)=(192,16)$, trained for ten epochs. For the Aeon data these are the $D=192$, $k=12$ model, which provides the \textit{wheel activity} feature, and the $D=256$, $k=12$ model, which provides the three supplementary features, each trained for 5,000 updates. Channel standardization, training windows, dead-latent bookkeeping and the calibration of activation thresholds use training windows alone. We train three models per setting with seeds 0, 1 and 2; the seed sets the initialization and the data order.
+
+For each feature and seed, the best-matching latent is the eligible latent with the highest \metric{AUROC} on the training part. A latent is eligible if it is active on at least 5\% of condition-positive training windows and on windows from at least 20 distinct trials (macaque) or condition episodes (Aeon; positive windows less than one second apart form one episode). The selected latent is then scored on the held-out part with \metric{Cov}, \metric{Spec}, \metric{Sel} and \metric{AUROC} as defined in \hyperref[subsubsection:latents_evaluation_details]{\ref*{subsubsection:latents_evaluation_details}}, using native positive activation as the activity rule. For \textit{wheel activity}, whose reported operating point is a displayed ROC threshold (\autoref{fig:aeon_features}b), we set the threshold on the training part to the value whose false-positive rate is closest to $0.18$, and apply this threshold unchanged to the held-out part.
+
+\paragraph{Results.}
+\autoref{table:rebuttal_heldout_metrics} lists training-part and held-out scores. The held-out scores match the training-part scores for all eight features: mean differences are at most $0.032$ in any metric, \metric{AUROC} differences lie between $-0.008$ and $+0.019$, and \metric{Sel} differences between $-0.011$ and $+0.008$. The best-matching latent has a different index in different seeds, and in each seed its held-out \metric{AUROC} equals the highest held-out \metric{AUROC} of any eligible latent in the model. Choosing the latent with the highest \metric{Sel} instead (\autoref{table:rebuttal_heldout_metrics_sel}) gives the same agreement between parts, with differences of at most $0.047$ in \metric{Cov} and $0.029$ in \metric{Sel}.
+
+\begin{table}[!t]
+    \centering
+    {\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+    \input{figures/rebuttal/change06_heldout/heldout_metrics.tex}}
+    \caption{\textbf{Training-part and held-out scores of the best-matching latents.} Mean $\pm$ standard deviation over three seeds. Each model is trained on the training part only, and the latent for each feature is the eligible latent with the highest \metric{AUROC} on the training part (indices for seeds 0, 1, 2 in parentheses). Macaque rows: 80\% of trials for training, validation and test trials held out. Aeon rows: whole 15-minute blocks held out. \metric{Cov}, \metric{Spec} and \metric{Sel} use native positive activation, except for \textit{wheel activity}, which uses a threshold fitted on the training part to a false-positive rate of $0.18$.}
+    \label{table:rebuttal_heldout_metrics}
+\end{table}
+
+\begin{table}[!t]
+    \centering
+    {\small\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.12}
+    \input{figures/rebuttal/change06_heldout/heldout_metrics_best_sel.tex}}
+    \caption{\textbf{Training-part and held-out scores when the latent is chosen by \metric{Sel}.} As \autoref{table:rebuttal_heldout_metrics}, with the best-matching latent defined as the eligible latent with the highest \metric{Sel} on the training part. All rows, including \textit{wheel activity}, use native positive activation.}
+    \label{table:rebuttal_heldout_metrics_sel}
+\end{table}
