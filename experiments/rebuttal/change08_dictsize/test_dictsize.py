@@ -66,3 +66,29 @@ def test_run_groups_splits_gaps_and_polarity():
     pos = np.array([True, True, False, True, True, True])
     g = ds.run_groups(pos, rows)
     assert g[0] == g[1] and g[3] == g[4] == g[5] and g[0] != g[3] and g[2] == -1
+
+
+def test_report_tidy_and_summary(tmp_path):
+    import json
+    from experiments.rebuttal.change08_dictsize import report
+
+    def record(d, seed, paper):
+        feat = {n: dict(n_eligible=3, auroc=dict(latent=1., auroc=.9, sel=.7), sel=dict(latent=2., auroc=.6, sel=.99))
+                for n in report.FEATURES['aeon']}
+        r = dict(dataset='aeon', D=d, seed=seed, role='paper' if paper else 'new', dead=d // 10,
+                 dead_fraction=.1, mean_l0=12., train_seconds=10. * d, is_paper_model=paper, features=feat,
+                 near_duplicates={t: dict(n_near_duplicate=5, share_near_duplicate=.05, n_redundant_removable=3, n_live=d)
+                                  for t in ('0.5', '0.7', '0.8', '0.9')})
+        if not paper:
+            r['vs_paper_model'] = {t: dict(share_reappearing=.9, n_shared=170, n_new=40, share_new=.2)
+                                   for t in ('0.3', '0.5', '0.7', '0.9')}
+        (tmp_path / f'aeon_d{d}_s{seed}.json').write_text(json.dumps(r))
+
+    record(192, 0, True)
+    record(512, 0, False)
+    record(512, 1, False)
+    frame = report.tidy(tmp_path)
+    table = report.summary_table(frame, 'aeon')
+    assert list(table.D) == [192, 512] and table.n_runs.tolist() == [1, 2]
+    assert table.loc[table.D == 512, 'shared'].item() == .9 and np.isnan(table.loc[table.D == 192, 'shared'].item())
+    assert table.loc[table.D == 512, 'dead_mean'].item() == 51
