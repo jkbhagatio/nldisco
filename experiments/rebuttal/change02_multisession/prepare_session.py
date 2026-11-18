@@ -14,6 +14,12 @@ behavior binning. Two things differ, both forced by the environment:
 * Checks that hard-coded session A's counts (90 clusters, 19 source files) are
   replaced by recording the observed values.
 
+One fix applies only when the interval starts inside a longer sorting block: a
+missing-heartbeat bracket that lies before the interval is now skipped. The
+original masking code turned its negative bin index into a wrap-around slice
+and invalidated hours of valid data. Sessions A and B have no such bracket, so
+their masks are identical with and without the fix.
+
 Run with the ingestion interpreter (``swc-aeon``, ``scikit-learn==1.7.2``).
 """
 from __future__ import annotations
@@ -351,6 +357,8 @@ def prepare_neural() -> dict:
     for a, b in sync_gaps+clock_anomaly_gaps:
         # Mask bins touching the whole bracketing interval, despite a smooth
         # saved regression. Do not infer a missing spike or a neural silence.
+        if b < 0 or a >= NBINS*.02:
+            continue  # Outside the interval; a negative stop would wrap around the array.
         first=max(0,int(np.floor(a/.02)))
         stop=min(NBINS,int(np.ceil(b/.02)))
         neural_valid[first:stop]=False

@@ -35,33 +35,33 @@ def condition_panel(session: str, endpoints: np.ndarray, data: Path | None = Non
 @jaxtyped(typechecker=beartype)
 def tuning_profile(
     codes: Float[np.ndarray, "window latent"], conditions: list[Condition], device: str = "cuda",
-) -> Float[np.ndarray, "latent condition"]:
-    """Return TPR - FPR at native activity for every latent and condition."""
+) -> tuple[Float[np.ndarray, "latent condition"], np.ndarray]:
+    """Return TPR - FPR at native activity for every latent and condition, and condition sizes."""
     masks = np.stack([m for c in conditions for m in (c.mask & c.valid, c.valid & ~c.mask)])
     totals = torch.zeros((len(masks), codes.shape[1]), dtype=torch.float64, device=device)
     for start in range(0, len(codes), 262144):
         active = torch.from_numpy(codes[start:start + 262144] > 0).to(device=device, dtype=torch.float32)
         chunk = torch.from_numpy(masks[:, start:start + 262144]).to(device=device, dtype=torch.float32)
         totals += (chunk @ active).double()
-    rates = (totals / torch.from_numpy(masks.sum(axis=1)).to(device).double().clamp_min(1)[:, None]).cpu().numpy()
-    return np.ascontiguousarray((rates[0::2] - rates[1::2]).T)
+    sizes = masks.sum(axis=1)
+    rates = (totals / torch.from_numpy(sizes).to(device).double().clamp_min(1)[:, None]).cpu().numpy()
+    return np.ascontiguousarray((rates[0::2] - rates[1::2]).T), sizes[0::2]
 
 
 @beartype
-def session_a_profile(d: int, device: str = "cuda") -> tuple[np.ndarray, list[str]]:
-    """Profile of the paper's session A model on session A (cached on Ceph)."""
-    cache = CEPH / "eval" / f"profile_a_d{d}.npz"
+def session_a_profile(d: int, device: str = "cuda") -> tuple[np.ndarray, np.ndarray]:
+    """Profile and condition sizes of the paper's session A model on session A (cached)."""
+    cache = CEPH / "eval" / f"profile_a_d{d}_v2.npz"
     if cache.exists():
         saved = np.load(cache, allow_pickle=False)
-        return saved["profile"], saved["names"].tolist()
+        return saved["profile"], saved["sizes"]
     run = SESSION_A / f"d{d}" / "k12_seed0"
     endpoints = np.load(run / "endpoint_bins.npy")
     conditions = condition_panel("A", endpoints)
-    profile = tuning_profile(np.load(run / "activations.npy"), conditions, device)
-    names = [c.name for c in conditions]
+    profile, sizes = tuning_profile(np.load(run / "activations.npy"), conditions, device)
     cache.parent.mkdir(parents=True, exist_ok=True)
-    np.savez(cache, profile=profile, names=np.array(names))
-    return profile, names
+    np.savez(cache, profile=profile, sizes=sizes, names=np.array([c.name for c in conditions]))
+    return profile, sizes
 
 
 @jaxtyped(typechecker=beartype)
@@ -81,8 +81,8 @@ def identity_transfer(
     tuned = np.flatnonzero(np.abs(reference).max(axis=1) >= minimum_tuning)
     a = reference - reference.mean(axis=1, keepdims=True)
     b = transferred - transferred.mean(axis=1, keepdims=True)
-    a /= np.maximum(np.linalg.norm(a, axis=1, keepdims=True), 1e-12)
-    b /= np.maximum(np.linalg.norm(b, axis=1, keepdims=True), 1e-12)
+    a = a / np.maximum(np.linalg.norm(a, axis=1, keepdims=True), 1e-12)
+    b = b / np.maximum(np.linalg.norm(b, axis=1, keepdims=True), 1e-12)
     similarity = a[tuned] @ b.T  # [tuned reference latent, transferred latent]
     own = similarity[np.arange(len(tuned)), tuned]
     rank = (similarity > own[:, None]).sum(axis=1) + 1
@@ -95,3 +95,29 @@ def identity_transfer(
                 median_rank=float(np.median(rank)),
                 self_correlation={int(i): float(v) for i, v in zip(tuned, own)},
                 self_rank={int(i): int(v) for i, v in zip(tuned, rank)})
+
+
+@jaxtyped(typechecker=beartype)
+def condition_transfer(
+    reference: Float[np.ndarray, "latent condition"], transferred: Float[np.ndarray, "latent condition"],
+    minimum: float = .3,
+) -> dict:
+    """For each behavior condition, test whether its best session A latent is still its best latent.
+
+    A condition counts when some session A latent separates it by at least
+    ``minimum`` (TPR - FPR). Its best session A latent is then ranked among all
+    shared latents on the same condition in the new session.
+
+    Returns:
+        Number of conditions, the fractions whose latent ranks first and within
+        the top three, and the per-condition latent and rank.
+    """
+    best = reference.argmax(axis=0)
+    strength = reference.max(axis=0)
+    keep = np.flatnonzero(strength >= minimum)
+    own = transferred[best[keep], keep]
+    rank = (transferred[:, keep] > own[None, :]).sum(axis=0) + 1
+    return dict(n_conditions=int(len(keep)), top1=float((rank == 1).mean()), top3=float((rank <= 3).mean()),
+                median_rank=float(np.median(rank)), conditions=keep.tolist(),
+                latents=best[keep].tolist(), ranks=rank.tolist(), new_strength=own.tolist(),
+                reference_strength=strength[keep].tolist())

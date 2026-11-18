@@ -1,0 +1,22 @@
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llrrrrrrr@{}}
+\toprule
+ & & & \multicolumn{2}{c}{$D=192$} & \multicolumn{4}{c}{$D=256$} \\
+\cmidrule(lr){4-5}\cmidrule(lr){6-9}
+Session & Initialisation & Seed & \shortstack{Wheel\\latent 52} & \shortstack{Top-1 / top-3\\(\%)} & \shortstack{Area\\latent 107} & \shortstack{Speed\\latent 109} & \shortstack{Direction\\latent 10} & \shortstack{Top-1 / top-3\\(\%)} \\
+\midrule
+B & Probe position & 0 & 0.893 (1) & 80 / 95 & 0.876 (1) & 0.793 (1) & 0.858 (1) & 57 / 85 \\
+ &  & 1 & 0.891 (1) & 81 / 93 & 0.877 (1) & 0.793 (1) & 0.858 (1) & 57 / 85 \\
+ &  & 2 & 0.893 (1) & 81 / 93 & 0.876 (1) & 0.792 (1) & 0.864 (1) & 57 / 85 \\
+ & Probe position, no training & -- & 0.892 (1) & 68 / 93 & 0.875 (1) & 0.790 (1) & 0.865 (1) & 57 / 85 \\
+ & Random (control) & 0 & 0.899 (1) & 51 / 59 & 0.865 (1) & 0.859 (1) & 0.435 (250) & 41 / 65 \\
+ &  & 1 & 0.390 (184) & 36 / 37 & 0.686 (4) & 0.878 (1) & 0.449 (248) & 28 / 39 \\
+ &  & 2 & 0.765 (3) & 37 / 58 & -- & -- & -- & -- \\
+ & Scrambled positions (control) & 0 & 0.413 (183) & 36 / 42 & 0.428 (249) & 0.807 (1) & 0.270 (256) & 30 / 37 \\
+ &  & 1 & 0.530 (14) & 51 / 76 & 0.863 (1) & 0.807 (1) & 0.344 (255) & 52 / 74 \\
+ &  & 2 & -- & -- & -- & -- & -- & -- \\
+\midrule
+E & Probe position & 0 & 0.913 (1) & 53 / 73 & -- & -- & -- & -- \\
+ & Probe position, no training & -- & 0.895 (1) & 49 / 75 & 0.847 (1) & 0.777 (1) & 0.847 (1) & 52 / 72 \\
+ & Random (control) & 0 & 0.482 (171) & 31 / 47 & -- & -- & -- & -- \\
+\bottomrule
+\end{tabular*}

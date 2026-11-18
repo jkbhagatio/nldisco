@@ -38,6 +38,7 @@ from nldisco.model.multisession import MultiSessionSed, position_correspondence
 from nldisco.train import train_multisession_model
 
 TARGETS = {192: {"wheel": 52}, 256: {"area": 107, "speed": 109, "direction": 10}}
+MIN_CONDITION_WINDOWS = 2000  # Conditions rarer than this in either session are left out.
 PAPER_WHEEL_THRESHOLD = 3.306849718093872  # Activation threshold of the paper's wheel scores.
 FEATURES = ("wheel", "area", "speed", "direction")
 
@@ -210,9 +211,13 @@ def adapt(config: dict, output: Path, loader: WindowBatches, conditions: dict,
     table, rows = score_run(codes, conditions, cfg["d"], n_shared)
     table.to_csv(output / "latent_scores.csv", index=False)
     if panel is not None:
-        profile = tuning_profile(codes, panel, device)
+        profile, sizes = tuning_profile(codes, panel, device)
         np.save(output / "tuning_profile.npy", profile)
-        transfer = identity_transfer(session_a_profile(cfg["d"], device)[0], profile[:n_shared])
+        reference, reference_sizes = session_a_profile(cfg["d"], device)
+        keep = (sizes >= MIN_CONDITION_WINDOWS) & (reference_sizes >= MIN_CONDITION_WINDOWS)
+        transfer = identity_transfer(np.ascontiguousarray(reference[:, keep]),
+                                     np.ascontiguousarray(profile[:n_shared, keep]))
+        transfer["n_conditions"] = int(keep.sum())
         (output / "identity_transfer.json").write_text(json.dumps(transfer, indent=2))
         summary["identity_transfer"] = {key: value for key, value in transfer.items()
                                         if not isinstance(value, dict)}

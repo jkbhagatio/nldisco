@@ -19,6 +19,11 @@ from experiments.aeon.sweep_20260921.shared_analysis import (
 from experiments.rebuttal.change02_multisession.common import DATA
 
 
+# Fixed camera-pixel grid over the arena, identical for every session.
+PLACE_X = np.linspace(240., 1215., 7)
+PLACE_Y = np.linspace(80., 1050., 7)
+
+
 def extra_conditions(behavior: pd.DataFrame, pellets: pd.DataFrame, endpoints: np.ndarray) -> list[Condition]:
     """Pellet-delivery epochs and a coarse arena-position grid."""
     conditions = []
@@ -36,15 +41,13 @@ def extra_conditions(behavior: pd.DataFrame, pellets: pd.DataFrame, endpoints: n
     x, y = behavior.x.to_numpy(dtype=float), behavior.y.to_numpy(dtype=float)
     valid = complete_support(camera & np.isfinite(x) & np.isfinite(y))[endpoints]
     xe, ye = x[endpoints], y[endpoints]
-    x_edges = np.linspace(np.nanquantile(xe[valid], .001), np.nanquantile(xe[valid], .999), 7)
-    y_edges = np.linspace(np.nanquantile(ye[valid], .001), np.nanquantile(ye[valid], .999), 7)
     for i in range(6):
         for j in range(6):
-            mask = valid & (xe >= x_edges[i]) & (xe < x_edges[i + 1]) & (ye >= y_edges[j]) & (ye < y_edges[j + 1])
-            if mask.sum() >= 2000:
-                conditions.append(Condition(
-                    f"place_x{i}_y{j}", "place", mask, valid,
-                    f"{x_edges[i]:.0f}<=x<{x_edges[i + 1]:.0f}, {y_edges[j]:.0f}<=y<{y_edges[j + 1]:.0f} px"))
+            mask = (valid & (xe >= PLACE_X[i]) & (xe < PLACE_X[i + 1])
+                    & (ye >= PLACE_Y[j]) & (ye < PLACE_Y[j + 1]))
+            conditions.append(Condition(
+                f"place_x{i}_y{j}", "place", mask, valid,
+                f"{PLACE_X[i]:.0f}<=x<{PLACE_X[i + 1]:.0f}, {PLACE_Y[j]:.0f}<=y<{PLACE_Y[j + 1]:.0f} px"))
     speed = behavior.speed.to_numpy(dtype=float)
     still = complete_support(camera & np.isfinite(speed) & (speed < 5), 50)[endpoints]
     conditions.append(Condition("still_1s", "immobility", still, complete_support(camera & np.isfinite(speed))[endpoints],
