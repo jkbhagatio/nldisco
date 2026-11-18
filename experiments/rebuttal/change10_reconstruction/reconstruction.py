@@ -246,12 +246,15 @@ def load_targets() -> tuple:
 
 @beartype
 def latex_table(results: dict, path: Path) -> None:
-    """Write the appendix table body (booktabs), best value per column in bold."""
+    """Write the complete appendix tabular (booktabs), best value per column in bold."""
     rows = list(results.values())
     cols = [('readout', 'bits_per_spike'), ('readout', 'variance_explained'),
             ('native', 'bits_per_spike'), ('native', 'variance_explained')]
     best = {c: max((round(r[c[0]]['test'][c[1]], 3) for r in rows if r.get(c[0])), default=None) for c in cols}
-    lines = []
+    lines = [r'\begin{tabular}{lcccc}', r'\toprule',
+             r'& \multicolumn{2}{c}{Shared Poisson readout} & \multicolumn{2}{c}{Native decoder} \\',
+             r'\cmidrule(lr){2-3}\cmidrule(lr){4-5}',
+             r'Method & Bits/spike & Var.\ explained & Bits/spike & Var.\ explained \\', r'\midrule']
     for r in rows:
         cells = [r['label']]
         for c in cols:
@@ -263,6 +266,7 @@ def latex_table(results: dict, path: Path) -> None:
             cells.append((rf'\textbf{{{text}}}' if round(v, 3) == best[c] else text)
                          + rf' {{\scriptsize [{lo:.3f}, {hi:.3f}]}}')
         lines.append(' & '.join(cells) + r' \\')
+    lines += [r'\bottomrule', r'\end{tabular}']
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text('\n'.join(lines) + '\n')
 
@@ -273,9 +277,13 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--device', default='cuda' if torch.cuda.is_available() else 'cpu')
     parser.add_argument('--out', type=Path, default=OUT / 'results')
-    parser.add_argument('--table', type=Path, default=TABLE / 'reconstruction_rows.tex')
+    parser.add_argument('--table', type=Path, default=TABLE / 'reconstruction_table.tex')
+    parser.add_argument('--table-only', action='store_true', help='Rewrite the table from saved results.json.')
     parser.add_argument('--bootstrap', type=int, default=1000)
     args = parser.parse_args()
+    if args.table_only:
+        latex_table(json.loads((args.out / 'results.json').read_text())['methods'], args.table)
+        return
     methods = METHODS + [m for m in (stndt_method(),) if m is not None]
     anchors, counts, split, trial = load_targets()
     test = split == SPLITS['test']

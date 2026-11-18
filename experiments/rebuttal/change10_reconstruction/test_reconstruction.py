@@ -98,7 +98,7 @@ def test_latex_table_bolds_best(tmp_path):
         return dict(label=label, readout=dict(test=test),
                     native=None if native is None else dict(test={**test, 'bits_per_spike': native}))
     rc.latex_table(dict(a=entry('A', .1, .3), b=entry('B', .2)), tmp_path / 't.tex')
-    a, b = (tmp_path / 't.tex').read_text().splitlines()
+    a, b = [line for line in (tmp_path / 't.tex').read_text().splitlines() if line.startswith(('A &', 'B &'))]
     assert r'\textbf{0.200}' in b and '--' in b and r'\textbf{0.300}' in a
 
 
@@ -120,4 +120,5 @@ def test_latex_table_bolds_ties_at_displayed_precision(tmp_path):
     test = lambda v: dict(bits_per_spike=v, variance_explained=v, bits_per_spike_ci=[0, 1], variance_explained_ci=[0, 1])  # noqa: E731
     rc.latex_table(dict(a=dict(label='A', readout=dict(test=test(.33511)), native=None),
                         b=dict(label='B', readout=dict(test=test(.33497)), native=None)), tmp_path / 't.tex')
-    assert all(r'\textbf{0.335}' in line for line in (tmp_path / 't.tex').read_text().splitlines())
+    rows = [line for line in (tmp_path / 't.tex').read_text().splitlines() if line.startswith(('A &', 'B &'))]
+    assert len(rows) == 2 and all(r'\textbf{0.335}' in line for line in rows)
