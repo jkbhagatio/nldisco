@@ -156,7 +156,8 @@ def figure4(rows: dict, destination: Path) -> None:
                 raise ValueError("Overlay and printed figure sizes differ")
             page.show_pdf_page(page.rect, overlay, 0)
             document.save(destination / "figure4.pdf", garbage=3, deflate=True)
-    page.get_pixmap(dpi=210).save(destination / "figure4.png")
+    fitz.open(destination / "figure4.pdf")[0].get_pixmap(dpi=210).save(
+        destination / "figure4.png")
 
 
 @beartype
