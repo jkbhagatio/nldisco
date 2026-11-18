@@ -1,0 +1,21 @@
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}llrrrrrr@{}}
+\toprule
+Split & Latent & \metric{Cov} & \metric{Spec} & \metric{Sel} & \metric{AUROC} & Bins in $C$ & Bins in $\neg C$ \\
+\midrule
+\multicolumn{8}{l}{\textit{Gabor at (10$^\circ$, 10$^\circ$)}} \\
+Train (80\%) & 196 & 0.893 & 0.847 & 0.853 & 0.909 & 150 & 13,150 \\
+Held-out (20\%) & 196 & 0.769 & 0.841 & 0.828 & 0.838 & 65 & 3,273 \\
+\midrule
+\multicolumn{8}{l}{\textit{Drifting grating at $\geq$8 Hz}} \\
+Train (80\%) & 65 & 0.772 & 0.780 & 0.779 & 0.812 & 7,685 & 22,401 \\
+Held-out (20\%) & 65 & 0.689 & 0.793 & 0.769 & 0.770 & 1,841 & 5,725 \\
+\midrule
+\multicolumn{8}{l}{\textit{Natural image 19}} \\
+Train (80\%) & 70 & 0.865 & 0.933 & 0.928 & 0.917 & 170 & 22,313 \\
+Held-out (20\%) & 70 & 0.800 & 0.930 & 0.920 & 0.882 & 60 & 5,598 \\
+\midrule
+\multicolumn{8}{l}{\textit{Natural movie 3, second 115}} \\
+Train (80\%) & 112 & 0.950 & 0.891 & 0.897 & 0.946 & 160 & 18,663 \\
+Held-out (20\%) & 112 & 1.000 & 0.864 & 0.880 & 0.972 & 20 & 3,847 \\
+\bottomrule
+\end{tabular*}
