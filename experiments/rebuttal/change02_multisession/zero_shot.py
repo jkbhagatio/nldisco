@@ -10,8 +10,14 @@ import pandas as pd
 import torch
 
 from experiments.rebuttal.change02_multisession.common import (
-    CEPH, POSITIONS, behavior_conditions, encode_endpoints, load_session, load_session_a_model,
-    score_latents, score_one,
+    CEPH,
+    POSITIONS,
+    behavior_conditions,
+    encode_endpoints,
+    load_session,
+    load_session_a_model,
+    score_latents,
+    score_one,
 )
 
 

@@ -23,12 +23,22 @@ from sklearn.metrics import roc_curve
 
 from experiments.aeon.sweep_20260921 import paper_results as source
 from experiments.aeon.sweep_20260921.shared_analysis import complete_support
-from experiments.rebuttal.change02_multisession.adapt import MIN_CONDITION_WINDOWS, PAPER_WHEEL_THRESHOLD
+from experiments.rebuttal.change02_multisession.adapt import (
+    MIN_CONDITION_WINDOWS,
+    PAPER_WHEEL_THRESHOLD,
+)
 from experiments.rebuttal.change02_multisession.common import (
-    DATA, SEQ_LEN, SESSION_A, behavior_conditions, score_latents, score_one,
+    DATA,
+    SEQ_LEN,
+    SESSION_A,
+    behavior_conditions,
+    score_latents,
+    score_one,
 )
 from experiments.rebuttal.change02_multisession.profiles import (
-    condition_panel, condition_transfer, session_a_profile,
+    condition_panel,
+    condition_transfer,
+    session_a_profile,
 )
 
 REPO = Path(__file__).resolve().parents[3]

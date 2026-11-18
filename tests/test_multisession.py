@@ -15,8 +15,14 @@ from nldisco.config import (
     TrainConfig,
 )
 from nldisco.data.window import SpikeWindowDataset
-from nldisco.model import MultiSessionSed, build_multisession_sed, build_sed, position_correspondence
+from nldisco.model import (
+    MultiSessionSed,
+    build_multisession_sed,
+    build_sed,
+    position_correspondence,
+)
 from nldisco.train import split_rows_by_session, train_model, train_multisession_model
+
 
 def _same(left: t.Tensor, right: t.Tensor) -> bool:
     """Exact equality that treats uncalibrated (NaN) thresholds as equal."""

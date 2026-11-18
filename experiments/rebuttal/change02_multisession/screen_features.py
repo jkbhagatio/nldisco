@@ -14,10 +14,13 @@ import numpy as np
 import pandas as pd
 
 from experiments.aeon.sweep_20260921.shared_analysis import (
-    Condition, build_conditions, complete_support, continuous_auc, screen,
+    Condition,
+    build_conditions,
+    complete_support,
+    continuous_auc,
+    screen,
 )
 from experiments.rebuttal.change02_multisession.common import DATA
-
 
 # Fixed camera-pixel grid over the arena, identical for every session.
 PLACE_X = np.linspace(240., 1215., 7)
@@ -73,8 +76,9 @@ def main() -> None:
     by_name = {c.name: c for c in conditions}
     top = (table[(table.tpr >= .5) & (table.n_condition >= 2000)]
            .sort_values("selectivity", ascending=False).groupby("condition").head(2).head(120).copy())
-    top["auroc"] = [continuous_auc(codes[by_name[c].valid, l].astype(float),
-                                   by_name[c].mask[by_name[c].valid]) for l, c in zip(top.latent, top.condition)]
+    top["auroc"] = [continuous_auc(codes[by_name[name].valid, latent].astype(float),
+                                   by_name[name].mask[by_name[name].valid])
+                    for latent, name in zip(top.latent, top.condition)]
     top["definition"] = [by_name[c].definition for c in top.condition]
     top.to_csv(args.output / "top_candidates.csv", index=False)
     pd.set_option("display.width", 250, "display.max_rows", 200, "display.max_colwidth", 60)

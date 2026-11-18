@@ -27,23 +27,24 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import pickle
 import shutil
+import sys
 import tempfile
-import warnings
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
-
-import pickle
-import sys
 
 SESSION_A_DATA = Path('/ceph/aeon/aeon/nldisco/aeon/sweeps/20260921_18h_s20/data')
 sys.path.insert(0, str(SESSION_A_DATA))  # unchanged helpers saved with session A
 
 from sanity_helpers import BEHAVIOR_EPOCH, EPHYS_EPOCH  # noqa: E402
 from validate_single_chunk import (  # noqa: E402
-    apply_models, residual_summary, recording_sources, read_acquisition_source,
+    apply_models,
+    read_acquisition_source,
+    recording_sources,
+    residual_summary,
 )
 
 HERE = SESSION_A_DATA

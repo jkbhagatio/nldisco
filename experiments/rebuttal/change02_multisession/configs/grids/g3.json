@@ -1,0 +1,6 @@
+[
+ {"name": "d192_pos_s0_save", "init": "position", "steps": 0, "save_activations": true},
+ {"name": "d256_pos_s0_save", "d": 256, "init": "position", "steps": 0, "save_activations": true},
+ {"name": "d192_shuf_s5000_seed1", "init": "shuffled", "steps": 5000, "seed": 1},
+ {"name": "d256_shuf_s5000_seed1", "d": 256, "init": "shuffled", "steps": 5000, "seed": 1}
+]

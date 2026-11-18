@@ -10,7 +10,9 @@ from experiments.rebuttal.change02_multisession.adapt import GpuWindowBatches, s
 from experiments.rebuttal.change02_multisession.common import score_latents, score_one
 from experiments.rebuttal.change02_multisession.new_feature import LAGS, peri_event
 from experiments.rebuttal.change02_multisession.profiles import (
-    condition_transfer, identity_transfer, tuning_profile,
+    condition_transfer,
+    identity_transfer,
+    tuning_profile,
 )
 
 

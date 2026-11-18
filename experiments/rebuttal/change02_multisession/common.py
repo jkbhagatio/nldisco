@@ -14,7 +14,9 @@ from jaxtyping import Bool, Float, jaxtyped
 
 from experiments.aeon.sweep_20260921.paper_results import definitions, score
 from experiments.aeon.sweep_20260921.shared_training import (
-    WindowBatches, compute_statistics, make_config,
+    WindowBatches,
+    compute_statistics,
+    make_config,
 )
 from nldisco.model.sed import Sed, build_sed
 

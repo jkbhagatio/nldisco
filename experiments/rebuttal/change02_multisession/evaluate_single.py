@@ -9,7 +9,11 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from experiments.rebuttal.change02_multisession.common import DATA, behavior_conditions, score_latents
+from experiments.rebuttal.change02_multisession.common import (
+    DATA,
+    behavior_conditions,
+    score_latents,
+)
 
 
 def main() -> None:

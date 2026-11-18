@@ -26,11 +26,20 @@ from beartype import beartype
 
 from experiments.aeon.sweep_20260921.shared_training import WindowBatches
 from experiments.rebuttal.change02_multisession.common import (
-    DATA, POSITIONS, SEQ_LEN, behavior_conditions, load_session, load_session_a_model,
-    score_latents, score_one,
+    DATA,
+    POSITIONS,
+    SEQ_LEN,
+    behavior_conditions,
+    load_session,
+    load_session_a_model,
+    score_latents,
+    score_one,
 )
 from experiments.rebuttal.change02_multisession.profiles import (
-    condition_panel, identity_transfer, session_a_profile, tuning_profile,
+    condition_panel,
+    identity_transfer,
+    session_a_profile,
+    tuning_profile,
 )
 from nldisco.config import LossConfig, SessionConfig, TrainConfig
 from nldisco.data.window import WindowSample
