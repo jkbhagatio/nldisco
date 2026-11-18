@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import sys
+from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -21,7 +22,7 @@ from experiments.rebuttal.change02_multisession.common import (
 )
 
 
-def assignment(sigma: float | None) -> np.ndarray:
+def assignment(sigma: Optional[float]) -> np.ndarray:
     """Row-stochastic [A unit, B unit] map; nearest neighbour when sigma is None."""
     a, b = pd.read_csv(POSITIONS["A"]), pd.read_csv(POSITIONS["B"])
     distance = np.hypot(a.x_um.values[:, None] - b.x_um.values[None], a.y_um.values[:, None] - b.y_um.values[None])
