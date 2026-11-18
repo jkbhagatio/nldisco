@@ -1,0 +1,2 @@
+# Install with uv pip install --no-deps; the main project supplies torch/numpy/pyyaml.
+yacs==0.1.8
