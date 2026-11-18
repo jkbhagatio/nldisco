@@ -1,0 +1,23 @@
+\subsubsection{Sensitivity of the baseline feature scores to the activation threshold}
+\label{subsubsection:rebuttal_threshold_sensitivity}
+
+For CEBRA-Time and LangevinFlow, a latent counts as active when its (sign-oriented) value lies in the highest $r$ fraction of eligible development windows, with $r$ set per feature from the reference NLDisco latent ($r=31.921\%$, $0.793\%$, $1.473\%$ and $2.401\%$; \autoref{subsubsection:churchland_results_additional}). To test how much the thresholded scores depend on this choice, we keep every latent shown in \autoref{table:churchland_feature_metrics} fixed (same coordinate and sign) and re-score it on the development windows while the activation rate varies from $0.1\%$ to $60\%$ (\autoref{figure:rebuttal_threshold_sensitivity}). We treat NLDisco in the same way: its latent is thresholded at the corresponding quantile of its activation amplitude, up to the rate at which the threshold reaches its native rule $z>0$ (rates above this are not reachable for a sparse latent because it has no further nonzero activations). We also report each latent's own best threshold, defined as the threshold that maximizes \metric{Sel} on the development windows among thresholds that meet the eligibility rule used for latent selection (\metric{Cov}$\,\geq0.05$ and activity in at least 20 positive trials), for all methods. \metric{AUROC} is computed from the raw activations and does not depend on the threshold (\autoref{table:rebuttal_threshold_sensitivity}). The scores at the paper's rate are recomputed from the saved representations and agree with the scores stored with the selections.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\linewidth]{figures/rebuttal/change09_thresholds/threshold_sensitivity.pdf}
+    \caption{\textbf{Threshold sensitivity of \metric{Cov}, \metric{Spec} and \metric{Sel}.} Each column is one behavioral description and each curve one latent from \autoref{table:churchland_feature_metrics}, re-scored on the development windows as the activation rate that sets its threshold varies. Dots mark the paper's operating point (rate $r$ for the dense baselines, dotted vertical line; native threshold $z>0$ for NLDisco, whose curve ends there). Solid lines: best-\metric{Sel} latent (illustrative latent for NLDisco on the two main-text features); dashed lines: best-\metric{AUROC} latent where different.}
+    \label{figure:rebuttal_threshold_sensitivity}
+\end{figure}
+
+\metric{Cov} rises and \metric{Spec} falls as the rate increases for every method. For the three rarer features, doubling the rate from $r/2$ to $2r$ changes the baseline latents' \metric{Sel} by at most $0.044$, while their \metric{Cov} grows by a factor of $2.0$--$4.2$; for recent deceleration, where $r=31.9\%$ and $2r$ is $63.8\%$, \metric{Sel} falls by $0.20$--$0.26$. \metric{Sel} rises as the threshold tightens and \metric{Cov} falls: at their own best thresholds the baseline latents reach \metric{Sel} of $0.84$--$0.97$ (recent deceleration), $0.95$--$0.98$ (fast leftward target reach), $0.96$--$0.97$ (early leftward movement) and $0.99$--$1.00$ (late, target-specific reach) with \metric{Cov} between $0.05$ and $0.36$. NLDisco's latents reach \metric{Sel} of $0.996$--$1.000$ at their own best thresholds ($\metric{Cov}=0.05$--$0.26$).
+
+At equal coverage, the NLDisco latent has higher \metric{Sel} than the baselines. When each baseline threshold is chosen to maximize \metric{Sel} subject to $\metric{Cov}$ at least that of the reference NLDisco latent, the best baseline \metric{Sel} is $0.899$ for recent deceleration, $0.929$ for fast leftward target reach, $0.808$ for early leftward movement and $0.817$ for late, target-specific reach, compared with $0.924$, $0.975$, $0.926$ and $0.937$ for the NLDisco latent at its native threshold (\autoref{table:churchland_feature_metrics}).
+
+\begin{table}[!htbp]
+    \centering
+    {\scriptsize\setlength{\tabcolsep}{2.5pt}\renewcommand{\arraystretch}{1.08}
+    \resizebox{\linewidth}{!}{\input{figures/rebuttal/change09_thresholds/threshold_sensitivity_table.tex}}}
+    \caption{\textbf{Scores at named activation-rate settings.} Development windows; latents as in \autoref{table:churchland_feature_metrics}. For the dense baselines, $r/2$, $r$ and $2r$ are multiples of the paper's rate; for NLDisco, $r$ is the native threshold $z>0$, half of its native rate is shown, and twice that rate is not reachable (--). Own best: the threshold with the highest \metric{Sel} subject to $\metric{Cov}\geq0.05$ and activity in at least 20 positive trials; the last column gives the resulting activation rate. \metric{AUROC} does not depend on the threshold.}
+    \label{table:rebuttal_threshold_sensitivity}
+\end{table}
