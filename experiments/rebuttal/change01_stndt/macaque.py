@@ -67,6 +67,9 @@ def main() -> None:
         hp = Hyperparameters(epochs=args.epochs, batch_size=args.batch_size,
                              **{k: v for k, v in config.items() if k != "config_id"})
         run = args.output / args.mode / config["config_id"]
+        if run.exists():  # another worker owns this setting; runs are never overwritten
+            print(json.dumps(dict(config_id=config["config_id"], skipped=True)), flush=True)
+            continue
         try:
             summary = train_and_export(
                 counts, indices, run, hp, *masks, anchors=anchors, provenance=dict(
