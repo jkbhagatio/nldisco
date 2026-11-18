@@ -1,0 +1,8 @@
+{
+  "fixed_before_analysing_any_new_run": true,
+  "date_utc": "2026-11-18",
+  "reappearance_match_threshold": {"value": 0.5, "meaning": "a latent of the paper's D=192 model reappears in a larger model if its maximum Pearson correlation of native activations with any live latent of that model, over the same windows, is >= 0.5; a live latent of the larger model is 'new' if its maximum correlation with every live latent of the paper's model is < 0.5", "sensitivity_grid": [0.3, 0.5, 0.7, 0.9]},
+  "near_duplicate_threshold": {"value": 0.8, "meaning": "a live latent is a near-duplicate if some other live latent of the same model correlates >= 0.8 with it", "sensitivity_grid": [0.5, 0.7, 0.8, 0.9]},
+  "feature_selection_rule": "per feature and run, the eligible latent with maximum AUROC (ties: lowest id); also reported: eligible maximum Sel. Eligible: nonconstant, TPR >= 0.05, active positives in >= 20 trials (macaque) or >= 20 episodes (Aeon). Native activity > 0, positive orientation.",
+  "paper_models": {"macaque": "D=192, k=16, 2 levels, seed 1 (frozen_spec.json)", "aeon": "D=192, k=12, seed 0"}
+}
