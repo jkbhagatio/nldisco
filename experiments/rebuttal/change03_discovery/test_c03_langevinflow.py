@@ -26,6 +26,8 @@ def test_langevinflow_window_model_consumes_each_bin_once():
     counts = torch.rand(50, 4)
     out = np.zeros((2, 24), np.float32)
     lf.extract(model, counts, np.array([0, 30]), out)
+    assert model.posterior_mean is False  # extract restores sampling for training
+    model.posterior_mean = True
     with torch.enable_grad():
         expected = model(torch.stack([counts[0:20], counts[30:50]]))[1][:, -1]
     np.testing.assert_allclose(out, expected.detach().numpy(), atol=1e-6)

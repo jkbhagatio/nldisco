@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 import torch
 
-from experiments.rebuttal.change03_discovery import data, run_pca
+from experiments.rebuttal.change03_discovery import run_pca
 
 
 def test_pca_windows_are_causal_and_flat():
