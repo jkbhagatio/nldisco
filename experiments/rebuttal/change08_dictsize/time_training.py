@@ -103,6 +103,51 @@ def aeon_setup(n: int):
     return make
 
 
+def model_only(dataset: str, dims: list, repeats: int, steps: int = 30) -> list:
+    """GPU compute per optimisation step on one preloaded batch (no data loading, no aux loss).
+
+    Mirrors the core of the training step: forward, summed per-level MSE, backward, dictionary
+    constraint, Adam step, dictionary normalisation. Minimum over repeats, sizes interleaved.
+    """
+    if dataset == 'macaque':
+        from experiments.rebuttal.change08_dictsize import train_macaque as tm
+        training = tm.training
+        data, *_ = training.load_dataset()
+        batch = next(iter(DataLoader(data, batch_size=1024)))
+        build = lambda d: training.build_sed(training.configuration(data.spike_counts.shape[1], d, K['macaque'], 2))
+    else:
+        from experiments.aeon.sweep_20260921 import shared_training as st
+        base = Path('/ceph/aeon/aeon/nldisco/aeon/sweeps/20260921_18h_s20/data')
+        counts = np.load(base / 'counts.npy', mmap_mode='r')
+        starts = np.load(base / 'valid_starts.npy', mmap_mode='r')
+        mean, std, _ = st.compute_statistics(counts, np.load(base / 'neural_valid.npy', mmap_mode='r'))
+        batch = st.WindowBatches(counts, starts, mean, std, 1024, 1, 0).batch(np.arange(1024))
+        build = lambda d: st.build_sed(st.make_config(d, K['aeon'], counts.shape[1]))
+    values, mask = batch.values.cuda(), batch.occurrence_mask.cuda()
+    out = []
+    for rep in range(repeats + 1):
+        for d in dims:
+            torch.manual_seed(rep)
+            model = build(d).cuda()
+            opt = torch.optim.Adam(model.parameters(), lr=.005)
+
+            def run():
+                for _ in range(steps):
+                    opt.zero_grad()
+                    result = model(values, occurrence_mask=mask)
+                    loss = sum((r - values).square().mean() for r in result.reconstructions.values())
+                    loss.backward()
+                    model.constrain_dictionary()
+                    opt.step()
+                    model.normalize_dictionary()
+            run()  # warm-up
+            seconds = sync_time(run)
+            out.append(dict(D=d, repeat=rep, warmup=rep == 0, step_seconds=seconds / steps))
+            del model, opt
+            torch.cuda.empty_cache()
+    return out
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--dataset', choices=('macaque', 'aeon'), required=True)
@@ -110,8 +155,12 @@ def main() -> None:
     parser.add_argument('--repeats', type=int, default=10)
     parser.add_argument('--updates', type=int, default=40, help='updates (= calibration batches) per measurement')
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--model-only', action='store_true', help='GPU compute per step on a preloaded batch')
     args = parser.parse_args()
     torch.set_num_threads(4)
+    if args.model_only:
+        args.output.write_text(json.dumps(model_only(args.dataset, args.dims, args.repeats), indent=1))
+        return
     n = args.updates
     make = (macaque_setup if args.dataset == 'macaque' else aeon_setup)(n)
     device = torch.device('cuda')

@@ -109,7 +109,7 @@ def markdown(frame: pd.DataFrame, dataset: str, times: pd.DataFrame) -> str:
     return '\n'.join(lines)
 
 
-def figure(frame: pd.DataFrame, times: dict, outdir: Path, datasets=('macaque', 'aeon')) -> None:
+def figure(frame: pd.DataFrame, times: dict, model_only: dict, outdir: Path, datasets=('macaque', 'aeon')) -> None:
     """Five-row, two-column appendix figure (dataset per column)."""
     import matplotlib
     matplotlib.use('Agg')
@@ -138,13 +138,22 @@ def figure(frame: pd.DataFrame, times: dict, outdir: Path, datasets=('macaque', 
         pts(ax, 'dead', palette[0])
         ax.set(ylabel='Dead latents', title=TITLES[dataset])
         ax = axes[1, c]
-        t = times.get('aeon' if dataset == 'session_b' else dataset)
-        pts(ax, 'train_seconds', '#bbbbbb')
-        ax.lines[-1].set_visible(False)
-        ax.collections[-1].set_alpha(.7)
-        if t is not None and len(t):
-            ax.plot([np.log2(d) for d in t.D], t.seconds, '-o', color=palette[1], ms=2.5, lw=1, zorder=4)
-        ax.set(ylabel='Training time (s)')
+        if dataset == 'session_b':
+            ax.axis('off')
+            ax.text(.5, .5, 'Same architecture and schedule as Aeon:\nsee middle column', ha='center', va='center', fontsize=6, transform=ax.transAxes)
+            key = None
+        key = {'session_b': None}.get(dataset, dataset)
+        t, m = times.get(key), model_only.get(key)
+        if t is not None and len(t) and (t.D == 192).any():
+            ref = float(t.seconds[t.D == 192].iloc[0])
+            ax.plot([np.log2(d) for d in t.D], t.seconds / ref, '-o', color=palette[1], ms=2.5, lw=1,
+                    label='End-to-end schedule')
+        if m is not None and len(m):
+            ax.plot([np.log2(d) for d in m.D], m.step_ms / float(m.step_ms[m.D == 192].iloc[0]), '-o', color=palette[0],
+                    ms=2.5, lw=1, label='GPU step only')
+        if dataset != 'session_b':
+            ax.axhline(1, color='.7', lw=.6, ls=':')
+        ax.set(ylabel='Time / time at $D$=192')
         for r, rule, ylabel in ((2, 'auroc', 'AUROC of best latent'), (3, 'sel', 'Sel of best-AUROC latent')):
             ax = axes[r, c]
             if not FEATURES[dataset]:
@@ -181,8 +190,10 @@ def figure(frame: pd.DataFrame, times: dict, outdir: Path, datasets=('macaque', 
             axes[2, c].set_ylim(.5, 1.02)
             axes[3, c].set_ylim(.4, 1.02)
         axes[4, c].set_ylim(-3, 103)
+    axes[1, 0].legend(frameon=False, fontsize=5.5, loc='upper left')
     axes[2, 0].legend(frameon=False, fontsize=5.5, loc='lower left', ncol=1)
-    axes[4, -1].legend(frameon=False, fontsize=5.5, loc='center right')
+    handles, labels = axes[4, min(1, len(datasets) - 1)].get_legend_handles_labels()
+    fig.legend(handles, labels, frameon=False, fontsize=6, loc='outside lower center', ncol=3)
     for i, ax in enumerate(axes[:, 0]):
         ax.text(-.32, 1.05, 'abcde'[i], transform=ax.transAxes, fontsize=9, fontweight='bold')
     outdir.mkdir(parents=True, exist_ok=True)
@@ -202,6 +213,14 @@ def main() -> None:
     args.tables.mkdir(parents=True, exist_ok=True)
     frame.to_csv(args.tables / 'all_runs.csv', index=False)
     times = {d: timing(args.timing_dir / f'{d}.json', d) for d in ('macaque', 'aeon')}
+    model_only = {}
+    for d in ('macaque', 'aeon'):
+        path = args.timing_dir / f'model_only_{d}.json'
+        if path.exists():
+            rs = [r for r in json.loads(path.read_text()) if not r['warmup']]
+            model_only[d] = pd.DataFrame([dict(D=k, step_ms=1e3 * min(r['step_seconds'] for r in rs if r['D'] == k))
+                                          for k in sorted({r['D'] for r in rs})])
+            model_only[d].to_csv(args.tables / f'model_step_{d}.csv', index=False)
     for d, t in times.items():
         t.to_csv(args.tables / f'timing_{d}.csv', index=False)
     for dataset in frame.dataset.unique():
@@ -211,7 +230,7 @@ def main() -> None:
         (args.tables / f'summary_{dataset}.md').write_text(markdown(frame, dataset, times[key]) + '\n')
         print(dataset)
         print(table.round(3).to_string(index=False))
-    figure(frame, times, args.figure_dir, tuple(d for d in ('macaque', 'aeon', 'session_b') if d in set(frame.dataset)))
+    figure(frame, times, model_only, args.figure_dir, tuple(d for d in ('macaque', 'aeon', 'session_b') if d in set(frame.dataset)))
 
 
 if __name__ == '__main__':
