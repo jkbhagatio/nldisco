@@ -92,3 +92,14 @@ def test_extra_method_parses_to_paper_rule_entry():
     config = ts.parse_extra('stndt:ST-NDT:/x/y.npz:#9467bd')
     assert config.key == 'stndt' and config.selections == 'paper_rule'
     assert config.representation == {'path': '/x/y.npz'} and config.dense
+
+
+def test_stndt_selection_file_gives_the_supplied_latents():
+    config = next(m for m in ts.METHODS if m.key == 'stndt')
+    assert config.selections == 'file' and config.dense
+    spec = dict(selections=[], main_features=['recent_braking'])
+    rows = ts.selected_latents(spec, config, np.zeros((1, 1)), {})
+    picks = {(r['feature'], r['latent_id']): r['selectors'] for r in rows}
+    assert picks == {('recent_braking', 44): ['sel', 'auroc'], ('fast_target_specific', 103): ['sel', 'auroc'],
+                     ('early_leftward', 103): ['sel'], ('early_leftward', 113): ['auroc'],
+                     ('late_target_specific', 182): ['sel', 'auroc']}
