@@ -36,7 +36,7 @@ ROOT = Path(__file__).resolve().parents[3]
 TABLE = ROOT / 'paper/iclr_paper/figures/rebuttal/change10_reconstruction'
 N_WINDOWS = 130507
 ALPHAS = tuple(10. ** np.arange(-6, 1))  # L2 strengths, sklearn PoissonRegressor convention
-FLOORS = (1e-4, 1e-3, 1e-2, 3e-2, 1e-1)  # rate floors for native decoders without positive output
+FLOORS = (1e-4, 1e-3, 1e-2, 3e-2, 1e-1, .2, .3, .5)  # rate floors for native decoders without positive output
 SPLITS = dict(train=0, validation=1, test=2)
 
 
@@ -250,7 +250,7 @@ def latex_table(results: dict, path: Path) -> None:
     rows = list(results.values())
     cols = [('readout', 'bits_per_spike'), ('readout', 'variance_explained'),
             ('native', 'bits_per_spike'), ('native', 'variance_explained')]
-    best = {c: max((r[c[0]]['test'][c[1]] for r in rows if r.get(c[0])), default=None) for c in cols}
+    best = {c: max((round(r[c[0]]['test'][c[1]], 3) for r in rows if r.get(c[0])), default=None) for c in cols}
     lines = []
     for r in rows:
         cells = [r['label']]
@@ -260,7 +260,7 @@ def latex_table(results: dict, path: Path) -> None:
                 continue
             v, (lo, hi) = r[c[0]]['test'][c[1]], r[c[0]]['test'][c[1] + '_ci']
             text = f'{v:.3f}'
-            cells.append((rf'\textbf{{{text}}}' if np.isclose(v, best[c]) else text)
+            cells.append((rf'\textbf{{{text}}}' if round(v, 3) == best[c] else text)
                          + rf' {{\scriptsize [{lo:.3f}, {hi:.3f}]}}')
         lines.append(' & '.join(cells) + r' \\')
     path.parent.mkdir(parents=True, exist_ok=True)

@@ -114,3 +114,10 @@ def test_trial_bootstrap_matches_naive_resampling(glm_data):
     low, high = np.quantile(np.asarray(draws), [.025, .975], axis=0)
     np.testing.assert_allclose(out['bits_per_spike_ci'], [low[0], high[0]], rtol=1e-9)
     np.testing.assert_allclose(out['variance_explained_ci'], [low[1], high[1]], rtol=1e-9)
+
+
+def test_latex_table_bolds_ties_at_displayed_precision(tmp_path):
+    test = lambda v: dict(bits_per_spike=v, variance_explained=v, bits_per_spike_ci=[0, 1], variance_explained_ci=[0, 1])  # noqa: E731
+    rc.latex_table(dict(a=dict(label='A', readout=dict(test=test(.33511)), native=None),
+                        b=dict(label='B', readout=dict(test=test(.33497)), native=None)), tmp_path / 't.tex')
+    assert all(r'\textbf{0.335}' in line for line in (tmp_path / 't.tex').read_text().splitlines())
