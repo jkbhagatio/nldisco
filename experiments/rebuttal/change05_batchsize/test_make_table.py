@@ -19,8 +19,8 @@ def models(aurocs):
 
 
 def test_fmt_mean_and_range():
-    assert make_table.fmt([.8, .9, .7]) == '0.800 [0.700, 0.900]'
-    assert make_table.fmt([.5, .75], percent=True) == '62 [50, 75]'
+    assert make_table.fmt([.8, .9, .7]) == '0.800 [0.700--0.900]'
+    assert make_table.fmt([.5, .75], percent=True) == '62 [50--75]'
     assert make_table.single(.91234) == '0.912'
 
 
@@ -33,6 +33,6 @@ def test_loss_flags_need_two_of_three_seeds():
 
 def test_latex_table_has_all_batch_sizes():
     data = models({512: [.9, .9, .9], 1024: [.9, .9, .9], 2048: [.9, .9, .9]})
-    text = make_table.latex([('Aeon', data, ['wheel'])])
+    text = make_table.latex([('Aeon', data, ['wheel'], make_table.ONE_LATENT)])
     assert text.count('\\begin{tabular*}') == 1 and 'Dead latents' in text and '$B=2{,}048$' in text
-    assert text.count('AUROC of best-AUROC latent') == 1
+    assert text.count('AUROC of best-AUROC latent') == 1 and 'Sel of best-AUROC latent' in text
