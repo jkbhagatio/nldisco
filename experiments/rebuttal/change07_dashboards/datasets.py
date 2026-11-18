@@ -12,7 +12,13 @@ import pandas as pd
 from beartype import beartype
 
 from experiments.rebuttal.change07_dashboards.dashboard import (
-    Dataset, Map, Variable, as_flags, segment_ids, trailing_slope)
+    Dataset,
+    Map,
+    Variable,
+    as_flags,
+    segment_ids,
+    trailing_slope,
+)
 
 AEON = Path("/ceph/aeon/aeon/nldisco/aeon/sweeps/20260921_18h_s20")
 CHURCHLAND = Path("/ceph/aeon/aeon/nldisco/churchland/sweeps/20260914_s10_endpoint_v1")
