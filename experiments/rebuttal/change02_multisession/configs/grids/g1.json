@@ -1,0 +1,12 @@
+[
+ {"name": "pos_s0", "init": "position", "steps": 0},
+ {"name": "pos_s5000_lr5e-3", "init": "position", "steps": 5000, "lr": 0.005},
+ {"name": "rand_s5000_lr5e-3", "init": "random", "steps": 5000, "lr": 0.005},
+ {"name": "shuf_s5000_lr5e-3", "init": "shuffled", "steps": 5000, "lr": 0.005},
+ {"name": "pos_s1000_lr5e-3", "init": "position", "steps": 1000, "lr": 0.005},
+ {"name": "pos_s5000_lr1e-3", "init": "position", "steps": 5000, "lr": 0.001},
+ {"name": "pos_s5000_lr5e-3_p0", "init": "position", "steps": 5000, "lr": 0.005, "n_session_latents": 0, "session_topk": 0},
+ {"name": "pos_s5000_lr5e-3_sigma5", "init": "position", "steps": 5000, "lr": 0.005, "sigma": 5.0},
+ {"name": "pos_s0_sigma5", "init": "position", "steps": 0, "sigma": 5.0},
+ {"name": "pos_s0_sigma0.3", "init": "position", "steps": 0, "sigma": 0.3}
+]

@@ -1,0 +1,192 @@
+{
+  "wheel": [
+    {
+      "row": "Session A, paper model",
+      "latent": "52",
+      "coverage": 0.9383422066213578,
+      "specificity": 0.819999872808733,
+      "selectivity": 0.8390473813348234,
+      "auroc": 0.9243390685647872
+    },
+    {
+      "row": "Session B, transferred",
+      "latent": "52",
+      "coverage": 0.8466260017354907,
+      "specificity": 0.8192494264694249,
+      "selectivity": 0.824065899610603,
+      "auroc": 0.8926759698394464
+    },
+    {
+      "row": "Session B, position matching only",
+      "latent": "52",
+      "coverage": 0.8570006635700066,
+      "specificity": 0.8181988766711494,
+      "selectivity": 0.8249895931815994,
+      "auroc": 0.8923587011149626
+    },
+    {
+      "row": "Session B, other 191 shared latents",
+      "latent": "--",
+      "coverage": NaN,
+      "specificity": NaN,
+      "selectivity": NaN,
+      "auroc": 0.5008414208931966,
+      "auroc_p95": 0.519456455501276,
+      "auroc_max": 0.8227439839197791
+    },
+    {
+      "row": "Session B only, best-matching latent",
+      "latent": "63",
+      "coverage": 0.8536828135368282,
+      "specificity": 0.8200000000000001,
+      "selectivity": 0.8258653451109286,
+      "auroc": 0.9009292182880593
+    }
+  ],
+  "appendix_features": [
+    {
+      "feature": "area",
+      "row": "Session A, paper model",
+      "latent": "107",
+      "coverage": 0.8366920019524441,
+      "specificity": 0.7607442997963905,
+      "selectivity": 0.7776325933647392,
+      "auroc": 0.8492192085425224
+    },
+    {
+      "feature": "area",
+      "row": "Session B, transferred",
+      "latent": "107",
+      "coverage": 0.8953709575142677,
+      "specificity": 0.7501300891192801,
+      "selectivity": 0.7818189013539979,
+      "auroc": 0.8764087332945928
+    },
+    {
+      "feature": "area",
+      "row": "Session B, position matching only",
+      "latent": "107",
+      "coverage": 0.9021612766856901,
+      "specificity": 0.736294534939632,
+      "selectivity": 0.773811658212816,
+      "auroc": 0.8748293142870255
+    },
+    {
+      "feature": "area",
+      "row": "Session B, other 255 shared latents",
+      "latent": "--",
+      "coverage": NaN,
+      "specificity": NaN,
+      "selectivity": NaN,
+      "auroc": 0.49920958509804436,
+      "auroc_p95": 0.546801053750947,
+      "auroc_max": 0.7047191023014647,
+      "rank": 1
+    },
+    {
+      "feature": "area",
+      "row": "Session B only, best-matching latent",
+      "latent": "73",
+      "coverage": 0.8305987106320016,
+      "specificity": 0.7853694201648015,
+      "selectivity": 0.7946569410246224,
+      "auroc": 0.8386165815144696
+    },
+    {
+      "feature": "speed",
+      "row": "Session A, paper model",
+      "latent": "109",
+      "coverage": 0.7179921671425674,
+      "specificity": 0.7813525431080889,
+      "selectivity": 0.7665618117349021,
+      "auroc": 0.7784732590021441
+    },
+    {
+      "feature": "speed",
+      "row": "Session B, transferred",
+      "latent": "109",
+      "coverage": 0.738635300720232,
+      "specificity": 0.7887945380807362,
+      "selectivity": 0.7776411897375843,
+      "auroc": 0.7926299526776334
+    },
+    {
+      "feature": "speed",
+      "row": "Session B, position matching only",
+      "latent": "109",
+      "coverage": 0.7296464315779627,
+      "specificity": 0.7913469205772149,
+      "selectivity": 0.7776263581335078,
+      "auroc": 0.7901770088562242
+    },
+    {
+      "feature": "speed",
+      "row": "Session B, other 255 shared latents",
+      "latent": "--",
+      "coverage": NaN,
+      "specificity": NaN,
+      "selectivity": NaN,
+      "auroc": 0.5000099378027056,
+      "auroc_p95": 0.5663744688696093,
+      "auroc_max": 0.7599495230208396,
+      "rank": 1
+    },
+    {
+      "feature": "speed",
+      "row": "Session B only, best-matching latent",
+      "latent": "15",
+      "coverage": 0.8256508589779565,
+      "specificity": 0.7520338384574552,
+      "selectivity": 0.7690366706161866,
+      "auroc": 0.8289726600790365
+    },
+    {
+      "feature": "direction",
+      "row": "Session A, paper model",
+      "latent": "10",
+      "coverage": 0.8399760860900757,
+      "specificity": 0.8050513272378124,
+      "selectivity": 0.8116301005510905,
+      "auroc": 0.8717359898792504
+    },
+    {
+      "feature": "direction",
+      "row": "Session B, transferred",
+      "latent": "10",
+      "coverage": 0.8275084554678692,
+      "specificity": 0.7837737984812992,
+      "selectivity": 0.7928341268814618,
+      "auroc": 0.8580814188662591
+    },
+    {
+      "feature": "direction",
+      "row": "Session B, position matching only",
+      "latent": "10",
+      "coverage": 0.8438260250400522,
+      "specificity": 0.765961293568318,
+      "selectivity": 0.7828682026620152,
+      "auroc": 0.8652695667008381
+    },
+    {
+      "feature": "direction",
+      "row": "Session B, other 255 shared latents",
+      "latent": "--",
+      "coverage": NaN,
+      "specificity": NaN,
+      "selectivity": NaN,
+      "auroc": 0.4999982270938749,
+      "auroc_p95": 0.5426190996519243,
+      "auroc_max": 0.6595320032881816,
+      "rank": 1
+    },
+    {
+      "feature": "direction",
+      "row": "Session B only, best-matching latent",
+      "latent": "48",
+      "coverage": 0.9838604402776954,
+      "specificity": 0.34474979168959397,
+      "selectivity": 0.6002404054449734,
+      "auroc": 0.9027336667161174
+    }
+  ]
+}
