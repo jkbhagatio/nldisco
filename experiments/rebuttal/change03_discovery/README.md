@@ -32,5 +32,6 @@ detached on one GPU. Each rater is one agent that reads `INSTRUCTIONS.md` in its
 folder and uses only `rater_cli.py` (`next` / `submit`), which logs serve and
 answer times.
 
-Tests: `$PY -m pytest experiments/rebuttal/change03_discovery` (the LangevinFlow
-check runs under `LANGEVIN_PY`).
+Tests: `$PY -m pytest experiments/rebuttal/change03_discovery`; the LangevinFlow
+adapter check is skipped there and runs with
+`$LANGEVIN_PY -m pytest experiments/rebuttal/change03_discovery/test_c03_langevinflow.py`.
