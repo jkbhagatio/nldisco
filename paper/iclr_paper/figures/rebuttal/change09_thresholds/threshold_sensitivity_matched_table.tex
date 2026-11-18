@@ -1,0 +1,29 @@
+\begin{tabular}{llrrr}
+\toprule
+Latent & Selector & \metric{Cov} & \metric{Spec} & \metric{Sel} \\
+\midrule
+\multicolumn{5}{l}{\textit{Recent deceleration}} \\
+NLDisco 83 & illustrative & 0.571 & 0.953 & 0.924 \\
+CEBRA-Time 126 & best Sel/AUROC & 0.571 & 0.852 & 0.794 \\
+LangevinFlow 136 & best Sel & 0.571 & 0.913 & 0.868 \\
+LangevinFlow 178 & best AUROC & 0.571 & 0.936 & 0.899 \\
+\midrule
+\multicolumn{5}{l}{\textit{Fast leftward target reach}} \\
+NLDisco 20 & illustrative & 0.991 & 0.975 & 0.975 \\
+CEBRA-Time 93 & best Sel & 0.991 & 0.305 & 0.588 \\
+CEBRA-Time 56 & best AUROC & 0.991 & 0.669 & 0.750 \\
+LangevinFlow 179 & best Sel/AUROC & 0.991 & 0.924 & 0.929 \\
+\midrule
+\multicolumn{5}{l}{\textit{Early leftward movement}} \\
+NLDisco 40 & best AUROC & 0.998 & 0.921 & 0.926 \\
+CEBRA-Time 93 & best Sel & 0.998 & 0.099 & 0.526 \\
+CEBRA-Time 54 & best AUROC & 0.998 & 0.413 & 0.630 \\
+LangevinFlow 179 & best Sel/AUROC & 0.998 & 0.763 & 0.808 \\
+\midrule
+\multicolumn{5}{l}{\textit{Late, target-specific reach}} \\
+NLDisco 75 & best AUROC & 0.962 & 0.935 & 0.937 \\
+CEBRA-Time 142 & best Sel & 0.962 & 0.614 & 0.714 \\
+CEBRA-Time 44 & best AUROC & 0.962 & 0.584 & 0.698 \\
+LangevinFlow 136 & best Sel/AUROC & 0.963 & 0.784 & 0.817 \\
+\bottomrule
+\end{tabular}

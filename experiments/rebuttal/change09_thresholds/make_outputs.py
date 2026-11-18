@@ -107,6 +107,29 @@ def table(report: dict) -> str:
     return '\n'.join(lines + [r'\bottomrule', r'\end{tabular}']) + '\n'
 
 
+def matched_table(report: dict, reference: dict) -> str:
+    """Equal-coverage comparison: each baseline at its best-Sel threshold with Cov >= the
+    reference NLDisco latent's coverage; NLDisco at its native threshold."""
+    lines = [r'\begin{tabular}{llrrr}', r'\toprule',
+             r'Latent & Selector & \metric{Cov} & \metric{Spec} & \metric{Sel} \\',
+             r'\midrule']
+    for k, feature in enumerate(FEATURE_ORDER):
+        if k:
+            lines.append(r'\midrule')
+        lines.append(rf'\multicolumn{{5}}{{l}}{{\textit{{{TITLES[feature]}}}}} \\')
+        for r in (x for x in report['results'] if x['feature'] == feature):
+            s = r['settings']
+            if not r['dense']:
+                if r['latent_id'] != reference[feature]:
+                    continue
+                d = s['paper']
+            else:
+                d = s['matched']
+            lines.append(f"{r['label']} {r['latent_id']} & {selector_text(r['selectors'])} & "
+                         f"{d['cov']:.3f} & {d['spec']:.3f} & {d['sel']:.3f} \\\\")
+    return '\n'.join(lines + [r'\bottomrule', r'\end{tabular}']) + '\n'
+
+
 def main() -> None:
     """Command-line entry point."""
     parser = argparse.ArgumentParser()
@@ -117,6 +140,8 @@ def main() -> None:
     report = json.loads(args.results.read_text())
     draw(report, args.out)
     (args.out / 'threshold_sensitivity_table.tex').write_text(table(report))
+    (args.out / 'threshold_sensitivity_matched_table.tex').write_text(
+        matched_table(report, report['reference_latents']))
     print('wrote', args.out)
 
 
