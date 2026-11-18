@@ -9,8 +9,9 @@ SHA-256 of `src/model.py` and `src/mask.py`, and every run re-checks it.
 ## Environment
 
 The model code needs only PyTorch and `yacs`. `environments/setup_stndt.py` builds a small
-overlay environment that adds `yacs==0.1.8` (`environments/stndt-requirements.txt`) and
-inherits the project environment through `nldisco_project.pth`:
+overlay environment that adds `yacs==0.1.8` (and PyMuPDF, used only to overlay vector
+markers on the printed Figure 4; `environments/stndt-requirements.txt`) and inherits the
+project environment through `nldisco_project.pth`:
 
 ```bash
 python experiments/rebuttal/change01_stndt/environments/setup_stndt.py \
@@ -68,3 +69,32 @@ $STNDT_PY -m experiments.rebuttal.change01_stndt.macaque --mode convergence  # 8
 Twelve settings: contrastive weight {0.01, 0.1, 1} x learning rate {0.001, 0.003} x
 dropout {0.1, 0.3}, ten epochs, batch 256, seed 0, on the shared 130,507 endpoint windows.
 Outputs: `/ceph/aeon/aeon/nldisco/rebuttal_20261118/change01_stndt/{sweep,convergence}/`.
+
+## Scoring, timing and paper assets
+
+```bash
+python -m experiments.rebuttal.change01_stndt.score            # project interpreter
+sbatch experiments/rebuttal/change01_stndt/timing_h100.sh       # five H100 fits, seeds 0-4
+$STNDT_PY -m experiments.rebuttal.change01_stndt.figures --timing <timing output directory>
+```
+
+- `score.py` reuses the Section 4.2 code unchanged (`comparison_features`,
+  `nice_cutoffs_revision`, `feature_decoding.tune_probe`, `decoder_metrics`): it ranks the
+  twelve runs by mean best-eligible-latent AUROC on the original development labels,
+  keeps the best-Sel and best-AUROC coordinates of the selected run, rescores those fixed
+  coordinates, signs and thresholds on the current labels, and fits the single-latent and
+  full-space logistic probes (one BLAS thread, which reproduces the frozen baseline
+  probes exactly). Outputs: `outputs/selection.json`, `outputs/roc_plot_data.json`,
+  `outputs/results.json`; probes and test predictions under `decoding/` on Ceph.
+- Applied to the frozen LangevinFlow export, this path returns the paper's selected
+  latents and association scores for all four descriptions (to 1e-12) and, for the
+  probes checked (recent deceleration single-latent and full-space, early leftward
+  full-space), the same regularisation, threshold and test score.
+- `timing.py` follows `experiments/churchland/TRAINING_TIME_BENCHMARK.md`: one H100
+  pinned by UUID, fresh process per fit, four CPU threads, occupancy sampled every two
+  seconds, and a run is rejected if any other compute process appears on the GPU.
+- `figures.py` never regenerates an existing result: `figure4.pdf` is the printed figure
+  with ST-NDT markers overlaid as vectors, the ROC and timing figures redraw the saved
+  curves and the fifteen saved fits and add ST-NDT, and the two tables receive ST-NDT rows
+  with column maxima re-bolded; every existing number is kept as printed
+  (`test_scoring.py`). Assets go to `paper/iclr_paper/figures/rebuttal/change01_stndt/`.
