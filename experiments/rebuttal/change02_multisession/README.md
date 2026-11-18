@@ -38,7 +38,9 @@ The paper's session D is stored in the folder `session_e`. The block starting
    `summary.json`, `latent_scores.csv`, `tuning_profile.npy` and
    `identity_transfer.json`.
 4. Session B feature: `new_feature.py --run $C/models/b_only/d192_k12_seed0 --latents 77 53 --window 0.3 1.0 --output ...`.
-5. Figures and tables: `schematic.py`, then
+5. Joint training (exploratory): `python -m experiments.rebuttal.change02_multisession.joint --output $C/explore/joint/d192_position_seed0 --tie position`
+   (`--tie none` for independent initialisation).
+6. Figures and tables: `schematic.py`, then
    `python -m experiments.rebuttal.change02_multisession.figures --runs $C/eval/figure_runs.json
    --controls $C/eval/controls.json --pellet $C/eval/b_only_d192_k12_seed0/pellet_w0.3_1.0
    --pellet-latent 77 --pellet-window 0.3 1.0`, which writes
