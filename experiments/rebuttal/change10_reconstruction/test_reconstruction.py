@@ -88,7 +88,7 @@ def test_stndt_marker(tmp_path):
     assert rc.stndt_method(tmp_path / 'missing.json') is None
     marker = tmp_path / 'REPRESENTATIONS_READY.json'
     marker.write_text(json.dumps(dict(path='/x/acts.npy', shape=[130507, 192])))
-    method = rc.stndt_method(marker)
+    method = rc.stndt_method(marker, tmp_path / 'none.npy')
     assert (method.key, method.representation, method.native) == ('stndt', '/x/acts.npy', None)
 
 
@@ -122,3 +122,13 @@ def test_latex_table_bolds_ties_at_displayed_precision(tmp_path):
                         b=dict(label='B', readout=dict(test=test(.33497)), native=None)), tmp_path / 't.tex')
     rows = [line for line in (tmp_path / 't.tex').read_text().splitlines() if line.startswith(('A &', 'B &'))]
     assert len(rows) == 2 and all(r'\textbf{0.335}' in line for line in rows)
+
+
+def test_stndt_marker_nested_representation(tmp_path):
+    marker = tmp_path / 'REPRESENTATIONS_READY.json'
+    marker.write_text(json.dumps(dict(display_name='ST-NDT', representation=dict(path='/x/acts.npy', shape=[130507, 191]))))
+    rates = tmp_path / 'rates.npy'
+    assert rc.stndt_method(marker, rates).native is None
+    np.save(rates, np.zeros((1, 1)))
+    method = rc.stndt_method(marker, rates)
+    assert (method.representation, method.native, method.label) == ('/x/acts.npy', str(rates), 'ST-NDT')
