@@ -6,6 +6,7 @@ latent index. The same code path produces every card.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Optional
 
 import numpy as np
 from beartype import beartype
@@ -140,7 +141,7 @@ def _row(label: str, cells: list) -> str:
 
 @beartype
 def position_map(x: np.ndarray, y: np.ndarray, valid: np.ndarray,
-                 state: np.ndarray | None = None) -> str:
+                 state: Optional[np.ndarray] = None) -> str:
     """Text map over 100-px cells: % of windows in the state, or occupancy if None."""
     cx, cy = np.floor(x / MAP_CELL).astype(int), np.floor(y / MAP_CELL).astype(int)
     xs = np.arange(cx[valid].min(), cx[valid].max() + 1)

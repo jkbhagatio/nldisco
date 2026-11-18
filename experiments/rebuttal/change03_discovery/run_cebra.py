@@ -101,7 +101,7 @@ def run(args: argparse.Namespace) -> None:
     objective = FixedCosineInfoNCE(temperature=TEMPERATURE).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=config["learning_rate"])
 
-    def loss_on(pool: str, generator: torch.Generator | None = None) -> torch.Tensor:
+    def loss_on(pool: str, generator=None) -> torch.Tensor:
         references, members = pools[pool]
         pick = lambda n: torch.randint(n, (args.batch_size,), device=device, generator=generator)
         reference = references[pick(len(references))]
