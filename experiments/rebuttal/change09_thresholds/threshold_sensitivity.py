@@ -300,6 +300,14 @@ def main() -> None:
     report['methods'] = [dict(key=c.key, label=c.label, color=c.color, dense=c.dense)
                          for c in configs]
     report['paper_rates'] = spec['dense_reference_rates']
+    report['reference_latents'] = spec['current_rate_reference_latents']
+    for r in report['results']:  # coverage the matched comparison requires, per feature
+        r['settings']['paper_cov_ref'] = None
+        if r['dense']:
+            r['settings']['paper_cov_ref'] = max(
+                q['settings']['paper']['cov'] for q in report['results']
+                if q['feature'] == r['feature'] and not q['dense']
+                and q['latent_id'] == spec['current_rate_reference_latents'][q['feature']])
     (args.out / 'threshold_sensitivity.json').write_text(json.dumps(report, indent=1) + '\n')
     worst = max(c['max_abs_diff'] for c in report['reproduction_checks'])
     print(f'wrote {args.out}; max |re-score - paper| over {len(report["reproduction_checks"])} '
