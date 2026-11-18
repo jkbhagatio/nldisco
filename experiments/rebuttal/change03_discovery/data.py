@@ -129,6 +129,7 @@ class Session:
 
     root: Path
     counts: np.ndarray
+    neural_valid: np.ndarray
     starts: np.ndarray
     endpoints: np.ndarray
     part: np.ndarray
@@ -196,5 +197,32 @@ def load_session(root: Path) -> Session:
     pellet_bins = np.floor(pellets["relative_seconds"].to_numpy() / BIN_SECONDS).astype(np.int64)
     endpoints = starts + SEQ_LEN - 1
     variables, support = endpoint_variables(behavior, pellet_bins, endpoints)
-    return Session(root, counts, starts, endpoints, window_parts(starts, len(counts)),
-                   behavior, variables, support)
+    neural_valid = np.asarray(np.load(root / "neural_valid.npy"), dtype=bool)
+    return Session(root, counts, neural_valid, starts, endpoints,
+                   window_parts(starts, len(counts)), behavior, variables, support)
+
+
+@beartype
+def load_neural(root: Path) -> Session:
+    """Load counts and the window split only; runners never read behavior."""
+    counts = np.load(root / "counts.npy", mmap_mode="r")
+    starts = np.asarray(np.load(root / "valid_starts.npy"), dtype=np.int64)
+    if np.any(np.diff(starts) <= 0):
+        raise ValueError("Window starts must be strictly chronological")
+    neural_valid = np.asarray(np.load(root / "neural_valid.npy"), dtype=bool)
+    return Session(root, counts, neural_valid, starts, starts + SEQ_LEN - 1,
+                   window_parts(starts, len(counts)), pd.DataFrame(), {}, {})
+
+
+@jaxtyped(typechecker=beartype)
+def fit_bins(session: Session) -> Bool[np.ndarray, "time"]:
+    """Valid neural bins of the fit portion, for normalization statistics."""
+    return session.neural_valid & (bin_parts(len(session.counts))[0] == FIT)
+
+
+@jaxtyped(typechecker=beartype)
+def lagged_pairs(starts: Int[np.ndarray, "windows"], member: Bool[np.ndarray, "windows"],
+                 lag: int) -> Int[np.ndarray, "pairs"]:
+    """Indices i of member windows whose window `lag` bins later is also a member."""
+    index = np.flatnonzero(member[:-lag] & member[lag:] & (starts[lag:] - starts[:-lag] == lag))
+    return index.astype(np.int64)
