@@ -92,3 +92,13 @@ def test_report_tidy_and_summary(tmp_path):
     assert list(table.D) == [192, 512] and table.n_runs.tolist() == [1, 2]
     assert table.loc[table.D == 512, 'shared'].item() == .9 and np.isnan(table.loc[table.D == 192, 'shared'].item())
     assert table.loc[table.D == 512, 'dead_mean'].item() == 51
+
+
+def test_timing_estimate_uses_minimum_over_nonwarmup():
+    from experiments.rebuttal.change08_dictsize import time_training as tt
+    recs = [dict(D=128, warmup=True, n=10, train_with_calibration=9., forward=1.),
+            dict(D=128, warmup=False, n=10, train_with_calibration=5., forward=1.),
+            dict(D=128, warmup=False, n=10, train_with_calibration=3., forward=1.)]
+    est = tt.estimate(recs, 'macaque')[128]
+    assert np.isclose(est['update_seconds'], .2) and np.isclose(est['calibration_batch_seconds'], .1)
+    assert np.isclose(est['schedule_seconds'], 1280 * .2 + 128 * .1)

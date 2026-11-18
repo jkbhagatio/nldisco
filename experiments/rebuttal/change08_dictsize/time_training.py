@@ -1,11 +1,19 @@
-"""Controlled training-time measurement: one process, one GPU, sizes run back to back.
+"""Training-time micro-benchmark that is robust to other users' load on a shared GPU.
 
-Times ``train_model`` (all updates plus the threshold-calibration pass) with CUDA
-synchronisation, for the paper's exact schedule at each dictionary size; excludes data
-loading, model construction, checkpointing and export (as in the paper's timing benchmark).
+Wall-clock times of full runs on shared GPUs vary several-fold with other jobs' load. Here, for
+every dictionary size, ``train_model`` (the paper's training loop, including the dead-feature
+auxiliary loss and optimiser) is timed on a short schedule of ``n`` updates, and the threshold
+calibration pass (a no-grad forward over the loader) is timed separately. Sizes are interleaved
+over many repeats and the **minimum** per size is kept, which approximates uncontended speed:
+
+    update_seconds = (T_train(n) - T_forward(n)) / n      calibration_seconds = T_forward(n) / n
+    schedule_seconds = n_updates * update_seconds + n_calibration_batches * calibration_seconds
+
+with the paper's schedule (macaque: 1,280 updates, 128 calibration batches; Aeon: 5,000 updates,
+3,163 calibration batches). Data loading, model construction, checkpointing and export are excluded.
 
     CUDA_VISIBLE_DEVICES=<gpu> python -m experiments.rebuttal.change08_dictsize.time_training \
-        --dataset macaque --dims 128 192 256 512 1024 --repeats 3 --output <json>
+        --dataset macaque --dims 128 192 256 512 1024 --repeats 10 --output <json>
 """
 import argparse
 import json
@@ -15,41 +23,56 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Subset
 
 K = dict(macaque=16, aeon=12)
+SCHEDULE = dict(macaque=dict(updates=1280, calibration=128), aeon=dict(updates=5000, calibration=3163))
 
 
-def gpu_busy() -> dict:
-    """Snapshot of other processes' load on the visible GPU (contention is not controlled)."""
-    out = subprocess.run(['nvidia-smi', '--query-gpu=utilization.gpu,memory.used', '--format=csv,noheader,nounits'],
-                         capture_output=True, text=True).stdout.splitlines()
-    return dict(nvidia_smi=out)
+def gpu_state() -> list:
+    """Utilisation/memory of all visible GPUs at the start of a measurement."""
+    return subprocess.run(['nvidia-smi', '--query-gpu=utilization.gpu,memory.used', '--format=csv,noheader,nounits'],
+                          capture_output=True, text=True).stdout.splitlines()
 
 
-def macaque_setup():
+def sync_time(fn) -> float:
+    """Seconds taken by ``fn`` with CUDA synchronisation on both sides."""
+    torch.cuda.synchronize()
+    started = time.monotonic()
+    fn()
+    torch.cuda.synchronize()
+    return time.monotonic() - started
+
+
+def forward_pass(model, loader, device) -> None:
+    """What the threshold calibration does: eval-mode no-grad forwards over every batch."""
+    model.eval()
+    with torch.no_grad():
+        for batch in loader:
+            model(batch.values.to(device), occurrence_mask=batch.occurrence_mask.to(device))
+    model.train()
+
+
+def macaque_setup(n: int):
     from experiments.rebuttal.change08_dictsize import train_macaque as tm
     training = tm.training
     dataset, *_ = training.load_dataset()
 
-    def run(d: int, seed: int) -> float:
+    def make(d: int, seed: int):
         training.set_seed(seed)
         cfg = training.configuration(dataset.spike_counts.shape[1], d, K['macaque'], 2)
-        loader = DataLoader(dataset, batch_size=1024, shuffle=True, generator=torch.Generator().manual_seed(seed))
+        subset = Subset(dataset, range(n * 1024))
+        subset.spike_counts = dataset.spike_counts
+        loader = DataLoader(dataset if False else subset, batch_size=1024, shuffle=True,
+                            generator=torch.Generator().manual_seed(seed))
         loss = training.LossConfig(timebin_weights=[1.] * 10, type='mse')
-        train = training.TrainConfig(epochs=10, batch_size=1024, learning_rate=.005,
-                                     log_frequency=max(1, len(loader) // 4),
-                                     dead_feature_window=max(1, len(loader) // 3))
-        model = training.build_sed(cfg).cuda()
-        torch.cuda.synchronize()
-        started = time.monotonic()
-        training.train_model(model, loader, loss, train, log_wandb=False)
-        torch.cuda.synchronize()
-        return time.monotonic() - started
-    return run
+        train = training.TrainConfig(epochs=1, batch_size=1024, learning_rate=.005,
+                                     log_frequency=max(1, n // 4), dead_feature_window=max(1, n // 3))
+        return training.build_sed(cfg).cuda(), loader, loss, train, training.train_model
+    return make
 
 
-def aeon_setup():
+def aeon_setup(n: int):
     from experiments.aeon.sweep_20260921 import shared_training as st
     data = Path('/ceph/aeon/aeon/nldisco/aeon/sweeps/20260921_18h_s20/data')
     counts = np.load(data / 'counts.npy', mmap_mode='r')
@@ -57,40 +80,69 @@ def aeon_setup():
     valid = np.load(data / 'neural_valid.npy', mmap_mode='r')
     mean, std, _ = st.compute_statistics(counts, valid)
 
-    def run(d: int, seed: int) -> float:
+    class Short(st.WindowBatches):
+        """Paper loader whose calibration pass covers only the first ``n`` batches."""
+
+        def __iter__(self):
+            if self.iterations >= 1:
+                self.iterations += 1
+                order = np.random.default_rng(self.seed + 1).permutation(len(self.starts))[:n * self.batch_size]
+                for offset in range(0, len(order), self.batch_size):
+                    yield self.batch(order[offset:offset + self.batch_size])
+                return
+            yield from super().__iter__()
+
+    def make(d: int, seed: int):
         torch.manual_seed(seed)
-        np.random.seed(seed)
         cfg = st.make_config(d, K['aeon'], counts.shape[1])
         loss = st.LossConfig(timebin_weights=[1.] * 20, type='mse', dsed_loss_weight_map={d // 2: 1., d: 1.},
                              dead_feature_loss_weight=1.)
         train = st.TrainConfig(batch_size=1024, epochs=1, learning_rate=.005, use_lr_schedule=True, log_frequency=50)
-        loader = st.WindowBatches(counts, starts, mean, std, 1024, 5000, seed)
-        model = st.build_sed(cfg).cuda()
-        torch.cuda.synchronize()
-        started = time.monotonic()
-        st.train_model(model, loader, loss, train)
-        torch.cuda.synchronize()
-        return time.monotonic() - started
-    return run
+        loader = Short(counts, starts, mean, std, 1024, n, seed)
+        return st.build_sed(cfg).cuda(), loader, loss, train, st.train_model
+    return make
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--dataset', choices=('macaque', 'aeon'), required=True)
     parser.add_argument('--dims', type=int, nargs='+', required=True)
-    parser.add_argument('--repeats', type=int, default=1)
+    parser.add_argument('--repeats', type=int, default=10)
+    parser.add_argument('--updates', type=int, default=40, help='updates (= calibration batches) per measurement')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     torch.set_num_threads(4)
-    run = macaque_setup() if args.dataset == 'macaque' else aeon_setup()
+    n = args.updates
+    make = (macaque_setup if args.dataset == 'macaque' else aeon_setup)(n)
+    device = torch.device('cuda')
     records = []
-    for rep in range(args.repeats):
+    for rep in range(args.repeats + 1):  # repetition 0 is a discarded warm-up
         for d in args.dims:
-            before = gpu_busy()
-            seconds = run(d, seed=100 + rep)
-            records.append(dict(D=d, repeat=rep, seconds=seconds, before=before, gpu=torch.cuda.get_device_name(0)))
-            print(json.dumps(records[-1]), flush=True)
-            args.output.write_text(json.dumps(records, indent=1))
+            model, loader, loss, train, train_model = make(d, seed=100 + rep)
+            state = gpu_state()
+            t_train = sync_time(lambda: train_model(model, loader, loss, train))
+            t_forward = sync_time(lambda: forward_pass(model, loader, device))
+            records.append(dict(D=d, repeat=rep, warmup=rep == 0, train_with_calibration=t_train,
+                                forward=t_forward, n=n, gpu_state=state, gpu=torch.cuda.get_device_name(0)))
+            print(json.dumps({k: records[-1][k] for k in ('D', 'repeat', 'train_with_calibration', 'forward')}), flush=True)
+            del model, loader
+            torch.cuda.empty_cache()
+        args.output.write_text(json.dumps(records, indent=1))
+
+
+def estimate(records: list, dataset: str) -> dict:
+    """Per-size schedule estimates (minimum over non-warm-up repeats) from the saved records."""
+    out = {}
+    plan = SCHEDULE[dataset]
+    for d in sorted({r['D'] for r in records}):
+        rs = [r for r in records if r['D'] == d and not r['warmup']]
+        n = rs[0]['n']
+        t_forward = min(r['forward'] for r in rs)
+        update = max(min(r['train_with_calibration'] for r in rs) - t_forward, 0.) / n
+        out[d] = dict(update_seconds=update, calibration_batch_seconds=t_forward / n,
+                      schedule_seconds=plan['updates'] * update + plan['calibration'] * t_forward / n,
+                      median_update_seconds=float(np.median([(r['train_with_calibration'] - r['forward']) / n for r in rs])))
+    return out
 
 
 if __name__ == '__main__':

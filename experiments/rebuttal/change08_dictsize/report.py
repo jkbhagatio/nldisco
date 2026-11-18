@@ -13,11 +13,11 @@ import pandas as pd
 CEPH = Path('/ceph/aeon/aeon/nldisco/rebuttal_20261118/change08_dictsize')
 FEATURES = dict(
     macaque=('recent_braking', 'early_leftward', 'fast_target_specific', 'late_target_specific'),
-    aeon=('wheel', 'area', 'speed', 'direction'))
+    aeon=('wheel', 'area', 'speed', 'direction'), session_b=())
 LABELS = dict(
     macaque=('Recent deceleration', 'Early leftward', 'Fast leftward (target)', 'Late reach (target)'),
     aeon=('Wheel activity', 'Smaller area near patch', 'Fast centroid speed', 'Fast outward movement'))
-TITLES = dict(macaque='Macaque (Sec. 4.2)', aeon='Aeon (Sec. 4.3)')
+TITLES = dict(macaque='Macaque (Sec. 4.2)', aeon='Aeon (Sec. 4.3)', session_b='Aeon session B')
 TAU, TAU_DUP = '0.5', '0.8'
 
 
@@ -46,24 +46,30 @@ def tidy(analysis: Path) -> pd.DataFrame:
     return pd.DataFrame(rows).sort_values(['dataset', 'D', 'seed']).reset_index(drop=True)
 
 
-def timing(path: Path) -> pd.DataFrame:
-    """Controlled timing records (median over repeats) as minutes."""
+def timing(path: Path, dataset: str) -> pd.DataFrame:
+    """Schedule-time estimates per D from the interleaved micro-benchmark (min over repeats)."""
+    from experiments.rebuttal.change08_dictsize.time_training import SCHEDULE, estimate
     if not path.exists():
-        return pd.DataFrame(columns=['D', 'minutes', 'min', 'max', 'n'])
-    frame = pd.DataFrame(json.loads(path.read_text()))
-    grouped = frame.groupby('D').seconds
-    return pd.DataFrame(dict(minutes=grouped.median() / 60, min=grouped.min() / 60,
-                             max=grouped.max() / 60, n=grouped.count())).reset_index()
+        return pd.DataFrame(columns=['D', 'seconds', 'seconds_median'])
+    records = json.loads(path.read_text())
+    if not any(not r['warmup'] for r in records):
+        return pd.DataFrame(columns=['D', 'seconds', 'seconds_median'])
+    est = estimate(records, dataset)
+    plan = SCHEDULE[dataset]
+    return pd.DataFrame([dict(D=d, seconds=v['schedule_seconds'], update_ms=v['update_seconds'] * 1e3,
+                              seconds_median=plan['updates'] * v['median_update_seconds']
+                              + plan['calibration'] * v['calibration_batch_seconds'])
+                         for d, v in est.items()])
 
 
 def summary_table(frame: pd.DataFrame, dataset: str) -> pd.DataFrame:
-    """Mean over seeds per D (paper D=192 uses all of its runs for dead/time, the paper run for scores)."""
+    """Mean over all runs of each size (macaque D=192: the paper run and five further seeds)."""
     sub = frame[frame.dataset == dataset]
     out = []
     for d, g in sub.groupby('D'):
         row = dict(D=d, n_runs=len(g), dead_mean=g.dead.mean(), dead_min=g.dead.min(), dead_max=g.dead.max(),
                    time_s_mean=g.train_seconds.mean())
-        scored = g[g.paper_model] if (g.paper_model.any()) else g
+        scored = g
         for name in FEATURES[dataset]:
             row[f'{name}_auroc'] = scored[f'{name}_auroc_auroc'].mean()
             row[f'{name}_sel'] = scored[f'{name}_auroc_sel'].mean()
@@ -77,6 +83,32 @@ def summary_table(frame: pd.DataFrame, dataset: str) -> pd.DataFrame:
     return pd.DataFrame(out)
 
 
+def markdown(frame: pd.DataFrame, dataset: str, times: pd.DataFrame) -> str:
+    """Per-size markdown table: mean (min-max) over runs where more than one run exists."""
+    def span(g, col, fmt='{:.0f}'):
+        v = g[col].dropna()
+        if v.empty:
+            return '-'
+        return fmt.format(v.mean()) + ('' if len(v) == 1 else ' (' + fmt.format(v.min()) + '-' + fmt.format(v.max()) + ')')
+    sub = frame[frame.dataset == dataset]
+    head = ['D', 'runs', 'dead', 'dead %', 'time [s] (recorded)', 'time [s] (benchmark)']
+    head += [f'{n} AUROC / Sel' for n in FEATURES[dataset]]
+    head += ['paper latents reappearing %', 'new live latents', 'new %', 'near-dup. live latents', 'near-dup. %']
+    lines = ['| ' + ' | '.join(head) + ' |', '|' + '---|' * len(head)]
+    for d, g in sub.groupby('D'):
+        bench = times[times.D == d].seconds
+        row = [str(d), str(len(g)), span(g, 'dead'), span(g.assign(p=g.dead_frac * 100), 'p', '{:.1f}'),
+               span(g, 'train_seconds'), '-' if bench.empty else f'{bench.iloc[0]:.0f}']
+        for n in FEATURES[dataset]:
+            row.append(span(g, f'{n}_auroc_auroc', '{:.3f}') + ' / ' + span(g, f'{n}_auroc_sel', '{:.3f}'))
+        others = g[~g.paper_model]
+        row += [span(others.assign(p=others[f'shared_{TAU}'] * 100), 'p', '{:.1f}'), span(others, f'new_{TAU}'),
+                span(others.assign(p=others[f'new_share_{TAU}'] * 100), 'p', '{:.1f}'),
+                span(g, 'dup'), span(g.assign(p=g.dup_share * 100), 'p', '{:.1f}')]
+        lines.append('| ' + ' | '.join(row) + ' |')
+    return '\n'.join(lines)
+
+
 def figure(frame: pd.DataFrame, times: dict, outdir: Path, datasets=('macaque', 'aeon')) -> None:
     """Five-row, two-column appendix figure (dataset per column)."""
     import matplotlib
@@ -85,7 +117,7 @@ def figure(frame: pd.DataFrame, times: dict, outdir: Path, datasets=('macaque', 
     plt.rcParams.update({'font.size': 7, 'axes.spines.top': False, 'axes.spines.right': False,
                          'pdf.fonttype': 42, 'axes.titlesize': 8})
     palette = ['#1b6ca8', '#d95f02', '#1b9e77', '#7570b3']
-    fig, axes = plt.subplots(5, len(datasets), figsize=(5.5, 8.0), sharex='col', squeeze=False,
+    fig, axes = plt.subplots(5, len(datasets), figsize=(5.5 if len(datasets) < 3 else 6.6, 8.0), sharex='col', squeeze=False,
                              constrained_layout=True)
     for c, dataset in enumerate(datasets):
         sub = frame[frame.dataset == dataset]
@@ -106,16 +138,18 @@ def figure(frame: pd.DataFrame, times: dict, outdir: Path, datasets=('macaque', 
         pts(ax, 'dead', palette[0])
         ax.set(ylabel='Dead latents', title=TITLES[dataset])
         ax = axes[1, c]
-        t = times.get(dataset)
+        t = times.get('aeon' if dataset == 'session_b' else dataset)
         pts(ax, 'train_seconds', '#bbbbbb')
         ax.lines[-1].set_visible(False)
         ax.collections[-1].set_alpha(.7)
         if t is not None and len(t):
-            ax.errorbar([np.log2(d) for d in t.D], t.minutes * 60, yerr=[(t.minutes - t['min']) * 60, (t['max'] - t.minutes) * 60],
-                        fmt='-o', color=palette[1], ms=2.5, lw=1, capsize=1.5, zorder=4)
+            ax.plot([np.log2(d) for d in t.D], t.seconds, '-o', color=palette[1], ms=2.5, lw=1, zorder=4)
         ax.set(ylabel='Training time (s)')
         for r, rule, ylabel in ((2, 'auroc', 'AUROC of best latent'), (3, 'sel', 'Sel of best-AUROC latent')):
             ax = axes[r, c]
+            if not FEATURES[dataset]:
+                ax.axis('off')
+                continue
             for k, name in enumerate(FEATURES[dataset]):
                 col = f'{name}_auroc_{rule}'
                 scored = sub
@@ -143,8 +177,9 @@ def figure(frame: pd.DataFrame, times: dict, outdir: Path, datasets=('macaque', 
             ax.grid(axis='y', color='.85', lw=.4)
             ax.set_axisbelow(True)
         axes[0, c].set_ylim(bottom=0)
-        axes[2, c].set_ylim(.5, 1.02)
-        axes[3, c].set_ylim(.4, 1.02)
+        if FEATURES[dataset]:
+            axes[2, c].set_ylim(.5, 1.02)
+            axes[3, c].set_ylim(.4, 1.02)
         axes[4, c].set_ylim(-3, 103)
     axes[2, 0].legend(frameon=False, fontsize=5.5, loc='lower left', ncol=1)
     axes[4, -1].legend(frameon=False, fontsize=5.5, loc='center right')
@@ -166,13 +201,17 @@ def main() -> None:
     frame = tidy(args.analysis)
     args.tables.mkdir(parents=True, exist_ok=True)
     frame.to_csv(args.tables / 'all_runs.csv', index=False)
-    times = {d: timing(args.timing_dir / f'{d}.json') for d in ('macaque', 'aeon')}
+    times = {d: timing(args.timing_dir / f'{d}.json', d) for d in ('macaque', 'aeon')}
+    for d, t in times.items():
+        t.to_csv(args.tables / f'timing_{d}.csv', index=False)
     for dataset in frame.dataset.unique():
         table = summary_table(frame, dataset)
         table.to_csv(args.tables / f'summary_{dataset}.csv', index=False)
+        key = 'aeon' if dataset == 'session_b' else dataset
+        (args.tables / f'summary_{dataset}.md').write_text(markdown(frame, dataset, times[key]) + '\n')
         print(dataset)
         print(table.round(3).to_string(index=False))
-    figure(frame, times, args.figure_dir, tuple(d for d in ('macaque', 'aeon') if d in set(frame.dataset)))
+    figure(frame, times, args.figure_dir, tuple(d for d in ('macaque', 'aeon', 'session_b') if d in set(frame.dataset)))
 
 
 if __name__ == '__main__':

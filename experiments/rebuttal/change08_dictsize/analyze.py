@@ -50,6 +50,23 @@ def aeon_runs() -> list:
     return runs
 
 
+def session_b_runs() -> list:
+    """(D, seed, role, activations path, metrics dict) for Aeon session B (change 2): own D=192 and D=256
+    models plus the new D=512/1024 runs."""
+    base = Path('/ceph/aeon/aeon/nldisco/rebuttal_20261118/change02_multisession/models/b_only')
+    runs = []
+    for d in (192, 256):
+        folder = base / f'd{d}_k12_seed0'
+        runs.append((d, 0, 'paper' if d == 192 else 'existing', folder / 'activations.npy',
+                     json.loads((folder / 'metrics.json').read_text())))
+    for folder in sorted((CEPH / 'runs/session_b').glob('d*_k12_seed*')):
+        if (folder / 'COMPLETE.json').exists():
+            done = json.loads((folder / 'COMPLETE.json').read_text())
+            runs.append((done['d'], done['seed'], 'new', folder / 'activations.npy',
+                         json.loads((folder / 'metrics.json').read_text())))
+    return runs
+
+
 def train_seconds(dataset: str, info: dict) -> float:
     """Wall-clock seconds recorded by the run itself (training + threshold calibration)."""
     if dataset == 'macaque':
@@ -60,6 +77,8 @@ def train_seconds(dataset: str, info: dict) -> float:
 
 def features_for(dataset: str) -> dict:
     """name -> (rows, condition bool, groups) of the paper's four feature descriptions."""
+    if dataset == 'session_b':
+        return {}  # shared-latent, dead, new and near-duplicate counts only
     if dataset == 'macaque':
         from experiments.rebuttal.change08_dictsize import macaque_features as mf
         return {name: (f.rows, f.labels.astype(bool), f.trials) for name, f in mf.load_features().items()}
@@ -109,11 +128,11 @@ def analyse_run(dataset: str, d: int, seed: int, role: str, path: Path, info: di
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--dataset', choices=('macaque', 'aeon'), required=True)
+    parser.add_argument('--dataset', choices=('macaque', 'aeon', 'session_b'), required=True)
     parser.add_argument('--output', type=Path, default=CEPH / 'analysis')
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
-    runs = macaque_runs() if args.dataset == 'macaque' else aeon_runs()
+    runs = dict(macaque=macaque_runs, aeon=aeon_runs, session_b=session_b_runs)[args.dataset]()
     paper = next(r for r in runs if r[2] == 'paper')
     reference = ds.load_sparse(paper[3])
     features = features_for(args.dataset)
