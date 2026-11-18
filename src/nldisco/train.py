@@ -17,6 +17,7 @@ from tqdm import tqdm
 from nldisco.config import LossConfig, TrainConfig
 from nldisco.data.window import WindowSample
 from nldisco.evaluation import DiagnosticResult, EvaluationConfig, evaluate_diagnostics
+from nldisco.model.multisession import MultiSessionSed
 from nldisco.model.sed import Sed
 from nldisco.model.sparsify import batch_topk
 
@@ -385,6 +386,131 @@ def train_model(
         model.sparsifier.end_threshold_calibration()
         model.train(was_training)
     return TrainingResult(**histories)
+
+
+def train_multisession_model(
+    model: MultiSessionSed,
+    train_loaders: Dict[str, DataLoader],
+    loss_cfg: LossConfig,
+    train_cfg: TrainConfig,
+    *,
+    optimizer: Optional[t.optim.Optimizer] = None,
+) -> Dict[str, TrainingResult]:
+    """Train shared and per-session parameters on windows from several sessions.
+
+    Every update draws one batch from each session's own loader, so no window or
+    batch ever crosses a session boundary, and sums the sessions' nested
+    reconstruction losses. Parameters with ``requires_grad=False`` (for example a
+    frozen shared core, or a frozen reference session) are left unchanged, which
+    makes adapting a trained model to a new session a special case. Loaders are
+    cycled independently; one epoch is one pass over the longest loader.
+
+    Args:
+        model: Multi-session SED.
+        train_loaders: One loader per session to train on, keyed by session name.
+        loss_cfg: Reconstruction objective; level weights default to one.
+        train_cfg: Optimisation settings.
+        optimizer: Optional optimizer over the trainable parameters.
+
+    Returns:
+        Training histories keyed by session name.
+    """
+    if not train_loaders:
+        raise ValueError("At least one session loader is required")
+    seds = {name: model.session(name) for name in train_loaders}
+    for name, loader in train_loaders.items():
+        if len(loader) == 0:
+            raise ValueError(f"train_loader for session {name} contains no valid windows")
+        if loss_cfg.dsed_loss_weight_map is not None:
+            raise ValueError("Multi-session training uses unit level weights for every session")
+        loss_cfg.validate_for(seds[name].cfg)
+        _validate_loader_populations(seds[name], loader, loss_cfg)
+    trainable = [parameter for parameter in model.parameters() if parameter.requires_grad]
+    if not trainable:
+        raise ValueError("No trainable parameters: unfreeze the new session or the shared core")
+    resolved_optimizer = (
+        t.optim.Adam(trainable, lr=train_cfg.learning_rate) if optimizer is None else optimizer
+    )
+    device = trainable[0].device
+    steps_per_epoch = max(len(loader) for loader in train_loaders.values())
+    n_steps = train_cfg.epochs * steps_per_epoch
+    initial_lr = resolved_optimizer.param_groups[0]["lr"]
+    min_lr = initial_lr * 1e-2
+    inactive = {n: t.zeros(s.cfg.n_features, dtype=t.long, device=device) for n, s in seds.items()}
+    dead = {n: t.zeros(s.cfg.n_features, dtype=t.bool, device=device) for n, s in seds.items()}
+    histories: Dict[str, Dict[str, Dict[int, float]]] = {
+        name: {"loss": {}, "weighted_reconstruction": {}, "l0_mean": {}, "dead_feature_fraction": {}}
+        for name in seds
+    }
+    weights = t.as_tensor(loss_cfg.timebin_weights, device=device)
+    iterators = {name: iter(loader) for name, loader in train_loaders.items()}
+    was_training = {name: sed.training for name, sed in seds.items()}
+    for sed in seds.values():
+        sed.train()
+    progress = tqdm(total=n_steps, desc="Multi-session SED training step")
+    for step in range(n_steps):
+        if train_cfg.use_lr_schedule:
+            lr = simple_cosine_lr_schedule(step, n_steps, initial_lr, min_lr)
+            for group in resolved_optimizer.param_groups:
+                group["lr"] = lr
+        resolved_optimizer.zero_grad()
+        total_loss = t.zeros((), dtype=t.float32, device=device)
+        for name, sed in seds.items():
+            try:
+                batch = next(iterators[name])
+            except StopIteration:
+                iterators[name] = iter(train_loaders[name])
+                batch = next(iterators[name])
+            inputs, target = _batch_populations(batch, sed, loss_cfg)
+            output = sed(inputs, occurrence_mask=batch.occurrence_mask.to(device))
+            largest = sed.cfg.n_features
+            session_loss = t.zeros((), dtype=t.float32, device=device)
+            for d_sed, reconstruction in output.reconstructions.items():
+                level_loss, _ = weighted_reconstruction_loss(target, reconstruction, loss_cfg)
+                session_loss = session_loss + level_loss.float()
+                if d_sed == largest:
+                    largest_loss = level_loss
+            dead_reconstruction = _dead_feature_reconstruction(
+                sed, output.acts, dead[name], train_cfg.max_dead_feature_fraction
+            )
+            if dead_reconstruction is not None and loss_cfg.dead_feature_loss_weight:
+                residual = target - output.reconstructions[largest].detach()
+                auxiliary = (residual - dead_reconstruction).pow(2).mean(dim=(0, 2))
+                auxiliary = (auxiliary * weights.to(auxiliary.dtype)).sum() / weights.sum()
+                session_loss = session_loss + loss_cfg.dead_feature_loss_weight * auxiliary
+            total_loss = total_loss + session_loss
+            sparse = output.sparse_acts[largest]
+            active = sparse.sum(dim=tuple(range(sparse.ndim - 1))) > 0
+            inactive[name][active] = 0
+            inactive[name][~active] += 1
+            dead[name] = inactive[name] > train_cfg.dead_feature_window
+            if step % train_cfg.log_frequency == 0 or step + 1 == n_steps:
+                history = histories[name]
+                history["loss"][step] = float(session_loss.detach())
+                history["weighted_reconstruction"][step] = float(largest_loss.detach())
+                history["l0_mean"][step] = float(
+                    (sparse > 0).flatten(start_dim=1).sum(dim=1).float().mean()
+                )
+                history["dead_feature_fraction"][step] = float(dead[name].float().mean())
+        total_loss.backward()
+        for sed in seds.values():
+            sed.constrain_dictionary()
+        resolved_optimizer.step()
+        for sed in seds.values():
+            sed.normalize_dictionary()
+        progress.update(1)
+    progress.close()
+    for name, sed in seds.items():
+        if sed.cfg.inference_sparsity == "training_threshold":
+            sed.eval()
+            sed.sparsifier.begin_threshold_calibration()
+            with t.no_grad():
+                for batch in train_loaders[name]:
+                    inputs = _batch_values(batch, device, sed.cfg.dtype)
+                    sed(inputs, occurrence_mask=batch.occurrence_mask.to(device))
+            sed.sparsifier.end_threshold_calibration()
+        sed.train(was_training[name])
+    return {name: TrainingResult(**history) for name, history in histories.items()}
 
 
 def _activation_rows(
