@@ -26,7 +26,9 @@ REMINDER = """
 Answer this card with ONE of:
   submit --dir {dir} --card {card} --none
   submit --dir {dir} --card {card} --direction high|low --rule "<rule>" --description "<one line>"
-(card {position} of {total})"""
+(card {position} of {total}. Give a rule only if the latent's mean rank is far from 50 where
+the rule holds and near 50 elsewhere; otherwise answer --none. Full instructions, if you
+need to re-read them: {dir}/INSTRUCTIONS.md)"""
 
 
 @beartype

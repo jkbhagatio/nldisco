@@ -81,3 +81,13 @@ def test_sampling_identifiers_agreement_and_clusters():
     c = rng.random(5000) < 0.2
     labels = part_b.cluster_features(np.stack([a, b, ~a, c]))
     assert labels[0] == labels[1] == labels[2] != labels[3]
+
+
+def test_balanced_order_rounds_are_common_to_raters():
+    by_method = {m: [f"{m}{i}" for i in range(4)] for m in ("a", "b", "c")}
+    first = part_b.balanced_order(by_method, np.random.default_rng(0))
+    second = part_b.balanced_order(by_method, np.random.default_rng(1))
+    assert sorted(first) == sorted(second) and len(first) == 12 and first != second
+    for r in range(4):
+        expected = {f"{m}{r}" for m in by_method}
+        assert set(first[3 * r:3 * r + 3]) == expected == set(second[3 * r:3 * r + 3])

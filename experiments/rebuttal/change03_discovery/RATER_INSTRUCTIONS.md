@@ -33,12 +33,22 @@ interpretation.
   interpretation.
 
 Your rule will be tested on a separate part of the recording that you cannot see.
-It passes only if the latent reliably separates the windows where the rule holds
-from all other windows: the latent must be in the stated state in most windows
-where the rule holds, and at least three times less often in windows where it
-does not. A rule that fails counts against you just as a missed interpretation
-does, so answer `none` when the card does not support a rule, and give a rule when
-it does. Spend a similar, modest effort on every card.
+The test does not use the card's HIGH and LOW cut-offs. For your rule it finds the
+cut-off on the latent's value that best separates the windows where the rule
+holds from all other windows, and the rule passes only if that separation is
+strong: with direction `high`, the latent must be above the cut-off in most
+windows where the rule holds and at least three times less often in all other
+windows (the reverse for direction `low`). In terms of the card, the `mean rank`
+of the bins your rule includes should be far from 50 (roughly 80 or more for
+`high`, 20 or less for `low`), while the rest of the recording stays near or on
+the other side of 50. A rule that fails counts against you just as a missed
+interpretation does, so answer `none` when the card does not support a rule, and
+give a rule when it does. Spend a similar, modest effort on every card.
+
+A rule must hold in at least about 0.1% of windows to be testable; the `submit`
+command tells you the share. If HIGH and LOW are both raised in the same bins, the
+latent has no single direction there: answer `none` unless one direction clearly
+dominates elsewhere.
 
 ## Reading a card
 
@@ -56,7 +66,7 @@ it does. Spend a similar, modest effort on every card.
   latent is HIGH, and `% LOW` likewise. `-` marks bins with too few windows.
 - **Position map**: the share of windows that are HIGH (or LOW) in each 100-px
   cell of the arena; rows are y, columns are x, and labels give the lower edge of
-  each cell.
+  each cell. The map uses finer cells than the `x` and `y` tuning tables.
 - **Example windows**: behavior at a few randomly chosen HIGH (or LOW) episodes.
 
 A good rule names the bins where the latent is clearly elevated (or reduced) and

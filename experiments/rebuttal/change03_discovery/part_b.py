@@ -46,6 +46,22 @@ def card_ids(method: str, n: int) -> list[str]:
 
 
 @beartype
+def balanced_order(by_method: dict, rng: np.random.Generator) -> list[str]:
+    """Order cards in rounds holding one card of each method.
+
+    Round r holds the r-th card of every method (the same set for every rater); only
+    the order inside a round depends on the rater's generator. Any prefix of whole
+    rounds is therefore balanced across methods and common to all raters.
+    """
+    rounds = max((len(cards_) for cards_ in by_method.values()), default=0)
+    order = []
+    for index in range(rounds):
+        group = [cards_[index] for cards_ in by_method.values() if index < len(cards_)]
+        order += [group[i] for i in rng.permutation(len(group))]
+    return order
+
+
+@beartype
 def instructions(session: data.Session, rater_dir: Path, python: str) -> str:
     """Fill the instruction template for one rater."""
     discovery = session.discovery
@@ -100,15 +116,17 @@ def build(data_root: Path, runs: Path, output: Path, python: str,
         print("cards built for", method, flush=True)
     key_path.write_text(json.dumps(key, indent=2))
     reference = slice(None, None, 10)
+    by_method = {}
+    for card in sorted(new_cards):
+        by_method.setdefault(key[card]["method"], []).append(card)
     for number, directory in enumerate(map(Path, rater_dirs)):
         (directory / "cards").mkdir(parents=True, exist_ok=True)
         for card, text in new_cards.items():
             (directory / "cards" / f"{card}.md").write_text(text)
         order_path = directory / "order.json"
         order = json.loads(order_path.read_text()) if order_path.exists() else []
-        fresh = sorted(set(new_cards) - set(order))
-        rng = np.random.default_rng(SEED + 2000 + number + 10 * len(order))
-        order_path.write_text(json.dumps(order + list(rng.permutation(fresh))))
+        order_path.write_text(json.dumps(order + balanced_order(
+            by_method, np.random.default_rng(SEED + 2000 + number + 10 * len(order)))))
         if not (directory / "behavior_reference.npz").exists():
             np.savez(directory / "behavior_reference.npz",
                      **{f"var_{name}": values[reference] for name, values in variables.items()
@@ -121,6 +139,8 @@ def build(data_root: Path, runs: Path, output: Path, python: str,
 @beartype
 def fleiss_kappa(ratings: np.ndarray) -> float:
     """Fleiss' kappa for a [subjects, raters] array of categorical labels."""
+    if ratings.shape[1] < 2 or not len(ratings):
+        return float("nan")
     categories = np.unique(ratings)
     counts = np.stack([(ratings == c).sum(1) for c in categories], 1).astype(float)
     n = ratings.shape[1]
