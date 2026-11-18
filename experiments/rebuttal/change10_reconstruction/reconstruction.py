@@ -60,18 +60,25 @@ METHODS = [
 
 
 @beartype
-def stndt_method(marker: Path = STNDT_MARKER) -> Optional[Method]:
-    """Build the ST-NDT entry from change 1's marker, if it has been written."""
+def stndt_method(marker: Path = STNDT_MARKER, native: Path = OUT / 'native/stndt_endpoint_rates.npy') -> Optional[Method]:
+    """Build the ST-NDT entry from change 1's marker, if it has been written.
+
+    Native rates come from the marker's ``native_rates`` path if given, else from the output of
+    ``native_stndt.py`` if it has been run.
+    """
     if not marker.exists():
         return None
     info = json.loads(marker.read_text())
     path = info.get('macaque_representation') or info.get('representation') or info.get('path')
+    if isinstance(path, dict):
+        path = path.get('path')
     if path is None:
         paths = [v for v in info.values() if isinstance(v, str) and v.endswith(('.npy', '.npz'))]
         if len(paths) != 1:
             raise ValueError(f'Cannot identify the ST-NDT representation path in {marker}: {info}')
         path = paths[0]
-    return Method('stndt', 'ST-NDT', str(path), info.get('native_rates'))
+    rates = info.get('native_rates') or (str(native) if native.exists() else None)
+    return Method('stndt', info.get('display_name', 'ST-NDT'), str(path), rates)
 
 
 @jaxtyped(typechecker=beartype)
