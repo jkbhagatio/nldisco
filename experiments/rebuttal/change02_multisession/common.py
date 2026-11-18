@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -30,7 +31,7 @@ SEQ_LEN = 20
 
 @beartype
 def load_session(name: str, batch_size: int = 1024, steps: int = 1, seed: int = 0,
-                 data: Path | None = None) -> WindowBatches:
+                 data: Optional[Path] = None) -> WindowBatches:
     """Return the streamed window loader of one prepared session, z-scored within session."""
     data = DATA[name] if data is None else data
     counts = np.load(data / "counts.npy")  # In memory: random window access is the bottleneck.
@@ -63,7 +64,7 @@ def load_single_session_model(run: Path, device: str = "cuda") -> Sed:
 
 
 @beartype
-def behavior_conditions(name: str, endpoints: np.ndarray, data: Path | None = None) -> dict:
+def behavior_conditions(name: str, endpoints: np.ndarray, data: Optional[Path] = None) -> dict:
     """Return the paper's feature conditions ``{name: (mask, valid)}`` on one session.
 
     Quantile-based definitions (area, speed) take their quantiles from the session

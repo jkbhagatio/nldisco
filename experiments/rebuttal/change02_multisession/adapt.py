@@ -18,6 +18,7 @@ import dataclasses
 import json
 import time
 from pathlib import Path
+from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -83,7 +84,7 @@ class GpuWindowBatches(WindowBatches):
 
 
 @beartype
-def unit_positions(name: str, path: Path | None = None) -> torch.Tensor:
+def unit_positions(name: str, path: Optional[Path] = None) -> torch.Tensor:
     """Probe coordinates [unit, 2] in um, in the column order of ``counts.npy``."""
     frame = pd.read_csv(POSITIONS[name] if path is None else path)
     return torch.from_numpy(frame[["x_um", "y_um"]].to_numpy(dtype=np.float32))
@@ -92,7 +93,7 @@ def unit_positions(name: str, path: Path | None = None) -> torch.Tensor:
 @beartype
 def build_adapted_model(
     d: int, n_units: int, n_session_latents: int, session_topk: int, init: str, sigma: float,
-    positions: torch.Tensor | None = None, device: str = "cuda", seed: int = 0,
+    positions: Optional[torch.Tensor] = None, device: str = "cuda", seed: int = 0,
 ) -> MultiSessionSed:
     """Return the frozen session A model with a trainable session B attached."""
     torch.manual_seed(seed)
@@ -178,8 +179,8 @@ DEFAULTS = dict(d=192, k=12, init="position", sigma=1., n_session_latents=16, se
 
 @beartype
 def adapt(config: dict, output: Path, loader: WindowBatches, conditions: dict,
-          positions: torch.Tensor | None = None, device: str = "cuda",
-          panel: list | None = None) -> dict:
+          positions: Optional[torch.Tensor] = None, device: str = "cuda",
+          panel: Optional[list] = None) -> dict:
     """Run one adaptation, write its checkpoint and scores, and return the summary."""
     cfg = {**DEFAULTS, **config}
     if output.exists() and any(output.iterdir()):

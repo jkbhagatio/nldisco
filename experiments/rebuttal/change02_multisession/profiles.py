@@ -11,6 +11,7 @@ than the session A profile of any other latent. Behavior is used only here.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -24,7 +25,7 @@ from experiments.rebuttal.change02_multisession.screen_features import extra_con
 
 
 @beartype
-def condition_panel(session: str, endpoints: np.ndarray, data: Path | None = None) -> list[Condition]:
+def condition_panel(session: str, endpoints: np.ndarray, data: Optional[Path] = None) -> list[Condition]:
     """The fixed panel of behavior conditions, evaluated on one session."""
     data = DATA[session] if data is None else data
     behavior = pd.read_parquet(data / "behavior.parquet")
