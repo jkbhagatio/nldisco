@@ -18,6 +18,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Optional
 
 from beartype import beartype
 
@@ -37,16 +38,16 @@ def device_pids() -> list:
 
 
 @beartype
-def selected_config() -> dict:
-    """Read the frozen sweep choice; timing never selects a model."""
+def selected_config(config_id: Optional[str] = None) -> dict:
+    """Read the frozen sweep choice (or a named setting); timing never selects a model."""
     from experiments.rebuttal.change01_stndt.macaque import configurations
 
-    chosen = json.loads((HERE / "outputs/selection.json").read_text())["selected"]
+    chosen = config_id or json.loads((HERE / "outputs/selection.json").read_text())["selected"]
     return next(c for c in configurations() if c["config_id"] == chosen)
 
 
 @beartype
-def worker(seed: int, folder: Path) -> None:
+def worker(seed: int, folder: Path, config_id: Optional[str] = None) -> None:
     """One complete fit of the selected setting on every window."""
     import torch
 
@@ -58,7 +59,7 @@ def worker(seed: int, folder: Path) -> None:
     if "H100" not in torch.cuda.get_device_name(0):
         raise RuntimeError("This benchmark requires an H100")
     torch.set_num_threads(4)
-    config = selected_config()
+    config = selected_config(config_id)
     started = datetime.now(timezone.utc).isoformat()
     counts, anchors, indices, _ = load_inputs()
     hp = Hyperparameters(seed=seed, **{k: v for k, v in config.items() if k != "config_id"})
@@ -85,7 +86,7 @@ def worker(seed: int, folder: Path) -> None:
 
 
 @beartype
-def run(output: Path) -> None:
+def run(output: Path, config_id: Optional[str] = None) -> None:
     """Launch five nonoverlapping child processes on the requested H100."""
     if not GPU:
         raise RuntimeError("Set NLDISCO_TIMING_GPU_UUID to the allocated H100")
@@ -100,7 +101,8 @@ def run(output: Path) -> None:
             raise RuntimeError("Benchmark GPU acquired another job; stop before the next fit")
         folder = output / f"{order:02d}_stndt_seed{seed}"
         command = [sys.executable, "-u", "-m", "experiments.rebuttal.change01_stndt.timing",
-                   "worker", "--output", str(folder), "--seed", str(seed)]
+                   "worker", "--output", str(folder), "--seed", str(seed),
+                   *(("--config-id", config_id) if config_id else ())]
         samples = []
         with (output / f"{folder.name}.log").open("w") as log:
             child = subprocess.Popen(command, cwd=ROOT, env=env, stdout=log,
@@ -130,11 +132,12 @@ def main() -> None:
     parser.add_argument("stage", choices=("run", "worker"))
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--seed", type=int, choices=SEEDS, default=0)
+    parser.add_argument("--config-id", help="default: the frozen sweep selection")
     args = parser.parse_args()
     if args.stage == "worker":
-        worker(args.seed, args.output)
+        worker(args.seed, args.output, args.config_id)
     else:
-        run(args.output)
+        run(args.output, args.config_id)
 
 
 if __name__ == "__main__":
