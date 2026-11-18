@@ -171,9 +171,17 @@ def cluster_features(masks: np.ndarray, cut: float = PHI_CUT) -> np.ndarray:
 
 
 @beartype
-def analyze(data_root: Path, output: Path) -> None:
-    """Validate every rater's answers on the held-out part and write the tables."""
+def analyze(data_root: Path, output: Path, exclude_after_pellet: float = 0.,
+            tag: str = "") -> None:
+    """Validate every rater's answers on the held-out part and write the tables.
+
+    `exclude_after_pellet` > 0 is a post hoc variant: windows ending less than that
+    many seconds after a pellet trigger are removed from threshold selection and
+    scoring; results are written with `tag` appended to the file names.
+    """
     session = data.load_session(data_root)
+    keep = ~data.after_pellet(session, exclude_after_pellet) if exclude_after_pellet > 0 \
+        else np.ones(len(session.starts), dtype=bool)
     key = json.loads((output / "key" / "part_b_key.json").read_text())
     rater_dirs = json.loads((output / "key" / "raters.json").read_text())
     representations = {}
@@ -194,6 +202,7 @@ def analyze(data_root: Path, output: Path) -> None:
                 if entry["path"] not in representations:
                     representations[entry["path"]] = np.load(entry["path"])
                 mask, valid = rules.evaluate(answer["rule"], session.variables, session.support)
+                mask, valid = mask & keep, valid & keep
                 row.update(scoring.evaluate(
                     np.asarray(representations[entry["path"]][:, entry["latent"]]),
                     1 if answer["direction"] == "high" else -1, mask, valid,
@@ -207,8 +216,8 @@ def analyze(data_root: Path, output: Path) -> None:
     if len(validated):
         stack = np.stack([masks[int(i)] for i in validated.mask_index])
         table.loc[validated.index, "cluster"] = cluster_features(stack)
-    table.drop(columns=["mask_index"], errors="ignore").to_csv(output / "part_b_answers.csv",
-                                                             index=False)
+    table.drop(columns=["mask_index"], errors="ignore").to_csv(
+        output / f"part_b_answers{tag}.csv", index=False)
     methods = [m for m in METHODS if (table.method == m).any()]
     raters = sorted(table.rater.unique())
     summary = []
@@ -255,7 +264,7 @@ def analyze(data_root: Path, output: Path) -> None:
                              rule=best.rule, direction=best.direction, description=best.description,
                              best_auroc=float(best.auroc), best_sel=float(best.sel),
                              best_method=best.method))
-    (output / "part_b_summary.json").write_text(json.dumps(
+    (output / f"part_b_summary{tag}.json").write_text(json.dumps(
         dict(methods=summary, overall=overall, features=features), indent=2, default=float))
     print(pd.DataFrame(summary).drop(columns=["clusters"]).to_string())
     print(json.dumps(overall))
@@ -271,6 +280,10 @@ def main() -> None:
     build_parser.add_argument("--python", default="/nfs/nhome/live/jbhagat/nldisco/.venv/bin/python")
     build_parser.add_argument("--only", nargs="*", default=list(METHODS))
     analyze_parser = commands.add_parser("analyze")
+    analyze_parser.add_argument("--exclude-after-pellet", type=float, default=0.,
+                                help="post hoc variant: drop windows ending < this many s "
+                                     "after a pellet")
+    analyze_parser.add_argument("--tag", default="", help="suffix for the output file names")
     for sub in (build_parser, analyze_parser):
         sub.add_argument("--data", type=Path, required=True)
         sub.add_argument("--output", type=Path, required=True)
@@ -278,7 +291,7 @@ def main() -> None:
     if args.command == "build":
         build(args.data, args.runs, args.output, args.python, tuple(args.only))
     else:
-        analyze(args.data, args.output)
+        analyze(args.data, args.output, args.exclude_after_pellet, args.tag)
 
 
 if __name__ == "__main__":

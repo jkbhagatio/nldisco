@@ -227,3 +227,10 @@ def lagged_pairs(starts: Int[np.ndarray, "windows"], member: Bool[np.ndarray, "w
     """Indices i of member windows whose window `lag` bins later is also a member."""
     index = np.flatnonzero(member[:-lag] & member[lag:] & (starts[lag:] - starts[:-lag] == lag))
     return index.astype(np.int64)
+
+
+@jaxtyped(typechecker=beartype)
+def after_pellet(session: Session, seconds: float) -> Bool[np.ndarray, "windows"]:
+    """Windows whose last bin is less than `seconds` after a pellet trigger."""
+    since = session.variables["time_since_pellet"]
+    return np.isfinite(since) & (since < seconds)

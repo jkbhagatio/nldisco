@@ -95,12 +95,22 @@ def summarize(table: pd.DataFrame) -> pd.DataFrame:
 
 
 @beartype
-def run(data_root: Path, runs: Path, output: Path, device: str) -> None:
-    """Score every selected method on every prespecified feature."""
+def run(data_root: Path, runs: Path, output: Path, device: str,
+        exclude_after_pellet: float = 0.) -> None:
+    """Score every selected method on every prespecified feature.
+
+    `exclude_after_pellet` > 0 is a post hoc variant: windows ending less than that
+    many seconds after a pellet trigger are removed from selection and scoring.
+    """
     torch.set_num_threads(1)  # threads are used across latents instead
     output.mkdir(parents=True, exist_ok=True)
     session = data.load_session(data_root)
     feature_list = features.build_features(session.variables, session.support, session.discovery)
+    if exclude_after_pellet > 0:
+        keep = ~data.after_pellet(session, exclude_after_pellet)
+        for feature in feature_list:
+            feature.valid = feature.valid & keep
+            feature.mask = feature.mask & keep
     selected = select_runs(runs)
     common.write_json(output / "selected_runs.json", selected)
     definitions = [dict(name=f.name, family=f.family, label=f.label, definition=f.definition,
@@ -130,8 +140,10 @@ def main() -> None:
     parser.add_argument("--runs", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--device", default="cpu")
+    parser.add_argument("--exclude-after-pellet", type=float, default=0.,
+                        help="post hoc variant: drop windows ending < this many s after a pellet")
     args = parser.parse_args()
-    run(args.data, args.runs, args.output, args.device)
+    run(args.data, args.runs, args.output, args.device, args.exclude_after_pellet)
 
 
 if __name__ == "__main__":
