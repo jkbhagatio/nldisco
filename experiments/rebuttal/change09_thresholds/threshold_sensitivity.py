@@ -39,6 +39,10 @@ MIN_COVERAGE, MIN_TRIALS = 0.05, 20  # the paper's eligibility rule
 FEATURE_ORDER = ('recent_braking', 'fast_target_specific', 'early_leftward', 'late_target_specific')
 SETTINGS = ('half', 'paper', 'double', 'best')
 
+STNDT_REPRESENTATION = ('/ceph/aeon/aeon/nldisco/rebuttal_20261118/change01_stndt/sweep/'
+                        'lam1p0_lr0p003_drop0p3/activations.npy')
+STNDT_SELECTION = Path(__file__).parent / 'stndt_selection.json'
+
 
 @dataclass(frozen=True)
 class MethodConfig:
@@ -52,7 +56,10 @@ class MethodConfig:
             native threshold ``z > 0`` if False.
         representation: Optional ``{'path': ...}`` record of an exported representation.
         selections: ``'frozen'`` reads ``frozen_spec.json``; ``'paper_rule'`` re-applies the
-            paper's best-Sel and best-AUROC rule to the representation.
+            paper's best-Sel and best-AUROC rule to the representation; ``'file'`` takes the
+            latents of a selection file written by another session (``selection_file``).
+        selection_file: Path of a selection JSON with ``choices[feature][criterion]`` rows
+            (latent_id, orientation, tpr, fpr, sel, auroc); used with ``selections='file'``.
     """
 
     key: str
@@ -61,15 +68,18 @@ class MethodConfig:
     dense: bool = True
     representation: Optional[dict] = None
     selections: str = 'frozen'
+    selection_file: Optional[str] = None
 
 
 METHODS = (
     MethodConfig('nldisco', 'NLDisco', '#1f77b4', dense=False),
     MethodConfig('cebra', 'CEBRA-Time', '#ff7f0e'),
     MethodConfig('langevinflow', 'LangevinFlow', '#2ca02c'),
-    # ST-NDT: add `MethodConfig('stndt', 'ST-NDT', '#9467bd', representation={'path': ...},
-    # selections='paper_rule')` or pass `--extra stndt:ST-NDT:<path>:#9467bd`.
+    MethodConfig('stndt', 'ST-NDT', '#9467bd', selections='file',
+                 representation=dict(path=STNDT_REPRESENTATION),
+                 selection_file=str(STNDT_SELECTION)),
 )
+# Further methods: pass `--extra key:label:path:color` (scored with the paper's selection rule).
 
 
 @beartype
@@ -213,6 +223,11 @@ def selected_latents(spec: dict, config: MethodConfig, values: np.ndarray,
     each baseline's best-Sel and best-AUROC latent (identical picks are merged)."""
     if config.selections == 'paper_rule':
         rows = paper_rule_selection(values, features, config.key)
+    elif config.selections == 'file':
+        choices = json.loads(Path(config.selection_file).read_text())['choices']
+        rows = [dict(row, method=config.key, feature=feature, criterion=criterion)
+                for feature, by_criterion in choices.items()
+                for criterion, row in by_criterion.items()]
     else:
         rows = [r for r in spec['selections'] if r['method'] == config.key]
     seen = {}
@@ -234,6 +249,9 @@ def analyse(configs: tuple, features: dict, spec: dict) -> dict:
     results, checks, reference_cov = [], [], {}
     for config in configs:
         record = config.representation or spec['representations'][config.key]
+        if not Path(record['path']).exists():
+            print(f'skipping {config.label}: {record["path"]} not found')
+            continue
         values = decoder.load_representation(record, decoder.SWEEP)
         for row in selected_latents(spec, config, values, features):
             feature = features[row['feature']]
@@ -259,7 +277,7 @@ def analyse(configs: tuple, features: dict, spec: dict) -> dict:
                 selectors=row['selectors'], dense=config.dense, paper_rate=paper_rate,
                 auroc=auroc(x, y), prevalence=float(y.mean()), n_windows=int(len(y)),
                 curve=curve, settings=setting))
-            if config.selections == 'frozen' and 'tpr' in row:  # reproduce the paper's scores
+            if config.selections in ('frozen', 'file') and 'tpr' in row:  # reproduce the paper's scores
                 paper = setting['paper']
                 checks.append(dict(method=config.key, feature=row['feature'],
                                    latent_id=row['latent_id'], selectors=row['selectors'],
