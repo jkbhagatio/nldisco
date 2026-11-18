@@ -1,8 +1,8 @@
 """Throwaway latent dashboards from saved activations and behavior (rebuttal change 7).
 
 One view per latent: activation as a function of chosen behavioral or environmental
-variables, 2-D activation maps, and the strongest activating episodes alongside
-behavior. `write_dashboard` renders every active latent and an `index.html` that
+variables, 2-D activation maps, and activating episodes alongside behavior (the
+strongest ones, and ones sampled across the activation range). `write_dashboard` renders every active latent and an `index.html` that
 steps between them with the arrow keys; `Dashboard.figure` gives one static view.
 """
 
@@ -72,6 +72,8 @@ class Dataset:
     episode_labels: Optional[np.ndarray] = None  # [n] strings used as episode titles
     half_width: int = 250  # bins shown either side of an episode's peak
     n_episodes: int = 6
+    n_intervals: int = 6  # equal-width activation intervals sampled once each; 0 disables
+    seed: int = 0  # for the sampled episodes
     min_count: int = 50  # examples a bin needs before its statistic is drawn
 
 
@@ -119,6 +121,25 @@ def top_episodes(
 
 
 @jaxtyped(typechecker=beartype)
+def interval_samples(
+    activation: Float[np.ndarray, " n"], n_intervals: int, rng: np.random.Generator,
+) -> tuple[Int[np.ndarray, " m"], Float[np.ndarray, "m 2"]]:
+    """One uniformly drawn example per equal-width interval of (0, max], highest first.
+
+    Returns the sampled indices and each one's (low, high] interval; empty intervals
+    are skipped. Intervals follow the activation value rather than its quantiles, so
+    the columns span the latent's whole activation range.
+    """
+    edges = np.linspace(0, max(float(activation.max()), 0.), n_intervals + 1)
+    order = np.argsort(activation, kind="stable")
+    cuts = np.searchsorted(activation[order], edges, side="right")
+    picks = [(order[rng.integers(cuts[j], cuts[j + 1])], edges[j], edges[j + 1])
+             for j in reversed(range(n_intervals)) if cuts[j + 1] > cuts[j]]
+    return (np.array([p[0] for p in picks], dtype=np.int64),
+            np.array([p[1:] for p in picks], dtype=np.float64).reshape(-1, 2))
+
+
+@jaxtyped(typechecker=beartype)
 def episode_bounds(
     peaks: Int[np.ndarray, " m"], segments: Int[np.ndarray, " n"], half_width: int,
 ) -> Int[np.ndarray, "m 2"]:
@@ -160,18 +181,28 @@ class Dashboard:
 
     @beartype
     def figure(self, latent: int, letters: bool = False) -> plt.Figure:
-        """Draw one latent's view: tuning (a), maps and timeline (b), strongest episodes (c)."""
+        """Draw one latent's view.
+
+        Rows: activation by variable (a), maps and timeline (b), the strongest episodes (c),
+        and episodes sampled across the activation range (d), each above its behavior.
+        """
         d, z, scale = self.data, self.data.activations[:, latent], self.scale[latent]
         n_var, n_map, n_trace = len(d.variables), len(d.maps), len(d.traces)
+        # Row heights in inches, with spacer rows so label room does not scale with content.
+        block = .36 * (1 + n_trace)
+        heights = [1., .78, 1.35, .86, block] + ([.84, block] if d.n_intervals else [])
+        top, bottom = .52, .46
+        total = sum(heights) + top + bottom
         with plt.rc_context(STYLE):
-            fig = plt.figure(figsize=(7.2, 4.3 + .6 * (1 + n_trace)))
-            outer = fig.add_gridspec(3, 1, height_ratios=[1.1, 1.55, .72 * (1 + n_trace)],
-                                     left=.085, right=.985, top=.925, bottom=.075, hspace=.6)
-            fig.text(.085, .992, f"{d.title}  |  latent {latent}", va="top", fontsize=8.5,
-                     fontweight="bold")
-            fig.text(.085, .966, f"active in {100 * self.rate[latent]:.2f}% of {len(z):,} "
-                     f"examples  |  99th-percentile activation {scale:.2f}", va="top",
-                     fontsize=7)
+            fig = plt.figure(figsize=(7.2, total))
+            outer = fig.add_gridspec(len(heights), 1, height_ratios=heights, left=.085,
+                                     right=.985, top=1 - top / total, bottom=bottom / total,
+                                     hspace=0)
+            fig.text(.085, 1 - .05 / total, f"{d.title}  |  latent {latent}", va="top",
+                     fontsize=8.5, fontweight="bold")
+            fig.text(.085, 1 - .23 / total, f"active in {100 * self.rate[latent]:.2f}% of "
+                     f"{len(z):,} examples  |  99th-percentile activation {scale:.2f}",
+                     va="top", fontsize=7)
 
             # (a) activation as a function of each variable.
             axes = outer[0].subgridspec(1, n_var, wspace=.28).subplots(sharey=True)
@@ -183,7 +214,7 @@ class Dashboard:
                        loc="upper right", bbox_to_anchor=(.99, 1.), handlelength=1.5)
 
             # (b) joint maps and the wide timeline.
-            row = outer[1].subgridspec(1, n_map + 1, wspace=.62,
+            row = outer[2].subgridspec(1, n_map + 1, wspace=.62,
                                        width_ratios=[1] * n_map + [max(3.4 - n_map, 1.2)])
             map_axes = [fig.add_subplot(row[i]) for i in range(n_map)]
             for ax, m, stats in zip(map_axes, d.maps, self.grids):
@@ -192,44 +223,68 @@ class Dashboard:
             self._tuning(wide, d.timeline, self.tuning[-1], latent)
             wide.set_ylabel("P(active)  /  mean act.")
 
-            # (c) strongest activating episodes, each above its behavior.
+            # (c) strongest episodes; (d) one episode per equal-width activation interval.
             peaks = top_episodes(z, d.n_episodes, d.half_width)
-            bounds = episode_bounds(peaks, d.segments, d.half_width)
-            grid = outer[2].subgridspec(1 + n_trace, d.n_episodes, wspace=.12, hspace=.25)
-            axes = grid.subplots(sharex=True, sharey="row", squeeze=False)
+            blocks = [(outer[4], peaks, [f"#{i + 1}: peak act. {z[p]:.1f}"
+                                         for i, p in enumerate(peaks)],
+                       "Strongest activating episodes", "Time from peak (s)", d.n_episodes)]
+            if d.n_intervals:
+                picks, bounds = interval_samples(z, d.n_intervals,
+                                                 np.random.default_rng([d.seed, latent]))
+                blocks.append((outer[6], picks,
+                               [f"act. {z[p]:.1f} in ({lo:.1f}, {hi:.1f}]"
+                                for p, (lo, hi) in zip(picks, bounds)],
+                               "Episodes sampled across the activation range, one per "
+                               "equal-width interval", "Time from sampled example (s)",
+                               d.n_intervals))
+            for spec, centers, titles, header, xlabel, n_columns in blocks:
+                self._episodes(fig, spec, z, centers, titles, n_columns)
+                box = spec.get_position(fig)
+                fig.text(.085, box.y1 + .3 / total, header, fontsize=7, fontweight="bold",
+                         va="bottom")
+                fig.text((box.x0 + box.x1) / 2, box.y0 - .3 / total, xlabel, ha="center",
+                         va="top")
             colors = plt.get_cmap("Dark2")
-            for col, (peak, (lo, hi)) in enumerate(zip(peaks, bounds)):
-                t = (np.arange(lo, hi) - peak) * d.bin_seconds
-                axes[0, col].fill_between(t, z[lo:hi], step="mid", color=BLUE, lw=0)
-                title = f"#{col + 1}: peak act. {z[peak]:.1f}"
-                if d.episode_labels is not None:
-                    title += f"\n{d.episode_labels[peak]}"
-                axes[0, col].set_title(title, fontsize=5.6, pad=2, linespacing=1.05)
-                for i, values in enumerate(d.traces.values()):
-                    axes[1 + i, col].plot(t, values[lo:hi], color=GREY, lw=.7)
-                for j, (name, flags) in enumerate(d.events.items()):
-                    for when in t[flags[lo:hi]]:
-                        for ax in axes[:, col]:
-                            ax.axvline(when, color=colors(j), lw=.6, ls="--", zorder=0)
-            for col in range(len(peaks), d.n_episodes):
-                for ax in axes[:, col]:
-                    ax.set_visible(False)
-            axes[0, 0].set_ylabel("Latent act.")
-            for i, name in enumerate(d.traces):
-                axes[1 + i, 0].set_ylabel(name)
-            fig.align_ylabels(axes[:, 0])
-            for ax in axes[-1]:
-                ax.set_xlabel("Time from peak (s)")
             handles = [plt.Line2D([], [], color=colors(j), lw=.8, ls="--", label=name)
                        for j, name in enumerate(d.events)]
             if handles:
                 fig.legend(handles=handles, loc="lower right", ncol=len(handles), fontsize=6,
-                           frameon=False, bbox_to_anchor=(.985, -.006))
+                           frameon=False, bbox_to_anchor=(.985, -.003))
             if letters:
-                for letter, spec in zip("abc", outer):
-                    fig.text(.008, spec.get_position(fig).y1 + .012, letter, fontsize=10,
-                             fontweight="bold", va="bottom")
+                lifts = [.06, .06] + [.3] * (len(blocks))
+                for letter, spec, lift in zip("abcd", list(outer)[::2], lifts):
+                    fig.text(.008, spec.get_position(fig).y1 + lift / total, letter,
+                             fontsize=10, fontweight="bold", va="bottom")
         return fig
+
+    def _episodes(self, fig, spec, z: np.ndarray, centers: np.ndarray, titles: list,
+                  n_columns: int) -> None:
+        """One column per episode: latent activation above each behavior trace."""
+        d = self.data
+        bounds = episode_bounds(centers, d.segments, d.half_width)
+        grid = spec.subgridspec(1 + len(d.traces), n_columns, wspace=.12, hspace=.25)
+        axes = grid.subplots(sharex=True, sharey="row", squeeze=False)
+        colors = plt.get_cmap("Dark2")
+        for col, (center, (lo, hi)) in enumerate(zip(centers, bounds)):
+            t = (np.arange(lo, hi) - center) * d.bin_seconds
+            axes[0, col].fill_between(t, z[lo:hi], step="mid", color=BLUE, lw=0)
+            title = titles[col]
+            if d.episode_labels is not None:
+                title += f"\n{d.episode_labels[center]}"
+            axes[0, col].set_title(title, fontsize=5.6, pad=2, linespacing=1.05)
+            for i, values in enumerate(d.traces.values()):
+                axes[1 + i, col].plot(t, values[lo:hi], color=GREY, lw=.7)
+            for j, flags in enumerate(d.events.values()):
+                for when in t[flags[lo:hi]]:
+                    for ax in axes[:, col]:
+                        ax.axvline(when, color=colors(j), lw=.6, ls="--", zorder=0)
+        for col in range(len(centers), n_columns):
+            for ax in axes[:, col]:
+                ax.set_visible(False)
+        axes[0, 0].set_ylabel("Latent\nact.", fontsize=5.8)
+        for i, name in enumerate(d.traces):
+            axes[1 + i, 0].set_ylabel(name, fontsize=5.8)
+        fig.align_ylabels(axes[:, 0])
 
     def _tuning(self, ax, v: Variable, stats: tuple, latent: int) -> None:
         """P(active) and scaled mean activation per bin; sparsely populated bins are hidden."""

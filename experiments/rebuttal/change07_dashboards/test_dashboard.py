@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from experiments.rebuttal.change07_dashboards import dashboard as db
+from experiments.rebuttal.change07_dashboards.aeon_consistency import summarize
 
 
 def toy(n: int = 4000, seed: int = 0) -> db.Dataset:
@@ -53,6 +54,16 @@ def test_top_episodes_are_ordered_and_disjoint():
     assert len(db.top_episodes(np.zeros(50), 3, 5)) == 0
 
 
+def test_interval_samples_fall_in_their_intervals_and_skip_empty_ones():
+    z = np.r_[np.zeros(50), np.linspace(.1, 2.9, 30), 6.]
+    picks, bounds = db.interval_samples(z, 6, np.random.default_rng(0))
+    np.testing.assert_allclose(bounds, [[5, 6], [2, 3], [1, 2], [0, 1]])
+    assert ((z[picks] > bounds[:, 0]) & (z[picks] <= bounds[:, 1])).all()
+    again, _ = db.interval_samples(z, 6, np.random.default_rng(0))
+    np.testing.assert_array_equal(picks, again)
+    assert len(db.interval_samples(np.zeros(10), 6, np.random.default_rng(0))[0]) == 0
+
+
 def test_episode_bounds_stay_inside_segments():
     segments = db.segment_ids(np.array([0, 1, 2, 3, 10, 11, 12, 13]))
     np.testing.assert_array_equal(segments, [0, 0, 0, 0, 1, 1, 1, 1])
@@ -80,3 +91,13 @@ def test_dashboard_recovers_the_planted_tuning_and_writes_every_active_view(tmp_
     assert sorted(p.name for p in (tmp_path / "views").iterdir()) == [
         "latent_0000.png", "latent_0001.png"]
     assert "latents = [0, 1]" in index.read_text()
+
+
+def test_consistency_summary_counts_condition_hits_at_each_threshold():
+    z = np.r_[np.zeros(900), np.linspace(1, 10, 100)]
+    condition = np.r_[np.zeros(950, bool), np.ones(50, bool)]  # the 50 largest activations
+    out = summarize(z, condition, np.ones(1000, bool), latent=0, half_width=2, n=4)
+    assert out["by_threshold"]["z>0"] == dict(windows=100, precision=.5)
+    assert out["by_threshold"]["top 1%"]["precision"] == 1.
+    assert out["strongest"] == dict(in_population=4, in_condition=4, shown=4)
+    assert out["sampled"]["shown"] == 4 and out["sampled"]["in_condition"] == 2
