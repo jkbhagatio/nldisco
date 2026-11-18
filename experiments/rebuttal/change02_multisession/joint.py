@@ -22,10 +22,18 @@ import torch
 
 from experiments.aeon.sweep_20260921.shared_training import make_config
 from experiments.rebuttal.change02_multisession.adapt import (
-    FEATURES, GpuWindowBatches, export_session, unit_positions,
+    FEATURES,
+    GpuWindowBatches,
+    export_session,
+    unit_positions,
 )
 from experiments.rebuttal.change02_multisession.common import (
-    CEPH, DATA, SEQ_LEN, behavior_conditions, load_session, score_latents,
+    CEPH,
+    DATA,
+    SEQ_LEN,
+    behavior_conditions,
+    load_session,
+    score_latents,
 )
 from nldisco.config import LossConfig, MultiSessionSedConfig, SessionConfig, TrainConfig
 from nldisco.model.multisession import build_multisession_sed, position_correspondence
