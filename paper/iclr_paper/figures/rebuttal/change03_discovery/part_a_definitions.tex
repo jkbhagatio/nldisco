@@ -1,0 +1,29 @@
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}rp{0.19\linewidth}p{0.36\linewidth}p{0.24\linewidth}r@{}}
+\toprule
+\# & Feature & Condition & Compared within & \%  \\
+\midrule
+1 & near the patch & patch distance $\leq$ 100 px & valid tracking & 13.5 \\
+2 & at the most occupied location & within 100 px of the most occupied 25-px cell of the discovery part at (487.5, 162.5) px & valid tracking & 64.0 \\
+3 & elsewhere in the arena & neither near the patch nor at the most occupied location & valid tracking & 22.4 \\
+4 & stationary & speed $<$ 5 px/s & valid tracking & 66.3 \\
+5 & moving & speed $\geq$ 20 px/s & valid tracking & 12.4 \\
+6 & fast locomotion & speed $\geq$ 100 px/s & valid tracking & 4.3 \\
+7 & accelerating & acceleration $\geq$ 200 px/s$^2$ & valid tracking & 3.0 \\
+8 & decelerating & acceleration $\leq-200$ px/s$^2$ & valid tracking & 3.2 \\
+9 & moving right ($+x$) & movement direction within 45$^\circ$ of $+x$ & valid tracking, speed $\geq$ 20 px/s & 25.4 \\
+10 & moving down ($+y$) & movement direction within 45$^\circ$ of $+y$ & valid tracking, speed $\geq$ 20 px/s & 24.4 \\
+11 & moving left ($-x$) & movement direction within 45$^\circ$ of $-x$ & valid tracking, speed $\geq$ 20 px/s & 27.0 \\
+12 & moving up ($-y$) & movement direction within 45$^\circ$ of $-y$ & valid tracking, speed $\geq$ 20 px/s & 23.2 \\
+13 & moving toward the patch & movement direction within 45$^\circ$ of the direction to the patch & valid tracking, speed $\geq$ 20 px/s & 21.5 \\
+14 & moving away from the patch & movement direction at least 135$^\circ$ from the direction to the patch & valid tracking, speed $\geq$ 20 px/s & 18.5 \\
+15 & small body area & area $\leq$ lowest-quintile edge of the discovery part (470.5 px$^2$) & valid tracking & 26.6 \\
+16 & large body area & area $\geq$ highest-quintile edge of the discovery part (574.5 px$^2$) & valid tracking & 19.8 \\
+17 & wheel running & wheel speed $>$ 0.05 turns/s & valid wheel samples & 2.7 \\
+18 & fast wheel running & wheel speed $\geq$ median wheel speed of wheel-running windows in the discovery part (0.309 turns/s) & wheel-running windows & 52.6 \\
+19 & wheel-bout onset & 0 to 0.5 s after a wheel bout starts & valid wheel samples & 0.8 \\
+20 & wheel-bout offset & 0 to 0.5 s after a wheel bout ends & valid wheel samples & 0.8 \\
+21 & at the patch, wheel idle & patch distance $\leq$ 100 px and wheel speed $\leq$ 0.02 turns/s & valid tracking and wheel samples & 10.5 \\
+22 & after a pellet trigger & 0 to 2 s after a pellet trigger & all windows & 0.7 \\
+23 & before a pellet trigger & 0 to 1 s before a pellet trigger & all windows & 0.3 \\
+\bottomrule
+\end{tabular*}

@@ -1,0 +1,13 @@
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrr@{}}
+\toprule
+ & \multicolumn{2}{c}{Part A: recovered} & \multicolumn{4}{c}{Part B: validated interpretations} \\
+\cmidrule(lr){2-3}\cmidrule(l){4-7}
+Method & \shortstack{All\\windows} & \shortstack{Post hoc\\variant} & \shortstack{Share, all\\windows} & \shortstack{Share, post\\hoc variant} & \shortstack{Latents, post hoc\\variant (range)} & \shortstack{Distinct features,\\post hoc variant} \\
+\midrule
+NLDisco & 10/23 & 10/23 & 8\% & 6\% & 2.0 (2--2) & 2 \\
+CEBRA-Time & 5/23 & 4/23 & 29\% & 16\% & 5.0 (3--7) & 3 \\
+LangevinFlow & 2/23 & 2/23 & 63\% & 0\% & 0.0 (0--0) & 0 \\
+ST-NDT & 12/23 & 12/23 & 90\% & 33\% & 10.7 (10--12) & 4 \\
+PCA & 9/23 & 10/23 & 6\% & 2\% & 0.7 (0--1) & 1 \\
+\bottomrule
+\end{tabular*}

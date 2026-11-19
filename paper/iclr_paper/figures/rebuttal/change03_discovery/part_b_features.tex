@@ -1,0 +1,12 @@
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}rp{0.42\linewidth}ccccc@{}}
+\toprule
+\# & Representative rule (direction) & NLDisco & CEBRA-Time & LangevinFlow & ST-NDT & PCA \\
+\midrule
+1 & \texttt{time\_since\_pellet $\leq$ 0.5} (low) & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+2 & \texttt{time\_to\_pellet $\leq$ 5} (low) & \checkmark & \checkmark &  & \checkmark & \checkmark \\
+3 & \texttt{x $\geq$ 1200 and y $\geq$ 400 and y $<$ 600} (high) & \checkmark & \checkmark &  & \checkmark &  \\
+4 & \texttt{time\_since\_pellet $\geq$ 0.5 and time\_since\_pellet $\leq$ 1} (high) &  & \checkmark & \checkmark &  &  \\
+5 & \texttt{area $<$ 342} (high) &  & \checkmark &  & \checkmark &  \\
+6 & \texttt{speed $\geq$ 100} (low) &  &  &  & \checkmark &  \\
+\bottomrule
+\end{tabular*}

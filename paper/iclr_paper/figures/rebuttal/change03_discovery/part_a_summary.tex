@@ -1,0 +1,11 @@
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrrrr@{}}
+\toprule
+Method & Latents & Recovered & \shortstack{Both\\$\geq0.70$} & \shortstack{Both\\$\geq0.80$} & \shortstack{\metric{AUROC}\\$\geq0.75$} & \metric{Cov} & \metric{Spec} & \metric{Sel} & \metric{AUROC} \\
+\midrule
+NLDisco & 192 & 10/23 & 12 & 5 & 11 & 0.72 & 0.70 & 0.71 & 0.74 \\
+CEBRA-Time & 192 & 5/23 & 6 & 4 & 7 & 0.66 & 0.68 & 0.68 & 0.72 \\
+LangevinFlow & 192 & 2/23 & 7 & 0 & 8 & 0.67 & 0.62 & 0.64 & 0.68 \\
+ST-NDT & 87 & \textbf{12}/23 & 12 & 3 & 14 & 0.73 & 0.68 & 0.70 & 0.76 \\
+PCA & 192 & 9/23 & 11 & 5 & 14 & 0.72 & 0.70 & 0.70 & 0.76 \\
+\bottomrule
+\end{tabular*}
