@@ -61,7 +61,6 @@ The \textit{radially outward} association also persists after coarse control for
     \label{fig:aeon_wheel_vs_patch}
 \end{figure}
 
-\clearpage
 \subparagraph{Source activity traceback.}
 We apply the \hyperref[paragraph:source_activity_traceback]{source activity traceback} to the four selected latents using the same standardized counts as in training. Attribution maps retain all 90 recorded clusters and all 20 input timebins. We average equally over neural-valid windows with positive latent activation, regardless of behavioral condition. The wheel feature's time-averaged profile provides a compact view of its source contributions (\autoref{fig:aeon_wheel_source_traceback}); the complete maps show when each cluster contributes within the input window, alongside the decoder weights describing reconstruction (\autoref{fig:aeon_traceback}). These are model attributions, not causal effects or evidence of biological excitation or inhibition.
 

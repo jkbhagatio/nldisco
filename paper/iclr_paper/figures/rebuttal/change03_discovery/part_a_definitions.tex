@@ -1,0 +1,18 @@
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}rp{0.19\linewidth}p{0.36\linewidth}p{0.24\linewidth}r@{}}
+\toprule
+\# & Feature & Condition & Compared within & \%  \\
+\midrule
+1 & near the patch & patch distance $\leq$ 100 px & valid tracking & 13.3 \\
+2 & moving & speed $\geq$ 20 px/s & valid tracking & 12.4 \\
+3 & accelerating & acceleration $\geq$ 200 px/s$^2$ & valid tracking & 3.0 \\
+4 & decelerating & acceleration $\leq-200$ px/s$^2$ & valid tracking & 3.2 \\
+5 & moving right ($+x$) & movement direction within 45$^\circ$ of $+x$ & valid tracking, speed $\geq$ 20 px/s & 25.4 \\
+6 & moving down ($+y$) & movement direction within 45$^\circ$ of $+y$ & valid tracking, speed $\geq$ 20 px/s & 24.4 \\
+7 & moving left ($-x$) & movement direction within 45$^\circ$ of $-x$ & valid tracking, speed $\geq$ 20 px/s & 27.0 \\
+8 & moving up ($-y$) & movement direction within 45$^\circ$ of $-y$ & valid tracking, speed $\geq$ 20 px/s & 23.2 \\
+9 & moving toward the patch & movement direction within 45$^\circ$ of the direction to the patch & valid tracking, speed $\geq$ 20 px/s & 21.5 \\
+10 & wheel spinning & wheel speed $>$ 0.05 turns/s & valid wheel samples & 2.5 \\
+11 & fast wheel spinning & wheel speed $\geq$ median wheel speed of wheel-spinning windows in the discovery part (0.309 turns/s) & wheel-spinning windows & 53.4 \\
+12 & wheel-bout onset & 0 to 0.5 s after a wheel bout starts & valid wheel samples & 0.8 \\
+\bottomrule
+\end{tabular*}
