@@ -94,7 +94,9 @@ $STNDT_PY -m experiments.rebuttal.change01_stndt.figures --timing <timing output
   pinned by UUID, fresh process per fit, four CPU threads, occupancy sampled every two
   seconds, and a run is rejected if any other compute process appears on the GPU.
 - `figures.py` never regenerates an existing result: `figure4.pdf` is the printed figure
-  with ST-NDT markers overlaid as vectors, the ROC and timing figures redraw the saved
+  with ST-NDT markers overlaid as vectors, `churchland_additional_features.pdf` is the
+  printed figure with ST-NDT added to panel c and its legend redrawn with an ST-NDT
+  entry, the ROC and timing figures redraw the saved
   curves and the fifteen saved fits and add ST-NDT, and the two tables receive ST-NDT rows
   with column maxima re-bolded; every existing number is kept as printed
   (`test_scoring.py`). Assets go to `paper/iclr_paper/figures/rebuttal/change01_stndt/`.
