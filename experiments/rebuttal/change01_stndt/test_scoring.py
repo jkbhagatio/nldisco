@@ -1,7 +1,9 @@
 """Fast checks for ST-NDT latent selection and the hand-inserted table rows."""
+import json
 import re
 
 import numpy as np
+import pytest
 
 from experiments.rebuttal.change01_stndt import figures, score
 
@@ -72,3 +74,25 @@ def test_displayed_precision_follows_existing_tables():
     row = figures.displayed(results)["recent_braking", "sel"]
     assert row["main"] == ["0.698", "0.767", "0.749", "0.818", "0.729", "0.899"]
     assert row["appendix"] == ["0.6976", "0.7674", "0.749", "0.818", "0.7291", "0.8995"]
+
+
+def test_additional_features_adds_stndt_and_keeps_printed_panels(tmp_path):
+    fitz = pytest.importorskip("fitz")
+    rows = figures.displayed(json.loads((figures.HERE / "outputs/results.json").read_text()))
+    figures.additional_features(rows, tmp_path)
+    old, new = (fitz.open(path)[0] for path in (
+        figures.PAPER / "churchland_additional_features.pdf",
+        tmp_path / "churchland_additional_features.pdf"))
+    assert new.rect == old.rect
+    above = [[w[:5] for w in page.get_text("words") if w[3] < 436] for page in (old, new)]
+    assert above[0] == above[1]
+    assert [w[4] for w in new.get_text("words") if w[1] > 436] == [
+        "NLDisco", "CEBRA-Time", "LangevinFlow", "ST-NDT", "Best", "Sel", "Best", "AUROC"]
+    purple = [d["rect"] for d in new.get_drawings() if d.get("color") and np.allclose(
+        d["color"], (148 / 255, 103 / 255, 189 / 255), atol=.01)]
+    centres = [((r.x0 + r.x1) / 2, (r.y0 + r.y1) / 2) for r in purple if r.y1 < 436]
+    # Printed panel c axes: AUROC .5 -> 1 at x 407.96 -> 526.5; Sel 1 -> .7 over 92.12 pt.
+    scores = sorted(((x - 407.96) / 118.54 * .5 + .5,
+                     1 - (y - (45.36 if y < 200 else 252.62)) / 92.12 * .3) for x, y in centres)
+    expected = sorted([(.959, .980), (.974, .977), (.976, .987), (.976, .987)])
+    assert len(purple) == 5 and np.allclose(scores, expected, atol=2e-3)

@@ -204,6 +204,92 @@ def rocs(results: dict, destination: Path) -> None:
 
 
 @beartype
+def additional_features(rows: dict, destination: Path) -> None:
+    """Add ST-NDT to panel c of the printed supplementary-feature figure, as vectors.
+
+    Panels a and b and every printed point are kept; only the figure legend is replaced,
+    redrawn with the original settings and an ST-NDT entry after the other methods.
+    """
+    import fitz
+    from matplotlib.lines import Line2D
+
+    document = fitz.open(PAPER / "churchland_additional_features.pdf")
+    page = document[0]
+    width, height = page.rect.width, page.rect.height
+    strip = fitz.Rect(0, 436, width, height)
+    legend = [w[4] for w in page.get_text("words") if fitz.Rect(w[:4]) in strip]
+    if legend != ["NLDisco", "CEBRA-Time", "LangevinFlow", "Best", "Sel", "Best", "AUROC"]:
+        raise ValueError("Expected only the printed figure legend below the panels")
+    ticks = sorted({(round(d["rect"].x0, 2), round(d["rect"].y1, 2)) for d in page.get_drawings()
+                    if d["type"] == "fs" and d["rect"].x0 > 400 and min(
+                        d["rect"].width, d["rect"].height) < .01})
+    with plt.rc_context(RC):
+        fig, axes = plt.subplots(2, 3, figsize=(width / 72, height / 72))
+        fig.subplots_adjust(left=.075, right=.975, top=.90, bottom=.24, wspace=.55,
+                            hspace=1.25)
+        for ax in axes.flat:
+            ax.axis("off")
+        drawn = []
+        for cx, feature in zip(axes[:, 2], FEATURE_ORDER[2:]):
+            cx.set(xlim=(.5, 1), ylim=(.7, 1))
+            # Printed tick marks: x ticks end on the bottom spine, y ticks on the left one.
+            drawn += [(x, y + 3.5) for x, y in
+                      72 / fig.dpi * cx.transData.transform([(.5, .7), (.75, .7), (1, .7)])
+                      * (1, -1) + (0, height)]
+            drawn += [(x - 3.5, y) for x, y in
+                      72 / fig.dpi * cx.transData.transform([(.5, .7), (.5, .85), (.5, 1)])
+                      * (1, -1) + (0, height)]
+            for criterion in SELECTOR:
+                sel, auroc = map(float, rows[feature, criterion]["appendix"][2:4])
+                cx.scatter(auroc, sel, marker=MARKERS[criterion],
+                           s=65 if criterion == "auroc" else 38,
+                           facecolors="none" if criterion == "auroc" else COLOR,
+                           edgecolors=COLOR, linewidths=1,
+                           zorder=6 if criterion == "auroc" else 5, clip_on=False)
+        if len(ticks) != len(drawn) or not np.allclose(sorted(map(tuple, np.round(drawn, 2))),
+                                                       ticks, atol=.05):
+            raise ValueError("Overlay axes do not match the printed panel c")
+        handles = [Line2D([], [], marker="o", color=c, ls="", markersize=4, label=NAMES[m])
+                   for m, c in dict(COLORS, stndt=COLOR).items()]
+        handles += [Line2D([], [], marker=MARKERS[c], color=".25", ls="", markersize=4,
+                           markerfacecolor="none" if c == "auroc" else ".25",
+                           label="Best " + label) for c, label in SELECTOR.items()]
+        fig.legend(handles=handles, ncol=len(handles), loc="lower center", fontsize=6,
+                   frameon=False, handlelength=.8, handletextpad=.4, columnspacing=1.5)
+        with tempfile.TemporaryDirectory() as scratch:
+            fig.savefig(Path(scratch) / "overlay.pdf", transparent=True)
+            plt.close(fig)
+            overlay = fitz.open(Path(scratch) / "overlay.pdf")
+            if abs(overlay[0].rect.width - width) > .01 or abs(overlay[0].rect.height - height) > .01:
+                raise ValueError("Overlay and printed figure sizes differ")
+            # The legend is the last thing Matplotlib drew, after the panel letter "c":
+            # cut that segment from the content stream so all else stays byte-identical.
+            (xref,) = page.get_contents()
+            stream, letter = document.xref_stream(xref), b"(\x00c) ] TJ\nET\nQ\n"
+            start, end = stream.index(letter) + len(letter), stream.rindex(b"Q\n")
+            if stream.count(letter) != 1 or stream[start:end].count(b"\nq\n") != stream[
+                    start:end].count(b"\nQ\n"):
+                raise ValueError("Could not isolate the printed legend")
+
+            def kept() -> tuple:
+                return ([w for w in page.get_text("words") if fitz.Rect(w[:4]) not in strip],
+                        [(d["type"], d["rect"]) for d in page.get_drawings()
+                         if d["rect"] not in strip])
+
+            before = kept()
+            document.update_stream(xref, stream[:start] + stream[end:])
+            if kept() != before or any(fitz.Rect(w[:4]) in strip
+                                       for w in page.get_text("words")) or any(
+                    d["rect"] in strip for d in page.get_drawings()):
+                raise ValueError("Removing the legend changed something else")
+            page.show_pdf_page(page.rect, overlay, 0)
+            document.save(destination / "churchland_additional_features.pdf", garbage=3,
+                          deflate=True)
+    fitz.open(destination / "churchland_additional_features.pdf")[0].get_pixmap(dpi=210).save(
+        destination / "churchland_additional_features.png")
+
+
+@beartype
 def training_times(new: Path, destination: Path) -> dict:
     """Plot the fifteen saved fits unchanged beside the five ST-NDT fits."""
     rows = json.loads((TIMING / "results.json").read_text())["runs"]
@@ -259,6 +345,7 @@ def main() -> None:
                   tables=text)
     figure4(rows, DESTINATION)
     rocs(results, DESTINATION)
+    additional_features(rows, DESTINATION)
     if args.timing:
         record["training_time"] = training_times(args.timing, DESTINATION)
     (HERE / "outputs/paper_assets.json").write_text(json.dumps(record, indent=2) + "\n")
