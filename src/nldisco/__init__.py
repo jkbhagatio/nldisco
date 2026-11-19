@@ -5,30 +5,24 @@ from nldisco.config import (
     EncoderConfig,
     ExperimentConfig,
     LossConfig,
-    MultiSessionSedConfig,
     SedConfig,
-    SessionConfig,
     TrainConfig,
     WindowConfig,
 )
 from nldisco.data import SpikeWindowDataset, WindowSample
-from nldisco.model import MultiSessionSed, Sed, SedOutput, build_multisession_sed, build_sed
+from nldisco.model import Sed, SedOutput, build_sed
 
 __all__ = [
     "DecoderConfig",
     "EncoderConfig",
     "ExperimentConfig",
     "LossConfig",
-    "MultiSessionSed",
-    "MultiSessionSedConfig",
     "Sed",
     "SedConfig",
     "SedOutput",
-    "SessionConfig",
     "SpikeWindowDataset",
     "TrainConfig",
     "WindowConfig",
     "WindowSample",
-    "build_multisession_sed",
     "build_sed",
 ]

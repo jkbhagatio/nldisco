@@ -9,7 +9,7 @@ CEBRA-Time samples temporal-positive reference pairs and negatives with
 replacement: its ten epoch-equivalents comprise 1,275 updates and 1,305,600
 reference draws, rather than exhaustive passes through the windows.
 For this dataset, GPU memory (VRAM) usage remained below 5~GB throughout all
-15 fits across the three methods. The selected 191-dimensional ST-NDT configuration is timed in five further fits (seeds 0--4) with the same protocol on the same GPU, at its own batch size of 256: ten exhaustive shuffled passes comprise 5,100 updates, each with three forward passes (the masked input and two contrastive views), and its GPU memory usage remained below 3~GB.
+15 fits across the three methods.
 
 Wall-clock timing is synchronized with CUDA immediately before and after
 optimization. It includes minibatch preparation, device transfers during
@@ -21,15 +21,15 @@ External experiment tracking is disabled. All fits use four CPU threads and PyTo
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/rebuttal/change01_stndt/training_time_h100.pdf}
+    \includegraphics[width=0.8\linewidth]{figures/training_time_h100.pdf}
     \caption{\textbf{LVM training time comparison.}
     All three models expose a \textbf{192-dimensional latent
     representation}: NLDisco's largest dictionary (with a nested 96-dimensional
     level), CEBRA-Time's embedding, and LangevinFlow's concatenated position,
     velocity and recurrent states (64 dimensions each).
     Total/trainable parameter counts, excluding buffers, are
-    NLDisco, 614,859/614,859; CEBRA-Time, 270,784/270,784; LangevinFlow, 449,199/449,199; ST-NDT, 1,062,260/1,062,260. Each dot is one fresh fit; five seeds (0--4) per method
+    NLDisco, 614,859/614,859; CEBRA-Time, 270,784/270,784; LangevinFlow, 449,199/449,199. Each dot is one fresh fit; five seeds (0--4) per method
     give 15 fits run sequentially on the same H100 80-GB GPU, with batch size
-    1,024 and four CPU threads. ST-NDT's 191-dimensional final-layer state is timed in five later fits on the same GPU with batch size 256. All five observations per method are shown.}
+    1,024 and four CPU threads. All five observations per method are shown.}
     \label{figure:training_time_h100}
 \end{figure}

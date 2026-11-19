@@ -1,6 +1,0 @@
-[
- {"name": "d256_pos_s5000_seed2", "d": 256, "init": "position", "steps": 5000, "seed": 2},
- {"name": "d256_rand_s5000_seed2", "d": 256, "init": "random", "steps": 5000, "seed": 2},
- {"name": "d192_shuf_s5000_seed2", "init": "shuffled", "steps": 5000, "seed": 2},
- {"name": "d256_shuf_s5000_seed2", "d": 256, "init": "shuffled", "steps": 5000, "seed": 2}
-]

@@ -1,8 +1,0 @@
-[
- {"name": "c_d192_pos_s0", "init": "position", "steps": 0, "save_activations": true},
- {"name": "c_d192_pos_s5000_seed0", "init": "position", "steps": 5000, "save_activations": true},
- {"name": "c_d192_rand_s5000_seed0", "init": "random", "steps": 5000},
- {"name": "c_d256_pos_s0", "d": 256, "init": "position", "steps": 0},
- {"name": "c_d256_pos_s5000_seed0", "d": 256, "init": "position", "steps": 5000, "save_activations": true},
- {"name": "c_d256_rand_s5000_seed0", "d": 256, "init": "random", "steps": 5000}
-]

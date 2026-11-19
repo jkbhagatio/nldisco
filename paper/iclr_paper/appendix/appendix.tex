@@ -67,7 +67,7 @@ Light-green text indicates that the method has an ideal implementation of the fe
 \renewcommand{\arraystretch}{1.6}
 \begin{tabular}{>{\raggedright}m{5cm}|c|c|c|c|c|c|c|c|c|c|}
 \toprule
-\textbf{Feature} & \rot{\textbf{NLDisco}*} & \rot{LangevinFlow* \citep{song_2025_langevinflow}} & \rot{CEBRA* \citep{schneider_2023_cebra}} & \rot{ST-NDT* \citep{le_2022_stndt}} & \rot{AutoLFADS \citep{keshtkaran_2022_autolfads}} & \rot{UMAP \citep{mcinnes_2018_umap}} & \rot{t-SNE \citep{vandermaaten_2008_tsne}} & \rot{sparseNMF \citep{hoyer_2004_sparsenmf}} & \rot{ICA \citep{comon_1994_ica}} & \rot{PCA** \citep{hotelling_1933_pca}} \\
+\textbf{Feature} & \rot{\textbf{NLDisco}*} & \rot{LangevinFlow* \citep{song_2025_langevinflow}} & \rot{CEBRA* \citep{schneider_2023_cebra}} & \rot{ST-NDT \citep{le_2022_stndt}} & \rot{AutoLFADS \citep{keshtkaran_2022_autolfads}} & \rot{UMAP \citep{mcinnes_2018_umap}} & \rot{t-SNE \citep{vandermaaten_2008_tsne}} & \rot{sparseNMF \citep{hoyer_2004_sparsenmf}} & \rot{ICA \citep{comon_1994_ica}} & \rot{PCA** \citep{hotelling_1933_pca}} \\
 \midrule
 Requires multimodal data & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} & \goodQual{No} \\
 \hline
@@ -116,8 +116,6 @@ Requires significant hyperparameter tuning & \badQual{Yes} & \badQual{Yes} & \ba
 
 % Keep the comparison table within Methods Comparison.
 \clearpage
-\input{appendix/rebuttal/related_work_extended}
-
 \input{appendix/additional_pipeline_details}
 
 \input{appendix/additional_results/additional_results}

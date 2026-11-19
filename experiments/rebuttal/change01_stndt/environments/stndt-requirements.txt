@@ -1,4 +1,0 @@
-# Install with uv pip install --no-deps; the main project supplies torch/numpy/pyyaml.
-yacs==0.1.8
-# Only for paper/figure rendering (vector overlay on the printed Figure 4).
-pymupdf==1.24.14

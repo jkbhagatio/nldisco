@@ -1,7 +1,0 @@
-[
- {"name": "d192_pos_s5000_p0", "init": "position", "steps": 5000, "n_session_latents": 0, "session_topk": 0},
- {"name": "d192_pos_s5000_p32", "init": "position", "steps": 5000, "n_session_latents": 32, "session_topk": 4},
- {"name": "d192_pos_s5000_lr1e-3", "init": "position", "steps": 5000, "lr": 0.001},
- {"name": "d192_pos_s5000_sigma5", "init": "position", "steps": 5000, "sigma": 5.0},
- {"name": "d192_pos_s20000", "init": "position", "steps": 20000}
-]

@@ -1,6 +1,0 @@
-[
- {"name": "pos_s5000_lr5e-3", "init": "position", "steps": 5000, "lr": 0.005},
- {"name": "rand_s5000_lr5e-3", "init": "random", "steps": 5000, "lr": 0.005},
- {"name": "shuf_s5000_lr5e-3", "init": "shuffled", "steps": 5000, "lr": 0.005},
- {"name": "pos_s5000_lr5e-3_sigma5", "init": "position", "steps": 5000, "lr": 0.005, "sigma": 5.0}
-]

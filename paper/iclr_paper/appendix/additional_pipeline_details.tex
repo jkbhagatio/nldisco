@@ -120,7 +120,7 @@ Two optional diagnostics examine how individual latents support reconstruction a
 \label{subsubsection:latents_evaluation_details}
 
 \paragraph{Visualization and interpretation.}
-In general, we recommend building a simple dashboard or set of linked plots that places latent activations alongside behavioral and environmental variables: inspect tuning curves and activating examples to develop candidate feature descriptions, then assess these descriptions across the full eligible population, including examples in which the latent is inactive. Example dashboards and the discovery workflow they support are described in \hyperref[subsubsection:rebuttal_dashboards_feature_discovery]{\ref*{subsubsection:rebuttal_dashboards_feature_discovery}}.
+In general, we recommend building a simple dashboard or set of linked plots that places latent activations alongside behavioral and environmental variables: inspect tuning curves and activating examples to develop candidate feature descriptions, then assess these descriptions across the full eligible population, including examples in which the latent is inactive.
 
 In this paper, we evaluate latents using dataset-specific visualizations. In \hyperref[subsection:synthetic_results]{\ref*{subsection:synthetic_results}} we compare spatial tuning and activating trajectories with known place fields and movement directions, in \hyperref[subsection:churchland_results]{\ref*{subsection:churchland_results}} we examine latent activity alongside movement kinematics and trial conditions, and in \hyperref[subsection:aeon_results]{\ref*{subsection:aeon_results}} we examine latent activity during spontaneous foraging, including wheel activity and movement around the patch. These observations inform candidate feature descriptions, which we quantify over explicitly defined comparison populations using the shared metrics described below.
 
@@ -189,5 +189,3 @@ a_{l,s,n}(\mathbf{Y})=Y_{s,n}\,\frac{\partial h_l(\mathbf{Y})}{\partial Y_{s,n}}
 \end{equation}
 
 Here, $Y_{s,n}$ is the activity of unit $n$ at timebin $s$ (post input data preprocessing). The derivative measures how sensitive the latent's pre-activation is to a small change in that input entry. For a linear encoder, the derivative is simply the corresponding encoder weight, so the score is weight times activity. For a transformer encoder, the derivative also depends on the surrounding activity in the input window. For models with time-indexed latent activations, we attribute the endpoint pre-activation.
-
-\input{appendix/rebuttal/change07_dashboards}
